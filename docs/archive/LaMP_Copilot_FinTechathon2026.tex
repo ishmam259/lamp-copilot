@@ -1,0 +1,212 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+\definecolor{primaryblue}{RGB}{15, 55, 110}
+\definecolor{accentteal}{RGB}{0, 115, 130}
+\definecolor{lightgray}{RGB}{245, 247, 250}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    urlcolor=accentteal,
+    citecolor=primaryblue
+}
+
+\setlength{\headheight}{13pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{LaMP-Copilot} | Topic E: SME Finance Copilot}
+\rhead{FinTechathon 2026 --- International Track}
+\cfoot{\thepage}
+
+\titleformat{\section}{\large\bfseries\color{primaryblue}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{accentteal}}{\thesubsection}{0.8em}{}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\begin{document}
+
+\begin{center}
+    {\LARGE \textbf{\color{primaryblue} LaMP-Copilot: A Privacy-Preserving Multi-Agent SME Finance \& Reverse Factoring Engine for Last-Mile Pharmaceutical Supply Chains}}\\[0.8em]
+    {\normalsize \textbf{2026 Shenzhen International FinTech Competition (FinTechathon) --- International Track}}\\[0.3em]
+    {\small \textbf{Selected Topic:} Topic E --- SME Finance Copilot \quad | \quad \textbf{Theme:} AI as a Financial Participant}\\[0.3em]
+    {\small \textbf{Deliverable Scope:} Technical Documentation (Item \#1), Security Self-Assessment Report (Item \#5), \& Sandbox Logs (Item \#6)}
+\end{center}
+
+\vspace{0.5em}
+\noindent\rule{\textwidth}{0.6pt}
+\begin{abstract}
+\noindent
+Bangladesh's pharmaceutical industry meets roughly 98\% of domestic medicinal demand through around 213 functional companies, yet its downstream distribution relies on tens of thousands of informal, owner-operated district pharmacies. A typical last-mile pharmacy holds BDT 1--3 lakh in inventory and buys on 30-to-60-day trade credit because revenue arrives one strip of tablets at a time. Its financial records exist only in handwritten paper \textit{khata} notebooks that traditional bank scoring models cannot read. Consequently, pharmaceutical manufacturers carry frozen receivables books, while commercial banks refuse to advance cash under reverse factoring because they cannot verify whether a paper invoice is genuine, whether the medicine was physically delivered, or whether a rival bank has already financed the same invoice. Meanwhile, competing manufacturers (e.g., Square and Incepta) and competing banks refuse to pool sensitive pricing tiers, SKU volumes, or underwriting rate curves into a centralized database.
+
+\textbf{LaMP-Copilot (Last Mile Pharmacy Copilot)} resolves this three-party deadlock through an autonomous, privacy-preserving \textbf{Multi-Agent AI Financial Participant}. Combining physical last-mile delivery verification (offline-first GS1 DataMatrix carton scanning and licensed Certifying Authority PKI digital signatures) with \textbf{WeBank FATE Federated Learning}, \textbf{Private Set Intersection (PSI)}, and a \textbf{Four-Agent Collaborative Workflow}, LaMP-Copilot delivers all three core capabilities of an SME Finance Copilot: (1) \textbf{Business Financial Analysis} via a multimodal Vision-Language Model (\textit{Khata}-VLM) that converts handwritten ledgers and delivery scans into real-time cash-flow, margin, and Days Sales Outstanding (DSO) analytics; (2) \textbf{Cash-Flow Management \& Proactive Alerts} enforced by a $>90\%$ delivery confirmation guard, a 24-hour dispute window, and rolling 14-day liquidity deficit warnings; and (3) \textbf{Autonomous Financing-Option Matching} using PSI duplicate detection, \textbf{Bayesian Dynamic Tiered Recourse}, and deterministic constraint optimization over confidential bank rate curves.
+\end{abstract}
+\noindent\rule{\textwidth}{0.6pt}
+
+\section{Problem Statement \& Market Deadlock}
+
+\subsection{The Informal CMSME Underwriting Gap}
+According to the Bangladesh Bureau of Statistics (BBS) Economic Census 2024, micro (56.67\%) and cottage (38.74\%) enterprises together make up 95.41\% of Bangladesh's 11.70 million economic units; 85.89\% of units report insufficient capital as a business constraint and 34.42\% report difficulty accessing bank loans. The IFC estimates the country's MSME financing gap at US\$2.8 billion. Bangladesh Bank's 2025 CMSME master circular requires banks to direct at least 27\% of their loan books to CMSMEs by 2029, and its FEPD Circular No.~11 (11 June 2026) encourages banks to introduce supply-chain finance instruments, including reverse factoring against buyer-approved invoices. Yet commercial banks carry a 32.26\% system-wide defaulted-loan ratio (March 2026) and cannot underwrite informal retailers they cannot see.
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{L{3.2cm} L{4.2cm} Y}
+\toprule
+\textbf{Participant} & \textbf{Commercial Objective} & \textbf{Structural Verification \& Data Bottleneck} \\
+\midrule
+\textbf{Retail Pharmacy (SME)} & Stock BDT 1--3 lakh today; pay in 30--60 days. & No collateral or audited accounts; daily cash flow lives in handwritten Bengali/English \textit{khata} notebooks. \\
+\addlinespace
+\textbf{Manufacturer / Distributor} & Reach the last mile; recover working capital fast. & 30--60 day DSO locks up BDT 41--123 crore per BDT 500 crore of annual turnover; manual reconciliation. \\
+\addlinespace
+\textbf{Bank / Financier (NBFI)} & Earn spread on verified short-term receivables. & Cannot verify if a paper invoice is real, physically delivered, or double-financed at a rival bank. \\
+\bottomrule
+\end{tabularx}
+\caption{The three-way working-capital deadlock at the pharmaceutical last mile.}
+\end{table}
+
+\subsection{Why a Centralized Database Fails Competitively}
+A simple centralized invoice registry fails for three structural reasons:
+\begin{enumerate}[noitemsep,topsep=2pt]
+    \item \textbf{Manufacturer Data Secrecy:} Competing manufacturers (e.g., Square and Incepta) will not upload invoice line items, wholesale discount tiers, or geographic sell-through velocity to a central custodian or closed-network distributor platform that could leak or monetize their commercial intelligence.
+    \item \textbf{Bank Underwriting Secrecy:} Rival banks bidding on receivable pools will not expose proprietary rate curves, manufacturer tier limits, or advance-rate algorithms to a platform operated by a competitor.
+    \item \textbf{Double-Financing \& Proof-of-Delivery (PoD) Forgery:} Without cryptographic binding between tax invoices, physical carton handoffs, and interbank lock states, actors can pledge the same paper invoice to two banks or claim financing on undelivered goods.
+\end{enumerate}
+
+\section{System Architecture}
+
+LaMP-Copilot eliminates the need for either a trusted central database or a high-overhead blockchain by separating \textbf{physical evidence capture}, \textbf{federated privacy computation}, and \textbf{neuro-symbolic multi-agent execution} across four architectural layers:
+
+\begin{enumerate}[noitemsep,topsep=2pt]
+    \item \textbf{Layer 1 --- Physical Edge \& Multimodal SME Interface:} An offline-first Progressive Web App (PWA) used by Medical Promotion Officers (MPOs) and delivery riders scans GS1 DataMatrix codes on medicine cartons at handoff, capturing digital acceptance signed under Bangladesh's Controller of Certifying Authorities (CCA) PKI framework and W3C Decentralized Identifiers (DIDs). Simultaneously, the retail chemist interacts with the \textbf{LaMP SME Copilot} via smartphone photos of their paper \textit{khata} and bilingual (Bengali/English) voice prompts.
+    \item \textbf{Layer 2 --- Privacy-Preserving Federated Layer (FATE + PSI):} Each participating manufacturer and bank operates an isolated data node. An ECDH-based \textbf{Private Set Intersection (PSI)} protocol verifies across all bank nodes that neither the invoice commitment nor any of its carton hashes has been financed elsewhere, while \textbf{WeBank FATE Vertical Federated Learning} (whose sample alignment step itself runs PSI) trains joint default-prediction models across manufacturer delivery records and bank repayment logs using encrypted gradients---no raw records leave their owner's node.
+    \item \textbf{Layer 3 --- Four-Agent Collaborative Engine:} Four specialized AI agents (\texttt{Agent 1}: Khata-VLM Financial Analyst; \texttt{Agent 2}: Edge PoD \& Liquidity Guard; \texttt{Agent 3}: Federated Risk \& Recourse Underwriter; and \texttt{Agent 4}: Deterministic Rate-Curve Matcher) orchestrate the end-to-end SME finance workflow.
+    \item \textbf{Layer 4 --- Banking, ERP \& Regulatory Sandbox Rails:} Connects via open APIs to SAP/Oracle ERPs, the National Board of Revenue (NBR) VAT invoice records, and simulated BEFTN/MFS settlement rails (ISO 20022), while providing read-only observer dashboards to Bangladesh Bank and the Directorate General of Drug Administration (DGDA).
+\end{enumerate}
+
+\section{Core Algorithm Description}
+
+\subsection{Algorithm 1: Multimodal \textit{Khata}-to-Cashflow Analysis (\texttt{Agent 1})}
+Given a smartphone photograph $I_{\text{khata}}$ of a handwritten pharmacy ledger or voice log $A_{\text{voice}}$, \texttt{Agent 1} uses a Vision-Language Model (VLM) with strict JSON schema validation to extract daily transaction tuples $L_t = \{(\text{Date}_i, \text{SKU\_Class}_i, \text{Qty}_i, \text{Cash\_In}_i, \text{Credit\_Out}_i)\}$. Combining $L_t$ with verified wholesale deliveries $D_t$ from GS1 carton scans, \texttt{Agent 1} computes:
+\begin{equation}
+    \text{FCF}_t = \sum_{i \in t} \text{Cash\_In}_i - \text{OpEx}_t, \qquad V_{\text{SKU}}(\Delta t) = \frac{\sum_{\Delta t} \text{Units Sold}}{\sum_{\Delta t} \text{Verified Carton Units Delivered}}
+\end{equation}
+providing the small business owner with automated P\&L statements, inventory ageing/expiry alerts, and DSO tracking without manual data entry.
+
+\subsection{Algorithm 2: Cryptographic PoD Gate, PSI Uniqueness \& Liquidity Alerts (\texttt{Agent 2})}
+At invoice issuance, the manufacturer commits a CCA-signed cryptographic digest:
+\begin{equation}
+    C_{\text{inv}} = \text{SHA-256}\left(\text{NBR\_InvoiceID} \parallel \text{MfgDID} \parallel \text{PharmDID} \parallel \text{DueDate} \parallel \{h_1, \dots, h_k\}\right)
+\end{equation}
+where $h_j$ is the SHA-256 hash of the serialized GS1 DataMatrix of carton $j$. At physical delivery, \texttt{Agent 2} computes the value-weighted confirmation ratio $\rho_{\text{PoD}} = (\sum_{j \in \text{Scanned}} \text{Val}(h_j)) / V_{\text{inv}}$.
+\begin{itemize}[noitemsep,topsep=2pt]
+    \item \textbf{State-Machine Guards:} Financing eligibility requires $\rho_{\text{PoD}} > 0.90$ followed by a mandatory 24-hour dispute window ($T_{\text{dispute}} \ge 24\text{h}$) during which any reverse return scan reopens the receivable.
+    \item \textbf{PSI Double-Financing Check:} Before matching, participating banks run PSI over the query set $\{C_{\text{inv}}, h_1, \dots, h_k\}$ against their financed sets. Checking carton hashes as well as the invoice digest stops a re-issued invoice (new ID, same cartons) from slipping through. Any intersection sets \texttt{DUPLICATE\_LOCK = TRUE} and aborts execution; banks learn only that a collision exists, never the other bank's counterparty or terms.
+    \item \textbf{Cash-Flow Alerts:} \texttt{Agent 2} forecasts rolling 14-day cash balances $\sum_{d=t}^{t+14} \widehat{\text{FCF}}_d$. If a shortfall against an upcoming maturity is detected, it pushes 7-day and 48-hour alerts with a daily micro-saving schedule to the pharmacy owner.
+\end{itemize}
+
+\subsection{Algorithm 3: Federated Credit Scoring \& Bayesian Tiered Recourse (\texttt{Agent 3})}
+Using WeBank FATE vertical federated learning over manufacturer delivery features $X_M$ and repayment/cash-flow features $X_B$, \texttt{Agent 3} estimates the pharmacy's calibrated Probability of Default $p_i = P(\text{Default}_i \mid X_M, X_B)$. To solve the cold-start problem for undocumented pharmacies, \texttt{Agent 3} adjusts the \textbf{Advance Rate} $\alpha_n \in [0.60, 0.90]$ and \textbf{Manufacturer Recourse Share} $\gamma_n \in [0.10, 1.00]$ across $n$ completed repayment cycles:
+\begin{align}
+    \alpha_n &= \alpha_{\min} + (\alpha_{\max} - \alpha_{\min})\left(1 - e^{-\lambda n (1 - p_i)}\right), \\
+    \gamma_n &= \gamma_{\max}\, e^{-\mu n (1 - p_i)} + \gamma_{\min}\left(1 - e^{-\mu n (1 - p_i)}\right),
+\end{align}
+with prototype calibration $\lambda = 0.187$ and $\mu = 0.211$. For a low-risk pharmacy ($p_i = 0.018$): at $n=0$ the bank advances $\alpha_0 = 60\%$ under $100\%$ manufacturer recourse; across $n=3$--$6$ cycles the advance rate rises from $73\%$ to $80\%$ while manufacturer recourse falls from $58\%$ to $36\%$; by $n=12$ the advance rate reaches $87\%$ with $18\%$ manufacturer recourse, converging towards $90\%$ and $10\%$ as history accumulates.
+
+\subsection{Algorithm 4: Deterministic Financing-Option Matching (\texttt{Agent 4})}
+Each bank $b \in \mathcal{B}$ pre-commits a private parametric pricing function $r_b(p_i, \gamma_n, \text{Tenor}, \text{Tier}_{\text{mfg}})$. Once $\rho_{\text{PoD}} > 0.90$, $T_{\text{dispute}} \ge 24\text{h}$, and $\text{PSI\_Lock} = \text{False}$, \texttt{Agent 4} uses a deterministic mathematical solver (eliminating LLM numerical hallucination) to find the optimal financier:
+\begin{equation}
+\begin{aligned}
+    b^* = \arg\min_{b \in \mathcal{B}} \;& r_b\left(p_i, \gamma_n, \text{Tenor}, \text{Tier}_{\text{mfg}}\right) \\
+    \text{subject to} \;& p_i \le p_{b,\max} \;\land\; \text{Exposure}_b + \alpha_n V_{\text{conf}} \le \text{Cap}_b
+\end{aligned}
+\end{equation}
+where $V_{\text{conf}}$ is the confirmed (scanned) delivery value. The disbursed amount is $\alpha_n V_{\text{conf}}\,(1 - r_{b^*} \cdot \text{Tenor}/365)$.
+
+\section{Security Self-Assessment Report (Permission Tiers \& Known-Risk List)}
+
+\subsection{Permission-Tier Implementation}
+LaMP-Copilot enforces strict neuro-symbolic separation and Role-Based Access Control (RBAC) across four permission tiers so that untrusted LLM inputs can never trigger unauthorized financial execution:
+
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{L{1.1cm} L{2.6cm} L{4.0cm} Y}
+\toprule
+\textbf{Tier} & \textbf{Actors / Agents} & \textbf{Permitted Actions} & \textbf{Cryptographic \& Sandbox Security Boundary} \\
+\midrule
+\textbf{Tier 0} & Regulators (BB, DGDA) & Read aggregated settlement \& batch logs. & \texttt{READ\_ONLY}; zero access to private SKU prices or bank curves. \\
+\addlinespace
+\textbf{Tier 1} & Pharmacy, MPO, \texttt{Agent 1} & Upload \textit{khata} images, scan GS1 cartons, raise 24h dispute. & \textbf{LLM Sandbox Isolation:} \texttt{Agent 1} outputs schema-validated JSON only; zero permission to invoke bank or settlement APIs. \\
+\addlinespace
+\textbf{Tier 2} & Manufacturers, \texttt{Agent 2/3} & Commit CCA-signed invoice hash; co-train FATE model. & \textbf{Cross-Silo Privacy:} Raw SKU prices and volumes stay on local ERP servers; only SHA-256 hashes and encrypted gradients cross nodes. \\
+\addlinespace
+\textbf{Tier 3} & Banks / NBFIs, \texttt{Agent 4} & Pre-commit rate curves; lock PSI hash; execute payout. & \textbf{Deterministic Gate:} Payout triggers only if $\rho_{\text{PoD}} > 0.90 \land T_{\text{dispute}} \ge 24\text{h} \land \text{PSI\_Lock}=\text{False}$. LaMP never custodies funds. \\
+\bottomrule
+\end{tabularx}
+\caption{Permission-tier implementation isolating generative AI parsing from financial execution.}
+\end{table}
+
+\subsection{Known-Risk List \& Engineered Mitigations}
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{L{2.6cm} c c L{4.0cm} Y}
+\toprule
+\textbf{Risk Vector} & \textbf{Sev.} & \textbf{Lik.} & \textbf{Vulnerability Mechanism} & \textbf{Engineered Mitigation} \\
+\midrule
+\textbf{R1: Double-Financing} & Crit & High & Same invoice, or the same cartons under a re-issued invoice, pledged to two rival banks. & PSI over $C_{\text{inv}}$ and every carton hash $h_j$ blocks any second lock across all bank nodes. \\
+\addlinespace
+\textbf{R2: PoD Forgery} & High & High & Early financing claimed on undelivered or partial shipments. & $>90\%$ GS1 carton value threshold + GPS match + mandatory 24-hour pharmacy dispute window. \\
+\addlinespace
+\textbf{R3: LLM Hallucination / Injection} & Crit & Med & Adversarial text in a \textit{khata} image attempts to alter loan terms. & Neuro-symbolic split: LLM restricted to Tier 1 parsing; Tier 3 matching uses a deterministic solver on bank-signed curves. \\
+\addlinespace
+\textbf{R4: Competitor Data Leakage} & Crit & Med & Rival manufacturer infers Square/Incepta pricing or volume. & Local data storage + FATE vertical federated learning; plaintext SKUs never leave their owner's node. \\
+\addlinespace
+\textbf{R5: Informal Shop Default} & High & Med & Undocumented pharmacy fails to repay at 30--60 day maturity. & Bayesian Tiered Recourse ($100\%$ manufacturer recourse at $n=0$, migrating to the bank only on proven history). \\
+\addlinespace
+\textbf{R6: Regulatory Latency} & High & High & Bank SCF product acknowledgement delay or AI credit-decision scrutiny. & Phase 1 shadow-mode backtesting (zero capital at risk); human pre-committed rate curves. \\
+\addlinespace
+\textbf{R7: Offline Desync} & Med & High & Rural carton scans queued offline are delayed or replayed out of sequence. & Signed, timestamped scans; payout only after server-side verification and expiry of the 24-hour dispute clock. \\
+\bottomrule
+\end{tabularx}
+\caption{Known-risk register and technical mitigations for the Security Self-Assessment Report.}
+\end{table}
+
+\section{Simulated Sandbox Execution Evidence}
+The following sandbox operation trace validates end-to-end multi-agent task completion across a BDT 500,000 pharmaceutical shipment in Bogura. All parties are simulated; \texttt{SQUARE\_SIM} denotes a simulated manufacturer node.
+
+\scriptsize
+\begin{verbatim}
+[2026-10-15T14:02:11Z] [TIER-1:AGENT-1:KHATA_VLM] Ingested 'khata_bogura_oct15.jpg' (PharmDID: bogura-0421)
+  -> Parsed 30d Cash_In: BDT 412,500 | Credit_Out: BDT 38,000 | Net_FCF: BDT 94,200 | DSO: 34.2 days
+[2026-10-15T14:05:00Z] [TIER-2:MFG_NODE:SQUARE_SIM] commitReceivable(NBR-2026-10-884920, Val=500000, Cartons=25, Tenor=45d)
+  -> Commitment_Hash: 0x8f9c2b4e11a7... | CCA_Signature: VERIFIED (Cert: CCA-BD-2026-99102)
+[2026-10-15T16:40:19Z] [TIER-1:AGENT-2:EDGE_POD] recordPoD() synced from MPO Offline PWA (24/25 cartons scanned)
+  -> Confirmed_Value: BDT 485,000 (97.0% > 90.0% gate PASSED) | 24h Dispute Timer: STARTED
+[2026-10-16T16:40:20Z] [TIER-2:AGENT-2:PSI_GUARD] 24h dispute window closed (0 returns). PSI check across 3 banks:
+  -> PSI_Intersection(C_inv + 24 carton hashes): DUPLICATE_LOCK = FALSE (Verified unfinanced)
+[2026-10-16T16:40:21Z] [TIER-2:AGENT-3:FATE_UNDERWRITER] Cycles n=5 | Federated_PD p_i=0.018
+  -> Bayesian Tiered Recourse: Advance_Rate = 78.0% (BDT 378,300) | Split = 42% Mfg / 58% Bank Recourse
+[2026-10-16T16:40:22Z] [TIER-3:AGENT-4:RATE_MATCHER] Deterministic solver over 3 curves (45d discount, Act/365):
+  -> Bank_A 11.40% (1.406%) | Bank_B 10.85% (1.338%) [OPTIMAL] | NBFI_D 12.60% (1.553%)
+  -> Sandbox BEFTN Payout Ref: SANDBOX-BEFTN-20261016-7741 | Discount: BDT 5,060.41 | Net Disbursed: BDT 373,239.59
+  -> Maturity: 2026-11-30 | Projected shortfall: BDT 48,500
+  -> SME Copilot Alert Scheduled: 7-day alert 2026-11-23; micro-saving BDT 12,125/day x 4 days (2026-11-23..26)
+\end{verbatim}
+\normalsize
+
+\end{document}
