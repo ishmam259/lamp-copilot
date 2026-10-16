@@ -1,0 +1,67 @@
+{
+  "horizon_days": 60,
+  "batches": [
+    {
+      "product": "Omeprazole 20 mg, box of 50",
+      "batch_no": "OM2409",
+      "expiry_date": "2026-12-10",
+      "days_left": 55,
+      "qty": 10,
+      "cost_value": 4800,
+      "return_eligible": true,
+      "supplier": "Supplier B"
+    },
+    {
+      "product": "Cetirizine 10 mg, box of 100",
+      "batch_no": "CT2411",
+      "expiry_date": "2026-12-03",
+      "days_left": 48,
+      "qty": 22,
+      "cost_value": 4400,
+      "return_eligible": true,
+      "supplier": "Supplier C"
+    },
+    {
+      "product": "Amoxicillin 500 mg, box of 50",
+      "batch_no": "AX2402",
+      "expiry_date": "2026-11-10",
+      "days_left": 25,
+      "qty": 6,
+      "cost_value": 3600,
+      "return_eligible": false,
+      "supplier": "Supplier E"
+    },
+    {
+      "product": "Metformin 500 mg, box of 100",
+      "batch_no": "MF2398",
+      "expiry_date": "2026-11-05",
+      "days_left": 20,
+      "qty": 13,
+      "cost_value": 2600,
+      "return_eligible": false,
+      "supplier": "Supplier B"
+    },
+    {
+      "product": "Oral saline, box of 25",
+      "batch_no": "OR2390",
+      "expiry_date": "2026-10-28",
+      "days_left": 12,
+      "qty": 6,
+      "cost_value": 1800,
+      "return_eligible": false,
+      "supplier": "Supplier G"
+    },
+    {
+      "product": "Vitamin B complex, box of 30",
+      "batch_no": "VB2385",
+      "expiry_date": "2026-10-25",
+      "days_left": 9,
+      "qty": 8,
+      "cost_value": 1200,
+      "return_eligible": false,
+      "supplier": "Supplier D"
+    }
+  ],
+  "at_risk_value": 18400,
+  "return_eligible_value": 9200
+}

@@ -1,0 +1,44 @@
+{
+  "period_days": 30,
+  "sales": 412500,
+  "gross_margin_pct": 12,
+  "gross_profit": 49500,
+  "overheads": 36000,
+  "net_profit": 13500,
+  "stock_value": 210000,
+  "stock_days": 17.4,
+  "patient_dues": 38000,
+  "patient_due_days": 2.8,
+  "active_suppliers": 23,
+  "top_suppliers": [
+    {
+      "name": "Supplier A",
+      "share_pct": 14.2
+    },
+    {
+      "name": "Supplier B",
+      "share_pct": 11.8
+    },
+    {
+      "name": "Supplier C",
+      "share_pct": 9.6
+    },
+    {
+      "name": "Supplier D",
+      "share_pct": 8.1
+    },
+    {
+      "name": "Supplier E",
+      "share_pct": 6.9
+    }
+  ],
+  "slow_movers": [
+    {
+      "product": "Montelukast 10 mg, box of 30",
+      "qty": 30,
+      "sellable_qty": 12,
+      "at_risk_value": 10800
+    }
+  ],
+  "expiring_value_60d": 18400
+}

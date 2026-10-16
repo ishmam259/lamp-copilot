@@ -1,0 +1,35 @@
+[
+  {
+    "id": "lg-1",
+    "ts": "2026-10-16T08:00:00Z",
+    "tier": "T2",
+    "component": "FORECAST",
+    "event": "shortfall_detected",
+    "data": {
+      "date": "2026-10-26",
+      "amount": 19000
+    }
+  },
+  {
+    "id": "lg-2",
+    "ts": "2026-10-16T08:00:01Z",
+    "tier": "T2",
+    "component": "EXPIRY",
+    "event": "batches_at_risk",
+    "data": {
+      "batches": 6,
+      "value": 18400
+    }
+  },
+  {
+    "id": "lg-3",
+    "ts": "2026-10-16T08:05:00Z",
+    "tier": "T1",
+    "component": "COPILOT",
+    "event": "action_proposed",
+    "data": {
+      "action": "act-1",
+      "kind": "return_claim"
+    }
+  }
+]

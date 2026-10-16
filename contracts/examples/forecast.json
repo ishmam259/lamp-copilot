@@ -1,0 +1,262 @@
+{
+  "start_cash": 34950,
+  "days": [
+    {
+      "date": "2026-10-16",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": 36600,
+      "items": []
+    },
+    {
+      "date": "2026-10-17",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": 38250,
+      "items": []
+    },
+    {
+      "date": "2026-10-18",
+      "inflow": 1650,
+      "outflow": 8450,
+      "balance": 31450,
+      "items": [
+        {
+          "label": "Supplier D",
+          "amount": -8450
+        }
+      ]
+    },
+    {
+      "date": "2026-10-19",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": 33100,
+      "items": []
+    },
+    {
+      "date": "2026-10-20",
+      "inflow": 5850,
+      "outflow": 0,
+      "balance": 38950,
+      "items": [
+        {
+          "label": "Patient dues collected",
+          "amount": 4200
+        }
+      ]
+    },
+    {
+      "date": "2026-10-21",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": 40600,
+      "items": []
+    },
+    {
+      "date": "2026-10-22",
+      "inflow": 1650,
+      "outflow": 6200,
+      "balance": 36050,
+      "items": [
+        {
+          "label": "Supplier F",
+          "amount": -6200
+        }
+      ]
+    },
+    {
+      "date": "2026-10-23",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": 37700,
+      "items": []
+    },
+    {
+      "date": "2026-10-24",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": 39350,
+      "items": []
+    },
+    {
+      "date": "2026-10-25",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": 41000,
+      "items": []
+    },
+    {
+      "date": "2026-10-26",
+      "inflow": 0,
+      "outflow": 60000,
+      "balance": -19000,
+      "items": [
+        {
+          "label": "Supplier A order",
+          "amount": -60000
+        }
+      ]
+    },
+    {
+      "date": "2026-10-27",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -17350,
+      "items": []
+    },
+    {
+      "date": "2026-10-28",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -15700,
+      "items": []
+    },
+    {
+      "date": "2026-10-29",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -14050,
+      "items": []
+    },
+    {
+      "date": "2026-10-30",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -12400,
+      "items": []
+    },
+    {
+      "date": "2026-10-31",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -10750,
+      "items": []
+    },
+    {
+      "date": "2026-11-01",
+      "inflow": 1650,
+      "outflow": 18000,
+      "balance": -27100,
+      "items": [
+        {
+          "label": "Shop rent",
+          "amount": -18000
+        }
+      ]
+    },
+    {
+      "date": "2026-11-02",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -25450,
+      "items": []
+    },
+    {
+      "date": "2026-11-03",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -23800,
+      "items": []
+    },
+    {
+      "date": "2026-11-04",
+      "inflow": 1650,
+      "outflow": 11300,
+      "balance": -33450,
+      "items": [
+        {
+          "label": "Supplier H",
+          "amount": -11300
+        }
+      ]
+    },
+    {
+      "date": "2026-11-05",
+      "inflow": 1650,
+      "outflow": 15000,
+      "balance": -46800,
+      "items": [
+        {
+          "label": "Salaries",
+          "amount": -15000
+        }
+      ]
+    },
+    {
+      "date": "2026-11-06",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -45150,
+      "items": []
+    },
+    {
+      "date": "2026-11-07",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -43500,
+      "items": []
+    },
+    {
+      "date": "2026-11-08",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -41850,
+      "items": []
+    },
+    {
+      "date": "2026-11-09",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -40200,
+      "items": []
+    },
+    {
+      "date": "2026-11-10",
+      "inflow": 1650,
+      "outflow": 3000,
+      "balance": -41550,
+      "items": [
+        {
+          "label": "Electricity and internet",
+          "amount": -3000
+        }
+      ]
+    },
+    {
+      "date": "2026-11-11",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -39900,
+      "items": []
+    },
+    {
+      "date": "2026-11-12",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -38250,
+      "items": []
+    },
+    {
+      "date": "2026-11-13",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -36600,
+      "items": []
+    },
+    {
+      "date": "2026-11-14",
+      "inflow": 1650,
+      "outflow": 0,
+      "balance": -34950,
+      "items": []
+    }
+  ],
+  "shortfalls": [
+    {
+      "date": "2026-10-26",
+      "amount": 19000,
+      "cause": "Supplier A order BDT 60,000"
+    }
+  ]
+}

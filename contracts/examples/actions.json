@@ -1,0 +1,15 @@
+[
+  {
+    "id": "act-1",
+    "kind": "return_claim",
+    "status": "proposed",
+    "payload": {
+      "summary": "Return Omeprazole (OM2409) and Cetirizine (CT2411) to Suppliers B and C",
+      "amount": 9200
+    },
+    "proposed_by": "agent",
+    "created_at": "2026-10-16T08:05:00Z",
+    "decided_at": null,
+    "result": null
+  }
+]
