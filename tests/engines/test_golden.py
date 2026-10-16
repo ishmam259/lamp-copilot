@@ -2,7 +2,7 @@
 
 from datetime import date
 
-from app.engines import get_accounts, get_alerts, get_dues, get_forecast
+from app.engines import get_accounts, get_alerts, get_dues, get_expiry, get_forecast, get_trim
 
 PID = "green-life"
 AS_OF = date(2026, 10, 16)
@@ -47,3 +47,20 @@ def test_alerts(db):
     assert alerts["return_window"].title == "Claim returns worth BDT 9,200"
     assert alerts["expiry"].title == "BDT 18,400 of stock expires within 60 days"
     assert "patient_dues" in alerts and "suspicious_document" not in alerts
+
+
+def test_expiry(db):
+    e = get_expiry(db, PID)
+    assert len(e.batches) == 6
+    assert e.at_risk_value == 18_400 and e.return_eligible_value == 9_200
+    assert {b.batch_no for b in e.batches if b.return_eligible} == {"OM2409", "CT2411"}
+
+
+def test_trim(db):
+    t = get_trim(db, PID, "o-1")
+    mon = t.lines[0]
+    assert mon.product.startswith("Montelukast")
+    assert (mon.qty, mon.sales_rate_per_day, mon.sellable_days, mon.sellable_qty) == (30, 0.2, 60, 12)
+    assert (mon.suggested_qty, mon.at_risk_value) == (12, 10_800)
+    assert all(l.suggested_qty == l.qty for l in t.lines[1:])
+    assert (t.original_total, t.suggested_total, t.saving) == (60_000, 49_200, 10_800)

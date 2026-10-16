@@ -192,9 +192,8 @@ def get_alerts(pid: str, db: Session = Depends(get_db)):
 
 
 @router.get("/pharmacies/{pid}/expiry", response_model=ExpiryOut)
-def get_expiry(pid: str, horizon_days: int = 60):
-    _check_pid(pid)
-    return ex.EXPIRY
+def get_expiry(pid: str, horizon_days: int = 60, db: Session = Depends(get_db)):
+    return engines.get_expiry(db, pid, horizon_days)
 
 
 @router.get("/pharmacies/{pid}/orders", response_model=list[OrderOut])
@@ -203,10 +202,8 @@ def list_orders(pid: str, db: Session = Depends(get_db)):
 
 
 @router.get("/pharmacies/{pid}/orders/{oid}/trim", response_model=TrimOut)
-def get_trim(pid: str, oid: str):
-    _check_pid(pid)
-    _find(ex.ORDERS, "id", oid, "order")
-    return ex.TRIM
+def get_trim(pid: str, oid: str, db: Session = Depends(get_db)):
+    return engines.get_trim(db, pid, oid)
 
 
 @router.post("/pharmacies/{pid}/funding-plan", response_model=FundingPlanOut)

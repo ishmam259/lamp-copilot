@@ -68,3 +68,22 @@ def test_sellable_qty():
 def test_unknown_pharmacy(db):
     with pytest.raises(HTTPException):
         get_accounts(db, "nope")
+
+
+def test_trim_unknown_order(db):
+    from app.engines import get_trim
+    with pytest.raises(HTTPException):
+        get_trim(db, PID, "o-404")
+
+
+def test_trim_product_without_history_is_fully_at_risk(db):
+    from app.engines import get_trim
+    order = db.get(m.PlannedOrder, "o-1")
+    order.lines.append(m.PlannedOrderLine(product="New product", qty=5, unit_cost=100, expiry_date=date(2028, 1, 1)))
+    line = get_trim(db, PID, "o-1").lines[-1]
+    assert (line.sellable_qty, line.suggested_qty, line.at_risk_value) == (0, 0, 500)
+
+
+def test_expiry_horizon(db):
+    from app.engines import get_expiry
+    assert [b.batch_no for b in get_expiry(db, PID, horizon_days=10).batches] == ["VB2385"]
