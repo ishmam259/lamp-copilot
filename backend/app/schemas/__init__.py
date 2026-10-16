@@ -5,7 +5,7 @@ from .actions import ActionKind, ActionOut, ActionProposal, ActionStatus
 from .captures import CaptureConfirm, CaptureOut, ExtractionResult
 from .cash import Alert, ForecastDay, ForecastOut, Shortfall
 from .expiry import ExpiryBatch, ExpiryOut
-from .funding import FundingNeed, FundingOption, FundingPlanOut
+from .funding import FundingNeed, FundingOption, FundingPlanOut, FundingRequest
 from .lenders import ApplicationOut, ConsentIn, ConsentOut, Decision, LenderOut
 from .logs import LogEvent
 from .orders import OrderOut, TrimOut

@@ -7,6 +7,14 @@ class FundingNeed(Model):
     needed_by: ISODate
 
 
+class FundingRequest(Model):
+    """POST body for /funding-plan. Every field is optional: an empty body (or none)
+    means the default need, and a missing field is filled from that default."""
+
+    amount: float | None = None
+    needed_by: ISODate | None = None
+
+
 class FundingOption(Model):
     key: str
     label: str

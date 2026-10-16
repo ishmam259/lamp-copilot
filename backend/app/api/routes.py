@@ -39,6 +39,7 @@ from app.schemas import (
     ForecastOut,
     FundingNeed,
     FundingPlanOut,
+    FundingRequest,
     LenderOut,
     LogEvent,
     OrderOut,
@@ -207,7 +208,12 @@ def get_trim(pid: str, oid: str, db: Session = Depends(get_db)):
 
 
 @router.post("/pharmacies/{pid}/funding-plan", response_model=FundingPlanOut)
-def funding_plan(pid: str, need: FundingNeed | None = Body(default=None), db: Session = Depends(get_db)):
+def funding_plan(pid: str, body: FundingRequest | None = Body(default=None), db: Session = Depends(get_db)):
+    if body is None or (body.amount is None and body.needed_by is None):
+        return engines.get_funding_plan(db, pid)
+    default = engines.get_funding_plan(db, pid).need
+    need = FundingNeed(amount=default.amount if body.amount is None else body.amount,
+                       needed_by=body.needed_by or default.needed_by)
     return engines.get_funding_plan(db, pid, need)
 
 

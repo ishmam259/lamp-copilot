@@ -603,13 +603,13 @@
               "schema": {
                 "anyOf": [
                   {
-                    "$ref": "#/components/schemas/FundingNeed"
+                    "$ref": "#/components/schemas/FundingRequest"
                   },
                   {
                     "type": "null"
                   }
                 ],
-                "title": "Need"
+                "title": "Body"
               }
             }
           }
@@ -2313,6 +2313,37 @@
           "naive_cost_bdt"
         ],
         "title": "FundingPlanOut"
+      },
+      "FundingRequest": {
+        "properties": {
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "needed_by": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Needed By"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "FundingRequest",
+        "description": "POST body for /funding-plan. Every field is optional: an empty body (or none)\nmeans the default need, and a missing field is filled from that default."
       },
       "HTTPValidationError": {
         "properties": {
