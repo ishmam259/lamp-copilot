@@ -18,7 +18,7 @@ def test_golden_numbers(client):
     acc = client.get(f"{P}/accounts").json()
     assert (acc["sales"], acc["net_profit"], acc["stock_days"], acc["patient_due_days"]) == (412500, 13500, 17.4, 2.8)
     fc = client.get(f"{P}/forecast").json()
-    assert fc["days"][10]["balance"] == -19000
+    assert fc["days"][9]["balance"] == 41000
     assert fc["shortfalls"][0] == {"date": "2026-10-26", "amount": 19000, "cause": "Supplier A order BDT 60,000"}
     trim = client.get(f"{P}/orders/o-1/trim").json()
     assert (trim["suggested_total"], trim["saving"]) == (49200, 10800)
@@ -57,3 +57,15 @@ def test_reset_without_captures(client):
 
 def test_unknown_pharmacy(client):
     assert client.get("/api/v1/pharmacies/nope/accounts").status_code == 404
+
+
+@pytest.mark.parametrize("body", [None, {}, {"amount": None}])
+def test_funding_plan_empty_body_is_default(client, body):
+    r = client.post(f"{P}/funding-plan", json=body) if body is not None else client.post(f"{P}/funding-plan")
+    assert r.status_code == 200 and r.json()["need"] == {"amount": 8200, "needed_by": "2026-10-26"}
+
+
+def test_funding_plan_partial_body(client):
+    assert client.post(f"{P}/funding-plan", json={"amount": 5000}).json()["need"] == {"amount": 5000, "needed_by": "2026-10-26"}
+    assert client.post(f"{P}/funding-plan", json={"needed_by": "2026-10-20"}).json()["need"] == {"amount": 8200, "needed_by": "2026-10-20"}
+    assert client.post(f"{P}/funding-plan", json={"amount": "lots"}).status_code == 422

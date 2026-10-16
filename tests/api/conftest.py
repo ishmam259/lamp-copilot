@@ -1,5 +1,7 @@
 """In-memory SQLite database with the seed pharmacy, for API tests."""
 
+import os
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
@@ -10,7 +12,11 @@ from app.db.seed import load_seed
 from app.db.session import get_db
 from app.main import app
 
-engine = create_engine("sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool)
+# SQLite in memory by default; set TEST_DATABASE_URL to run against PostgreSQL, e.g.
+# postgresql+psycopg://lamp:lamp@localhost:5432/lamp_test
+_url = os.environ.get("TEST_DATABASE_URL", "sqlite://")
+engine = (create_engine(_url, connect_args={"check_same_thread": False}, poolclass=StaticPool)
+          if _url.startswith("sqlite") else create_engine(_url))
 TestSession = sessionmaker(bind=engine, expire_on_commit=False)
 
 

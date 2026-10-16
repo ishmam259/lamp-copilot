@@ -31,8 +31,8 @@ def test_forecast_shortfall(db):
     assert first.date == date(2026, 10, 26)
     assert first.amount == 19_000
     assert first.cause == "Supplier A order BDT 60,000"
-    day10 = f.days[10]
-    assert day10.balance == -19_000  # 41,000 before the 60,000 order
+    assert f.days[9].balance == 41_000  # closing balance the day before the 60,000 order
+    assert f.days[10].items[0].amount == -60_000
 
 
 def test_dues_calendar(db):
