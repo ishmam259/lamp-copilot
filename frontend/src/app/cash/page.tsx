@@ -2,7 +2,7 @@
 
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
 import { CashLine } from "@/components/cash-line";
-import { dayLabel } from "@/lib/forecast";
+import { dayAmount, dayLabel, isNamedMove } from "@/lib/forecast";
 import { useAccounts, useDues, useForecast } from "@/lib/api";
 import { bdt, dayDate, num, signed, shortDate, stampDate } from "@/lib/format";
 
@@ -11,7 +11,7 @@ export default function CashPage() {
   const { data: dues } = useDues();
   const { data: accounts } = useAccounts();
 
-  const events = forecast?.days.filter((d) => d.outflow > 0 || d.inflow > 2000) ?? [];
+  const events = forecast?.days.filter(isNamedMove) ?? [];
   const first = forecast?.days[0]?.date;
   const last = forecast?.days[forecast.days.length - 1]?.date;
 
@@ -27,8 +27,8 @@ export default function CashPage() {
               <>
                 <CashLine forecast={forecast} />
                 <p className="mt-3 text-sm text-ink-2">
-                  Starts from <span className="num font-semibold text-ink">{bdt(forecast.start_cash)}</span> today. Each day adds normal sales and takes out
-                  normal restocking; the rows below are the bigger moves.
+                  Starts from <span className="num font-semibold text-ink">{bdt(forecast.start_cash)}</span> today. Below are the named payments and receipts. The balance
+                  after each one also includes that day&apos;s normal sales.
                 </p>
               </>
             )}
@@ -39,17 +39,17 @@ export default function CashPage() {
               <Skel className="m-4 h-40" />
             ) : (
               <table className="w-full text-left">
-                <caption className="sr-only">Large cash movements in the next 30 days with the balance after each</caption>
-                <thead className="sticky top-14 bg-board text-xs font-semibold tracking-wide text-ink-2 uppercase lg:top-[57px]">
+                <caption className="sr-only">Named payments and receipts in the next 30 days, with the cash balance at the end of each day</caption>
+                <thead className="bg-board text-sm font-semibold text-ink-2">
                   <tr className="border-b border-rule">
                     <th scope="col" className="px-4 py-2 font-semibold">Day</th>
-                    <th scope="col" className="px-2 py-2 text-right font-semibold">In / out</th>
-                    <th scope="col" className="px-4 py-2 text-right font-semibold">Balance</th>
+                    <th scope="col" className="px-2 py-2 text-right font-semibold">Amount</th>
+                    <th scope="col" className="px-4 py-2 text-right font-semibold">Balance after</th>
                   </tr>
                 </thead>
                 <tbody className="num">
                   {events.map((d) => {
-                    const net = d.inflow - d.outflow;
+                    const net = dayAmount(d);
                     const neg = d.balance < 0;
                     return (
                       <tr key={d.date} className={neg ? "bg-alert-tint" : "even:bg-shelf/40"}>
