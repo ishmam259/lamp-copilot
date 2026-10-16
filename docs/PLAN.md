@@ -178,7 +178,8 @@ AccountsOut   { period_days, sales, gross_margin_pct, gross_profit, overheads, n
                 stock_value, stock_days, patient_dues, patient_due_days,
                 active_suppliers, top_suppliers:[{name, share_pct}], slow_movers:[...], expiring_value_60d }
 DuesOut       { items:[{ supplier, invoice_no, amount, due_date, days_left, status }] , total_due }
-ForecastOut   { start_cash, days:[{ date, inflow, outflow, balance }], shortfalls:[{ date, amount, cause }] }
+ForecastOut   { start_cash, days:[{ date, inflow, outflow, balance, items:[{ label, amount }] }], shortfalls:[{ date, amount, cause }] }
+              # items = named moves that day (supplier invoice, rent, salaries, patient dues), signed; routine daily sales not listed
 Alert         { id, kind: "shortfall"|"expiry"|"return_window"|"patient_dues"|"suspicious_document",
                 severity, title, detail, created_at }
 ExpiryOut     { horizon_days, batches:[{ product, batch_no, expiry_date, days_left, qty, cost_value,

@@ -51,6 +51,8 @@ export interface ForecastDay {
   inflow: number;
   outflow: number;
   balance: number;
+  /** Named money moves that day (routine daily sales are not listed). */
+  items?: { label: string; amount: number }[];
 }
 
 export interface ForecastOut {

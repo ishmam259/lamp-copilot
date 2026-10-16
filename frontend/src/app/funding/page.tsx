@@ -46,9 +46,9 @@ export default function FundingPage() {
       {plan && (
         <div className="space-y-4 lg:grid lg:grid-cols-12 lg:gap-5 lg:space-y-0">
           <section aria-labelledby="need-head" className="station-board lg:col-span-12">
-            <p className="sb-kicker">Gap to cover · by {dayDate(plan.need.needed_by)}</p>
-            <h2 id="need-head" className="sb-head num">
-              {bdt(plan.need.amount)}
+            <h2 id="need-head" className="sb-head">
+              <span className="num">{bdt(plan.need.amount)} to cover</span>
+              <span className="sb-time">by {dayDate(plan.need.needed_by)}</span>
             </h2>
             <p className="sb-sub mt-1.5 text-[1.0625rem] font-medium">Left after trimming the slow mover from Supplier A&apos;s order.</p>
           </section>

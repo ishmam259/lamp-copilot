@@ -2,6 +2,7 @@
 
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
 import { CashLine } from "@/components/cash-line";
+import { dayLabel } from "@/lib/forecast";
 import { useAccounts, useDues, useForecast } from "@/lib/api";
 import { bdt, dayDate, num, signed, shortDate, stampDate } from "@/lib/format";
 
@@ -54,6 +55,7 @@ export default function CashPage() {
                       <tr key={d.date} className={neg ? "bg-alert-tint" : "even:bg-shelf/40"}>
                         <th scope="row" className="px-4 py-2.5 font-semibold whitespace-nowrap text-ink">
                           {dayDate(d.date)}
+                          <span className="block text-sm font-normal text-ink-2">{dayLabel(d, dues?.items.find((x) => x.due_date === d.date)?.supplier)}</span>
                         </th>
                         <td className={`px-2 py-2.5 text-right font-semibold ${net < 0 ? "text-ink" : "text-stock"}`}>{signed(net)}</td>
                         <td className={`px-4 py-2.5 text-right font-bold ${neg ? "text-alert" : "text-ink"}`}>{num(d.balance)}</td>
@@ -116,13 +118,13 @@ export default function CashPage() {
                       <dd className="text-stock">{bdt(accounts.net_profit)}</dd>
                     </div>
                   </dl>
-                  <dl className="mt-3 grid grid-cols-2 gap-3 text-sm">
-                    <div className="rounded-[var(--radius)] bg-shelf p-3">
+                  <dl className="mt-3 grid grid-cols-2 divide-x divide-rule border-t border-rule pt-3 text-sm">
+                    <div className="pr-4">
                       <dt className="text-ink-2">Stock on shelves</dt>
                       <dd className="num font-bold text-ink">{bdt(accounts.stock_value)}</dd>
                       <dd className="text-ink-2">{accounts.stock_days} days of buying</dd>
                     </div>
-                    <div className="rounded-[var(--radius)] bg-shelf p-3">
+                    <div className="pl-4">
                       <dt className="text-ink-2">Patients owe you</dt>
                       <dd className="num font-bold text-ink">{bdt(accounts.patient_dues)}</dd>
                       <dd className="text-ink-2">{accounts.patient_due_days} days of sales</dd>

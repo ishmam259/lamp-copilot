@@ -63,12 +63,12 @@ export default function PassportPage() {
             </Carton>
 
             <Carton tone="ink" title="What a lender would offer">
-              <dl className="grid grid-cols-2 gap-3">
-                <div className="rounded-[var(--radius)] bg-shelf p-3">
+              <dl className="grid grid-cols-2 divide-x divide-rule">
+                <div className="pr-4">
                   <dt className="text-sm text-ink-2">Advance on an order</dt>
                   <dd className="num text-[1.75rem] font-bold text-ink">{num(passport.advance_rate_pct, 1)}%</dd>
                 </div>
-                <div className="rounded-[var(--radius)] bg-shelf p-3">
+                <div className="pl-4">
                   <dt className="text-sm text-ink-2">Default risk</dt>
                   <dd className="num text-[1.75rem] font-bold text-ink">{num(passport.default_probability * 100, 1)}%</dd>
                 </div>

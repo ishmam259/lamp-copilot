@@ -15,12 +15,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 const ORDER = ["system", "light", "dark"] as const;
 const META = {
-  system: { icon: Monitor, label: "Theme: follow phone" },
+  system: { icon: Monitor, label: "Theme: match device" },
   light: { icon: Sun, label: "Theme: light" },
   dark: { icon: Moon, label: "Theme: dark" },
 };
 
-/** Cycles follow-phone → light → dark. */
+/** Cycles match-device → light → dark. */
 export function ThemeToggle({ className, withLabel = false, onRail = false }: { className?: string; withLabel?: boolean; onRail?: boolean }) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -45,7 +45,7 @@ export function ThemeToggle({ className, withLabel = false, onRail = false }: { 
       )}
     >
       <Icon className="size-5" aria-hidden />
-      {withLabel && <span>{label.replace("Theme: ", "")}</span>}
+      {withLabel && <span>{label.replace("Theme: m", "M").replace("Theme: l", "L").replace("Theme: d", "D")}</span>}
     </button>
   );
 }

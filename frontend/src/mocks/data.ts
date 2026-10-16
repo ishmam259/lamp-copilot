@@ -75,26 +75,27 @@ export const dues: DuesOut = {
 // Balance at the end of 25 Oct is exactly 41,000; the 60,000 order on 26 Oct makes it −19,000.
 function buildForecast(): ForecastOut {
   const start = 34950;
-  const events: Record<string, { inflow?: number; outflow?: number }> = {
-    [addDays(AS_OF, 2)]: { outflow: 8450 },
-    [addDays(AS_OF, 4)]: { inflow: 4200 },
-    [addDays(AS_OF, 6)]: { outflow: 6200 },
-    [addDays(AS_OF, 10)]: { outflow: 60000 },
-    [addDays(AS_OF, 16)]: { outflow: 18000 },
-    [addDays(AS_OF, 19)]: { outflow: 11300 },
-    [addDays(AS_OF, 20)]: { outflow: 15000 },
-    [addDays(AS_OF, 25)]: { outflow: 3000 },
+  const events: Record<string, { label: string; inflow?: number; outflow?: number }> = {
+    [addDays(AS_OF, 2)]: { label: "Supplier D", outflow: 8450 },
+    [addDays(AS_OF, 4)]: { label: "Patient dues collected", inflow: 4200 },
+    [addDays(AS_OF, 6)]: { label: "Supplier F", outflow: 6200 },
+    [addDays(AS_OF, 10)]: { label: "Supplier A order", outflow: 60000 },
+    [addDays(AS_OF, 16)]: { label: "Shop rent", outflow: 18000 },
+    [addDays(AS_OF, 19)]: { label: "Supplier H", outflow: 11300 },
+    [addDays(AS_OF, 20)]: { label: "Salaries", outflow: 15000 },
+    [addDays(AS_OF, 25)]: { label: "Electricity and internet", outflow: 3000 },
   };
   const days: ForecastDay[] = [];
   let balance = start;
   for (let i = 0; i < 30; i++) {
     const date = addDays(AS_OF, i);
-    const ev = events[date] ?? {};
+    const ev = events[date];
     const routine = i === 10 ? 0 : 1650;
-    const inflow = routine + (ev.inflow ?? 0);
-    const outflow = ev.outflow ?? 0;
+    const inflow = routine + (ev?.inflow ?? 0);
+    const outflow = ev?.outflow ?? 0;
     balance = balance + inflow - outflow;
-    days.push({ date, inflow, outflow, balance });
+    const items = ev ? [{ label: ev.label, amount: (ev.inflow ?? 0) - (ev.outflow ?? 0) }] : [];
+    days.push({ date, inflow, outflow, balance, items });
   }
   return {
     start_cash: start,

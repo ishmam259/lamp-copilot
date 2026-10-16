@@ -106,6 +106,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <span className="flex-1" />
             <ThemeToggle onRail />
             <Link
+              href="/passport"
+              aria-label="Credit passport"
+              aria-current={isActive(pathname, "/passport") ? "page" : undefined}
+              className="inline-flex size-11 items-center justify-center rounded-[var(--radius)] text-rail-ink hover:bg-white/10 aria-[current=page]:bg-white/15"
+            >
+              <BadgeCheck className="size-5" aria-hidden />
+            </Link>
+            <Link
               href="/actions"
               aria-label={`Actions, ${pending} waiting for you`}
               className="relative inline-flex size-11 items-center justify-center rounded-[var(--radius)] text-rail-ink hover:bg-white/10"
