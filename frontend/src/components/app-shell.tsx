@@ -103,7 +103,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <Link href="/" className="text-[1.6rem] leading-none">
               <Wordmark />
             </Link>
-            <span className="min-w-0 flex-1 truncate text-sm text-ink-2">{pharmacy?.name}</span>
+            <span className="flex-1" />
             <ThemeToggle />
             <Link
               href="/actions"

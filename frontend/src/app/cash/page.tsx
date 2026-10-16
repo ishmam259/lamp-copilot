@@ -78,7 +78,7 @@ export default function CashPage() {
                       <div className="min-w-0 flex-1">
                         <p className="font-semibold text-ink">{d.supplier}</p>
                         <p className="text-sm text-ink-2">Invoice {d.invoice_no}</p>
-                        <Stamp tone={d.status === "overdue" ? "alert" : d.status === "due_soon" ? "warn" : "cash"} className="mt-1.5">
+                        <Stamp tone={d.status === "overdue" ? "alert" : d.status === "due_soon" ? "warn" : undefined} className="mt-1.5">
                           Due {stampDate(d.due_date)}
                         </Stamp>
                       </div>
@@ -135,7 +135,7 @@ export default function CashPage() {
                       <li key={s.name} className="grid grid-cols-[96px_1fr_44px] items-center gap-2 text-sm">
                         <span className="font-semibold text-ink">{s.name}</span>
                         <span className="h-2.5 rounded-full bg-muted" aria-hidden>
-                          <span className="block h-full rounded-full bg-cash" style={{ width: `${(s.share_pct / 20) * 100}%` }} />
+                          <span className="block h-full rounded-full bg-ink-2" style={{ width: `${(s.share_pct / 20) * 100}%` }} />
                         </span>
                         <span className="num text-right text-ink">{s.share_pct}%</span>
                       </li>

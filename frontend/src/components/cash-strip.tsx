@@ -37,8 +37,8 @@ export function CashStrip({ forecast, height = 72 }: { forecast: ForecastOut; he
               width={bw}
               height={h}
               rx="1"
-              fill={neg ? "var(--alert)" : d.date === days[0].date ? "var(--ink)" : "var(--cash)"}
-              opacity={neg ? 1 : 0.85}
+              fill={neg ? "var(--alert)" : d.date === days[0].date ? "var(--ink)" : "var(--ink-2)"}
+              opacity={neg ? 0.9 : d.date === days[0].date ? 1 : 0.45}
             >
               <title>{`${shortDate(d.date)}: BDT ${d.balance.toLocaleString("en-US")}`}</title>
             </rect>

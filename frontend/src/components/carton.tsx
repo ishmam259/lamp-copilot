@@ -2,15 +2,10 @@ import { cn } from "cn";
 
 export type Tone = "alert" | "cash" | "stock" | "warn" | "ink";
 
-const BAND: Record<Tone, string> = {
-  alert: "band-alert",
-  cash: "band-cash",
-  stock: "band-stock",
-  warn: "band-warn",
-  ink: "band-ink",
-};
-
-/** A white carton face whose coloured band is the section heading. */
+/**
+ * A white panel. Tone is a state, not a topic: "alert" = problem, "warn" = needs you,
+ * "stock" = good news. Anything else stays neutral.
+ */
 export function Carton({
   tone,
   title,
@@ -31,13 +26,15 @@ export function Carton({
   headingLevel?: 2 | 3;
 }) {
   const H = headingLevel === 2 ? "h2" : "h3";
+  const edge = tone === "alert" ? "carton-alert" : tone === "warn" ? "carton-warn" : tone === "stock" ? "carton-stock" : "";
+  const titleColour = tone === "alert" ? "text-alert" : tone === "warn" ? "text-warn" : tone === "stock" ? "text-stock" : "text-ink-2";
   return (
-    <Tag className={cn("carton", className)}>
-      <div className={cn("band", BAND[tone])}>
-        <H className="text-sm font-bold tracking-[0.06em]">{title}</H>
-        {aside && <div className="text-xs font-semibold tracking-normal normal-case">{aside}</div>}
+    <Tag className={cn("carton", edge, className)}>
+      <div className="carton-head">
+        <H className={cn("text-[0.9375rem] font-semibold", titleColour)}>{title}</H>
+        {aside && <div className="text-sm text-ink-2">{aside}</div>}
       </div>
-      <div className={cn("p-4", bodyClassName)}>{children}</div>
+      <div className={cn("p-4 pt-2", bodyClassName)}>{children}</div>
     </Tag>
   );
 }

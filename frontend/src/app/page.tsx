@@ -45,7 +45,7 @@ export default function TodayPage() {
           >
             {short ? (
               <>
-                <p className="num text-[2.5rem] leading-none font-extrabold text-ink lg:text-[3rem]">Short {bdt(short.amount)}</p>
+                <p className="num text-[2.25rem] leading-none font-bold text-ink lg:text-[2.75rem]">Short {bdt(short.amount)}</p>
                 <p className="mt-2 text-lg text-ink">
                   {short.cause} is due.{" "}
                   {balanceBefore !== undefined && (
@@ -70,8 +70,8 @@ export default function TodayPage() {
                   See the fix <ArrowRight className="size-5" aria-hidden />
                 </Link>
               )}
-              <Link href="/cash" className={buttonVariants({ size: "lg", variant: "outline", className: "w-full sm:w-auto" })}>
-                Cash, day by day
+              <Link href="/cash" className="inline-flex h-11 items-center justify-center gap-1 font-semibold text-cash hover:underline sm:px-2">
+                Cash, day by day <ArrowRight className="size-4" aria-hidden />
               </Link>
             </div>
           </Carton>
@@ -97,7 +97,7 @@ export default function TodayPage() {
         )}
 
         {/* Next payments */}
-        <Carton tone="cash" title="Next payments" aside={dues ? `${bdt(dues.total_due)} due` : undefined}>
+        <Carton tone="ink" title="Next payments" aside={dues ? `${bdt(dues.total_due)} due` : undefined}>
           {!dues ? (
             <Skel className="h-28" />
           ) : (
@@ -106,7 +106,7 @@ export default function TodayPage() {
                 <li key={d.invoice_no} className="flex items-center gap-3 py-2.5 first:pt-0 last:pb-0">
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-semibold text-ink">{d.supplier}</p>
-                    <Stamp tone={d.status === "overdue" ? "alert" : d.status === "due_soon" ? "warn" : "cash"} className="mt-1">
+                    <Stamp tone={d.status === "overdue" ? "alert" : d.status === "due_soon" ? "warn" : undefined} className="mt-1">
                       Due {stampDate(d.due_date)}
                     </Stamp>
                   </div>
@@ -121,17 +121,17 @@ export default function TodayPage() {
         </Carton>
 
         {/* Expiring stock */}
-        <Carton tone="stock" title="Expiring stock" aside="Next 60 days">
+        <Carton tone="ink" title="Expiring stock" aside="Next 60 days">
           {!expiry ? (
             <Skel className="h-24" />
           ) : (
             <>
-              <p className="num text-3xl font-extrabold text-ink">{bdt(expiry.at_risk_value)}</p>
+              <p className="num text-[1.75rem] font-bold text-ink">{bdt(expiry.at_risk_value)}</p>
               <p className="mt-1 text-ink">
                 {expiry.batches.length} batches. <span className="num font-bold text-stock">{bdt(expiry.return_eligible_value)}</span> can still go back to suppliers.
               </p>
               <div className="mt-2">
-                <Stamp tone="stock">EXP ≤ {stampDate(expiry.batches.reduce((m, b) => (b.expiry_date > m ? b.expiry_date : m), expiry.batches[0].expiry_date))}</Stamp>
+                <Stamp>EXP ≤ {stampDate(expiry.batches.reduce((m, b) => (b.expiry_date > m ? b.expiry_date : m), expiry.batches[0].expiry_date))}</Stamp>
               </div>
               <Link href="/stock" className={buttonVariants({ variant: "outline", className: "mt-3 w-full" })}>
                 Recover {bdt(expiry.return_eligible_value)}

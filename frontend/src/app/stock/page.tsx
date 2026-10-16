@@ -36,18 +36,18 @@ export default function StockPage() {
       <PageTitle title="Stock" sub="Stock that won't sell before it expires is money lost. Recover it, and don't over-order." />
       <div className="space-y-4 lg:grid lg:grid-cols-12 lg:gap-5 lg:space-y-0">
         <div className="lg:col-span-7">
-          <Carton tone="stock" title="Expiring in 60 days" aside={expiry ? `${expiry.batches.length} batches` : undefined}>
+          <Carton tone="warn" title="Expiring in 60 days" aside={expiry ? `${expiry.batches.length} batches` : undefined}>
             {error && <LoadError what="expiring stock" />}
             {!expiry && !error && <Skel className="h-64" />}
             {expiry && (
               <>
                 <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
                   <p>
-                    <span className="num text-3xl font-extrabold text-ink">{bdt(expiry.at_risk_value)}</span>
+                    <span className="num text-[1.75rem] font-bold text-ink">{bdt(expiry.at_risk_value)}</span>
                     <span className="ml-2 text-ink-2">at risk</span>
                   </p>
                   <p>
-                    <span className="num text-2xl font-extrabold text-stock">{bdt(expiry.return_eligible_value)}</span>
+                    <span className="num text-[1.5rem] font-bold text-stock">{bdt(expiry.return_eligible_value)}</span>
                     <span className="ml-2 text-ink-2">can go back</span>
                   </p>
                 </div>
@@ -94,7 +94,7 @@ export default function StockPage() {
 
         <div className="lg:col-span-5">
           <Carton
-            tone="cash"
+            tone="ink"
             title={order ? `${order.supplier} order` : "Next order"}
             aside={order ? <>Due {stampDate(order.due_date)}</> : undefined}
           >
