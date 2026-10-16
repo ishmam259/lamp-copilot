@@ -43,9 +43,7 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
     <section aria-label="Audit log" className="flex h-full min-h-0 flex-col">
       <div className="band band-ink">
         <span>Audit log</span>
-        <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-normal normal-case">
-          <span className="size-2 animate-pulse rounded-full bg-[#4ade80]" aria-hidden /> Live
-        </span>
+        <span className="text-xs font-semibold tracking-normal normal-case">Updates as things happen</span>
       </div>
       <div className="flex flex-wrap gap-1.5 border-b border-rule px-3 py-2">
         {(["all", "T0", "T1", "T2", "T3"] as const).map((t) => (
@@ -56,7 +54,7 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
             onClick={() => setFilter(t)}
             className={cn(
               "h-8 rounded-[var(--radius)] px-2.5 text-xs font-bold",
-              filter === t ? "bg-ink text-white" : "bg-muted text-ink-2 hover:text-ink"
+              filter === t ? "bg-ink text-board" : "bg-muted text-ink-2 hover:text-ink"
             )}
           >
             {t === "all" ? "All" : t}
