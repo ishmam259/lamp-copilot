@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LaMP frontend
 
-## Getting Started
+Next.js 16 (App Router, TypeScript), Tailwind 4, shadcn/ui (Base UI), SWR, AI SDK `useChat`. Mobile-first, installable as a PWA, light and dark mode.
 
-First, run the development server:
+## Run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Mock or live data
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Mock (default):** everything runs in the browser from `src/mocks/data.ts`, which matches the golden numbers in `docs/PLAN.md`. Approving actions really changes state, and the chat gives pre-recorded answers. "Reset demo data" (desktop rail) or a page reload starts over.
+- **Live:** create `.env.local` with:
 
-## Learn More
+  ```
+  NEXT_PUBLIC_API_MODE=live
+  BACKEND_URL=http://localhost:8000
+  ```
 
-To learn more about Next.js, take a look at the following resources:
+  `/api/v1/*` is proxied to the FastAPI backend (see `next.config.ts`), so there's no CORS setup. Chat goes to `POST /api/v1/chat` (Pritom's stream).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Where things are
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `src/lib/types.ts`: shapes from `docs/PLAN.md` section 4.3. Keep in sync with `backend/app/schemas`.
+- `src/lib/api.ts`: one function per endpoint, SWR hooks, and the mock store.
+- `src/app/*`: screens (Today, Cash, Capture, Stock, Funding, Actions, Passport, Lender view, Audit log).
+- `src/components/`: shell, panels, cash route line, live log, chat drawer, theme toggle.
 
-## Deploy on Vercel
+## Design
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Direction "Station Board": railway-green shell, white working panels, one dark-green departures board per screen for the message that matters most. Colour carries state only: red = problem, amber = needs you, green = go/good. Run Impeccable's detector before committing UI changes:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+../.claude/skills/impeccable/scripts/impeccable detect --json http://localhost:3000/
+```
+
+Note: after editing `globals.css`, restart the dev server (`rm -rf .next`) if styles don't update.

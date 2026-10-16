@@ -7,7 +7,7 @@ import { ArrowRight, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
 import { proposeAction, useActions, useFundingPlan } from "@/lib/api";
-import { bdt, num, stampDate } from "@/lib/format";
+import { bdt, dayDate, num, stampDate } from "@/lib/format";
 import type { ActionKind } from "@/lib/types";
 
 export default function FundingPage() {
@@ -45,14 +45,16 @@ export default function FundingPage() {
       {!plan && !error && <Skel className="h-96" />}
       {plan && (
         <div className="space-y-4 lg:grid lg:grid-cols-12 lg:gap-5 lg:space-y-0">
-          <div className="space-y-4 lg:col-span-7">
-            <Carton tone="alert" title="What you need" aside={<>By {stampDate(plan.need.needed_by)}</>}>
-              <p className="num text-[2.25rem] leading-none font-bold text-ink">{bdt(plan.need.amount)}</p>
-              <p className="mt-2 text-ink">After trimming the slow mover from Supplier A&apos;s order, this is the gap left to cover.</p>
-            </Carton>
-
+          <section aria-labelledby="need-head" className="station-board lg:col-span-12">
+            <p className="sb-kicker">Gap to cover · by {dayDate(plan.need.needed_by)}</p>
+            <h2 id="need-head" className="sb-head num">
+              {bdt(plan.need.amount)}
+            </h2>
+            <p className="sb-sub mt-1.5 text-[1.0625rem] font-medium">Left after trimming the slow mover from Supplier A&apos;s order.</p>
+          </section>
+          <div className="lg:col-span-12">
             <Carton tone="ink" title="Recommended plan" aside={`Costs ${bdt(plan.plan.total_cost_bdt)} if Supplier A agrees`}>
-              <ol className="space-y-3">
+              <ol className="space-y-3 lg:grid lg:grid-cols-3 lg:gap-4 lg:space-y-0">
                 {plan.plan.steps.map((s, i) => (
                   <li key={s.label} className="flex gap-3">
                     <span className="num flex size-8 shrink-0 items-center justify-center rounded-full bg-muted font-bold text-ink">{i + 1}</span>
@@ -82,11 +84,11 @@ export default function FundingPage() {
             </Carton>
           </div>
 
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-12">
             <Carton tone="ink" title="All options" aside="Cheapest first" bodyClassName="p-0">
-              <ul className="divide-y divide-rule">
+              <ul className="divide-y divide-rule lg:grid lg:grid-cols-2 lg:divide-y-0">
                 {plan.options.map((o) => (
-                  <li key={o.key} className={`p-4 ${o.eligible ? "" : "opacity-75"}`}>
+                  <li key={o.key} className={`p-4 lg:border-b lg:border-rule ${o.eligible ? "" : "opacity-75"}`}>
                     <div className="flex items-start gap-3">
                       <span
                         className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full ${o.eligible ? "bg-stock-tint text-stock" : "bg-muted text-ink-2"}`}

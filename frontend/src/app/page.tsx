@@ -51,7 +51,7 @@ export default function TodayPage() {
                   <h2 id="board-head" className="sb-head num">
                     Short {bdt(short.amount)}
                   </h2>
-                  <p className="mt-1.5 text-[1.0625rem] font-semibold">
+                  <p className="sb-sub mt-1.5 text-[1.0625rem] font-medium">
                     {short.cause}
                     {balanceBefore !== undefined && <> · you&apos;ll have {bdt(balanceBefore)}</>}
                   </p>

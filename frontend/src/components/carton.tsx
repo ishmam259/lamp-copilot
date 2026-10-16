@@ -1,3 +1,4 @@
+import { CircleAlert, CircleCheck, Hand } from "lucide-react";
 import { cn } from "cn";
 
 export type Tone = "alert" | "cash" | "stock" | "warn" | "ink";
@@ -26,12 +27,15 @@ export function Carton({
   headingLevel?: 2 | 3;
 }) {
   const H = headingLevel === 2 ? "h2" : "h3";
-  const edge = tone === "alert" ? "carton-alert" : tone === "warn" ? "carton-warn" : tone === "stock" ? "carton-stock" : "";
+  const Icon = tone === "alert" ? CircleAlert : tone === "warn" ? Hand : tone === "stock" ? CircleCheck : null;
   const titleColour = tone === "alert" ? "text-alert" : tone === "warn" ? "text-warn" : tone === "stock" ? "text-stock" : "text-ink-2";
   return (
-    <Tag className={cn("carton", edge, className)}>
+    <Tag className={cn("carton", className)}>
       <div className="carton-head">
-        <H className={cn("text-[0.9375rem] font-semibold", titleColour)}>{title}</H>
+        <H className={cn("inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold", titleColour)}>
+          {Icon && <Icon className="size-4 shrink-0" aria-hidden />}
+          {title}
+        </H>
         {aside && <div className="text-sm text-ink-2">{aside}</div>}
       </div>
       <div className={cn("p-4 pt-2", bodyClassName)}>{children}</div>

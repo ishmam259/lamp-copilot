@@ -89,6 +89,7 @@
   --rail-2: #cfe3d9;
   --signal: #ffd400;
   --signal-ink: #111111;
+  --board-bg: #123d30;
   --stock-band: #1e7a4f;
   --warn-band: #9a5800;
   --ink-band: #1f2328;
@@ -139,6 +140,7 @@
   --rail-2: #a9cbbb;
   --signal: #f5cc00;
   --signal-ink: #111111;
+  --board-bg: #0f3328;
   --stock-band: #1b6e47;
   --warn-band: #8a4f00;
   --ink-band: #000000;
@@ -258,13 +260,13 @@
     color: var(--warn);
   }
 
-  /* Signature move: the yellow station board. Used once per screen, for the one thing that matters. */
+  /* Signature move: the departures board. Dark railway green, white headline,
+     signal yellow only for the small "next stop" line. Used once per screen. */
   .station-board {
-    background: var(--signal);
-    color: var(--signal-ink);
-    border-radius: 6px;
-    box-shadow: inset 0 0 0 3px var(--signal), inset 0 0 0 5px #111;
-    padding: 1rem 1.125rem;
+    background: var(--board-bg);
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 1rem 1.125rem 1.125rem;
   }
   .station-board .sb-kicker {
     font-family: var(--font-board);
@@ -272,13 +274,17 @@
     font-size: 0.875rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    color: var(--signal);
   }
   .station-board .sb-head {
     font-family: var(--font-board);
-    font-weight: 800;
+    font-weight: 700;
     font-size: 2.25rem;
-    line-height: 1.02;
+    line-height: 1.05;
     margin-top: 0.25rem;
+  }
+  .station-board .sb-sub {
+    color: #d5e6dd;
   }
 
   /* Carton: a white panel. Colour appears only as a thin top edge, and only
@@ -288,15 +294,6 @@
     border: 1px solid var(--rule);
     border-radius: 8px;
     overflow: hidden;
-  }
-  .carton-alert {
-    border-top: 3px solid var(--alert-band);
-  }
-  .carton-warn {
-    border-top: 3px solid var(--warn-band);
-  }
-  .carton-stock {
-    border-top: 3px solid var(--stock-band);
   }
   .carton-head {
     display: flex;
