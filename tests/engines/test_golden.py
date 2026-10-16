@@ -2,7 +2,9 @@
 
 from datetime import date
 
-from app.engines import get_accounts, get_alerts, get_dues, get_expiry, get_forecast, get_trim
+from app.engines import (
+    get_accounts, get_alerts, get_dues, get_expiry, get_forecast, get_funding_plan, get_passport, get_trim,
+)
 
 PID = "green-life"
 AS_OF = date(2026, 10, 16)
@@ -64,3 +66,31 @@ def test_trim(db):
     assert (mon.suggested_qty, mon.at_risk_value) == (12, 10_800)
     assert all(l.suggested_qty == l.qty for l in t.lines[1:])
     assert (t.original_total, t.suggested_total, t.saving) == (60_000, 49_200, 10_800)
+
+
+def test_passport(db):
+    p = get_passport(db, PID)
+    assert (p.invoices_total, p.paid_on_time, p.confirmed_share) == (41, 38, 1.0)
+    assert (p.theta_low_5pct, p.default_probability, p.score) == (0.826, 0.030, 0.507)
+    assert (p.advance_rate_pct, p.partner_share_pct) == (75.2, 54.4)
+    assert len(p.evidence) == 41 and sum(not e.on_time for e in p.evidence) == 3
+
+
+def test_funding_plan(db):
+    f = get_funding_plan(db, PID)
+    assert (f.need.amount, f.need.needed_by) == (8_200, date(2026, 10, 26))
+    o = {x.key: x for x in f.options}
+    assert o["trim_order"].amount == 10_800 and o["trim_order"].cost_bdt == 0
+    assert o["return_claims"].amount == 9_200
+    assert o["supplier_extension"].eligible and o["supplier_extension"].certainty == "uncertain"
+    assert o["wallet_loan"].cost_bdt == 181.97
+    assert o["bank_supplier_credit"].cost_bdt == 492.00 and o["bank_supplier_credit"].amount == 49_200
+    assert not o["bank_sme_loan"].eligible and "200,000" in o["bank_sme_loan"].reason
+    steps = [(s.action_kind, s.amount, s.when, s.fallback_for) for s in f.plan.steps]
+    assert steps == [
+        ("trim_order", 10_800, AS_OF, None),
+        ("extension_request", 8_200, AS_OF, None),
+        ("loan_application", 8_200, date(2026, 10, 23), "extension_request"),
+    ]
+    assert f.plan.total_cost_bdt == 0
+    assert f.naive_cost_bdt == 421.64

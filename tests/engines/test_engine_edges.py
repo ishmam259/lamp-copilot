@@ -87,3 +87,46 @@ def test_trim_product_without_history_is_fully_at_risk(db):
 def test_expiry_horizon(db):
     from app.engines import get_expiry
     assert [b.batch_no for b in get_expiry(db, PID, horizon_days=10).batches] == ["VB2385"]
+
+
+def test_passport_no_history(db):
+    from app.engines import get_passport
+    db.query(m.Payment).delete()
+    db.expire_all()
+    p = get_passport(db, PID)
+    assert (p.invoices_total, p.theta_mean, p.confirmed_share) == (0, 0.5, 0)
+
+
+def test_passport_unconfirmed_invoices_weigh_half(db):
+    from app.engines import get_passport
+    for inv in db.query(m.Invoice):
+        inv.supplier_confirmed = False
+    p = get_passport(db, PID)
+    assert p.confirmed_share == 0 and p.theta_mean == round(20 / 22.5, 3)  # s = 19, f = 1.5
+    assert p.theta_low_5pct < 0.826
+
+
+def test_funding_custom_need_takes_certain_loan(db):
+    from app.engines import get_funding_plan
+    from app.schemas import FundingNeed
+    sup = db.query(m.Supplier).filter_by(name="Supplier A").one()
+    sup.verified = False  # no extension possible
+    f = get_funding_plan(db, PID, FundingNeed(amount=5_000, needed_by=date(2026, 10, 26)))
+    loans = [s for s in f.plan.steps if s.action_kind == "loan_application"]
+    assert len(loans) == 1 and loans[0].fallback_for is None
+    assert f.plan.total_cost_bdt == round(5_000 * 0.09 * 90 / 365, 2)
+
+
+def test_funding_wallet_out_of_range(db):
+    from app.engines import get_funding_plan
+    from app.schemas import FundingNeed
+    o = {x.key: x for x in get_funding_plan(db, PID, FundingNeed(amount=40_000, needed_by=date(2026, 10, 26))).options}
+    assert not o["wallet_loan"].eligible and o["wallet_loan"].cost_bdt is None
+
+
+def test_funding_no_shortfall(db):
+    from app.engines import get_funding_plan
+    db.get(m.Pharmacy, PID).cash_on_hand = 1_000_000
+    f = get_funding_plan(db, PID)
+    assert f.need.amount == 0 and f.naive_cost_bdt == 0
+    assert all(s.action_kind == "trim_order" for s in f.plan.steps)

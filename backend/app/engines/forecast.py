@@ -11,7 +11,8 @@ from app.schemas import ForecastOut
 from .common import as_of, get_pharmacy, r2, sales_days
 
 
-def get_forecast(db: Session, pid: str, days: int = 30) -> ForecastOut:
+def get_forecast(db: Session, pid: str, days: int = 30,
+                 order_totals: dict[str, float] | None = None) -> ForecastOut:
     """Day-by-day cash balance from as_of (day 0) for `days` days.
 
     Start: pharmacy.cash_on_hand at the start of as_of.
@@ -25,6 +26,7 @@ def get_forecast(db: Session, pid: str, days: int = 30) -> ForecastOut:
     settings.cash_buffer. amount = the extra deficit it causes, i.e.
     min(outflow, cash_buffer - balance_after). Routine sales and restock are not listed
     in `items`; named moves are, as negative amounts.
+    order_totals overrides planned-order totals by order id (used to forecast after trims).
     """
     ph = get_pharmacy(db, pid)
     today = as_of(ph)
@@ -47,7 +49,7 @@ def get_forecast(db: Session, pid: str, days: int = 30) -> ForecastOut:
     for o in db.scalars(select(m.PlannedOrder).where(m.PlannedOrder.pharmacy_id == pid,
                                                      m.PlannedOrder.status == "planned")):
         if o.due_date <= end:
-            add(o.due_date, f"{o.supplier.name} order", o.total)
+            add(o.due_date, f"{o.supplier.name} order", (order_totals or {}).get(o.id, o.total))
 
     balance = ph.cash_on_hand
     out_days, shortfalls = [], []

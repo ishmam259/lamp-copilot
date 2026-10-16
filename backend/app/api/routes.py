@@ -207,15 +207,13 @@ def get_trim(pid: str, oid: str, db: Session = Depends(get_db)):
 
 
 @router.post("/pharmacies/{pid}/funding-plan", response_model=FundingPlanOut)
-def funding_plan(pid: str, need: FundingNeed | None = Body(default=None)):
-    _check_pid(pid)
-    return ex.FUNDING_PLAN
+def funding_plan(pid: str, need: FundingNeed | None = Body(default=None), db: Session = Depends(get_db)):
+    return engines.get_funding_plan(db, pid, need)
 
 
 @router.get("/pharmacies/{pid}/passport", response_model=PassportOut)
-def get_passport(pid: str):
-    _check_pid(pid)
-    return ex.PASSPORT
+def get_passport(pid: str, db: Session = Depends(get_db)):
+    return engines.get_passport(db, pid)
 
 
 # --- Actions (only the approve endpoint can approve) -------------------------
