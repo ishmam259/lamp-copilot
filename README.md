@@ -34,4 +34,53 @@ Farhan writes the shared API contract (`contracts/`, `backend/app/schemas/`) and
 Copy `.env.example` to `.env` and add your own OpenAI API key. Never commit `.env`. The team's total OpenAI budget is $20; tests and the demo use replay mode, which makes no API calls.
 
 ## Run it
-Farhan will fill this in once the services exist.
+You need [Docker Desktop](https://www.docker.com/products/docker-desktop/) running. Python 3.12 and Node 20+ are only needed for the tests, the demo script and the frontend.
+
+**1. Start the database and the API**
+```bash
+cp .env.example .env
+docker compose up -d --build
+```
+On first start the API loads the demo pharmacy, Green Life Pharmacy in Bogura.
+
+| What | Where |
+|---|---|
+| API | http://127.0.0.1:8000/api/v1/health |
+| API docs (try every endpoint) | http://127.0.0.1:8000/docs |
+| Live audit log (SSE) | http://127.0.0.1:8000/api/v1/logs/stream |
+| PostgreSQL | `localhost:5433`, user/password/database `lamp` |
+
+Use `127.0.0.1` rather than `localhost`: some Docker Desktop setups on Windows don't answer on IPv6. The database is on host port 5433 because a local PostgreSQL install often already holds 5432.
+
+**2. Start the frontend** (in another terminal)
+```bash
+cd frontend
+npm ci
+echo "NEXT_PUBLIC_API_MODE=live" > .env.local
+echo "BACKEND_URL=http://127.0.0.1:8000" >> .env.local
+npm run dev
+```
+Open http://localhost:3000. Without `.env.local` the frontend runs on its built-in mock data.
+
+**3. Reset the demo**
+- `POST /api/v1/dev/reset` loads the seed only. Use it before a live demo, where the owner photographs the 2 invoices and the sales-book page.
+- `POST /api/v1/dev/reset?with_demo_captures=true` loads the seed plus those three captures already confirmed. Every golden number in [docs/PLAN.md](docs/PLAN.md) section 6 holds in this state.
+
+**4. Run the scripted demo and export the execution trace**
+```bash
+python scripts/demo_run.py
+```
+It runs the whole story against the API, checking each golden number: reset, captures, accounts, expiry, return claim, order trim, funding plan, supplier extension, consent, loan application, a refused duplicate application, and the lender's decision. Then it writes `logs/sandbox_execution_trace.log`. `python scripts/export_trace.py` exports the log on its own at any time.
+
+**5. Run the tests**
+```bash
+cd backend
+python -m venv .venv
+.venv/Scripts/pip install -e ".[dev]"   # macOS/Linux: .venv/bin/pip
+.venv/Scripts/python -m pytest
+```
+Tests use an in-memory SQLite database by default. To run them against the Docker PostgreSQL, create a test database once (`docker compose exec db createdb -U lamp lamp_test`), then set `TEST_DATABASE_URL=postgresql+psycopg://lamp:lamp@127.0.0.1:5433/lamp_test` before running pytest.
+
+**Replay vs live mode.** `LLM_MODE=replay` (the default, used by tests and the demo script) makes no OpenAI calls. Photo capture returns a stored draft until the extraction agent is in place. Set `LLM_MODE=live` and `OPENAI_API_KEY` in `.env` to read real photos with OpenAI. The team budget is $20, so keep live runs short.
+
+**Regenerating files.** `python scripts/build_seed.py` rebuilds `seed/` from the numbers in that script. `python scripts/export_openapi.py` rebuilds `contracts/openapi.json` and `contracts/examples/` from real API responses.
