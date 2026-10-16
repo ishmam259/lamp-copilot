@@ -4,9 +4,9 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck, Landmark, ScrollText } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Carton, LoadError, Skel, Stamp } from "@/components/carton";
-import { CashStrip } from "@/components/cash-strip";
+import { CashLine } from "@/components/cash-line";
 import { useAccounts, useActions, useAlerts, useDues, useExpiry, useForecast, usePharmacy } from "@/lib/api";
-import { bdt, daysBetween, inDays, num, shortDate, stampDate } from "@/lib/format";
+import { bdt, dayDate, daysBetween, inDays, num, shortDate, signed, stampDate, weekday } from "@/lib/format";
 
 export default function TodayPage() {
   const { data: pharmacy } = usePharmacy();
@@ -21,6 +21,8 @@ export default function TodayPage() {
   const short = forecast?.shortfalls[0];
   const pending = actions?.filter((a) => a.status === "proposed") ?? [];
   const suspicious = alerts?.find((a) => a.kind === "suspicious_document");
+  const first = forecast?.days[0]?.date;
+  const last = forecast?.days[forecast.days.length - 1]?.date;
   const balanceBefore = short && forecast ? forecast.days[forecast.days.findIndex((d) => d.date === short.date) - 1]?.balance : undefined;
 
   return (
@@ -33,38 +35,37 @@ export default function TodayPage() {
         </p>
       )}
 
-      {/* Cash: the first thing the owner reads */}
-      <div className="lg:col-span-7">
+      {/* Cash: the first thing the owner reads, on the station board */}
+      <div className="space-y-4 lg:col-span-7">
         {!forecast && !fErr && <Skel className="h-72" />}
         {fErr && <LoadError what="your cash forecast" />}
         {forecast && (
-          <Carton
-            tone={short ? "alert" : "stock"}
-            title={short ? "Cash alert" : "Cash holds"}
-            aside={short && asOf ? inDays(daysBetween(asOf, short.date)) : "Next 30 days"}
-          >
-            {short ? (
-              <>
-                <p className="num text-[2.25rem] leading-none font-bold text-ink lg:text-[2.75rem]">Short {bdt(short.amount)}</p>
-                <p className="mt-2 text-lg text-ink">
-                  {short.cause} is due.{" "}
-                  {balanceBefore !== undefined && (
-                    <>
-                      You&apos;ll have about <span className="num font-bold">{bdt(balanceBefore)}</span> that day.
-                    </>
-                  )}
-                </p>
-                <div className="mt-3 flex flex-wrap items-center gap-2">
-                  <Stamp tone="alert">Due {stampDate(short.date)}</Stamp>
-                </div>
-              </>
-            ) : (
-              <p className="text-lg text-ink">Your cash stays above zero for the next 30 days.</p>
-            )}
-            <div className="mt-5">
-              <CashStrip forecast={forecast} />
-            </div>
-            <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+          <>
+            <section aria-labelledby="board-head" className="station-board">
+              {short ? (
+                <>
+                  <p className="sb-kicker">
+                    Next stop · {dayDate(short.date)}
+                    {asOf ? ` · ${inDays(daysBetween(asOf, short.date))}` : ""}
+                  </p>
+                  <h2 id="board-head" className="sb-head num">
+                    Short {bdt(short.amount)}
+                  </h2>
+                  <p className="mt-1.5 text-[1.0625rem] font-semibold">
+                    {short.cause}
+                    {balanceBefore !== undefined && <> · you&apos;ll have {bdt(balanceBefore)}</>}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="sb-kicker">Next 30 days</p>
+                  <h2 id="board-head" className="sb-head">
+                    Cash holds
+                  </h2>
+                </>
+              )}
+            </section>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
               {short && (
                 <Link href="/funding" className={buttonVariants({ size: "lg", className: "w-full sm:w-auto" })}>
                   See the fix <ArrowRight className="size-5" aria-hidden />
@@ -74,7 +75,34 @@ export default function TodayPage() {
                 Cash, day by day <ArrowRight className="size-4" aria-hidden />
               </Link>
             </div>
-          </Carton>
+            <Carton tone="ink" title="Upcoming money" aside={first && last ? `${shortDate(first)} – ${shortDate(last)}` : undefined}>
+              <CashLine forecast={forecast} />
+              <ul className="mt-3 divide-y divide-rule">
+                {forecast.days
+                  .filter((d) => d.outflow >= 5000 || d.inflow >= 4000)
+                  .slice(0, 5)
+                  .map((d) => {
+                    const neg = d.balance < 0;
+                    const due = dues?.items.find((x) => x.due_date === d.date);
+                    return (
+                      <li key={d.date} className={`grid grid-cols-[64px_1fr_auto] items-center gap-3 py-2.5 ${neg ? "-mx-4 bg-alert-tint px-4" : ""}`}>
+                        <span className="font-board leading-tight font-bold text-ink">
+                          {shortDate(d.date)}
+                          <span className="block text-xs font-semibold text-ink-2">{weekday(d.date)}</span>
+                        </span>
+                        <span className="min-w-0 truncate text-ink">
+                          {due ? due.supplier : d.inflow > d.outflow ? "Patient dues collected" : d.outflow === 18000 ? "Shop rent" : d.outflow === 15000 ? "Salaries" : "Bills"}
+                          {neg && <span className="ml-2 text-sm font-semibold text-alert">short</span>}
+                        </span>
+                        <span className={`num text-right font-bold ${d.inflow > d.outflow ? "text-stock" : "text-ink"}`}>
+                          {signed(d.inflow > d.outflow ? d.inflow - 1650 : -d.outflow)}
+                        </span>
+                      </li>
+                    );
+                  })}
+              </ul>
+            </Carton>
+          </>
         )}
       </div>
 
@@ -95,30 +123,6 @@ export default function TodayPage() {
             </Link>
           </Carton>
         )}
-
-        {/* Next payments */}
-        <Carton tone="ink" title="Next payments" aside={dues ? `${bdt(dues.total_due)} due` : undefined}>
-          {!dues ? (
-            <Skel className="h-28" />
-          ) : (
-            <ul className="divide-y divide-rule">
-              {dues.items.slice(0, 3).map((d) => (
-                <li key={d.invoice_no} className="flex items-center gap-3 py-2.5 first:pt-0 last:pb-0">
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-semibold text-ink">{d.supplier}</p>
-                    <Stamp tone={d.status === "overdue" ? "alert" : d.status === "due_soon" ? "warn" : undefined} className="mt-1">
-                      Due {stampDate(d.due_date)}
-                    </Stamp>
-                  </div>
-                  <span className="num text-right text-lg font-bold text-ink">{num(d.amount)}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-          <Link href="/cash" className="mt-3 inline-flex items-center gap-1 font-semibold text-cash hover:underline">
-            All payments <ArrowRight className="size-4" aria-hidden />
-          </Link>
-        </Carton>
 
         {/* Expiring stock */}
         <Carton tone="ink" title="Expiring stock" aside="Next 60 days">

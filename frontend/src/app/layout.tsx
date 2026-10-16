@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Barlow, Courier_Prime } from "next/font/google";
+import { Barlow, Barlow_Semi_Condensed } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/app-shell";
 import { ThemeProvider } from "@/components/theme";
@@ -10,10 +10,10 @@ const barlow = Barlow({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-const stamp = Courier_Prime({
-  variable: "--font-stamp",
+const board = Barlow_Semi_Condensed({
+  variable: "--font-board",
   subsets: ["latin"],
-  weight: ["700"],
+  weight: ["600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -24,8 +24,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#191f24" },
+    { media: "(prefers-color-scheme: light)", color: "#0f4d3a" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d3f30" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -33,7 +33,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${barlow.variable} ${stamp.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="en" className={`${barlow.variable} ${board.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full">
         <ThemeProvider>
           <AppShell>{children}</AppShell>

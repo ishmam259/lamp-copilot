@@ -21,7 +21,7 @@ const META = {
 };
 
 /** Cycles follow-phone → light → dark. */
-export function ThemeToggle({ className, withLabel = false }: { className?: string; withLabel?: boolean }) {
+export function ThemeToggle({ className, withLabel = false, onRail = false }: { className?: string; withLabel?: boolean; onRail?: boolean }) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -36,7 +36,8 @@ export function ThemeToggle({ className, withLabel = false }: { className?: stri
       aria-label={`${label}. Switch to ${META[next].label.replace("Theme: ", "")}`}
       title={label}
       className={cn(
-        "inline-flex h-11 items-center gap-2 rounded-[var(--radius)] text-ink-2 hover:bg-muted hover:text-ink",
+        "inline-flex h-11 items-center gap-2 rounded-[var(--radius)]",
+        onRail ? "text-rail-2 hover:bg-white/10 hover:text-rail-ink" : "text-ink-2 hover:bg-muted hover:text-ink",
         withLabel ? "px-3 text-sm font-semibold" : "w-11 justify-center",
         className
       )}

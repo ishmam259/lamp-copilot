@@ -46,10 +46,10 @@ function isActive(pathname: string, href: string) {
   return href === "/" ? pathname === "/" : pathname.startsWith(href);
 }
 
-export function Wordmark({ className }: { className?: string }) {
+export function Wordmark({ className, onRail = false }: { className?: string; onRail?: boolean }) {
   return (
-    <span className={cn("font-extrabold tracking-tight text-ink", className)}>
-      La<span className="text-cash">M</span>P
+    <span className={cn("font-board font-extrabold tracking-tight", onRail ? "text-rail-ink" : "text-ink", className)}>
+      La<span className={onRail ? "text-signal" : "text-cash"}>M</span>P
     </span>
   );
 }
@@ -65,30 +65,30 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh lg:grid lg:grid-cols-[232px_1fr] xl:grid-cols-[232px_1fr_340px]">
       {/* Desktop rail */}
-      <aside className="sticky top-0 hidden h-dvh flex-col border-r border-rule bg-board lg:flex">
+      <aside className="sticky top-0 hidden h-dvh flex-col bg-rail text-rail-ink lg:flex">
         <div className="print-strip" />
         <div className="px-5 pt-5 pb-4">
-          <Link href="/" className="text-2xl">
-            <Wordmark />
+          <Link href="/" className="text-[1.75rem] leading-none">
+            <Wordmark onRail />
           </Link>
-          <p className="mt-1 text-sm text-ink-2">{pharmacy ? `${pharmacy.name}, ${pharmacy.city}` : " "}</p>
+          <p className="mt-1.5 text-sm text-rail-2">{pharmacy ? `${pharmacy.name}, ${pharmacy.city}` : " "}</p>
         </div>
         <nav aria-label="Main" className="flex flex-1 flex-col gap-0.5 px-3">
           {[...OWNER_NAV, ...MORE_NAV].map((item) => (
             <RailLink key={item.href} {...item} active={isActive(pathname, item.href)} badge={item.href === "/actions" ? pending : 0} />
           ))}
-          <div className="mt-5 mb-1 px-3 text-xs font-semibold tracking-wide text-ink-2 uppercase">Other views</div>
+          <div className="mt-5 mb-1 px-3 text-xs font-semibold tracking-wide text-rail-2 uppercase">Other views</div>
           {OTHER_NAV.map((item) => (
             <RailLink key={item.href} {...item} active={isActive(pathname, item.href)} />
           ))}
         </nav>
-        <div className="space-y-2 border-t border-rule p-4">
-          <ThemeToggle withLabel className="-ml-3" />
+        <div className="space-y-2 border-t border-white/15 p-4">
+          <ThemeToggle withLabel onRail className="-ml-3" />
           <ModeNote />
           <button
             type="button"
             onClick={() => resetDemo()}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink-2 hover:text-ink"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-rail-2 hover:text-rail-ink"
           >
             <RotateCcw className="size-4" aria-hidden /> Reset demo data
           </button>
@@ -97,18 +97,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* Main column */}
       <div className="flex min-h-dvh min-w-0 flex-col">
-        <header className="sticky top-0 z-30 bg-board/95 backdrop-blur-sm supports-[backdrop-filter]:bg-board/85 lg:hidden">
+        <header className="sticky top-0 z-30 bg-rail text-rail-ink lg:hidden">
           <div className="print-strip" />
-          <div className="flex items-center gap-3 border-b border-rule px-4 py-2.5">
-            <Link href="/" className="text-[1.6rem] leading-none">
-              <Wordmark />
+          <div className="flex items-center gap-1 px-4 py-2">
+            <Link href="/" className="text-[1.75rem] leading-none">
+              <Wordmark onRail />
             </Link>
             <span className="flex-1" />
-            <ThemeToggle />
+            <ThemeToggle onRail />
             <Link
               href="/actions"
               aria-label={`Actions, ${pending} waiting for you`}
-              className="relative inline-flex size-11 items-center justify-center rounded-[var(--radius)] text-ink hover:bg-muted"
+              className="relative inline-flex size-11 items-center justify-center rounded-[var(--radius)] text-rail-ink hover:bg-white/10"
             >
               <Inbox className="size-5" aria-hidden />
               {pending > 0 && (
@@ -121,7 +121,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <button
                 type="button"
                 onClick={() => setChatOpen(true)}
-                className="inline-flex h-11 items-center gap-1.5 rounded-[var(--radius)] bg-primary px-3 font-semibold text-primary-foreground"
+                className="ml-1 inline-flex h-10 items-center gap-1.5 rounded-[var(--radius)] bg-white px-3 font-semibold text-rail"
               >
                 <MessageCircle className="size-5" aria-hidden /> Ask
               </button>
@@ -210,7 +210,7 @@ function RailLink({
       aria-current={active ? "page" : undefined}
       className={cn(
         "flex h-11 items-center gap-3 rounded-[var(--radius)] px-3 font-semibold",
-        active ? "bg-cash-tint text-cash" : "text-ink hover:bg-muted"
+        active ? "bg-white/15 text-rail-ink" : "text-rail-2 hover:bg-white/10 hover:text-rail-ink"
       )}
     >
       <Icon className="size-5" aria-hidden />
@@ -222,7 +222,7 @@ function RailLink({
 
 function ModeNote() {
   return (
-    <p className="text-xs leading-snug text-ink-2">
+    <p className="text-xs leading-snug text-rail-2">
       {API_MODE === "mock" ? "Demo data. " : ""}Lenders and payouts are simulated.
     </p>
   );

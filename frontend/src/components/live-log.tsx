@@ -66,12 +66,12 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
         {events.map((e) => (
           <li key={e.id} className="border-b border-rule px-3 py-2">
             <div className="flex items-center gap-2">
-              <span className="num font-stamp text-ink-2">{timeOfDay(e.ts)}</span>
+              <span className="num font-board text-ink-2">{timeOfDay(e.ts)}</span>
               <span className={cn("rounded-[2px] px-1.5 font-bold", tierCls(e.tier))}>{e.tier}</span>
               <span className="font-bold text-ink">{e.component}</span>
             </div>
             <p className="mt-0.5 font-semibold break-words text-ink">{e.event.replaceAll("_", " ")}</p>
-            {Object.keys(e.data).length > 0 && <p className="font-stamp break-all text-ink-2">{describe(e.data)}</p>}
+            {Object.keys(e.data).length > 0 && <p className="font-board break-all text-ink-2">{describe(e.data)}</p>}
           </li>
         ))}
       </ol>
