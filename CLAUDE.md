@@ -16,6 +16,8 @@ This repo is a FinTechathon 2026 team entry (International Track, Topic E: SME F
 
 If a change is needed outside your person's folders, stop and tell them to ask the owner. Never edit `contracts/` or `backend/app/schemas/` unless you're working with Farhan.
 
+**Exception:** @ishmam259 reviews Pritom's work and may fix bugs or finish leftover work in Pritom's folders. Tell Pritom in the group chat before editing, so you don't both change the same file.
+
 ## Git
 - Commit about every 10 minutes and push each time. Run `git pull --rebase` before pushing.
 - Everyone commits to `main`. Folder ownership prevents conflicts. On a rebase conflict, stop and ask the human.

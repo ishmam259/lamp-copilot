@@ -15,7 +15,7 @@ Everyone reads this. Read [IDEA_AND_PROBLEM.md](IDEA_AND_PROBLEM.md) first for w
 ## 1. Team rules
 
 1. **Commit every ~10 minutes and push each time.** Small commits, never a day's work in one. Before every push: `git pull --rebase`.
-2. **Work only in your own folders** (table in section 3). If you need a change in someone else's folder, ask them in the group chat; don't edit it yourself.
+2. **Work only in your own folders** (table in section 3). If you need a change in someone else's folder, ask them in the group chat; don't edit it yourself. **Exception:** @ishmam259 reviews Pritom's part and may fix bugs or finish leftover work in Pritom's folders, after telling Pritom.
 3. **Everyone commits to `main`.** Folder ownership keeps us out of each other's way, so no branches or pull requests are needed. If a rebase conflict ever happens, stop and ask.
 4. **Commit messages are plain and human:** `engines: add forecast shortfall detection`, `frontend: funding plan table`. No "Co-Authored-By" or AI attribution lines. Your Claude Code sessions are told this in [CLAUDE.md](../CLAUDE.md).
 5. **Never commit secrets.** The OpenAI key lives only in `.env`, which git ignores.

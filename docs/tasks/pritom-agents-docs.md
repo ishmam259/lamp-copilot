@@ -8,6 +8,8 @@ Read first, in this order:
 3. This file
 
 **Your folders:** `backend/app/agents/`, `tests/agents/`, `eval/`, `seed/images/`, `docs/technical/`, `docs/security/`.
+**Reviewer:** @ishmam259 checks your work and may fix bugs or finish leftover pieces in your folders. Push often so the review sees your latest code, and say in the group chat what's done and what's left.
+
 **Don't edit:** Farhan's `schemas/`, `db/`, `engines/`, `api/`, `main.py`, or anything in `frontend/`, `deck/`, `video/`. If you need a schema change, ask Farhan.
 
 **Rules:** commit every ~10 minutes and push (`git pull --rebase` first). Plain commit messages like `agents: add invoice extraction`. No AI attribution lines.
