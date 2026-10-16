@@ -40,12 +40,13 @@ The service block in the repo-root `docker-compose.yml`:
         NEXT_PUBLIC_API_MODE: live
         BACKEND_URL: http://backend:8000
     ports:
-      - "3000:3000"
+      # 3001 on the host, so it can run next to `npm run dev` on 3000.
+      - "3001:3000"
     depends_on:
       - backend
 ```
 
-Then `docker compose up -d --build` starts the database, API and app; open http://localhost:3000 and run `POST /api/v1/dev/reset?with_demo_captures=true` for the golden numbers. Stop `npm run dev` first, since both use port 3000.
+Then `docker compose up -d --build` starts the database, API and app; open http://localhost:3001 and run `POST /api/v1/dev/reset?with_demo_captures=true` for the golden numbers. `npm run dev` keeps http://localhost:3000, so both can run at once.
 
 ## Where things are
 
