@@ -1,0 +1,28 @@
+{
+  "kind": "sales_page",
+  "sales_page": {
+    "days": [
+      {
+        "date": "2026-10-13",
+        "cash_sales": 10100,
+        "credit_sales": 800,
+        "dues_collected": 800,
+        "expenses": 0
+      },
+      {
+        "date": "2026-10-14",
+        "cash_sales": 13900,
+        "credit_sales": 1100,
+        "dues_collected": 1100,
+        "expenses": 0
+      },
+      {
+        "date": "2026-10-15",
+        "cash_sales": 12600,
+        "credit_sales": 1000,
+        "dues_collected": 1000,
+        "expenses": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "kind": "invoice",
+  "invoice": {
+    "supplier_name": "Supplier F",
+    "invoice_no": "F-1182",
+    "invoice_date": "2026-10-15",
+    "due_date": "2026-10-22",
+    "total": 6200,
+    "lines": [
+      {
+        "product": "Paracetamol 500 mg, box of 100",
+        "batch_no": "PC2510",
+        "expiry_date": "2028-03-31",
+        "qty": 10,
+        "unit_cost": 300,
+        "line_total": 3000,
+        "strength": null,
+        "pack": null
+      },
+      {
+        "product": "Cetirizine 10 mg, box of 100",
+        "batch_no": "CT2507",
+        "expiry_date": "2027-11-30",
+        "qty": 16,
+        "unit_cost": 200,
+        "line_total": 3200,
+        "strength": null,
+        "pack": null
+      }
+    ]
+  }
+}
