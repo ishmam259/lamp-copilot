@@ -33,3 +33,8 @@ next-env.d.ts
 Thumbs.db
 .vscode/
 .idea/
+
+# Impeccable engine binaries (platform-specific; re-downloaded on first run)
+.claude/skills/impeccable/scripts/bin/
+.agents/skills/impeccable/scripts/bin/
+.impeccable/config.local.json
