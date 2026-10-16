@@ -77,7 +77,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {[...OWNER_NAV, ...MORE_NAV].map((item) => (
             <RailLink key={item.href} {...item} active={isActive(pathname, item.href)} badge={item.href === "/actions" ? pending : 0} />
           ))}
-          <div className="mt-5 mb-1 px-3 text-xs font-semibold tracking-wide text-rail-2 uppercase">Other views</div>
+          <div className="mt-5 mb-1 border-t border-white/15 px-3 pt-4 text-sm font-semibold text-rail-2">Other views</div>
           {OTHER_NAV.map((item) => (
             <RailLink key={item.href} {...item} active={isActive(pathname, item.href)} />
           ))}

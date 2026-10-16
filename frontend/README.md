@@ -32,6 +32,8 @@ Open http://localhost:3000.
 
 ## Design
 
+Full design system: [`DESIGN.md`](../DESIGN.md) at the repo root (tokens, type, components, do's and don'ts). Read it before changing any UI.
+
 Direction "Station Board": railway-green shell, white working panels, one dark-green departures board per screen for the message that matters most. Colour carries state only: red = problem, amber = needs you, green = go/good. Run Impeccable's detector before committing UI changes:
 
 ```bash

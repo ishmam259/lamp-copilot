@@ -130,7 +130,7 @@ export default function CashPage() {
                       <dd className="text-ink-2">{accounts.patient_due_days} days of sales</dd>
                     </div>
                   </dl>
-                  <h3 className="mt-4 text-sm font-bold tracking-wide text-ink-2 uppercase">Where your buying goes</h3>
+                  <h3 className="mt-4 font-semibold text-ink">Where your buying goes</h3>
                   <p className="text-xs text-ink-2">{accounts.active_suppliers} active suppliers. Top five:</p>
                   <ul className="mt-2 space-y-1.5">
                     {accounts.top_suppliers.map((s) => (

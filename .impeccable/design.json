@@ -1,0 +1,625 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-16T00:00:00+06:00",
+  "title": "Design System: LaMP",
+  "extensions": {
+    "colorMeta": {
+      "rail-green": {
+        "role": "primary",
+        "displayName": "Railway Green",
+        "canonical": "#0f4d3a",
+        "oklch": "oklch(37.7% 0.069 167.6)",
+        "cssVar": "--rail",
+        "dark": "#0d3f30",
+        "tonalRamp": [
+          "oklch(15% 0.069 167.6)",
+          "oklch(27% 0.069 167.6)",
+          "oklch(39% 0.069 167.6)",
+          "oklch(51% 0.069 167.6)",
+          "oklch(63% 0.069 167.6)",
+          "oklch(75% 0.069 167.6)",
+          "oklch(85% 0.069 167.6)",
+          "oklch(95% 0.069 167.6)"
+        ]
+      },
+      "rail-green-pale": {
+        "role": "primary",
+        "displayName": "Pale Rail Green",
+        "canonical": "#cfe3d9",
+        "oklch": "oklch(89.8% 0.025 164.4)",
+        "cssVar": "--rail-2",
+        "dark": "#a9cbbb",
+        "tonalRamp": [
+          "oklch(15% 0.025 164.4)",
+          "oklch(27% 0.025 164.4)",
+          "oklch(39% 0.025 164.4)",
+          "oklch(51% 0.025 164.4)",
+          "oklch(63% 0.025 164.4)",
+          "oklch(75% 0.025 164.4)",
+          "oklch(85% 0.025 164.4)",
+          "oklch(95% 0.025 164.4)"
+        ]
+      },
+      "board-green": {
+        "role": "primary",
+        "displayName": "Board Green",
+        "canonical": "#123d30",
+        "oklch": "oklch(32.6% 0.053 169.7)",
+        "cssVar": "--board-bg",
+        "dark": "#0f3328",
+        "tonalRamp": [
+          "oklch(15% 0.053 169.7)",
+          "oklch(27% 0.053 169.7)",
+          "oklch(39% 0.053 169.7)",
+          "oklch(51% 0.053 169.7)",
+          "oklch(63% 0.053 169.7)",
+          "oklch(75% 0.053 169.7)",
+          "oklch(85% 0.053 169.7)",
+          "oklch(95% 0.053 169.7)"
+        ]
+      },
+      "board-sub": {
+        "role": "primary",
+        "displayName": "Board Sub Green",
+        "canonical": "#d5e6dd",
+        "oklch": "oklch(91.0% 0.022 163.0)",
+        "cssVar": null,
+        "dark": "#d5e6dd",
+        "tonalRamp": [
+          "oklch(15% 0.022 163.0)",
+          "oklch(27% 0.022 163.0)",
+          "oklch(39% 0.022 163.0)",
+          "oklch(51% 0.022 163.0)",
+          "oklch(63% 0.022 163.0)",
+          "oklch(75% 0.022 163.0)",
+          "oklch(85% 0.022 163.0)",
+          "oklch(95% 0.022 163.0)"
+        ]
+      },
+      "signal-yellow": {
+        "role": "secondary",
+        "displayName": "Signal Yellow",
+        "canonical": "#ffd400",
+        "oklch": "oklch(88.1% 0.160 94.0)",
+        "cssVar": "--signal",
+        "dark": "#f5cc00",
+        "tonalRamp": [
+          "oklch(15% 0.160 94.0)",
+          "oklch(27% 0.160 94.0)",
+          "oklch(39% 0.160 94.0)",
+          "oklch(51% 0.160 94.0)",
+          "oklch(63% 0.160 94.0)",
+          "oklch(75% 0.160 94.0)",
+          "oklch(85% 0.160 94.0)",
+          "oklch(95% 0.120 94.0)"
+        ]
+      },
+      "signal-ink": {
+        "role": "secondary",
+        "displayName": "Signal Ink",
+        "canonical": "#111111",
+        "oklch": "oklch(17.8% 0.000 89.9)",
+        "cssVar": "--signal-ink",
+        "dark": "#111111",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(27% 0.000 89.9)",
+          "oklch(39% 0.000 89.9)",
+          "oklch(51% 0.000 89.9)",
+          "oklch(63% 0.000 89.9)",
+          "oklch(75% 0.000 89.9)",
+          "oklch(85% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ]
+      },
+      "cash-green": {
+        "role": "secondary",
+        "displayName": "Cash Green",
+        "canonical": "#0f6b4f",
+        "oklch": "oklch(47.0% 0.093 166.3)",
+        "cssVar": "--cash",
+        "dark": "#86d4b0",
+        "tonalRamp": [
+          "oklch(15% 0.093 166.3)",
+          "oklch(27% 0.093 166.3)",
+          "oklch(39% 0.093 166.3)",
+          "oklch(51% 0.093 166.3)",
+          "oklch(63% 0.093 166.3)",
+          "oklch(75% 0.093 166.3)",
+          "oklch(85% 0.093 166.3)",
+          "oklch(95% 0.093 166.3)"
+        ]
+      },
+      "cash-tint": {
+        "role": "secondary",
+        "displayName": "Cash Tint",
+        "canonical": "#e3f1eb",
+        "oklch": "oklch(94.6% 0.017 168.5)",
+        "cssVar": "--cash-tint",
+        "dark": "#15302a",
+        "tonalRamp": [
+          "oklch(15% 0.017 168.5)",
+          "oklch(27% 0.017 168.5)",
+          "oklch(39% 0.017 168.5)",
+          "oklch(51% 0.017 168.5)",
+          "oklch(63% 0.017 168.5)",
+          "oklch(75% 0.017 168.5)",
+          "oklch(85% 0.017 168.5)",
+          "oklch(95% 0.017 168.5)"
+        ]
+      },
+      "good-green": {
+        "role": "tertiary",
+        "displayName": "Good Green",
+        "canonical": "#1e7a4f",
+        "oklch": "oklch(51.6% 0.109 158.0)",
+        "cssVar": "--stock",
+        "dark": "#7fd3a6",
+        "tonalRamp": [
+          "oklch(15% 0.109 158.0)",
+          "oklch(27% 0.109 158.0)",
+          "oklch(39% 0.109 158.0)",
+          "oklch(51% 0.109 158.0)",
+          "oklch(63% 0.109 158.0)",
+          "oklch(75% 0.109 158.0)",
+          "oklch(85% 0.109 158.0)",
+          "oklch(95% 0.109 158.0)"
+        ]
+      },
+      "good-tint": {
+        "role": "tertiary",
+        "displayName": "Good Tint",
+        "canonical": "#e6f3ec",
+        "oklch": "oklch(95.2% 0.017 162.7)",
+        "cssVar": "--stock-tint",
+        "dark": "#16301f",
+        "tonalRamp": [
+          "oklch(15% 0.017 162.7)",
+          "oklch(27% 0.017 162.7)",
+          "oklch(39% 0.017 162.7)",
+          "oklch(51% 0.017 162.7)",
+          "oklch(63% 0.017 162.7)",
+          "oklch(75% 0.017 162.7)",
+          "oklch(85% 0.017 162.7)",
+          "oklch(95% 0.017 162.7)"
+        ]
+      },
+      "problem-red": {
+        "role": "tertiary",
+        "displayName": "Problem Red",
+        "canonical": "#c4301e",
+        "oklch": "oklch(54.0% 0.160 30.7)",
+        "cssVar": "--alert",
+        "dark": "#ff8f80",
+        "tonalRamp": [
+          "oklch(15% 0.160 30.7)",
+          "oklch(27% 0.160 30.7)",
+          "oklch(39% 0.160 30.7)",
+          "oklch(51% 0.160 30.7)",
+          "oklch(63% 0.160 30.7)",
+          "oklch(75% 0.160 30.7)",
+          "oklch(85% 0.160 30.7)",
+          "oklch(95% 0.120 30.7)"
+        ]
+      },
+      "problem-tint": {
+        "role": "tertiary",
+        "displayName": "Problem Tint",
+        "canonical": "#fbeae7",
+        "oklch": "oklch(95.0% 0.019 29.5)",
+        "cssVar": "--alert-tint",
+        "dark": "#3a1d19",
+        "tonalRamp": [
+          "oklch(15% 0.019 29.5)",
+          "oklch(27% 0.019 29.5)",
+          "oklch(39% 0.019 29.5)",
+          "oklch(51% 0.019 29.5)",
+          "oklch(63% 0.019 29.5)",
+          "oklch(75% 0.019 29.5)",
+          "oklch(85% 0.019 29.5)",
+          "oklch(95% 0.019 29.5)"
+        ]
+      },
+      "needs-you-amber": {
+        "role": "tertiary",
+        "displayName": "Needs-You Amber",
+        "canonical": "#9a5800",
+        "oklch": "oklch(52.5% 0.120 62.7)",
+        "cssVar": "--warn",
+        "dark": "#f2b45c",
+        "tonalRamp": [
+          "oklch(15% 0.120 62.7)",
+          "oklch(27% 0.120 62.7)",
+          "oklch(39% 0.120 62.7)",
+          "oklch(51% 0.120 62.7)",
+          "oklch(63% 0.120 62.7)",
+          "oklch(75% 0.120 62.7)",
+          "oklch(85% 0.120 62.7)",
+          "oklch(95% 0.120 62.7)"
+        ]
+      },
+      "needs-you-tint": {
+        "role": "tertiary",
+        "displayName": "Needs-You Tint",
+        "canonical": "#fdf1de",
+        "oklch": "oklch(96.3% 0.028 79.5)",
+        "cssVar": "--warn-tint",
+        "dark": "#352710",
+        "tonalRamp": [
+          "oklch(15% 0.028 79.5)",
+          "oklch(27% 0.028 79.5)",
+          "oklch(39% 0.028 79.5)",
+          "oklch(51% 0.028 79.5)",
+          "oklch(63% 0.028 79.5)",
+          "oklch(75% 0.028 79.5)",
+          "oklch(85% 0.028 79.5)",
+          "oklch(95% 0.028 79.5)"
+        ]
+      },
+      "shelf": {
+        "role": "neutral",
+        "displayName": "Shelf",
+        "canonical": "#eef1f3",
+        "oklch": "oklch(95.6% 0.004 236.5)",
+        "cssVar": "--shelf",
+        "dark": "#101417",
+        "tonalRamp": [
+          "oklch(15% 0.004 236.5)",
+          "oklch(27% 0.004 236.5)",
+          "oklch(39% 0.004 236.5)",
+          "oklch(51% 0.004 236.5)",
+          "oklch(63% 0.004 236.5)",
+          "oklch(75% 0.004 236.5)",
+          "oklch(85% 0.004 236.5)",
+          "oklch(95% 0.004 236.5)"
+        ]
+      },
+      "panel-white": {
+        "role": "neutral",
+        "displayName": "Panel White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "cssVar": "--board",
+        "dark": "#191f24",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(27% 0.000 89.9)",
+          "oklch(39% 0.000 89.9)",
+          "oklch(51% 0.000 89.9)",
+          "oklch(63% 0.000 89.9)",
+          "oklch(75% 0.000 89.9)",
+          "oklch(85% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1f2328",
+        "oklch": "oklch(25.4% 0.011 254.0)",
+        "cssVar": "--ink",
+        "dark": "#e9edf0",
+        "tonalRamp": [
+          "oklch(15% 0.011 254.0)",
+          "oklch(27% 0.011 254.0)",
+          "oklch(39% 0.011 254.0)",
+          "oklch(51% 0.011 254.0)",
+          "oklch(63% 0.011 254.0)",
+          "oklch(75% 0.011 254.0)",
+          "oklch(85% 0.011 254.0)",
+          "oklch(95% 0.011 254.0)"
+        ]
+      },
+      "ink-quiet": {
+        "role": "neutral",
+        "displayName": "Ink Quiet",
+        "canonical": "#4a535c",
+        "oklch": "oklch(43.8% 0.019 248.3)",
+        "cssVar": "--ink-2",
+        "dark": "#a9b3bb",
+        "tonalRamp": [
+          "oklch(15% 0.019 248.3)",
+          "oklch(27% 0.019 248.3)",
+          "oklch(39% 0.019 248.3)",
+          "oklch(51% 0.019 248.3)",
+          "oklch(63% 0.019 248.3)",
+          "oklch(75% 0.019 248.3)",
+          "oklch(85% 0.019 248.3)",
+          "oklch(95% 0.019 248.3)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "#dde2e6",
+        "oklch": "oklch(91.0% 0.008 241.7)",
+        "cssVar": "--rule",
+        "dark": "#2b333a",
+        "tonalRamp": [
+          "oklch(15% 0.008 241.7)",
+          "oklch(27% 0.008 241.7)",
+          "oklch(39% 0.008 241.7)",
+          "oklch(51% 0.008 241.7)",
+          "oklch(63% 0.008 241.7)",
+          "oklch(75% 0.008 241.7)",
+          "oklch(85% 0.008 241.7)",
+          "oklch(95% 0.008 241.7)"
+        ]
+      },
+      "field-edge": {
+        "role": "neutral",
+        "displayName": "Field Edge",
+        "canonical": "#c9d0d6",
+        "oklch": "oklch(85.4% 0.011 243.7)",
+        "cssVar": "--input",
+        "dark": "#3a444c",
+        "tonalRamp": [
+          "oklch(15% 0.011 243.7)",
+          "oklch(27% 0.011 243.7)",
+          "oklch(39% 0.011 243.7)",
+          "oklch(51% 0.011 243.7)",
+          "oklch(63% 0.011 243.7)",
+          "oklch(75% 0.011 243.7)",
+          "oklch(85% 0.011 243.7)",
+          "oklch(95% 0.011 243.7)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#e9edf0",
+        "oklch": "oklch(94.4% 0.006 239.8)",
+        "cssVar": "--muted",
+        "dark": "#232a30",
+        "tonalRamp": [
+          "oklch(15% 0.006 239.8)",
+          "oklch(27% 0.006 239.8)",
+          "oklch(39% 0.006 239.8)",
+          "oklch(51% 0.006 239.8)",
+          "oklch(63% 0.006 239.8)",
+          "oklch(75% 0.006 239.8)",
+          "oklch(85% 0.006 239.8)",
+          "oklch(95% 0.006 239.8)"
+        ]
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Secondary",
+        "canonical": "#e4e8eb",
+        "oklch": "oklch(92.9% 0.006 239.8)",
+        "cssVar": "--secondary",
+        "dark": "#252d33",
+        "tonalRamp": [
+          "oklch(15% 0.006 239.8)",
+          "oklch(27% 0.006 239.8)",
+          "oklch(39% 0.006 239.8)",
+          "oklch(51% 0.006 239.8)",
+          "oklch(63% 0.006 239.8)",
+          "oklch(75% 0.006 239.8)",
+          "oklch(85% 0.006 239.8)",
+          "oklch(95% 0.006 239.8)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Board Headline",
+        "purpose": "Departures-board headline only; one per screen."
+      },
+      "board-time": {
+        "displayName": "Board Time",
+        "purpose": "Signal-yellow time cell in the board headline row."
+      },
+      "headline": {
+        "displayName": "Page Title",
+        "purpose": "Page titles; 2rem from 1024px."
+      },
+      "figure": {
+        "displayName": "Headline Figure",
+        "purpose": "Key money figure inside a panel; always tabular."
+      },
+      "title": {
+        "displayName": "Panel Title",
+        "purpose": "Carton titles in Ink Quiet or the panel's state colour."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All running text; 0.875rem for secondary lines."
+      },
+      "label": {
+        "displayName": "Stamp",
+        "purpose": "Dates, batch codes and due marks only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "signage-frame",
+        "value": "inset 0 0 0 1px rgb(255 255 255 / 0.16), 0 0 0 1px var(--board-bg)",
+        "purpose": "Departures board edge only; panels and buttons have no shadow."
+      }
+    ],
+    "motion": [
+      {
+        "name": "press",
+        "value": "translateY(1px)",
+        "purpose": "Button press nudge."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation-duration: 0.01ms; transition-duration: 0.01ms",
+        "purpose": "Applied under prefers-reduced-motion: reduce."
+      },
+      {
+        "name": "theme-switch",
+        "value": "none",
+        "purpose": "next-themes disableTransitionOnChange: theme changes without transitions."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone-min",
+        "value": "360px"
+      },
+      {
+        "name": "board-row",
+        "value": "640px"
+      },
+      {
+        "name": "lg-rail",
+        "value": "1024px"
+      },
+      {
+        "name": "xl-log",
+        "value": "1280px"
+      }
+    ],
+    "themes": {
+      "strategy": "next-themes, attribute=class, defaultTheme=system ('Match device'); toggle cycles system, light, dark",
+      "darkSelector": ".dark"
+    },
+    "finishReview": {
+      "materialFixes": 8,
+      "resolvedRound1": 7,
+      "resolvedRound2": [
+        "Engine-traceable cash rows (partial in round 1): the Cash table now shows each named item's own amount from forecast items; sticky header removed."
+      ],
+      "detectorFindings": 0,
+      "routesChecked": 9
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Railway-green 44px action; one per region (e.g. 'See the fix').",
+      "html": "<button class=\"ds-btn-primary\">See the fix <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:8px; height:44px; padding:0 16px; border:1px solid transparent; border-radius:var(--radius, 4px); background:var(--rail, #0f4d3a); color:#ffffff; font-family:var(--font-barlow, Barlow, sans-serif); font-size:0.9375rem; font-weight:600; cursor:pointer; transition:background 0.15s, transform 0.1s; } .ds-btn-primary:hover { background:color-mix(in srgb, var(--rail, #0f4d3a), black 12%); } .ds-btn-primary:focus-visible { outline:none; box-shadow:0 0 0 3px color-mix(in srgb, var(--cash, #0f6b4f) 50%, transparent); } .ds-btn-primary:active { transform:translateY(1px); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action inside a panel ('Review and approve').",
+      "html": "<button class=\"ds-btn-outline\">Review and approve</button>",
+      "css": ".ds-btn-outline { display:inline-flex; align-items:center; justify-content:center; height:44px; padding:0 16px; border:1px solid var(--rule, #dde2e6); border-radius:var(--radius, 4px); background:var(--shelf, #eef1f3); color:var(--ink, #1f2328); font-family:var(--font-barlow, Barlow, sans-serif); font-size:0.9375rem; font-weight:600; cursor:pointer; transition:background 0.15s; } .ds-btn-outline:hover { background:var(--muted, #e9edf0); } .ds-btn-outline:focus-visible { outline:none; box-shadow:0 0 0 3px color-mix(in srgb, var(--cash, #0f6b4f) 50%, transparent); } .ds-btn-outline:active { transform:translateY(1px); }"
+    },
+    {
+      "name": "Amount Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "44px reviewed-capture field; amber when OCR is unsure.",
+      "html": "<label class=\"ds-field\">Total amount<input class=\"ds-input\" inputmode=\"decimal\" value=\"60000\"></label> <label class=\"ds-field\">Due date<span class=\"ds-field-check\"> · check</span><input class=\"ds-input ds-input-unsure\" value=\"26 Oct\"></label>",
+      "css": ".ds-field { display:block; font-family:var(--font-barlow, Barlow, sans-serif); font-size:0.75rem; font-weight:600; color:var(--ink-2, #4a535c); } .ds-field-check { color:var(--warn, #9a5800); } .ds-input { display:block; margin-top:4px; width:100%; height:44px; padding:0 10px; border:1px solid var(--input, #c9d0d6); border-radius:var(--radius, 4px); background:var(--board, #ffffff); color:var(--ink, #1f2328); font:600 1rem var(--font-barlow, Barlow, sans-serif); font-variant-numeric:tabular-nums lining-nums; caret-color:var(--cash, #0f6b4f); } .ds-input:hover { border-color:var(--ink-2, #4a535c); } .ds-input:focus-visible { outline:2px solid var(--cash, #0f6b4f); outline-offset:2px; } .ds-input-unsure { border-color:var(--warn, #9a5800); background:var(--warn-tint, #fdf1de); }"
+    },
+    {
+      "name": "Phone Tab Bar",
+      "kind": "nav",
+      "refersTo": "tab-bar-item",
+      "description": "White bottom bar of 64px tabs; active tab in cash green with a 3px top bar.",
+      "html": "<nav class=\"ds-tabs\"><a class=\"ds-tab ds-tab-active\" href=\"#\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4\"/></svg>Today</a><a class=\"ds-tab\" href=\"#\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><rect x=\"3\" y=\"6\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M16 13h2\"/></svg>Cash</a><a class=\"ds-tab\" href=\"#\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M4 8h3l2-3h6l2 3h3v11H4z\"/><circle cx=\"12\" cy=\"13\" r=\"3\"/></svg>Capture</a></nav>",
+      "css": ".ds-tabs { display:grid; grid-template-columns:repeat(3, 1fr); background:var(--board, #ffffff); border-top:1px solid var(--rule, #dde2e6); } .ds-tab { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; height:64px; color:var(--ink-2, #4a535c); font:600 0.75rem var(--font-barlow, Barlow, sans-serif); text-decoration:none; } .ds-tab:hover { color:var(--ink, #1f2328); } .ds-tab:focus-visible { outline:2px solid var(--cash, #0f6b4f); outline-offset:-2px; } .ds-tab-active { color:var(--cash, #0f6b4f); } .ds-tab-active::before { content:''; position:absolute; top:0; left:16px; right:16px; height:3px; background:var(--cash, #0f6b4f); }"
+    },
+    {
+      "name": "Stamp",
+      "kind": "chip",
+      "refersTo": "stamp",
+      "description": "Timetable label for dates, batches and dues; tone follows state.",
+      "html": "<span class=\"ds-stamp\">EXP ≤ 30 NOV</span> <span class=\"ds-stamp ds-stamp-problem\">Due 12 Oct</span> <span class=\"ds-stamp ds-stamp-warn\">Due 26 Oct</span> <span class=\"ds-stamp ds-stamp-good\">Approved</span>",
+      "css": ".ds-stamp { display:inline-flex; align-items:center; gap:0.35em; padding:0.1rem 0.45rem; border-radius:3px; background:var(--muted, #e9edf0); color:var(--ink-2, #4a535c); font-family:var(--font-board, 'Barlow Semi Condensed', sans-serif); font-weight:700; font-size:0.8125rem; letter-spacing:0.05em; text-transform:uppercase; line-height:1.35; white-space:nowrap; } .ds-stamp-problem { background:var(--alert-tint, #fbeae7); color:var(--alert, #c4301e); } .ds-stamp-warn { background:var(--warn-tint, #fdf1de); color:var(--warn, #9a5800); } .ds-stamp-good { background:var(--stock-tint, #e6f3ec); color:var(--stock, #1e7a4f); }"
+    },
+    {
+      "name": "Carton Panel",
+      "kind": "card",
+      "refersTo": "carton",
+      "description": "White working panel with timetable rows; state shows only in title colour, icon, or a full-bleed row tint.",
+      "html": "<section class=\"ds-carton\"><div class=\"ds-carton-head\"><h2 class=\"ds-carton-title\">Upcoming money</h2><span class=\"ds-carton-aside\">18 Oct – 1 Nov</span></div><ul class=\"ds-carton-body ds-rows\"><li><span>Supplier D</span><span class=\"ds-num\">− 8,450</span></li><li><span>Patient dues collected</span><span class=\"ds-num ds-in\">+ 4,200</span></li><li class=\"ds-short\"><span>Supplier A order</span><span class=\"ds-num\">− 60,000<small>Short 19,000</small></span></li></ul></section>",
+      "css": ".ds-carton { background:var(--board, #ffffff); border:1px solid var(--rule, #dde2e6); border-radius:8px; overflow:hidden; font-family:var(--font-barlow, Barlow, sans-serif); color:var(--ink, #1f2328); } .ds-carton-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; padding:14px 16px 0; } .ds-carton-title { margin:0; font-size:0.9375rem; font-weight:600; color:var(--ink-2, #4a535c); } .ds-carton-aside { font-size:0.875rem; color:var(--ink-2, #4a535c); } .ds-carton-body { padding:8px 16px 16px; } .ds-rows { list-style:none; margin:0; } .ds-rows li { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px 0; border-top:1px solid var(--rule, #dde2e6); } .ds-rows li:first-child { border-top:0; } .ds-num { font-weight:700; font-variant-numeric:tabular-nums lining-nums; text-align:right; } .ds-num small { display:block; font-size:0.875rem; font-weight:600; color:var(--alert, #c4301e); } .ds-in { color:var(--stock, #1e7a4f); } .ds-rows li.ds-short { margin:0 -16px; padding:10px 16px; background:var(--alert-tint, #fbeae7); }"
+    },
+    {
+      "name": "Departures Board",
+      "kind": "custom",
+      "refersTo": "station-board",
+      "description": "Signature: the single most important message, once per screen; yellow only in the time cell.",
+      "html": "<section class=\"ds-board\"><h2 class=\"ds-board-head\"><span>Short BDT 19,000</span><span class=\"ds-board-time\">Mon 26 Oct · in 10 days</span></h2><p class=\"ds-board-sub\">Supplier A order BDT 60,000 · you&#39;ll have BDT 41,000</p></section>",
+      "css": ".ds-board { background:var(--board-bg, #123d30); color:#ffffff; border-radius:8px; padding:16px 18px 18px; box-shadow:inset 0 0 0 1px rgb(255 255 255 / 0.16), 0 0 0 1px var(--board-bg, #123d30); } .ds-board-head { margin:0; display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; column-gap:16px; row-gap:4px; font-family:var(--font-board, 'Barlow Semi Condensed', sans-serif); font-weight:700; font-size:2.25rem; line-height:1.05; font-variant-numeric:tabular-nums lining-nums; } .ds-board-time { font-size:1.25rem; color:var(--signal, #ffd400); white-space:nowrap; } .ds-board-sub { margin:6px 0 0; color:#d5e6dd; font-family:var(--font-barlow, Barlow, sans-serif); font-size:1.0625rem; font-weight:500; }"
+    },
+    {
+      "name": "Audit Tier Chip",
+      "kind": "chip",
+      "refersTo": "tier-chip",
+      "description": "Neutral tier label in the live audit log; never state-coloured.",
+      "html": "<span class=\"ds-tier\">T1</span> <span class=\"ds-tier\">T2</span> <span class=\"ds-tier\">T3</span>",
+      "css": ".ds-tier { display:inline-block; padding:0 6px; border-radius:2px; background:var(--muted, #e9edf0); color:var(--ink, #1f2328); font:700 0.75rem/1.45 var(--font-barlow, Barlow, sans-serif); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Station Board",
+    "overview": "The next 30 days of money read like a railway departures board. One dark-green board at the top of a screen says what happens next and when; everything below it is a calm timetable of white panels on a light neutral ground, framed by a railway-green shell (header on phones, left rail on desktop). The owner reads it at a pharmacy counter on a cheap Android phone in bright light, between customers, so the system is high-contrast, large-targeted and sparing with colour.\n\nColour is a signal, not decoration. The neutral ground carries about 60% of a screen, railway green about 30% (shell, primary buttons, the \"go\" state), and signal yellow under 10%: it appears only in the board's time cell and in the M of the wordmark. Red, amber and green mark state and nothing else. Depth is flat: panels are separated by hairline rules, not shadows.\n\nThe system rejects the grey-card, single-accent fintech dashboard, and it rejects a full-yellow board (the owner saw one in an earlier build and asked for the dark green that shipped).",
+    "keyCharacteristics": [
+      "One dark-green departures board per screen, at most, for the single most important message.",
+      "Railway-green shell; white working panels on a cool light-grey shelf.",
+      "Colour carries state only: red = problem, amber = needs you, green = go / good.",
+      "Barlow for the interface, Barlow Semi Condensed for the board and timetable dates.",
+      "Money in tabular figures, right-aligned, exactly as the engine returned it.",
+      "Flat surfaces, hairline rules, 8px panel corners, 44px minimum touch targets.",
+      "Light and dark mode; \"Match device\" by default."
+    ],
+    "rules": [
+      {
+        "name": "The One Signal Rule",
+        "body": "Signal yellow appears in exactly two places: the time cell on the departures board and the M of the wordmark. Never as a button, highlight, badge or chart colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The State-Only Rule",
+        "body": "Red means a problem, amber means the owner must act, green means go or good. A colour never labels a topic or a section. The audit log's tier chips are neutral grey for that reason.",
+        "section": "colors"
+      },
+      {
+        "name": "The 60 / 30 / 10 Rule",
+        "body": "Neutral ground about 60%, railway green about 30%, signal under 10%.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Money Rule",
+        "body": "Every money figure and count uses tabular lining figures and sits right-aligned in its column, so amounts line up like a price list.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Kicker Rule",
+        "body": "No small tracked-uppercase line above a heading. The heading carries itself; dates and context go in a stamp or in the board's time cell, which sits inside the headline row.",
+        "section": "typography"
+      },
+      {
+        "name": "The 44px Rule",
+        "body": "Every touch target is at least 44px tall: default buttons, icon buttons, header links, rail links, inputs, theme switch. Large buttons are 48px; tabs are 64px.",
+        "section": "layout"
+      },
+      {
+        "name": "The No-Nesting Rule",
+        "body": "No filled box inside a panel. Inside a white panel, group with hairline dividers, a 2px ink rule above totals, or a full-bleed row tint for a state (the red short row), never a second filled card.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** use one departures board per screen at most, in board green with a white headline, for the single most important message.",
+      "**Do** keep signal yellow to the board's time cell and the wordmark's M.",
+      "**Do** use colour for state only: problem red, needs-you amber, go or good green. Keep audit-log tier chips neutral.",
+      "**Do** set every money figure in tabular lining figures, right-aligned.",
+      "**Do** show every money figure exactly as the engine returned it and label rows from the forecast's `items`; the frontend never adds, subtracts or derives money.",
+      "**Do** draw the cash route on a true day scale and merge stops less than 2 days apart.",
+      "**Do** make every touch target at least 44px.",
+      "**Do** support light and dark mode through next-themes with the class strategy, defaulting to \"Match device\".",
+      "**Do** delete `frontend/.next` and restart the dev server after editing `globals.css` on Windows; the stale cache otherwise serves old tokens."
+    ],
+    "donts": [
+      "**Don't** put a tracked uppercase kicker or eyebrow above a heading.",
+      "**Don't** nest a filled box inside a panel; use dividers, rules or a full-bleed row tint.",
+      "**Don't** use yellow for buttons, highlights, badges or charts, and don't make the board yellow.",
+      "**Don't** colour a panel, chip or band by topic.",
+      "**Don't** add shadows to panels or buttons.",
+      "**Don't** compute, round or re-total money in the frontend."
+    ]
+  }
+}
