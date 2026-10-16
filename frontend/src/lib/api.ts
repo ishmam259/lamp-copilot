@@ -71,7 +71,7 @@ function mockLog(tier: LogEvent["tier"], component: string, event: string, data:
 function mockForecast(): ForecastOut {
   if (!store.trimApplied) return M.forecast;
   const days = M.forecast.days.map((d, i) => (i >= 10 ? { ...d, balance: d.balance + 10800, outflow: i === 10 ? 49200 : d.outflow } : d));
-  return { ...M.forecast, days, shortfalls: [{ date: M.forecast.shortfalls[0].date, amount: 8200, cause: "Supplier A order BDT 49,200" }] };
+  return { ...M.forecast, days, shortfalls: [{ date: M.forecast.shortfalls[0].date, amount: 8200, cause: "Supplier A order BDT 49,200" }, ...M.forecast.shortfalls.slice(1)] };
 }
 
 function mockAlerts(): Alert[] {

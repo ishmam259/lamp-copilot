@@ -100,7 +100,14 @@ function buildForecast(): ForecastOut {
   return {
     start_cash: start,
     days,
-    shortfalls: [{ date: addDays(AS_OF, 10), amount: 19000, cause: "Supplier A order BDT 60,000" }],
+    // Same shape as the engine: later amounts are the extra deficit each payment adds.
+    shortfalls: [
+      { date: addDays(AS_OF, 10), amount: 19000, cause: "Supplier A order BDT 60,000" },
+      { date: addDays(AS_OF, 16), amount: 18000, cause: "Shop rent BDT 18,000" },
+      { date: addDays(AS_OF, 19), amount: 11300, cause: "Supplier H BDT 11,300" },
+      { date: addDays(AS_OF, 20), amount: 15000, cause: "Salaries BDT 15,000" },
+      { date: addDays(AS_OF, 25), amount: 3000, cause: "Electricity and internet BDT 3,000" },
+    ],
   };
 }
 

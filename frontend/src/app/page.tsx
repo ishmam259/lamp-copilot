@@ -83,7 +83,9 @@ export default function TodayPage() {
               <CashLine forecast={forecast} />
               <ul className="mt-3 divide-y divide-rule">
                 {shown.map((d) => {
-                  const neg = d.balance < 0;
+                  // The engine's own shortfall for this day, so the row matches the board.
+                  const gap = forecast.shortfalls.find((x) => x.date === d.date);
+                  const neg = !!gap || d.balance < 0;
                   const amount = dayAmount(d);
                   return (
                     <li key={d.date} className={`grid grid-cols-[64px_1fr_auto] items-center gap-3 py-2.5 ${neg ? "-mx-4 bg-alert-tint px-4" : ""}`}>
@@ -96,7 +98,11 @@ export default function TodayPage() {
                       </span>
                       <span className="text-right">
                         <span className={`num block font-bold ${amount > 0 ? "text-stock" : "text-ink"}`}>{signed(amount)}</span>
-                        {neg && <span className="num block text-sm font-semibold whitespace-nowrap text-alert">Short {num(-d.balance)}</span>}
+                        {gap && (
+                          <span className="num block text-sm font-semibold whitespace-nowrap text-alert">
+                            {gap.date === short?.date ? `Short ${num(gap.amount)}` : `${num(gap.amount)} more short`}
+                          </span>
+                        )}
                       </span>
                     </li>
                   );

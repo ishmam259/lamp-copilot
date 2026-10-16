@@ -18,7 +18,7 @@ Open http://localhost:3000.
 
   ```
   NEXT_PUBLIC_API_MODE=live
-  BACKEND_URL=http://localhost:8000
+  BACKEND_URL=http://127.0.0.1:8000
   ```
 
   `/api/v1/*` is proxied to the FastAPI backend (see `next.config.ts`), so there's no CORS setup. Chat goes to `POST /api/v1/chat` (Pritom's stream).
