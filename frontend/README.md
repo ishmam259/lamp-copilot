@@ -23,6 +23,30 @@ Open http://localhost:3000.
 
   `/api/v1/*` is proxied to the FastAPI backend (see `next.config.ts`), so there's no CORS setup. Chat goes to `POST /api/v1/chat` (Pritom's stream).
 
+## Docker
+
+`frontend/Dockerfile` builds a small production server (Next.js standalone, port 3000). Two values are baked in at build time, so they are build args, not runtime env:
+
+- `NEXT_PUBLIC_API_MODE` (default `live`)
+- `BACKEND_URL` (default `http://backend:8000`, the compose service name)
+
+The service block in the repo-root `docker-compose.yml`:
+
+```yaml
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_MODE: live
+        BACKEND_URL: http://backend:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+```
+
+Then `docker compose up -d --build` starts the database, API and app; open http://localhost:3000 and run `POST /api/v1/dev/reset?with_demo_captures=true` for the golden numbers. Stop `npm run dev` first, since both use port 3000.
+
 ## Where things are
 
 - `src/lib/types.ts`: shapes from `docs/PLAN.md` section 4.3. Keep in sync with `backend/app/schemas`.

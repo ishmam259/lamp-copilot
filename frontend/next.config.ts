@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [{ source: "/api/v1/:path*", destination: `${process.env.BACKEND_URL ?? "http://127.0.0.1:8000"}/api/v1/:path*` }];
   },
-  /* config options here */
+  // Self-contained server for the Docker image (frontend/Dockerfile).
+  output: "standalone",
   cacheComponents: true,
   devIndicators: false,
   partialPrefetching: true,
