@@ -183,3 +183,11 @@ def test_capture_logs_suspicious_text(client, monkeypatch):
     client.post(f"{P}/captures", files={"file": ("x.jpg", b"x", "image/jpeg")}, data={"kind": "invoice"})
     assert "suspicious_text_flagged" in events(client)
     assert any(a["kind"] == "suspicious_document" for a in client.get(f"{P}/alerts").json())
+
+
+def test_timestamps_carry_utc(client):
+    a = propose(client, "set_aside")
+    c = client.post(f"{P}/consents", json={"lender_id": "wallet-lender"}).json()
+    log = client.get("/api/v1/logs").json()[-1]
+    for ts in (a["created_at"], c["granted_at"], log["ts"]):
+        assert ts.endswith("Z") or ts.endswith("+00:00"), ts

@@ -69,3 +69,11 @@ def test_funding_plan_partial_body(client):
     assert client.post(f"{P}/funding-plan", json={"amount": 5000}).json()["need"] == {"amount": 5000, "needed_by": "2026-10-26"}
     assert client.post(f"{P}/funding-plan", json={"needed_by": "2026-10-20"}).json()["need"] == {"amount": 8200, "needed_by": "2026-10-20"}
     assert client.post(f"{P}/funding-plan", json={"amount": "lots"}).status_code == 422
+
+
+def test_sales_page_capture_saves_only_sales_days(client):
+    r = client.post(f"{P}/captures", files={"file": ("p.jpg", b"x", "image/jpeg")}, data={"kind": "sales_page"})
+    assert r.json()["extraction"]["kind"] == "sales_page" and r.json()["extraction"]["invoice"] is None
+    client.post(f"{P}/captures/{r.json()['id']}/confirm", json={})
+    assert "K-77310" not in [i["invoice_no"] for i in client.get(f"{P}/dues").json()["items"]]
+    assert client.get(f"{P}/accounts").json()["sales"] == 412500  # same days re-entered, same totals

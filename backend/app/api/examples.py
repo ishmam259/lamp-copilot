@@ -1,9 +1,13 @@
-"""Fallback extraction draft for POST /captures until app.agents.extraction exists.
+"""Fallback extraction drafts for POST /captures until app.agents.extraction exists.
 
 Also served at GET /captures/cap-demo for the frontend's sample review screen.
 """
 
+import copy
+import json
 from datetime import date, timedelta
+
+from app.config import REPO_ROOT
 
 AS_OF = date(2026, 10, 16)
 
@@ -48,3 +52,12 @@ CAPTURE_INVOICE = {
         "mode": "replay",
     },
 }
+
+
+def fallback_extraction(kind: str) -> dict:
+    """A draft of the right kind: the sample invoice above, or the demo sales-book page."""
+    if kind == "invoice":
+        return copy.deepcopy(CAPTURE_INVOICE["extraction"])
+    page = json.loads((REPO_ROOT / "seed" / "demo_captures" / "sales_page.json").read_text(encoding="utf-8"))
+    return {"kind": "sales_page", "invoice": None, "sales_page": page["sales_page"], "field_confidence": {},
+            "checks": [], "suspicious_text": [], "model": "none", "prompt_version": "fallback", "mode": "replay"}

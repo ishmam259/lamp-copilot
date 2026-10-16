@@ -9,16 +9,28 @@ from sqlalchemy import inspect
 
 from app.api.routes import router
 from app.config import settings
+from app.db.models import Base
 from app.db.seed import load_seed
 from app.db.session import SessionLocal, engine
 
 API_PREFIX = "/api/v1"
 
 
+def _schema_is_current() -> bool:
+    """True if every table and column of the models exists in the database."""
+    insp = inspect(engine)
+    for table in Base.metadata.sorted_tables:
+        if not insp.has_table(table.name):
+            return False
+        if {c.name for c in table.columns} - {c["name"] for c in insp.get_columns(table.name)}:
+            return False
+    return True
+
+
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    # First start on an empty database: load the seed pharmacy.
-    if not inspect(engine).has_table("pharmacy"):
+    # Empty database, or one left by an older version of the app: (re)load the seed pharmacy.
+    if not _schema_is_current():
         with SessionLocal() as db:
             load_seed(db)
     yield

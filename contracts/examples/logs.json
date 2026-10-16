@@ -1,7 +1,7 @@
 [
   {
     "id": "lg-1",
-    "ts": "2026-10-16T11:46:06.531733Z",
+    "ts": "2026-10-16T11:56:51.279273Z",
     "tier": "T0",
     "component": "DEV",
     "event": "reset",
@@ -12,7 +12,7 @@
   },
   {
     "id": "lg-2",
-    "ts": "2026-10-16T11:46:06.541868Z",
+    "ts": "2026-10-16T11:56:51.283275Z",
     "tier": "T1",
     "component": "CAPTURE",
     "event": "capture_confirmed",
@@ -23,7 +23,7 @@
   },
   {
     "id": "lg-3",
-    "ts": "2026-10-16T11:46:06.543915Z",
+    "ts": "2026-10-16T11:56:51.285277Z",
     "tier": "T1",
     "component": "CAPTURE",
     "event": "capture_confirmed",
@@ -34,7 +34,7 @@
   },
   {
     "id": "lg-4",
-    "ts": "2026-10-16T11:46:06.543915Z",
+    "ts": "2026-10-16T11:56:51.286552Z",
     "tier": "T1",
     "component": "CAPTURE",
     "event": "capture_confirmed",
@@ -45,7 +45,7 @@
   },
   {
     "id": "lg-5",
-    "ts": "2026-10-16T11:46:06.543915Z",
+    "ts": "2026-10-16T11:56:51.294551Z",
     "tier": "T2",
     "component": "FORECAST",
     "event": "shortfall_detected",
@@ -57,7 +57,7 @@
   },
   {
     "id": "lg-6",
-    "ts": "2026-10-16T11:46:06.543915Z",
+    "ts": "2026-10-16T11:56:51.297751Z",
     "tier": "T2",
     "component": "EXPIRY",
     "event": "batches_at_risk",
@@ -69,7 +69,7 @@
   },
   {
     "id": "lg-7",
-    "ts": "2026-10-16T11:46:06.783082Z",
+    "ts": "2026-10-16T11:56:51.535458Z",
     "tier": "T1",
     "component": "ACTIONS",
     "event": "action_proposed",
@@ -82,7 +82,7 @@
   },
   {
     "id": "lg-8",
-    "ts": "2026-10-16T11:46:06.799078Z",
+    "ts": "2026-10-16T11:56:51.547505Z",
     "tier": "T1",
     "component": "ACTIONS",
     "event": "action_approved_by_owner",
@@ -93,7 +93,7 @@
   },
   {
     "id": "lg-9",
-    "ts": "2026-10-16T11:46:06.813692Z",
+    "ts": "2026-10-16T11:56:51.552010Z",
     "tier": "T2",
     "component": "EXPIRY",
     "event": "return_claim_sent",
@@ -108,7 +108,7 @@
   },
   {
     "id": "lg-10",
-    "ts": "2026-10-16T11:46:06.814298Z",
+    "ts": "2026-10-16T11:56:51.553774Z",
     "tier": "T2",
     "component": "EXECUTOR",
     "event": "action_executed",
@@ -119,7 +119,7 @@
   },
   {
     "id": "lg-11",
-    "ts": "2026-10-16T11:46:06.833728Z",
+    "ts": "2026-10-16T11:56:51.565452Z",
     "tier": "T1",
     "component": "CONSENT",
     "event": "consent_granted",
@@ -134,7 +134,7 @@
   },
   {
     "id": "lg-12",
-    "ts": "2026-10-16T11:46:06.853432Z",
+    "ts": "2026-10-16T11:56:51.579706Z",
     "tier": "T1",
     "component": "ACTIONS",
     "event": "action_proposed",
@@ -147,7 +147,7 @@
   },
   {
     "id": "lg-13",
-    "ts": "2026-10-16T11:46:06.874531Z",
+    "ts": "2026-10-16T11:56:51.588957Z",
     "tier": "T1",
     "component": "ACTIONS",
     "event": "action_approved_by_owner",
@@ -158,7 +158,7 @@
   },
   {
     "id": "lg-14",
-    "ts": "2026-10-16T11:46:06.886186Z",
+    "ts": "2026-10-16T11:56:51.596305Z",
     "tier": "T3",
     "component": "REGISTRY",
     "event": "lock_acquired",
@@ -170,7 +170,7 @@
   },
   {
     "id": "lg-15",
-    "ts": "2026-10-16T11:46:06.886731Z",
+    "ts": "2026-10-16T11:56:51.597304Z",
     "tier": "T3",
     "component": "LENDER",
     "event": "application_submitted",
@@ -182,7 +182,7 @@
   },
   {
     "id": "lg-16",
-    "ts": "2026-10-16T11:46:06.887813Z",
+    "ts": "2026-10-16T11:56:51.597304Z",
     "tier": "T3",
     "component": "EXECUTOR",
     "event": "action_executed",
@@ -193,7 +193,7 @@
   },
   {
     "id": "lg-17",
-    "ts": "2026-10-16T11:46:06.924624Z",
+    "ts": "2026-10-16T11:56:51.624419Z",
     "tier": "T0",
     "component": "LENDER",
     "event": "inbox_viewed",
@@ -204,7 +204,7 @@
   },
   {
     "id": "lg-18",
-    "ts": "2026-10-16T11:46:06.996918Z",
+    "ts": "2026-10-16T11:56:51.685924Z",
     "tier": "T3",
     "component": "LENDER",
     "event": "application_approved",
@@ -216,7 +216,7 @@
   },
   {
     "id": "lg-19",
-    "ts": "2026-10-16T11:46:07.004409Z",
+    "ts": "2026-10-16T11:56:51.687918Z",
     "tier": "T3",
     "component": "PAYOUT",
     "event": "sandbox_payout",

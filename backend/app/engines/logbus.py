@@ -66,6 +66,8 @@ def events(db: Session, since: str | None = None, after_id: int = 0) -> list[Log
 
 
 def _value(v) -> str:
+    if isinstance(v, list):
+        return ",".join(_value(x) for x in v)
     if isinstance(v, str) and len(v) == 64 and all(c in "0123456789abcdef" for c in v):
         return v[:12] + "…"  # commitments are long hex strings
     return str(v)

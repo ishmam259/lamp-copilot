@@ -1,7 +1,6 @@
 """REST endpoints (docs/PLAN.md section 4.1). Thin: all logic is in app.engines."""
 
 import asyncio
-import copy
 import importlib
 import json
 from datetime import datetime, timezone
@@ -82,7 +81,7 @@ async def _extract(image: bytes, kind: str) -> dict:
     try:
         extraction = importlib.import_module("app.agents.extraction")
     except ImportError:
-        return copy.deepcopy(ex.CAPTURE_INVOICE["extraction"])
+        return ex.fallback_extraction(kind)
     result = await extraction.extract(image, kind)
     return ExtractionResult.model_validate(result).model_dump(mode="json")
 
@@ -134,9 +133,17 @@ def confirm_capture(pid: str, cid: str, body: CaptureConfirm, db: Session = Depe
         extraction["invoice"] = body.invoice.model_dump(mode="json")
     if body.sales_page:
         extraction["sales_page"] = body.sales_page.model_dump(mode="json")
+    # Save only the part that matches what was photographed.
+    extraction["sales_page" if cap.kind == "invoice" else "invoice"] = None
+    if not extraction.get(cap.kind):
+        raise HTTPException(422, f"Nothing to save: the {cap.kind.replace('_', ' ')} draft is empty")
     apply_extraction(db, pid, extraction, capture_id=cid)
     cap.extraction, cap.status = extraction, "confirmed"
     engines.log("T1", "CAPTURE", "capture_confirmed", db, capture=cid, kind=cap.kind)
+    fc = engines.get_forecast(db, pid)
+    first = fc.shortfalls[0] if fc.shortfalls else None
+    engines.log("T2", "FORECAST", "forecast_updated", db, first_shortfall_date=first.date if first else None,
+                first_shortfall=first.amount if first else 0)
     db.commit()
     return _capture_out(cap)
 
