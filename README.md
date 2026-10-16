@@ -22,7 +22,7 @@ Each person works only in their own folders, so no two people edit the same file
 
 Farhan writes the shared API contract (`contracts/`, `backend/app/schemas/`) and the sample pharmacy (`seed/`) first. Everyone else builds against those.
 
-**Commit about every 10 minutes and push each time** (`git pull --rebase` first). No AI attribution lines in commits. Full rules: [docs/PLAN.md](docs/PLAN.md) section 1 and [CLAUDE.md](CLAUDE.md).
+**Commit about every 10 minutes and push each time** (`git pull --rebase` first). No AI attribution lines in commits. Full rules: [docs/PLAN.md](docs/PLAN.md) section 1, and for AI coding tools [CLAUDE.md](CLAUDE.md) (Claude Code) and [AGENTS.md](AGENTS.md) (Codex/ChatGPT), which hold the same rules.
 
 ## Stack
 - **Frontend:** Next.js (TypeScript), Tailwind, shadcn/ui, Recharts, Vercel AI SDK `useChat`

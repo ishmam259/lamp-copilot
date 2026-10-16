@@ -12,6 +12,12 @@ Read first, in this order:
 
 **Rules:** commit every ~10 minutes and push (`git pull --rebase` first). Plain commit messages like `agents: add invoice extraction`. No AI attribution lines.
 
+### Working with ChatGPT Go
+- **Use Codex if you can** (CLI or IDE extension, signed in with your ChatGPT account). It works inside the repo and reads [AGENTS.md](../../AGENTS.md), which holds the same team rules the others' tools follow. Go's Codex usage is limited, so spend it on code (P1–P4). Do the documents (P6) and test photos (P5) in normal ChatGPT chat.
+- **In normal ChatGPT chat**, start each new conversation by pasting `AGENTS.md` and this file, then the files you're changing. Paste code back into your own folders yourself, run the tests, and commit.
+- **Your ChatGPT Go subscription is not the API key.** The app's OpenAI API key is separate pay-as-you-go billing on platform.openai.com (the team's $20 budget). Don't confuse the two.
+- If you hit your plan's limits, tell the team early. Farhan and @ishmam259 can take over a piece of the coding.
+
 ---
 
 ## Your share, broken down

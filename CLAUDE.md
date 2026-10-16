@@ -12,7 +12,7 @@ This repo is a FinTechathon 2026 team entry (International Track, Topic E: SME F
 |---|---|
 | Farhan (engines & API) | `backend/pyproject.toml`, `backend/app/main.py`, `backend/app/config.py`, `backend/app/schemas/`, `backend/app/db/`, `backend/app/engines/`, `backend/app/api/`, `contracts/`, `seed/green_life.json`, `seed/demo_captures/`, `tests/engines/`, `tests/api/`, `scripts/`, `logs/`, `docker-compose.yml`, `.env.example`, README "Run it" section |
 | Pritom (agents & docs) | `backend/app/agents/`, `tests/agents/`, `eval/`, `seed/images/`, `docs/technical/`, `docs/security/` |
-| @ishmam259 (frontend & pitch, team lead) | `frontend/`, `deck/`, `video/`, `docs/IDEA_AND_PROBLEM.md`, `docs/PLAN.md`, `docs/tasks/`, `CLAUDE.md` |
+| @ishmam259 (frontend & pitch, team lead) | `frontend/`, `deck/`, `video/`, `docs/IDEA_AND_PROBLEM.md`, `docs/PLAN.md`, `docs/tasks/`, `CLAUDE.md`, `AGENTS.md` |
 
 If a change is needed outside your person's folders, stop and tell them to ask the owner. Never edit `contracts/` or `backend/app/schemas/` unless you're working with Farhan.
 
