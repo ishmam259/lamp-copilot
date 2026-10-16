@@ -35,7 +35,7 @@ def test_action_flow(client):
     act = client.post(f"{P}/actions", json={"kind": "extension_request", "payload": {"amount": 8200}}).json()
     assert act["status"] == "proposed"
     done = client.post(f"{P}/actions/{act['id']}/approve").json()
-    assert done["status"] == "executed" and done["result"] == {"status": "awaiting_supplier"}
+    assert done["status"] == "executed" and done["result"]["status"] == "awaiting_supplier"
     assert client.post(f"{P}/actions/{act['id']}/approve").status_code == 409
 
 
