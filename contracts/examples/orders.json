@@ -1,0 +1,35 @@
+[
+  {
+    "id": "o-1",
+    "supplier": "Supplier A",
+    "due_date": "2026-10-26",
+    "total": 60000.0,
+    "lines": [
+      {
+        "product": "Montelukast 10 mg, box of 30",
+        "qty": 30,
+        "unit_cost": 600.0
+      },
+      {
+        "product": "Paracetamol 500 mg, box of 100",
+        "qty": 40,
+        "unit_cost": 300.0
+      },
+      {
+        "product": "Omeprazole 20 mg, box of 50",
+        "qty": 25,
+        "unit_cost": 480.0
+      },
+      {
+        "product": "Cetirizine 10 mg, box of 100",
+        "qty": 30,
+        "unit_cost": 200.0
+      },
+      {
+        "product": "Oral saline, box of 25",
+        "qty": 40,
+        "unit_cost": 300.0
+      }
+    ]
+  }
+]

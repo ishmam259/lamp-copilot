@@ -1,0 +1,341 @@
+{
+  "invoices_total": 41,
+  "paid_on_time": 38,
+  "confirmed_share": 1.0,
+  "theta_mean": 0.907,
+  "theta_low_5pct": 0.826,
+  "default_probability": 0.03,
+  "score": 0.507,
+  "advance_rate_pct": 75.2,
+  "partner_share_pct": 54.4,
+  "evidence": [
+    {
+      "invoice_no": "B-3100",
+      "supplier": "Supplier B",
+      "due_date": "2026-08-02",
+      "paid_on": "2026-08-01",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "B-3101",
+      "supplier": "Supplier B",
+      "due_date": "2026-08-03",
+      "paid_on": "2026-08-02",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "C-3102",
+      "supplier": "Supplier C",
+      "due_date": "2026-08-05",
+      "paid_on": "2026-08-04",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "A-4401",
+      "supplier": "Supplier A",
+      "due_date": "2026-08-06",
+      "paid_on": "2026-08-05",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "C-3103",
+      "supplier": "Supplier C",
+      "due_date": "2026-08-07",
+      "paid_on": "2026-08-06",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "D-3104",
+      "supplier": "Supplier D",
+      "due_date": "2026-08-08",
+      "paid_on": "2026-08-07",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "D-3105",
+      "supplier": "Supplier D",
+      "due_date": "2026-08-10",
+      "paid_on": "2026-08-09",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "E-3106",
+      "supplier": "Supplier E",
+      "due_date": "2026-08-12",
+      "paid_on": "2026-08-11",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "E-3107",
+      "supplier": "Supplier E",
+      "due_date": "2026-08-14",
+      "paid_on": "2026-08-20",
+      "on_time": false,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "F-3108",
+      "supplier": "Supplier F",
+      "due_date": "2026-08-15",
+      "paid_on": "2026-08-14",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "F-3109",
+      "supplier": "Supplier F",
+      "due_date": "2026-08-17",
+      "paid_on": "2026-08-16",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "G-3110",
+      "supplier": "Supplier G",
+      "due_date": "2026-08-19",
+      "paid_on": "2026-08-18",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "G-3111",
+      "supplier": "Supplier G",
+      "due_date": "2026-08-21",
+      "paid_on": "2026-08-20",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "H-3112",
+      "supplier": "Supplier H",
+      "due_date": "2026-08-22",
+      "paid_on": "2026-08-21",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "H-3113",
+      "supplier": "Supplier H",
+      "due_date": "2026-08-24",
+      "paid_on": "2026-08-23",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "I-3114",
+      "supplier": "Supplier I",
+      "due_date": "2026-08-26",
+      "paid_on": "2026-08-25",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "I-3115",
+      "supplier": "Supplier I",
+      "due_date": "2026-08-27",
+      "paid_on": "2026-08-26",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "J-3116",
+      "supplier": "Supplier J",
+      "due_date": "2026-08-29",
+      "paid_on": "2026-08-28",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "J-3117",
+      "supplier": "Supplier J",
+      "due_date": "2026-08-31",
+      "paid_on": "2026-08-30",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "K-3118",
+      "supplier": "Supplier K",
+      "due_date": "2026-09-02",
+      "paid_on": "2026-09-01",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "K-3119",
+      "supplier": "Supplier K",
+      "due_date": "2026-09-03",
+      "paid_on": "2026-09-09",
+      "on_time": false,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "A-4402",
+      "supplier": "Supplier A",
+      "due_date": "2026-09-05",
+      "paid_on": "2026-09-04",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "L-3120",
+      "supplier": "Supplier L",
+      "due_date": "2026-09-05",
+      "paid_on": "2026-09-04",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "L-3121",
+      "supplier": "Supplier L",
+      "due_date": "2026-09-07",
+      "paid_on": "2026-09-06",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "M-3122",
+      "supplier": "Supplier M",
+      "due_date": "2026-09-09",
+      "paid_on": "2026-09-08",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "M-3123",
+      "supplier": "Supplier M",
+      "due_date": "2026-09-10",
+      "paid_on": "2026-09-09",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "N-3124",
+      "supplier": "Supplier N",
+      "due_date": "2026-09-12",
+      "paid_on": "2026-09-11",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "N-3125",
+      "supplier": "Supplier N",
+      "due_date": "2026-09-14",
+      "paid_on": "2026-09-13",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "O-3126",
+      "supplier": "Supplier O",
+      "due_date": "2026-09-15",
+      "paid_on": "2026-09-14",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "O-3127",
+      "supplier": "Supplier O",
+      "due_date": "2026-09-17",
+      "paid_on": "2026-09-16",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "P-3128",
+      "supplier": "Supplier P",
+      "due_date": "2026-09-19",
+      "paid_on": "2026-09-18",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "P-3129",
+      "supplier": "Supplier P",
+      "due_date": "2026-09-21",
+      "paid_on": "2026-09-20",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "Q-3130",
+      "supplier": "Supplier Q",
+      "due_date": "2026-09-22",
+      "paid_on": "2026-09-21",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "Q-3131",
+      "supplier": "Supplier Q",
+      "due_date": "2026-09-24",
+      "paid_on": "2026-09-23",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "R-3132",
+      "supplier": "Supplier R",
+      "due_date": "2026-09-26",
+      "paid_on": "2026-09-25",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "S-3133",
+      "supplier": "Supplier S",
+      "due_date": "2026-09-28",
+      "paid_on": "2026-10-04",
+      "on_time": false,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "T-3134",
+      "supplier": "Supplier T",
+      "due_date": "2026-09-29",
+      "paid_on": "2026-09-28",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "U-3135",
+      "supplier": "Supplier U",
+      "due_date": "2026-10-01",
+      "paid_on": "2026-09-30",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "V-3136",
+      "supplier": "Supplier V",
+      "due_date": "2026-10-03",
+      "paid_on": "2026-10-02",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "A-4403",
+      "supplier": "Supplier A",
+      "due_date": "2026-10-05",
+      "paid_on": "2026-10-04",
+      "on_time": true,
+      "supplier_confirmed": true
+    },
+    {
+      "invoice_no": "W-3137",
+      "supplier": "Supplier W",
+      "due_date": "2026-10-05",
+      "paid_on": "2026-10-04",
+      "on_time": true,
+      "supplier_confirmed": true
+    }
+  ]
+}

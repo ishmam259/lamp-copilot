@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "supplier": "Supplier D",
+      "invoice_no": "D-20931",
+      "amount": 8450.0,
+      "due_date": "2026-10-18",
+      "days_left": 2,
+      "status": "due_soon"
+    },
+    {
+      "supplier": "Supplier F",
+      "invoice_no": "F-1182",
+      "amount": 6200.0,
+      "due_date": "2026-10-22",
+      "days_left": 6,
+      "status": "due_soon"
+    },
+    {
+      "supplier": "Supplier A",
+      "invoice_no": "PO-A-1026",
+      "amount": 60000.0,
+      "due_date": "2026-10-26",
+      "days_left": 10,
+      "status": "upcoming"
+    },
+    {
+      "supplier": "Supplier H",
+      "invoice_no": "H-5520",
+      "amount": 11300.0,
+      "due_date": "2026-11-04",
+      "days_left": 19,
+      "status": "upcoming"
+    }
+  ],
+  "total_due": 85950.0
+}

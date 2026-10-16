@@ -1,0 +1,38 @@
+[2026-10-16T11:56:38Z] [T0:DEV] reset pharmacy=green-life with_demo_captures=False
+[2026-10-16T11:56:38Z] [T2:FORECAST] shortfall_detected date=2026-10-26 amount=14380.0 cause=Supplier A order BDT 60,000
+[2026-10-16T11:56:38Z] [T2:EXPIRY] batches_at_risk batches=6 value=18400.0 return_eligible=9200.0
+[2026-10-16T11:56:38Z] [T1:CAPTURE] capture_created capture=cap-1 kind=invoice model=gpt-6-luna mode=replay
+[2026-10-16T11:56:38Z] [T1:CAPTURE] capture_confirmed capture=cap-1 kind=invoice
+[2026-10-16T11:56:38Z] [T2:FORECAST] forecast_updated first_shortfall_date=2026-10-26 first_shortfall=20580.0
+[2026-10-16T11:56:38Z] [T1:CAPTURE] capture_created capture=cap-2 kind=invoice model=gpt-6-luna mode=replay
+[2026-10-16T11:56:39Z] [T1:CAPTURE] capture_confirmed capture=cap-2 kind=invoice
+[2026-10-16T11:56:39Z] [T2:FORECAST] forecast_updated first_shortfall_date=2026-10-26 first_shortfall=20580.0
+[2026-10-16T11:56:39Z] [T1:CAPTURE] capture_created capture=cap-3 kind=sales_page model=none mode=replay
+[2026-10-16T11:56:39Z] [T1:CAPTURE] capture_confirmed capture=cap-3 kind=sales_page
+[2026-10-16T11:56:39Z] [T2:FORECAST] forecast_updated first_shortfall_date=2026-10-26 first_shortfall=19000.0
+[2026-10-16T11:56:39Z] [T1:ACTIONS] action_proposed action=act-1 kind=return_claim by=agent amount=9200
+[2026-10-16T11:56:39Z] [T1:ACTIONS] action_approved_by_owner action=act-1 kind=return_claim
+[2026-10-16T11:56:39Z] [T2:EXPIRY] return_claim_sent claim=CLM-0001 batches=OM2409,CT2411 amount=9200.0
+[2026-10-16T11:56:39Z] [T2:EXECUTOR] action_executed action=act-1 kind=return_claim
+[2026-10-16T11:56:39Z] [T1:ACTIONS] action_proposed action=act-2 kind=trim_order by=agent amount=10800.0
+[2026-10-16T11:56:39Z] [T1:ACTIONS] action_proposed action=act-3 kind=extension_request by=agent amount=8200.0
+[2026-10-16T11:56:39Z] [T1:ACTIONS] action_proposed action=act-4 kind=loan_application by=agent amount=8200.0
+[2026-10-16T11:56:39Z] [T1:ACTIONS] action_approved_by_owner action=act-2 kind=trim_order
+[2026-10-16T11:56:39Z] [T2:ORDERS] order_trimmed order=o-1 from=60000.0 to=49200.0
+[2026-10-16T11:56:39Z] [T2:EXECUTOR] action_executed action=act-2 kind=trim_order
+[2026-10-16T11:56:39Z] [T1:ACTIONS] action_approved_by_owner action=act-3 kind=extension_request
+[2026-10-16T11:56:39Z] [T2:SUPPLIERS] extension_requested supplier=Supplier A order=o-1 days=20 amount=8200.0
+[2026-10-16T11:56:39Z] [T2:EXECUTOR] action_executed action=act-3 kind=extension_request
+[2026-10-16T11:56:39Z] [T2:SUPPLIERS] extension_declined action=act-3 supplier=Supplier A amount=8200.0
+[2026-10-16T11:56:39Z] [T1:CONSENT] consent_granted consent=cns-1 lender=wallet-lender scopes=passport,accounts
+[2026-10-16T11:56:39Z] [T1:ACTIONS] action_approved_by_owner action=act-4 kind=loan_application
+[2026-10-16T11:56:39Z] [T3:REGISTRY] lock_acquired commitment=48590d0fa014… invoice=PO-A-1026 application=APP-0001
+[2026-10-16T11:56:39Z] [T3:LENDER] application_submitted application=APP-0001 lender=wallet-lender amount=8200.0
+[2026-10-16T11:56:39Z] [T3:EXECUTOR] action_executed action=act-4 kind=loan_application
+[2026-10-16T11:56:39Z] [T1:ACTIONS] action_proposed action=act-5 kind=loan_application by=owner amount=8200
+[2026-10-16T11:56:39Z] [T1:ACTIONS] action_approved_by_owner action=act-5 kind=loan_application
+[2026-10-16T11:56:39Z] [T3:REGISTRY] lock_rejected action=act-5 commitment=48590d0fa014… invoice=PO-A-1026
+[2026-10-16T11:56:39Z] [T3:EXECUTOR] action_failed action=act-5 kind=loan_application reason=duplicate_financing commitment=48590d0fa014… invoice=PO-A-1026
+[2026-10-16T11:56:39Z] [T0:LENDER] inbox_viewed lender=wallet-lender applications=1
+[2026-10-16T11:56:39Z] [T3:LENDER] application_approved application=APP-0001 payout=SANDBOX-WALLET-LENDER-20261016-0001 amount=8200.0
+[2026-10-16T11:56:39Z] [T3:PAYOUT] sandbox_payout application=APP-0001 payout=SANDBOX-WALLET-LENDER-20261016-0001 amount=8200.0

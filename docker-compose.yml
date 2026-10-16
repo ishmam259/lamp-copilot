@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: lamp
+      POSTGRES_PASSWORD: lamp
+      POSTGRES_DB: lamp
+    ports:
+      # 5433 on the host: a local PostgreSQL install often already holds 5432.
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lamp"]
+      interval: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      additional_contexts:
+        seed: ./seed
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgresql://lamp:lamp@db:5432/lamp
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # frontend: added by Ishmam's Dockerfile (Next.js on 3000)
+
+volumes:
+  pgdata:

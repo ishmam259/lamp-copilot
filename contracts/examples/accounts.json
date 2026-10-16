@@ -1,0 +1,68 @@
+{
+  "period_days": 30,
+  "sales": 412500.0,
+  "gross_margin_pct": 12.0,
+  "gross_profit": 49500.0,
+  "overheads": 36000.0,
+  "net_profit": 13500.0,
+  "stock_value": 210000.0,
+  "stock_days": 17.4,
+  "patient_dues": 38000.0,
+  "patient_due_days": 2.8,
+  "active_suppliers": 23,
+  "top_suppliers": [
+    {
+      "name": "Supplier A",
+      "share_pct": 12.4
+    },
+    {
+      "name": "Supplier E",
+      "share_pct": 6.8
+    },
+    {
+      "name": "Supplier H",
+      "share_pct": 6.5
+    },
+    {
+      "name": "Supplier N",
+      "share_pct": 5.6
+    },
+    {
+      "name": "Supplier D",
+      "share_pct": 4.9
+    }
+  ],
+  "slow_movers": [
+    {
+      "product": "Montelukast 10 mg, box of 30",
+      "qty": 30,
+      "sellable_qty": 12,
+      "at_risk_value": 10800.0
+    },
+    {
+      "product": "Amoxicillin 500 mg, box of 50",
+      "qty": 6,
+      "sellable_qty": 0,
+      "at_risk_value": 3600.0
+    },
+    {
+      "product": "Metformin 500 mg, box of 100",
+      "qty": 13,
+      "sellable_qty": 0,
+      "at_risk_value": 2600.0
+    },
+    {
+      "product": "Oral saline, box of 25",
+      "qty": 6,
+      "sellable_qty": 0,
+      "at_risk_value": 1800.0
+    },
+    {
+      "product": "Vitamin B complex, box of 30",
+      "qty": 8,
+      "sellable_qty": 0,
+      "at_risk_value": 1200.0
+    }
+  ],
+  "expiring_value_60d": 18400.0
+}

@@ -1,0 +1,3127 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LaMP-Copilot API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Api V1 Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dev/reset": {
+      "post": {
+        "summary": "Dev Reset",
+        "description": "Wipe everything and reload the seed (plus the three demo captures if asked).",
+        "operationId": "dev_reset_api_v1_dev_reset_post",
+        "parameters": [
+          {
+            "name": "with_demo_captures",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "With Demo Captures"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Dev Reset Api V1 Dev Reset Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dev/simulate/supplier-reply": {
+      "post": {
+        "summary": "Simulate Supplier Reply",
+        "description": "Demo only: the supplier answers an extension request.",
+        "operationId": "simulate_supplier_reply_api_v1_dev_simulate_supplier_reply_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SupplierReply"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}": {
+      "get": {
+        "summary": "Get Pharmacy",
+        "operationId": "get_pharmacy_api_v1_pharmacies__pid__get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PharmacyOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/captures": {
+      "post": {
+        "summary": "Create Capture",
+        "operationId": "create_capture_api_v1_pharmacies__pid__captures_post",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_create_capture_api_v1_pharmacies__pid__captures_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaptureOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/captures/{cid}": {
+      "get": {
+        "summary": "Get Capture",
+        "operationId": "get_capture_api_v1_pharmacies__pid__captures__cid__get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "cid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Cid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaptureOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/captures/{cid}/confirm": {
+      "post": {
+        "summary": "Confirm Capture",
+        "description": "Save the owner-corrected draft as an invoice (plus stock) or as sales days.",
+        "operationId": "confirm_capture_api_v1_pharmacies__pid__captures__cid__confirm_post",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "cid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Cid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaptureConfirm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaptureOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/accounts": {
+      "get": {
+        "summary": "Get Accounts",
+        "operationId": "get_accounts_api_v1_pharmacies__pid__accounts_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "period_days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 30,
+              "title": "Period Days"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountsOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/dues": {
+      "get": {
+        "summary": "Get Dues",
+        "operationId": "get_dues_api_v1_pharmacies__pid__dues_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DuesOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/forecast": {
+      "get": {
+        "summary": "Get Forecast",
+        "operationId": "get_forecast_api_v1_pharmacies__pid__forecast_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 30,
+              "title": "Days"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForecastOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/alerts": {
+      "get": {
+        "summary": "Get Alerts",
+        "operationId": "get_alerts_api_v1_pharmacies__pid__alerts_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Alert"
+                  },
+                  "title": "Response Get Alerts Api V1 Pharmacies  Pid  Alerts Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/expiry": {
+      "get": {
+        "summary": "Get Expiry",
+        "operationId": "get_expiry_api_v1_pharmacies__pid__expiry_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "horizon_days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 60,
+              "title": "Horizon Days"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpiryOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/orders": {
+      "get": {
+        "summary": "List Orders",
+        "operationId": "list_orders_api_v1_pharmacies__pid__orders_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderOut"
+                  },
+                  "title": "Response List Orders Api V1 Pharmacies  Pid  Orders Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/orders/{oid}/trim": {
+      "get": {
+        "summary": "Get Trim",
+        "operationId": "get_trim_api_v1_pharmacies__pid__orders__oid__trim_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "oid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Oid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrimOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/funding-plan": {
+      "post": {
+        "summary": "Funding Plan",
+        "operationId": "funding_plan_api_v1_pharmacies__pid__funding_plan_post",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/FundingRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FundingPlanOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/passport": {
+      "get": {
+        "summary": "Get Passport",
+        "operationId": "get_passport_api_v1_pharmacies__pid__passport_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PassportOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/actions": {
+      "get": {
+        "summary": "List Actions",
+        "operationId": "list_actions_api_v1_pharmacies__pid__actions_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActionOut"
+                  },
+                  "title": "Response List Actions Api V1 Pharmacies  Pid  Actions Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Propose Action",
+        "operationId": "propose_action_api_v1_pharmacies__pid__actions_post",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "proposed_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "owner",
+                    "agent"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Proposed By"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActionProposal"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/actions/{aid}/approve": {
+      "post": {
+        "summary": "Approve Action",
+        "operationId": "approve_action_api_v1_pharmacies__pid__actions__aid__approve_post",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "aid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Aid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/actions/{aid}/reject": {
+      "post": {
+        "summary": "Reject Action",
+        "operationId": "reject_action_api_v1_pharmacies__pid__actions__aid__reject_post",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "aid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Aid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/consents": {
+      "get": {
+        "summary": "List Consents",
+        "operationId": "list_consents_api_v1_pharmacies__pid__consents_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsentOut"
+                  },
+                  "title": "Response List Consents Api V1 Pharmacies  Pid  Consents Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Grant Consent",
+        "operationId": "grant_consent_api_v1_pharmacies__pid__consents_post",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsentIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/consents/{consent_id}": {
+      "delete": {
+        "summary": "Revoke Consent",
+        "operationId": "revoke_consent_api_v1_pharmacies__pid__consents__consent_id__delete",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "consent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Consent Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Revoke Consent Api V1 Pharmacies  Pid  Consents  Consent Id  Delete"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/lenders": {
+      "get": {
+        "summary": "List Lenders",
+        "operationId": "list_lenders_api_v1_lenders_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/LenderOut"
+                  },
+                  "type": "array",
+                  "title": "Response List Lenders Api V1 Lenders Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/lenders/{lid}/applications": {
+      "get": {
+        "summary": "Lender Inbox",
+        "operationId": "lender_inbox_api_v1_lenders__lid__applications_get",
+        "parameters": [
+          {
+            "name": "lid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Lid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationOut"
+                  },
+                  "title": "Response Lender Inbox Api V1 Lenders  Lid  Applications Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/lenders/{lid}/applications/{appid}/decide": {
+      "post": {
+        "summary": "Decide Application",
+        "operationId": "decide_application_api_v1_lenders__lid__applications__appid__decide_post",
+        "parameters": [
+          {
+            "name": "lid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Lid"
+            }
+          },
+          {
+            "name": "appid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Appid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/logs": {
+      "get": {
+        "summary": "Get Logs",
+        "description": "All events, or those after `since` (a log id like lg-12, or an ISO timestamp).",
+        "operationId": "get_logs_api_v1_logs_get",
+        "parameters": [
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Since"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LogEvent"
+                  },
+                  "title": "Response Get Logs Api V1 Logs Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/logs/export": {
+      "get": {
+        "summary": "Export Logs",
+        "description": "The audit log as text, one line per event (the sandbox execution trace).",
+        "operationId": "export_logs_api_v1_logs_export_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/logs/stream": {
+      "get": {
+        "summary": "Stream Logs",
+        "description": "Server-Sent Events: every past event, then new ones as they happen.\n`once=true` sends the backlog and closes (for tests).",
+        "operationId": "stream_logs_api_v1_logs_stream_get",
+        "parameters": [
+          {
+            "name": "once",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Once"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountsOut": {
+        "properties": {
+          "period_days": {
+            "type": "integer",
+            "title": "Period Days"
+          },
+          "sales": {
+            "type": "number",
+            "title": "Sales"
+          },
+          "gross_margin_pct": {
+            "type": "number",
+            "title": "Gross Margin Pct"
+          },
+          "gross_profit": {
+            "type": "number",
+            "title": "Gross Profit"
+          },
+          "overheads": {
+            "type": "number",
+            "title": "Overheads"
+          },
+          "net_profit": {
+            "type": "number",
+            "title": "Net Profit"
+          },
+          "stock_value": {
+            "type": "number",
+            "title": "Stock Value"
+          },
+          "stock_days": {
+            "type": "number",
+            "title": "Stock Days"
+          },
+          "patient_dues": {
+            "type": "number",
+            "title": "Patient Dues"
+          },
+          "patient_due_days": {
+            "type": "number",
+            "title": "Patient Due Days"
+          },
+          "active_suppliers": {
+            "type": "integer",
+            "title": "Active Suppliers"
+          },
+          "top_suppliers": {
+            "items": {
+              "$ref": "#/components/schemas/SupplierShare"
+            },
+            "type": "array",
+            "title": "Top Suppliers"
+          },
+          "slow_movers": {
+            "items": {
+              "$ref": "#/components/schemas/SlowMover"
+            },
+            "type": "array",
+            "title": "Slow Movers"
+          },
+          "expiring_value_60d": {
+            "type": "number",
+            "title": "Expiring Value 60D"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "period_days",
+          "sales",
+          "gross_margin_pct",
+          "gross_profit",
+          "overheads",
+          "net_profit",
+          "stock_value",
+          "stock_days",
+          "patient_dues",
+          "patient_due_days",
+          "active_suppliers",
+          "top_suppliers",
+          "slow_movers",
+          "expiring_value_60d"
+        ],
+        "title": "AccountsOut"
+      },
+      "ActionOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "return_claim",
+              "extension_request",
+              "loan_application",
+              "set_aside",
+              "trim_order"
+            ],
+            "title": "Kind"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "proposed",
+              "approved",
+              "rejected",
+              "executed",
+              "failed"
+            ],
+            "title": "Status"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Payload"
+          },
+          "proposed_by": {
+            "type": "string",
+            "enum": [
+              "owner",
+              "agent"
+            ],
+            "title": "Proposed By"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "decided_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decided At"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "status",
+          "payload",
+          "proposed_by",
+          "created_at"
+        ],
+        "title": "ActionOut"
+      },
+      "ActionProposal": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "return_claim",
+              "extension_request",
+              "loan_application",
+              "set_aside",
+              "trim_order"
+            ],
+            "title": "Kind"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Payload",
+            "default": {}
+          },
+          "proposed_by": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "owner",
+                  "agent"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proposed By"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind"
+        ],
+        "title": "ActionProposal"
+      },
+      "Alert": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "shortfall",
+              "expiry",
+              "return_window",
+              "patient_dues",
+              "suspicious_document"
+            ],
+            "title": "Kind"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "critical",
+              "warning",
+              "info"
+            ],
+            "title": "Severity"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "severity",
+          "title",
+          "detail",
+          "created_at"
+        ],
+        "title": "Alert"
+      },
+      "ApplicationOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "pharmacy_id": {
+            "type": "string",
+            "title": "Pharmacy Id"
+          },
+          "pharmacy_name": {
+            "type": "string",
+            "title": "Pharmacy Name"
+          },
+          "lender_id": {
+            "type": "string",
+            "title": "Lender Id"
+          },
+          "product_key": {
+            "type": "string",
+            "title": "Product Key"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "approved",
+              "declined"
+            ],
+            "title": "Status"
+          },
+          "passport": {
+            "$ref": "#/components/schemas/PassportOut"
+          },
+          "decision": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Decision"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "pharmacy_id",
+          "pharmacy_name",
+          "lender_id",
+          "product_key",
+          "amount",
+          "status",
+          "passport",
+          "created_at"
+        ],
+        "title": "ApplicationOut"
+      },
+      "Body_create_capture_api_v1_pharmacies__pid__captures_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "invoice",
+              "sales_page"
+            ],
+            "title": "Kind"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file",
+          "kind"
+        ],
+        "title": "Body_create_capture_api_v1_pharmacies__pid__captures_post"
+      },
+      "CaptureConfirm": {
+        "properties": {
+          "invoice": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtractedInvoice"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sales_page": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtractedSalesPage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CaptureConfirm",
+        "description": "Owner-corrected draft. Send the part that matches the capture kind."
+      },
+      "CaptureOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "invoice",
+              "sales_page"
+            ],
+            "title": "Kind"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "needs_review",
+              "confirmed"
+            ],
+            "title": "Status"
+          },
+          "image_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Url"
+          },
+          "extraction": {
+            "$ref": "#/components/schemas/ExtractionResult"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "status",
+          "extraction"
+        ],
+        "title": "CaptureOut"
+      },
+      "Check": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "passed": {
+            "type": "boolean",
+            "title": "Passed"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "passed",
+          "detail"
+        ],
+        "title": "Check"
+      },
+      "ConsentIn": {
+        "properties": {
+          "lender_id": {
+            "type": "string",
+            "title": "Lender Id"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scopes",
+            "default": [
+              "passport",
+              "accounts"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "lender_id"
+        ],
+        "title": "ConsentIn"
+      },
+      "ConsentOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "lender_id": {
+            "type": "string",
+            "title": "Lender Id"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scopes"
+          },
+          "granted_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Granted At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "lender_id",
+          "scopes",
+          "granted_at"
+        ],
+        "title": "ConsentOut"
+      },
+      "Decision": {
+        "properties": {
+          "approved": {
+            "type": "boolean",
+            "title": "Approved"
+          },
+          "payout_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payout Ref"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "approved",
+          "reason"
+        ],
+        "title": "Decision"
+      },
+      "DueItem": {
+        "properties": {
+          "supplier": {
+            "type": "string",
+            "title": "Supplier"
+          },
+          "invoice_no": {
+            "type": "string",
+            "title": "Invoice No"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date"
+          },
+          "days_left": {
+            "type": "integer",
+            "title": "Days Left"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "overdue",
+              "due_soon",
+              "upcoming"
+            ],
+            "title": "Status"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "supplier",
+          "invoice_no",
+          "amount",
+          "due_date",
+          "days_left",
+          "status"
+        ],
+        "title": "DueItem"
+      },
+      "DuesOut": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DueItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total_due": {
+            "type": "number",
+            "title": "Total Due"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "total_due"
+        ],
+        "title": "DuesOut"
+      },
+      "ExpiryBatch": {
+        "properties": {
+          "product": {
+            "type": "string",
+            "title": "Product"
+          },
+          "batch_no": {
+            "type": "string",
+            "title": "Batch No"
+          },
+          "expiry_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Expiry Date"
+          },
+          "days_left": {
+            "type": "integer",
+            "title": "Days Left"
+          },
+          "qty": {
+            "type": "integer",
+            "title": "Qty"
+          },
+          "cost_value": {
+            "type": "number",
+            "title": "Cost Value"
+          },
+          "return_eligible": {
+            "type": "boolean",
+            "title": "Return Eligible"
+          },
+          "supplier": {
+            "type": "string",
+            "title": "Supplier"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "product",
+          "batch_no",
+          "expiry_date",
+          "days_left",
+          "qty",
+          "cost_value",
+          "return_eligible",
+          "supplier"
+        ],
+        "title": "ExpiryBatch"
+      },
+      "ExpiryOut": {
+        "properties": {
+          "horizon_days": {
+            "type": "integer",
+            "title": "Horizon Days"
+          },
+          "batches": {
+            "items": {
+              "$ref": "#/components/schemas/ExpiryBatch"
+            },
+            "type": "array",
+            "title": "Batches"
+          },
+          "at_risk_value": {
+            "type": "number",
+            "title": "At Risk Value"
+          },
+          "return_eligible_value": {
+            "type": "number",
+            "title": "Return Eligible Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "horizon_days",
+          "batches",
+          "at_risk_value",
+          "return_eligible_value"
+        ],
+        "title": "ExpiryOut"
+      },
+      "ExtractedInvoice": {
+        "properties": {
+          "supplier_name": {
+            "type": "string",
+            "title": "Supplier Name"
+          },
+          "invoice_no": {
+            "type": "string",
+            "title": "Invoice No"
+          },
+          "invoice_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Invoice Date"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date"
+          },
+          "total": {
+            "type": "number",
+            "title": "Total"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/ExtractionLine"
+            },
+            "type": "array",
+            "title": "Lines"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "supplier_name",
+          "invoice_no",
+          "invoice_date",
+          "due_date",
+          "total",
+          "lines"
+        ],
+        "title": "ExtractedInvoice"
+      },
+      "ExtractedSalesPage": {
+        "properties": {
+          "days": {
+            "items": {
+              "$ref": "#/components/schemas/SalesDay"
+            },
+            "type": "array",
+            "title": "Days"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "days"
+        ],
+        "title": "ExtractedSalesPage"
+      },
+      "ExtractionLine": {
+        "properties": {
+          "product": {
+            "type": "string",
+            "title": "Product"
+          },
+          "strength": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Strength"
+          },
+          "pack": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pack"
+          },
+          "batch_no": {
+            "type": "string",
+            "title": "Batch No"
+          },
+          "expiry_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Expiry Date"
+          },
+          "qty": {
+            "type": "integer",
+            "title": "Qty"
+          },
+          "unit_cost": {
+            "type": "number",
+            "title": "Unit Cost"
+          },
+          "line_total": {
+            "type": "number",
+            "title": "Line Total"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "product",
+          "batch_no",
+          "expiry_date",
+          "qty",
+          "unit_cost",
+          "line_total"
+        ],
+        "title": "ExtractionLine"
+      },
+      "ExtractionResult": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "invoice",
+              "sales_page"
+            ],
+            "title": "Kind"
+          },
+          "invoice": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtractedInvoice"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sales_page": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtractedSalesPage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "field_confidence": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Field Confidence",
+            "default": {}
+          },
+          "checks": {
+            "items": {
+              "$ref": "#/components/schemas/Check"
+            },
+            "type": "array",
+            "title": "Checks",
+            "default": []
+          },
+          "suspicious_text": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Suspicious Text",
+            "default": []
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "prompt_version": {
+            "type": "string",
+            "title": "Prompt Version"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "live",
+              "replay"
+            ],
+            "title": "Mode"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "model",
+          "prompt_version",
+          "mode"
+        ],
+        "title": "ExtractionResult"
+      },
+      "ForecastDay": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "inflow": {
+            "type": "number",
+            "title": "Inflow"
+          },
+          "outflow": {
+            "type": "number",
+            "title": "Outflow"
+          },
+          "balance": {
+            "type": "number",
+            "title": "Balance"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ForecastItem"
+            },
+            "type": "array",
+            "title": "Items",
+            "default": []
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "date",
+          "inflow",
+          "outflow",
+          "balance"
+        ],
+        "title": "ForecastDay"
+      },
+      "ForecastItem": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "label",
+          "amount"
+        ],
+        "title": "ForecastItem"
+      },
+      "ForecastOut": {
+        "properties": {
+          "start_cash": {
+            "type": "number",
+            "title": "Start Cash"
+          },
+          "days": {
+            "items": {
+              "$ref": "#/components/schemas/ForecastDay"
+            },
+            "type": "array",
+            "title": "Days"
+          },
+          "shortfalls": {
+            "items": {
+              "$ref": "#/components/schemas/Shortfall"
+            },
+            "type": "array",
+            "title": "Shortfalls"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "start_cash",
+          "days",
+          "shortfalls"
+        ],
+        "title": "ForecastOut"
+      },
+      "FundingNeed": {
+        "properties": {
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "needed_by": {
+            "type": "string",
+            "format": "date",
+            "title": "Needed By"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "amount",
+          "needed_by"
+        ],
+        "title": "FundingNeed"
+      },
+      "FundingOption": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "cost_bdt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Bdt"
+          },
+          "apr_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apr Pct"
+          },
+          "eligible": {
+            "type": "boolean",
+            "title": "Eligible"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "speed": {
+            "type": "string",
+            "title": "Speed"
+          },
+          "certainty": {
+            "type": "string",
+            "enum": [
+              "certain",
+              "uncertain"
+            ],
+            "title": "Certainty"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "provider",
+          "amount",
+          "cost_bdt",
+          "apr_pct",
+          "eligible",
+          "reason",
+          "speed",
+          "certainty"
+        ],
+        "title": "FundingOption"
+      },
+      "FundingPlan": {
+        "properties": {
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/PlanStep"
+            },
+            "type": "array",
+            "title": "Steps"
+          },
+          "total_cost_bdt": {
+            "type": "number",
+            "title": "Total Cost Bdt"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "steps",
+          "total_cost_bdt"
+        ],
+        "title": "FundingPlan"
+      },
+      "FundingPlanOut": {
+        "properties": {
+          "need": {
+            "$ref": "#/components/schemas/FundingNeed"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/FundingOption"
+            },
+            "type": "array",
+            "title": "Options"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/FundingPlan"
+          },
+          "naive_cost_bdt": {
+            "type": "number",
+            "title": "Naive Cost Bdt"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "need",
+          "options",
+          "plan",
+          "naive_cost_bdt"
+        ],
+        "title": "FundingPlanOut"
+      },
+      "FundingRequest": {
+        "properties": {
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "needed_by": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Needed By"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "FundingRequest",
+        "description": "POST body for /funding-plan. Every field is optional: an empty body (or none)\nmeans the default need, and a missing field is filled from that default."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LenderOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "mobile_wallet",
+              "bank"
+            ],
+            "title": "Kind"
+          },
+          "products": {
+            "items": {
+              "$ref": "#/components/schemas/LenderProduct"
+            },
+            "type": "array",
+            "title": "Products"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "products"
+        ],
+        "title": "LenderOut"
+      },
+      "LenderProduct": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "apr_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apr Pct"
+          },
+          "fee_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fee Pct"
+          },
+          "min_amount": {
+            "type": "number",
+            "title": "Min Amount"
+          },
+          "max_amount": {
+            "type": "number",
+            "title": "Max Amount"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "apr_pct",
+          "fee_pct",
+          "min_amount",
+          "max_amount"
+        ],
+        "title": "LenderProduct"
+      },
+      "LogEvent": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "ts": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ts"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "T0",
+              "T1",
+              "T2",
+              "T3"
+            ],
+            "title": "Tier"
+          },
+          "component": {
+            "type": "string",
+            "title": "Component"
+          },
+          "event": {
+            "type": "string",
+            "title": "Event"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data",
+            "default": {}
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "ts",
+          "tier",
+          "component",
+          "event"
+        ],
+        "title": "LogEvent"
+      },
+      "OrderLine": {
+        "properties": {
+          "product": {
+            "type": "string",
+            "title": "Product"
+          },
+          "qty": {
+            "type": "integer",
+            "title": "Qty"
+          },
+          "unit_cost": {
+            "type": "number",
+            "title": "Unit Cost"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "product",
+          "qty",
+          "unit_cost"
+        ],
+        "title": "OrderLine"
+      },
+      "OrderOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "supplier": {
+            "type": "string",
+            "title": "Supplier"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date"
+          },
+          "total": {
+            "type": "number",
+            "title": "Total"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/OrderLine"
+            },
+            "type": "array",
+            "title": "Lines"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "supplier",
+          "due_date",
+          "total",
+          "lines"
+        ],
+        "title": "OrderOut"
+      },
+      "PassportEvidence": {
+        "properties": {
+          "invoice_no": {
+            "type": "string",
+            "title": "Invoice No"
+          },
+          "supplier": {
+            "type": "string",
+            "title": "Supplier"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date"
+          },
+          "paid_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Paid On"
+          },
+          "on_time": {
+            "type": "boolean",
+            "title": "On Time"
+          },
+          "supplier_confirmed": {
+            "type": "boolean",
+            "title": "Supplier Confirmed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "invoice_no",
+          "supplier",
+          "due_date",
+          "paid_on",
+          "on_time",
+          "supplier_confirmed"
+        ],
+        "title": "PassportEvidence"
+      },
+      "PassportOut": {
+        "properties": {
+          "invoices_total": {
+            "type": "integer",
+            "title": "Invoices Total"
+          },
+          "paid_on_time": {
+            "type": "integer",
+            "title": "Paid On Time"
+          },
+          "confirmed_share": {
+            "type": "number",
+            "title": "Confirmed Share"
+          },
+          "theta_mean": {
+            "type": "number",
+            "title": "Theta Mean"
+          },
+          "theta_low_5pct": {
+            "type": "number",
+            "title": "Theta Low 5Pct"
+          },
+          "default_probability": {
+            "type": "number",
+            "title": "Default Probability"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "advance_rate_pct": {
+            "type": "number",
+            "title": "Advance Rate Pct"
+          },
+          "partner_share_pct": {
+            "type": "number",
+            "title": "Partner Share Pct"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/PassportEvidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "invoices_total",
+          "paid_on_time",
+          "confirmed_share",
+          "theta_mean",
+          "theta_low_5pct",
+          "default_probability",
+          "score",
+          "advance_rate_pct",
+          "partner_share_pct",
+          "evidence"
+        ],
+        "title": "PassportOut"
+      },
+      "PharmacyOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/PharmacySettings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "city",
+          "settings"
+        ],
+        "title": "PharmacyOut"
+      },
+      "PharmacySettings": {
+        "properties": {
+          "gross_margin_pct": {
+            "type": "number",
+            "title": "Gross Margin Pct"
+          },
+          "cash_buffer": {
+            "type": "number",
+            "title": "Cash Buffer"
+          },
+          "expiry_buffer_days": {
+            "type": "integer",
+            "title": "Expiry Buffer Days"
+          },
+          "as_of_date": {
+            "type": "string",
+            "format": "date",
+            "title": "As Of Date"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "gross_margin_pct",
+          "cash_buffer",
+          "expiry_buffer_days",
+          "as_of_date"
+        ],
+        "title": "PharmacySettings"
+      },
+      "PlanStep": {
+        "properties": {
+          "action_kind": {
+            "type": "string",
+            "enum": [
+              "return_claim",
+              "extension_request",
+              "loan_application",
+              "set_aside",
+              "trim_order"
+            ],
+            "title": "Action Kind"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "when": {
+            "type": "string",
+            "format": "date",
+            "title": "When"
+          },
+          "fallback_for": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fallback For"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action_kind",
+          "label",
+          "amount",
+          "when"
+        ],
+        "title": "PlanStep"
+      },
+      "SalesDay": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "cash_sales": {
+            "type": "number",
+            "title": "Cash Sales"
+          },
+          "credit_sales": {
+            "type": "number",
+            "title": "Credit Sales"
+          },
+          "dues_collected": {
+            "type": "number",
+            "title": "Dues Collected"
+          },
+          "expenses": {
+            "type": "number",
+            "title": "Expenses"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "date",
+          "cash_sales",
+          "credit_sales",
+          "dues_collected",
+          "expenses"
+        ],
+        "title": "SalesDay"
+      },
+      "Shortfall": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "cause": {
+            "type": "string",
+            "title": "Cause"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "date",
+          "amount",
+          "cause"
+        ],
+        "title": "Shortfall"
+      },
+      "SlowMover": {
+        "properties": {
+          "product": {
+            "type": "string",
+            "title": "Product"
+          },
+          "qty": {
+            "type": "integer",
+            "title": "Qty"
+          },
+          "sellable_qty": {
+            "type": "integer",
+            "title": "Sellable Qty"
+          },
+          "at_risk_value": {
+            "type": "number",
+            "title": "At Risk Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "product",
+          "qty",
+          "sellable_qty",
+          "at_risk_value"
+        ],
+        "title": "SlowMover"
+      },
+      "SupplierReply": {
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "title": "Action Id"
+          },
+          "accepted": {
+            "type": "boolean",
+            "title": "Accepted"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action_id",
+          "accepted"
+        ],
+        "title": "SupplierReply"
+      },
+      "SupplierShare": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "share_pct": {
+            "type": "number",
+            "title": "Share Pct"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "share_pct"
+        ],
+        "title": "SupplierShare"
+      },
+      "TrimLine": {
+        "properties": {
+          "product": {
+            "type": "string",
+            "title": "Product"
+          },
+          "qty": {
+            "type": "integer",
+            "title": "Qty"
+          },
+          "unit_cost": {
+            "type": "number",
+            "title": "Unit Cost"
+          },
+          "sales_rate_per_day": {
+            "type": "number",
+            "title": "Sales Rate Per Day"
+          },
+          "sellable_days": {
+            "type": "integer",
+            "title": "Sellable Days"
+          },
+          "sellable_qty": {
+            "type": "integer",
+            "title": "Sellable Qty"
+          },
+          "suggested_qty": {
+            "type": "integer",
+            "title": "Suggested Qty"
+          },
+          "at_risk_value": {
+            "type": "number",
+            "title": "At Risk Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "product",
+          "qty",
+          "unit_cost",
+          "sales_rate_per_day",
+          "sellable_days",
+          "sellable_qty",
+          "suggested_qty",
+          "at_risk_value"
+        ],
+        "title": "TrimLine"
+      },
+      "TrimOut": {
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "title": "Order Id"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/TrimLine"
+            },
+            "type": "array",
+            "title": "Lines"
+          },
+          "original_total": {
+            "type": "number",
+            "title": "Original Total"
+          },
+          "suggested_total": {
+            "type": "number",
+            "title": "Suggested Total"
+          },
+          "saving": {
+            "type": "number",
+            "title": "Saving"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "order_id",
+          "lines",
+          "original_total",
+          "suggested_total",
+          "saving"
+        ],
+        "title": "TrimOut"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
