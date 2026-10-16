@@ -1,17 +1,8 @@
-"""M1 contract smoke tests: every stub endpoint answers with a valid, golden shape."""
+"""API round trips: every endpoint answers with a valid shape and the golden numbers."""
 
 import pytest
-from fastapi.testclient import TestClient
 
-from app.main import app
-
-client = TestClient(app)
 P = "/api/v1/pharmacies/green-life"
-
-
-@pytest.fixture(autouse=True)
-def reset():
-    client.post("/api/v1/dev/reset")
 
 
 @pytest.mark.parametrize("path", [
@@ -19,15 +10,15 @@ def reset():
     f"{P}/expiry", f"{P}/orders", f"{P}/orders/o-1/trim", f"{P}/passport", f"{P}/actions",
     f"{P}/consents", "/api/v1/lenders", "/api/v1/logs", f"{P}/captures/cap-demo",
 ])
-def test_get_endpoints(path):
+def test_get_endpoints(client, path):
     assert client.get(path).status_code == 200
 
 
-def test_golden_numbers_in_examples():
+def test_golden_numbers(client):
     acc = client.get(f"{P}/accounts").json()
     assert (acc["sales"], acc["net_profit"], acc["stock_days"], acc["patient_due_days"]) == (412500, 13500, 17.4, 2.8)
     fc = client.get(f"{P}/forecast").json()
-    assert fc["days"][9]["balance"] == 41000
+    assert fc["days"][10]["balance"] == -19000
     assert fc["shortfalls"][0] == {"date": "2026-10-26", "amount": 19000, "cause": "Supplier A order BDT 60,000"}
     trim = client.get(f"{P}/orders/o-1/trim").json()
     assert (trim["suggested_total"], trim["saving"]) == (49200, 10800)
@@ -40,7 +31,7 @@ def test_golden_numbers_in_examples():
     assert sum(e["on_time"] for e in pp["evidence"]) == 38
 
 
-def test_action_flow():
+def test_action_flow(client):
     act = client.post(f"{P}/actions", json={"kind": "extension_request", "payload": {"amount": 8200}}).json()
     assert act["status"] == "proposed"
     done = client.post(f"{P}/actions/{act['id']}/approve").json()
@@ -48,12 +39,21 @@ def test_action_flow():
     assert client.post(f"{P}/actions/{act['id']}/approve").status_code == 409
 
 
-def test_capture_upload_falls_back_to_example():
+def test_capture_confirm_saves_invoice_and_stock(client):
     r = client.post(f"{P}/captures", files={"file": ("inv.jpg", b"fake", "image/jpeg")}, data={"kind": "invoice"})
     assert r.status_code == 200 and r.json()["status"] == "needs_review"
     cid = r.json()["id"]
+    stock_before = client.get(f"{P}/accounts").json()["stock_value"]
     assert client.post(f"{P}/captures/{cid}/confirm", json={}).json()["status"] == "confirmed"
+    assert client.get(f"{P}/accounts").json()["stock_value"] == stock_before + 7350  # sample draft's lines
+    assert "K-77310" in [i["invoice_no"] for i in client.get(f"{P}/dues").json()["items"]]
+    assert client.post(f"{P}/captures/{cid}/confirm", json={}).status_code == 409
 
 
-def test_unknown_pharmacy():
+def test_reset_without_captures(client):
+    assert client.post("/api/v1/dev/reset").status_code == 200
+    assert client.get(f"{P}/accounts").json()["stock_value"] == 192500
+
+
+def test_unknown_pharmacy(client):
     assert client.get("/api/v1/pharmacies/nope/accounts").status_code == 404

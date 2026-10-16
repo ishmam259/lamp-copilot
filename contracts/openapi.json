@@ -206,6 +206,7 @@
     "/api/v1/pharmacies/{pid}/captures/{cid}/confirm": {
       "post": {
         "summary": "Confirm Capture",
+        "description": "Save the owner-corrected draft as an invoice (plus stock) or as sales days.",
         "operationId": "confirm_capture_api_v1_pharmacies__pid__captures__cid__confirm_post",
         "parameters": [
           {

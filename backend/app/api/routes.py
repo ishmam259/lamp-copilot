@@ -1,8 +1,9 @@
-"""M1 stub endpoints (docs/PLAN.md section 4.1).
+"""REST endpoints (docs/PLAN.md section 4.1).
 
-Each endpoint returns the golden example from examples.py. State-changing
-endpoints keep a small in-memory store so the UI flow works end to end; the
-real engines and database replace this in F2-F5.
+Pharmacy, captures, accounts, dues, forecast, alerts and orders read the
+database through the engines. The rest still return the golden examples from
+examples.py, with a small in-memory store for actions, consents and logs,
+until F3-F5 replace them.
 """
 
 import asyncio
@@ -12,8 +13,15 @@ import json
 from datetime import datetime, timezone
 from typing import Literal
 
-from fastapi import APIRouter, Body, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+from app import engines
+from app.db import models as m
+from app.db.seed import apply_extraction, load_seed
+from app.db.session import get_db
 
 from app.schemas import (
     AccountsOut,
@@ -85,16 +93,17 @@ def health() -> dict:
 
 
 @router.post("/dev/reset")
-def dev_reset(with_demo_captures: bool = False) -> dict:
+def dev_reset(with_demo_captures: bool = False, db: Session = Depends(get_db)) -> dict:
+    load_seed(db, with_demo_captures=with_demo_captures)
     store.reset()
     store.log("T0", "DEV", "reset", with_demo_captures=with_demo_captures)
     return {"status": "ok", "pharmacy_id": ex.PID, "with_demo_captures": with_demo_captures}
 
 
 @router.get("/pharmacies/{pid}", response_model=PharmacyOut)
-def get_pharmacy(pid: str):
-    _check_pid(pid)
-    return ex.PHARMACY
+def get_pharmacy(pid: str, db: Session = Depends(get_db)):
+    ph = engines.get_pharmacy(db, pid)
+    return {"id": ph.id, "name": ph.name, "city": ph.city, "settings": ph.settings}
 
 
 # --- Captures -------------------------------------------------------------
@@ -109,66 +118,77 @@ async def _extract(image: bytes, kind: str) -> dict:
         return copy.deepcopy(ex.CAPTURE_INVOICE["extraction"])
 
 
+def _capture_out(cap: m.Capture) -> dict:
+    return {"id": cap.id, "kind": cap.kind, "status": cap.status, "image_url": None, "extraction": cap.extraction}
+
+
 @router.post("/pharmacies/{pid}/captures", response_model=CaptureOut)
 async def create_capture(pid: str, file: UploadFile = File(...),
-                         kind: Literal["invoice", "sales_page"] = Form(...)):
-    _check_pid(pid)
+                         kind: Literal["invoice", "sales_page"] = Form(...), db: Session = Depends(get_db)):
+    engines.get_pharmacy(db, pid)
     extraction = await _extract(await file.read(), kind)
-    cid = f"cap-{len(store.captures) + 1}"
-    capture = {"id": cid, "kind": kind, "status": "needs_review", "image_url": None, "extraction": extraction}
-    store.captures[cid] = capture
-    store.log("T1", "CAPTURE", "capture_created", capture=cid, kind=kind,
+    n = len(db.scalars(select(m.Capture.id)).all()) + 1
+    cap = m.Capture(id=f"cap-{n}", pharmacy_id=pid, kind=kind, status="needs_review",
+                    extraction=extraction, created_at=datetime.now(timezone.utc))
+    db.add(cap)
+    db.commit()
+    store.log("T1", "CAPTURE", "capture_created", capture=cap.id, kind=kind,
               suspicious_text=len(extraction.get("suspicious_text", [])))
-    return capture
+    return _capture_out(cap)
+
+
+def _get_capture(db: Session, pid: str, cid: str) -> m.Capture:
+    cap = db.get(m.Capture, cid)
+    if cap is None or cap.pharmacy_id != pid:
+        raise HTTPException(404, f"Unknown capture '{cid}'")
+    return cap
 
 
 @router.get("/pharmacies/{pid}/captures/{cid}", response_model=CaptureOut)
-def get_capture(pid: str, cid: str):
-    _check_pid(pid)
+def get_capture(pid: str, cid: str, db: Session = Depends(get_db)):
     if cid == ex.CAPTURE_INVOICE["id"]:
         return ex.CAPTURE_INVOICE
-    if cid not in store.captures:
-        raise HTTPException(404, f"Unknown capture '{cid}'")
-    return store.captures[cid]
+    return _capture_out(_get_capture(db, pid, cid))
 
 
 @router.post("/pharmacies/{pid}/captures/{cid}/confirm", response_model=CaptureOut)
-def confirm_capture(pid: str, cid: str, body: CaptureConfirm):
-    capture = copy.deepcopy(get_capture(pid, cid))
+def confirm_capture(pid: str, cid: str, body: CaptureConfirm, db: Session = Depends(get_db)):
+    """Save the owner-corrected draft as an invoice (plus stock) or as sales days."""
+    cap = _get_capture(db, pid, cid)
+    if cap.status == "confirmed":
+        raise HTTPException(409, "Capture is already confirmed")
+    extraction = dict(cap.extraction)
     if body.invoice:
-        capture["extraction"]["invoice"] = body.invoice.model_dump(mode="json")
+        extraction["invoice"] = body.invoice.model_dump(mode="json")
     if body.sales_page:
-        capture["extraction"]["sales_page"] = body.sales_page.model_dump(mode="json")
-    capture["status"] = "confirmed"
-    store.captures[cid] = capture
+        extraction["sales_page"] = body.sales_page.model_dump(mode="json")
+    apply_extraction(db, pid, extraction, capture_id=cid)
+    cap.extraction, cap.status = extraction, "confirmed"
+    db.commit()
     store.log("T1", "CAPTURE", "capture_confirmed", capture=cid)
-    return capture
+    return _capture_out(cap)
 
 
 # --- Read views -------------------------------------------------------------
 
 @router.get("/pharmacies/{pid}/accounts", response_model=AccountsOut)
-def get_accounts(pid: str, period_days: int = 30):
-    _check_pid(pid)
-    return ex.ACCOUNTS
+def get_accounts(pid: str, period_days: int = 30, db: Session = Depends(get_db)):
+    return engines.get_accounts(db, pid, period_days)
 
 
 @router.get("/pharmacies/{pid}/dues", response_model=DuesOut)
-def get_dues(pid: str):
-    _check_pid(pid)
-    return ex.DUES
+def get_dues(pid: str, db: Session = Depends(get_db)):
+    return engines.get_dues(db, pid)
 
 
 @router.get("/pharmacies/{pid}/forecast", response_model=ForecastOut)
-def get_forecast(pid: str, days: int = 30):
-    _check_pid(pid)
-    return ex.FORECAST
+def get_forecast(pid: str, days: int = 30, db: Session = Depends(get_db)):
+    return engines.get_forecast(db, pid, days)
 
 
 @router.get("/pharmacies/{pid}/alerts", response_model=list[Alert])
-def get_alerts(pid: str):
-    _check_pid(pid)
-    return ex.ALERTS
+def get_alerts(pid: str, db: Session = Depends(get_db)):
+    return engines.get_alerts(db, pid)
 
 
 @router.get("/pharmacies/{pid}/expiry", response_model=ExpiryOut)
@@ -178,9 +198,8 @@ def get_expiry(pid: str, horizon_days: int = 60):
 
 
 @router.get("/pharmacies/{pid}/orders", response_model=list[OrderOut])
-def list_orders(pid: str):
-    _check_pid(pid)
-    return ex.ORDERS
+def list_orders(pid: str, db: Session = Depends(get_db)):
+    return engines.list_orders(db, pid)
 
 
 @router.get("/pharmacies/{pid}/orders/{oid}/trim", response_model=TrimOut)
