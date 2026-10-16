@@ -1,6 +1,6 @@
 # LaMP frontend: Next.js production server on port 3000.
-# Both values below are baked in at build time (Next.js inlines NEXT_PUBLIC_*
-# and stores rewrites in the build), so pass them as build args, not runtime env.
+# BACKEND_URL is baked in at build time (Next.js stores rewrites in the build),
+# so pass it as a build arg, not runtime env.
 ARG NODE_VERSION=22-alpine
 
 FROM node:${NODE_VERSION} AS deps
@@ -10,10 +10,8 @@ RUN npm ci
 
 FROM node:${NODE_VERSION} AS build
 WORKDIR /app
-ARG NEXT_PUBLIC_API_MODE=live
 ARG BACKEND_URL=http://backend:8000
-ENV NEXT_PUBLIC_API_MODE=${NEXT_PUBLIC_API_MODE} \
-    BACKEND_URL=${BACKEND_URL} \
+ENV BACKEND_URL=${BACKEND_URL} \
     NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

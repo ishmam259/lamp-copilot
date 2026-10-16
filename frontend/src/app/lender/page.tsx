@@ -27,7 +27,7 @@ export default function LenderPage() {
 
   return (
     <div>
-      <PageTitle title="Lender view" sub="A simulated lender's inbox. Only pharmacies that shared their passport with this lender appear here." />
+      <PageTitle title="Lender view" sub="The lender's inbox. Only pharmacies that shared their passport with this lender appear here." />
       <div role="tablist" aria-label="Lender" className="mb-4 inline-flex rounded-[var(--radius)] border border-rule bg-board p-1">
         {lenders?.map((l) => (
           <button

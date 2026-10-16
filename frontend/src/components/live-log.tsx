@@ -62,8 +62,8 @@ function sentence(e: LogEvent): string {
       return "Ignored instructions written inside a document";
     case "capture_confirmed":
       return "Owner confirmed a captured document";
-    case "demo_reset":
-      return "Demo data reset";
+    case "reset":
+      return "Pharmacy data loaded";
     default:
       return words(e.event);
   }

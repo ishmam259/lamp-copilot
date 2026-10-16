@@ -11,24 +11,13 @@ npm run dev
 
 Open http://localhost:3000.
 
-## Mock or live data
+## Backend
 
-- **Mock (default):** everything runs in the browser from `src/mocks/data.ts`, which matches the golden numbers in `docs/PLAN.md`. Approving actions really changes state, and the chat gives pre-recorded answers. "Reset demo data" (desktop rail) or a page reload starts over.
-- **Live:** create `.env.local` with:
-
-  ```
-  NEXT_PUBLIC_API_MODE=live
-  BACKEND_URL=http://127.0.0.1:8000
-  ```
-
-  `/api/v1/*` is proxied to the FastAPI backend (see `next.config.ts`), so there's no CORS setup. Chat goes to `POST /api/v1/chat` (Pritom's stream).
+The app always talks to the FastAPI backend: `/api/v1/*` is proxied to it (see `next.config.ts`), so there's no CORS setup. Start the backend first (repo-root README, "Run it"). The default address is `http://127.0.0.1:8000`; to use another, create `.env.local` with `BACKEND_URL=http://host:port`. Chat goes to `POST /api/v1/chat` (Pritom's stream).
 
 ## Docker
 
-`frontend/Dockerfile` builds a small production server (Next.js standalone, port 3000). Two values are baked in at build time, so they are build args, not runtime env:
-
-- `NEXT_PUBLIC_API_MODE` (default `live`)
-- `BACKEND_URL` (default `http://backend:8000`, the compose service name)
+`frontend/Dockerfile` builds a small production server (Next.js standalone, port 3000). `BACKEND_URL` is baked in at build time, so it's a build arg, not runtime env (default `http://backend:8000`, the compose service name).
 
 The service block in the repo-root `docker-compose.yml`:
 
@@ -37,7 +26,6 @@ The service block in the repo-root `docker-compose.yml`:
     build:
       context: ./frontend
       args:
-        NEXT_PUBLIC_API_MODE: live
         BACKEND_URL: http://backend:8000
     ports:
       # 3001 on the host, so it can run next to `npm run dev` on 3000.
@@ -46,12 +34,13 @@ The service block in the repo-root `docker-compose.yml`:
       - backend
 ```
 
-Then `docker compose up -d --build` starts the database, API and app; open http://localhost:3001 and run `POST /api/v1/dev/reset?with_demo_captures=true` for the golden numbers. `npm run dev` keeps http://localhost:3000, so both can run at once.
+Then `docker compose up -d --build` starts the database, API and app; open http://localhost:3001 and load the pharmacy data as in the repo-root README. `npm run dev` keeps http://localhost:3000, so both can run at once.
 
 ## Where things are
 
+- `src/lib/forecast.ts`: row labels and amounts taken from the forecast's `items`.
 - `src/lib/types.ts`: shapes from `docs/PLAN.md` section 4.3. Keep in sync with `backend/app/schemas`.
-- `src/lib/api.ts`: one function per endpoint, SWR hooks, and the mock store.
+- `src/lib/api.ts`: one function per endpoint and the SWR hooks.
 - `src/app/*`: screens (Today, Cash, Capture, Stock, Funding, Actions, Passport, Lender view, Audit log).
 - `src/components/`: shell, panels, cash route line, live log, chat drawer, theme toggle.
 

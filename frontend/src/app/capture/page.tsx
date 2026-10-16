@@ -188,8 +188,7 @@ function Review({
           </Button>
         )}
         <p className="mt-3 text-xs text-ink-2">
-          Read by {capture.extraction.model} ({capture.extraction.mode === "replay" ? "saved demo response" : "live"}). Money checks run in plain code, not by
-          the AI.
+          Read by {capture.extraction.model}. Money checks run in plain code, not by the AI.
         </p>
       </Carton>
     </div>

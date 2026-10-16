@@ -11,14 +11,13 @@ import {
   Landmark,
   MessageCircle,
   PackageOpen,
-  RotateCcw,
   ScrollText,
   Sun,
   Wallet,
 } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "cn";
-import { API_MODE, resetDemo, useActions, usePharmacy } from "@/lib/api";
+import { useActions, usePharmacy } from "@/lib/api";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ChatPanel } from "@/components/chat-panel";
 import { LiveLog } from "@/components/live-log";
@@ -84,14 +83,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
         <div className="space-y-2 border-t border-white/15 p-4">
           <ThemeToggle withLabel onRail className="-ml-3" />
-          <ModeNote />
-          <button
-            type="button"
-            onClick={() => resetDemo()}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-rail-2 hover:text-rail-ink"
-          >
-            <RotateCcw className="size-4" aria-hidden /> Reset demo data
-          </button>
         </div>
       </aside>
 
@@ -225,13 +216,5 @@ function RailLink({
       <span className="flex-1">{label}</span>
       {badge > 0 && <span className="num rounded-full bg-alert-band px-2 text-xs leading-5 font-bold text-white">{badge}</span>}
     </Link>
-  );
-}
-
-function ModeNote() {
-  return (
-    <p className="text-xs leading-snug text-rail-2">
-      {API_MODE === "mock" ? "Demo data. " : ""}Lenders and payouts are simulated.
-    </p>
   );
 }
