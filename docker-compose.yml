@@ -6,7 +6,8 @@ services:
       POSTGRES_PASSWORD: lamp
       POSTGRES_DB: lamp
     ports:
-      - "5432:5432"
+      # 5433 on the host: a local PostgreSQL install often already holds 5432.
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -15,7 +16,10 @@ services:
       retries: 10
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      additional_contexts:
+        seed: ./seed
     env_file:
       - path: .env
         required: false
