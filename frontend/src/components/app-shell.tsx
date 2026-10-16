@@ -16,12 +16,13 @@ import {
   Sun,
   Wallet,
 } from "lucide-react";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "cn";
 import { API_MODE, resetDemo, useActions, usePharmacy } from "@/lib/api";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ChatPanel } from "@/components/chat-panel";
 import { LiveLog } from "@/components/live-log";
+import { ThemeToggle } from "@/components/theme";
 
 const OWNER_NAV = [
   { href: "/", label: "Today", icon: Sun },
@@ -82,6 +83,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           ))}
         </nav>
         <div className="space-y-2 border-t border-rule p-4">
+          <ThemeToggle withLabel className="-ml-3" />
           <ModeNote />
           <button
             type="button"
@@ -102,6 +104,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Wordmark />
             </Link>
             <span className="min-w-0 flex-1 truncate text-sm text-ink-2">{pharmacy?.name}</span>
+            <ThemeToggle />
             <Link
               href="/actions"
               aria-label={`Actions, ${pending} waiting for you`}
@@ -109,7 +112,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             >
               <Inbox className="size-5" aria-hidden />
               {pending > 0 && (
-                <span className="num absolute top-1.5 right-1.5 min-w-5 rounded-full bg-alert px-1 text-center text-xs leading-5 font-bold text-white">
+                <span className="num absolute top-1.5 right-1.5 min-w-5 rounded-full bg-alert-band px-1 text-center text-xs leading-5 font-bold text-white">
                   {pending}
                 </span>
               )}
@@ -118,7 +121,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <button
                 type="button"
                 onClick={() => setChatOpen(true)}
-                className="inline-flex h-11 items-center gap-1.5 rounded-[var(--radius)] bg-cash px-3 font-semibold text-white"
+                className="inline-flex h-11 items-center gap-1.5 rounded-[var(--radius)] bg-primary px-3 font-semibold text-primary-foreground"
               >
                 <MessageCircle className="size-5" aria-hidden /> Ask
               </button>
@@ -134,7 +137,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               onClick={() => setChatOpen(true)}
-              className="inline-flex h-10 items-center gap-2 rounded-[var(--radius)] bg-cash px-4 font-semibold text-white hover:bg-[color-mix(in_srgb,var(--cash),black_12%)]"
+              className="inline-flex h-10 items-center gap-2 rounded-[var(--radius)] bg-primary px-4 font-semibold text-primary-foreground hover:bg-[color-mix(in_srgb,var(--primary),black_12%)]"
             >
               <MessageCircle className="size-5" aria-hidden /> Ask LaMP
             </button>
@@ -212,7 +215,7 @@ function RailLink({
     >
       <Icon className="size-5" aria-hidden />
       <span className="flex-1">{label}</span>
-      {badge > 0 && <span className="num rounded-full bg-alert px-2 text-xs leading-5 font-bold text-white">{badge}</span>}
+      {badge > 0 && <span className="num rounded-full bg-alert-band px-2 text-xs leading-5 font-bold text-white">{badge}</span>}
     </Link>
   );
 }

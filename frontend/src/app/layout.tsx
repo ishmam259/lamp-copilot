@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Barlow, Courier_Prime } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/app-shell";
+import { ThemeProvider } from "@/components/theme";
 
 const barlow = Barlow({
   variable: "--font-barlow",
@@ -22,16 +23,21 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1e5bb8",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#191f24" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${barlow.variable} ${stamp.variable} h-full antialiased`}>
+    <html lang="en" className={`${barlow.variable} ${stamp.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full">
-        <AppShell>{children}</AppShell>
+        <ThemeProvider>
+          <AppShell>{children}</AppShell>
+        </ThemeProvider>
       </body>
     </html>
   );

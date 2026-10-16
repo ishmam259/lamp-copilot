@@ -29,6 +29,11 @@
   --color-stock-tint: var(--stock-tint);
   --color-warn: var(--warn);
   --color-warn-tint: var(--warn-tint);
+  --color-alert-band: var(--alert-band);
+  --color-cash-band: var(--cash-band);
+  --color-stock-band: var(--stock-band);
+  --color-warn-band: var(--warn-band);
+  --color-ink-band: var(--ink-band);
 
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -70,6 +75,12 @@
   --stock-tint: #e6f3ec;
   --warn: #9a5800;
   --warn-tint: #fdf1de;
+  /* band backgrounds always carry white text */
+  --alert-band: #c4301e;
+  --cash-band: #1e5bb8;
+  --stock-band: #1e7a4f;
+  --warn-band: #9a5800;
+  --ink-band: #1f2328;
 
   /* shadcn mapping */
   --background: var(--shelf);
@@ -91,6 +102,50 @@
   --input: #c9d0d6;
   --ring: var(--cash);
   --radius: 4px;
+}
+
+
+/* Dark: the same carton world after closing time. Bands keep white text;
+   coloured text lightens so it stays readable on the dark board. */
+.dark {
+  --shelf: #101417;
+  --board: #191f24;
+  --ink: #e9edf0;
+  --ink-2: #a9b3bb;
+  --rule: #2b333a;
+  --alert: #ff8f80;
+  --alert-tint: #3a1d19;
+  --cash: #8cb8ff;
+  --cash-tint: #182a45;
+  --stock: #7fd3a6;
+  --stock-tint: #16301f;
+  --warn: #f2b45c;
+  --warn-tint: #352710;
+  --alert-band: #b42d1c;
+  --cash-band: #2560c4;
+  --stock-band: #1b6e47;
+  --warn-band: #8a4f00;
+  --ink-band: #000000;
+
+  --background: var(--shelf);
+  --foreground: var(--ink);
+  --card: var(--board);
+  --card-foreground: var(--ink);
+  --popover: var(--board);
+  --popover-foreground: var(--ink);
+  --primary: #2560c4;
+  --primary-foreground: #ffffff;
+  --secondary: #252d33;
+  --secondary-foreground: var(--ink);
+  --muted: #232a30;
+  --muted-foreground: var(--ink-2);
+  --accent: var(--cash-tint);
+  --accent-foreground: var(--ink);
+  --destructive: var(--alert-band);
+  --border: var(--rule);
+  --input: #3a444c;
+  --ring: var(--cash);
+  color-scheme: dark;
 }
 
 @layer base {
@@ -135,6 +190,9 @@
     background: #b9c2c9;
     border-radius: 10px;
     border: 3px solid var(--shelf);
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #3a444c;
   }
   h1,
   h2,
@@ -204,19 +262,19 @@
     text-transform: uppercase;
   }
   .band-alert {
-    background: var(--alert);
+    background: var(--alert-band);
   }
   .band-cash {
-    background: var(--cash);
+    background: var(--cash-band);
   }
   .band-stock {
-    background: var(--stock);
+    background: var(--stock-band);
   }
   .band-warn {
-    background: var(--warn);
+    background: var(--warn-band);
   }
   .band-ink {
-    background: var(--ink);
+    background: var(--ink-band);
   }
 
   /* The tri-colour strip across the top of the app, like a carton's print strip. */
@@ -224,9 +282,9 @@
     height: 6px;
     background: linear-gradient(
       90deg,
-      var(--cash) 0 55%,
-      var(--alert) 55% 75%,
-      var(--stock) 75% 100%
+      var(--cash-band) 0 55%,
+      var(--alert-band) 55% 75%,
+      var(--stock-band) 75% 100%
     );
   }
 }

@@ -64,5 +64,6 @@ LaMP is an AI finance officer for neighborhood pharmacies. It turns photographed
 
 - Cheap Android phones: small screens (from 360 px wide), modest CPU, slow or patchy mobile data. Keep pages light and usable while data loads.
 - Bright shop lighting: strong contrast and large tap targets.
+- Light and dark mode, following the phone's setting by default with a manual switch.
 - Owners aren't finance experts: plain language, no unexplained jargon.
 - Baseline: WCAG 2.2 AA.

@@ -159,7 +159,7 @@ function ChatFrame({
             <div
               className={cn(
                 "max-w-[92%] rounded-[var(--radius)] px-3.5 py-2.5 whitespace-pre-line",
-                t.role === "user" ? "bg-cash text-white" : "border border-rule bg-board text-ink"
+                t.role === "user" ? "bg-primary text-primary-foreground" : "border border-rule bg-board text-ink"
               )}
             >
               {t.text}
@@ -205,7 +205,7 @@ function ChatFrame({
             type="submit"
             disabled={busy || !draft.trim()}
             aria-label="Send"
-            className="inline-flex size-11 items-center justify-center rounded-[var(--radius)] bg-cash text-white disabled:opacity-50"
+            className="inline-flex size-11 items-center justify-center rounded-[var(--radius)] bg-primary text-primary-foreground disabled:opacity-50"
           >
             <ArrowUp className="size-5" aria-hidden />
           </button>
