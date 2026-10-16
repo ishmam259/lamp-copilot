@@ -1,7 +1,7 @@
 "use client";
 
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
-import { CashStrip } from "@/components/cash-strip";
+import { CashLine } from "@/components/cash-line";
 import { useAccounts, useDues, useForecast } from "@/lib/api";
 import { bdt, dayDate, num, signed, shortDate, stampDate } from "@/lib/format";
 
@@ -24,7 +24,7 @@ export default function CashPage() {
             {!forecast && !error && <Skel className="h-24" />}
             {forecast && (
               <>
-                <CashStrip forecast={forecast} height={96} />
+                <CashLine forecast={forecast} />
                 <p className="mt-3 text-sm text-ink-2">
                   Starts from <span className="num font-semibold text-ink">{bdt(forecast.start_cash)}</span> today. Each day adds normal sales and takes out
                   normal restocking; the rows below are the bigger moves.
