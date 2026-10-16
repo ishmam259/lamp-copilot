@@ -17,11 +17,13 @@ def get_forecast(db: Session, pid: str, days: int = 30,
 
     Start: pharmacy.cash_on_hand at the start of as_of.
     Each day, in this order:
-      1. inflow  = average daily cash receipts = sum(cash_sales + dues_collected) / 30
+      1. named outflows, paid at the start of the day (before that day's sales come in):
+         unpaid supplier invoices on their due date (overdue ones on day 0), scheduled
+         expenses on their day of month, planned orders on their due date
+      2. inflow  = average daily cash receipts = sum(cash_sales + dues_collected) / 30
                    over the 30 days before as_of
-      2. routine restock at average daily cost of sales = sales x (1 - margin) / 30
-      3. named outflows: unpaid supplier invoices on their due date (overdue ones on
-         day 0), scheduled expenses on their day of month, planned orders on their due date
+      3. routine restock at average daily cost of sales = sales x (1 - margin) / 30
+    So the cash available for a payment is the previous day's closing balance.
     Shortfall: a named outflow (or the routine restock) that takes the balance below
     settings.cash_buffer. amount = the extra deficit it causes, i.e.
     min(outflow, cash_buffer - balance_after). Routine sales and restock are not listed
@@ -56,15 +58,15 @@ def get_forecast(db: Session, pid: str, days: int = 30,
     for i in range(days):
         day = today + timedelta(days=i)
         moves = list(named.get(day, [])) + [(e.category, e.amount) for e in schedule if e.day_of_month == day.day]
-        before = balance
-        balance += receipts - restock
-        if before >= buffer > balance:
-            shortfalls.append({"date": day, "amount": r2(buffer - balance), "cause": "Daily restock exceeds receipts"})
         for label, amount in moves:
             balance -= amount
             if balance < buffer:
                 shortfalls.append({"date": day, "amount": r2(min(amount, buffer - balance)),
                                    "cause": f"{label} BDT {amount:,.0f}"})
+        before = balance
+        balance += receipts - restock
+        if before >= buffer > balance:
+            shortfalls.append({"date": day, "amount": r2(buffer - balance), "cause": "Daily restock exceeds receipts"})
         out_days.append({
             "date": day, "inflow": r2(receipts), "outflow": r2(restock + sum(a for _, a in moves)),
             "balance": r2(balance), "items": [{"label": l, "amount": r2(-a)} for l, a in moves],

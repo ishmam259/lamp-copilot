@@ -3,7 +3,7 @@
     "id": "green-life",
     "name": "Green Life Pharmacy",
     "city": "Bogura",
-    "cash_on_hand": 37500,
+    "cash_on_hand": 39150,
     "settings": {
       "gross_margin_pct": 12,
       "cash_buffer": 0,

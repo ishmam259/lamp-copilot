@@ -13,8 +13,9 @@ Layout of the numbers:
   Daily restock at cost = 412,500 x 0.88 / 30 = 12,100. Routine net +1,650/day.
 - Expenses in the window: rent 18,000 (1 Oct), salaries 15,000 (5 Oct),
   utilities 3,000 (10 Oct) = 36,000; the same items recur in expense_schedule.
-- Cash on hand at the start of as_of = 37,500. Before the Supplier A order on
-  as_of+10: 37,500 + 11 x 1,650 - 8,450 (Supplier D) - 6,200 (Supplier F) = 41,000.
+- Cash on hand at the start of as_of = 39,150. Payments go out at the start of a
+  day, so the Supplier A order on as_of+10 is paid from the close of as_of+9:
+  39,150 + 10 x 1,650 - 8,450 (Supplier D) - 6,200 (Supplier F) = 41,000.
 - Stock at cost 210,000 = 192,500 in the seed + 17,500 from the two demo invoices.
 - 41 paid invoices in the last 90 days (38 on time, 3 late) across 23 suppliers,
   plus 3 unpaid ones (Supplier D in the seed; Suppliers F and H are the demo captures).
@@ -217,7 +218,7 @@ def main() -> None:
     sales_days = build_sales_days()
     seed = {
         "pharmacy": {
-            "id": "green-life", "name": "Green Life Pharmacy", "city": "Bogura", "cash_on_hand": 37_500,
+            "id": "green-life", "name": "Green Life Pharmacy", "city": "Bogura", "cash_on_hand": 39_150,
             "settings": {"gross_margin_pct": 12, "cash_buffer": 0, "expiry_buffer_days": 30, "as_of_date": d(0)},
         },
         "suppliers": [{"name": f"Supplier {s}", "verified": True, "return_cutoff_days": RETURN_CUTOFF.get(s, 30)}

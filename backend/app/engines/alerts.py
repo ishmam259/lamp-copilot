@@ -38,9 +38,8 @@ def get_alerts(db: Session, pid: str) -> list[Alert]:
     fc = get_forecast(db, pid)
     if fc.shortfalls:
         s = fc.shortfalls[0]
-        day = next(x for x in fc.days if x.date == s.date)
-        item = next((i for i in day.items if s.cause.startswith(i.label)), None)
-        before = day.balance - item.amount if item else day.balance + s.amount
+        i = next(n for n, x in enumerate(fc.days) if x.date == s.date)
+        before = fc.days[i - 1].balance if i else fc.start_cash  # payments go out at the start of the day
         add("shortfall", "critical", f"Short {_bdt(s.amount)} on {s.date:%d %b}",
             f"{s.cause} is due. Forecast cash that day is {_bdt(before)}.")
 
