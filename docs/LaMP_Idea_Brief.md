@@ -186,7 +186,7 @@ It's crowded, though, so the pitch must say what's different:
 
 ---
 
-## 6. Tech stack and 3-day feasibility (3 Claude accounts)
+## 6. Tech stack and 3-day feasibility (3 builders)
 
 ### Stack (claims checked)
 | Layer | Choice | Note |
@@ -196,7 +196,7 @@ It's crowded, though, so the pitch must say what's different:
 | Barcode (stretch only) | `barcode-detector` (ZXing-C++ via WebAssembly) | Not `html5-qrcode` (unmaintained since 2023); the built-in browser API doesn't work on iPhone Safari |
 | Chat | Vercel AI SDK `useChat` + PydanticAI `VercelAIAdapter` in FastAPI | The adapter implements the stream protocol, so no hand-rolling |
 | Backend | Python FastAPI + Pydantic + PydanticAI | |
-| LLM | Claude via the Anthropic API: `claude-opus-5-5`; vision plus structured outputs for extraction, strict tool use for the orchestrator | Not Gemini 2.5 Flash (listed shutdown 16 Oct 2026). The **app needs an Anthropic API key**, billed separately from your Claude accounts. |
+| LLM | OpenAI `gpt-6-luna` ($0.10 / $0.50 per 1M tokens) through the **Responses API**, for both photo extraction (image input, structured outputs) and the orchestrator (function calling). In PydanticAI, use its OpenAI Responses model class. Upgrade extraction alone to `gpt-6.1-sol` if accuracy on the test set is too low. | Use the Responses API for tool calling; Chat Completions allows function calling only with reasoning effort `none`. Not Gemini 2.5 Flash (listed shutdown 16 Oct 2026). |
 | Money math | Plain Python + SciPy (`scipy.stats.beta`) | cvxpy not needed |
 | Data | PostgreSQL; registry = table with unique constraint | |
 | Live logs | Server-Sent Events | |

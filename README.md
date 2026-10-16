@@ -8,7 +8,7 @@ The full idea, research and scope are in [docs/LaMP_Idea_Brief.md](docs/LaMP_Ide
 
 ## Stack
 - **Frontend:** Next.js (TypeScript), Tailwind, shadcn/ui, Recharts, Vercel AI SDK `useChat`
-- **Backend:** Python FastAPI, Pydantic, PydanticAI, Anthropic API (`claude-opus-5-5`)
+- **Backend:** Python FastAPI, Pydantic, PydanticAI, OpenAI Responses API (`gpt-6-luna`)
 - **Data:** PostgreSQL
 - **Ops:** Docker Compose, pytest
 
@@ -24,6 +24,6 @@ Each account works only in its own folders, so no two people edit the same file.
 Account 1 writes the shared API contract (`contracts/`) and the sample pharmacy (`seed/`) first. Everyone else builds against those.
 
 ## Setup
-Copy `.env.example` to `.env` and add your Anthropic API key. Never commit `.env`.
+Copy `.env.example` to `.env` and add your OpenAI API key. Never commit `.env`.
 
 Run instructions will be added once the services exist.
