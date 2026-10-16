@@ -28,6 +28,7 @@
     "/api/v1/dev/reset": {
       "post": {
         "summary": "Dev Reset",
+        "description": "Wipe everything and reload the seed (plus the three demo captures if asked).",
         "operationId": "dev_reset_api_v1_dev_reset_post",
         "parameters": [
           {
@@ -50,6 +51,45 @@
                   "type": "object",
                   "additionalProperties": true,
                   "title": "Response Dev Reset Api V1 Dev Reset Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dev/simulate/supplier-reply": {
+      "post": {
+        "summary": "Simulate Supplier Reply",
+        "description": "Demo only: the supplier answers an extension request.",
+        "operationId": "simulate_supplier_reply_api_v1_dev_simulate_supplier_reply_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SupplierReply"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionOut"
                 }
               }
             }
@@ -737,12 +777,18 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": [
-                "owner",
-                "agent"
+              "anyOf": [
+                {
+                  "enum": [
+                    "owner",
+                    "agent"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
               ],
-              "type": "string",
-              "default": "owner",
               "title": "Proposed By"
             }
           }
@@ -1133,6 +1179,7 @@
     "/api/v1/logs": {
       "get": {
         "summary": "Get Logs",
+        "description": "All events, or those after `since` (a log id like lg-12, or an ISO timestamp).",
         "operationId": "get_logs_api_v1_logs_get",
         "parameters": [
           {
@@ -1180,16 +1227,58 @@
         }
       }
     },
+    "/api/v1/logs/export": {
+      "get": {
+        "summary": "Export Logs",
+        "description": "The audit log as text, one line per event (the sandbox execution trace).",
+        "operationId": "export_logs_api_v1_logs_export_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/logs/stream": {
       "get": {
         "summary": "Stream Logs",
+        "description": "Server-Sent Events: every past event, then new ones as they happen.\n`once=true` sends the backlog and closes (for tests).",
         "operationId": "stream_logs_api_v1_logs_stream_get",
+        "parameters": [
+          {
+            "name": "once",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Once"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -1385,6 +1474,21 @@
             "type": "object",
             "title": "Payload",
             "default": {}
+          },
+          "proposed_by": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "owner",
+                  "agent"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proposed By"
           }
         },
         "additionalProperties": false,
@@ -2853,6 +2957,25 @@
           "at_risk_value"
         ],
         "title": "SlowMover"
+      },
+      "SupplierReply": {
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "title": "Action Id"
+          },
+          "accepted": {
+            "type": "boolean",
+            "title": "Accepted"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action_id",
+          "accepted"
+        ],
+        "title": "SupplierReply"
       },
       "SupplierShare": {
         "properties": {

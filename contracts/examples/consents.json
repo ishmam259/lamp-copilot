@@ -1,0 +1,11 @@
+[
+  {
+    "id": "cns-1",
+    "lender_id": "wallet-lender",
+    "scopes": [
+      "passport",
+      "accounts"
+    ],
+    "granted_at": "2026-10-16T11:46:06.833728"
+  }
+]

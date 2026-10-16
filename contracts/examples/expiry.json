@@ -7,7 +7,7 @@
       "expiry_date": "2026-12-10",
       "days_left": 55,
       "qty": 10,
-      "cost_value": 4800,
+      "cost_value": 4800.0,
       "return_eligible": true,
       "supplier": "Supplier B"
     },
@@ -17,7 +17,7 @@
       "expiry_date": "2026-12-03",
       "days_left": 48,
       "qty": 22,
-      "cost_value": 4400,
+      "cost_value": 4400.0,
       "return_eligible": true,
       "supplier": "Supplier C"
     },
@@ -27,7 +27,7 @@
       "expiry_date": "2026-11-10",
       "days_left": 25,
       "qty": 6,
-      "cost_value": 3600,
+      "cost_value": 3600.0,
       "return_eligible": false,
       "supplier": "Supplier E"
     },
@@ -37,7 +37,7 @@
       "expiry_date": "2026-11-05",
       "days_left": 20,
       "qty": 13,
-      "cost_value": 2600,
+      "cost_value": 2600.0,
       "return_eligible": false,
       "supplier": "Supplier B"
     },
@@ -47,7 +47,7 @@
       "expiry_date": "2026-10-28",
       "days_left": 12,
       "qty": 6,
-      "cost_value": 1800,
+      "cost_value": 1800.0,
       "return_eligible": false,
       "supplier": "Supplier G"
     },
@@ -57,11 +57,11 @@
       "expiry_date": "2026-10-25",
       "days_left": 9,
       "qty": 8,
-      "cost_value": 1200,
+      "cost_value": 1200.0,
       "return_eligible": false,
       "supplier": "Supplier D"
     }
   ],
-  "at_risk_value": 18400,
-  "return_eligible_value": 9200
+  "at_risk_value": 18400.0,
+  "return_eligible_value": 9200.0
 }

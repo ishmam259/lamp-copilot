@@ -10,6 +10,12 @@ ProposedBy = Literal["owner", "agent"]
 class ActionProposal(Model):
     kind: ActionKind
     payload: dict[str, Any] = {}
+    proposed_by: ProposedBy | None = None  # may also come as a query parameter; default "owner"
+
+
+class SupplierReply(Model):
+    action_id: str
+    accepted: bool
 
 
 class ActionOut(Model):

@@ -1,10 +1,4 @@
-"""REST endpoints (docs/PLAN.md section 4.1).
-
-Pharmacy, captures, accounts, dues, forecast, alerts and orders read the
-database through the engines. The rest still return the golden examples from
-examples.py, with a small in-memory store for actions, consents and logs,
-until F3-F5 replace them.
-"""
+"""REST endpoints (docs/PLAN.md section 4.1). Thin: all logic is in app.engines."""
 
 import asyncio
 import copy
@@ -14,15 +8,16 @@ from datetime import datetime, timezone
 from typing import Literal
 
 from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, UploadFile
-from fastapi.responses import StreamingResponse
-from sqlalchemy import select
-from sqlalchemy.orm import Session
+from fastapi.responses import PlainTextResponse, StreamingResponse
+from sqlalchemy import func, select
+from sqlalchemy.orm import Session, sessionmaker
 
 from app import engines
 from app.db import models as m
 from app.db.seed import apply_extraction, load_seed
 from app.db.session import get_db
-
+from app.engines import actions as action_engine
+from app.engines import logbus
 from app.schemas import (
     AccountsOut,
     ActionOut,
@@ -45,6 +40,7 @@ from app.schemas import (
     OrderOut,
     PassportOut,
     PharmacyOut,
+    SupplierReply,
     TrimOut,
 )
 
@@ -53,52 +49,24 @@ from . import examples as ex
 router = APIRouter()
 
 
-def _now() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-
-
-class _Store:
-    def __init__(self) -> None:
-        self.reset()
-
-    def reset(self) -> None:
-        self.actions = copy.deepcopy(ex.ACTIONS)
-        self.consents: list[dict] = []
-        self.applications: list[dict] = []
-        self.captures: dict[str, dict] = {}
-        self.logs = copy.deepcopy(ex.LOGS)
-
-    def log(self, tier: str, component: str, event: str, **data) -> None:
-        self.logs.append({"id": f"lg-{len(self.logs) + 1}", "ts": _now(), "tier": tier,
-                          "component": component, "event": event, "data": data})
-
-
-store = _Store()
-
-
-def _check_pid(pid: str) -> None:
-    if pid != ex.PID:
-        raise HTTPException(404, f"Unknown pharmacy '{pid}'")
-
-
-def _find(items: list[dict], key: str, value: str, what: str) -> dict:
-    for item in items:
-        if item[key] == value:
-            return item
-    raise HTTPException(404, f"Unknown {what} '{value}'")
-
-
 @router.get("/health")
 def health() -> dict:
     return {"status": "ok"}
 
 
+# --- Demo controls ------------------------------------------------------------------
+
 @router.post("/dev/reset")
 def dev_reset(with_demo_captures: bool = False, db: Session = Depends(get_db)) -> dict:
-    load_seed(db, with_demo_captures=with_demo_captures)
-    store.reset()
-    store.log("T0", "DEV", "reset", with_demo_captures=with_demo_captures)
-    return {"status": "ok", "pharmacy_id": ex.PID, "with_demo_captures": with_demo_captures}
+    """Wipe everything and reload the seed (plus the three demo captures if asked)."""
+    pid = load_seed(db, with_demo_captures=with_demo_captures)
+    return {"status": "ok", "pharmacy_id": pid, "with_demo_captures": with_demo_captures}
+
+
+@router.post("/dev/simulate/supplier-reply", response_model=ActionOut)
+def simulate_supplier_reply(body: SupplierReply, db: Session = Depends(get_db)):
+    """Demo only: the supplier answers an extension request."""
+    return engines.supplier_reply(db, body.action_id, body.accepted)
 
 
 @router.get("/pharmacies/{pid}", response_model=PharmacyOut)
@@ -107,16 +75,16 @@ def get_pharmacy(pid: str, db: Session = Depends(get_db)):
     return {"id": ph.id, "name": ph.name, "city": ph.city, "settings": ph.settings}
 
 
-# --- Captures -------------------------------------------------------------
+# --- Captures -------------------------------------------------------------------------
 
 async def _extract(image: bytes, kind: str) -> dict:
     """Call Pritom's extractor if it exists, else return the example draft."""
     try:
         extraction = importlib.import_module("app.agents.extraction")
-        result = await extraction.extract(image, kind)
-        return ExtractionResult.model_validate(result).model_dump(mode="json")
     except ImportError:
         return copy.deepcopy(ex.CAPTURE_INVOICE["extraction"])
+    result = await extraction.extract(image, kind)
+    return ExtractionResult.model_validate(result).model_dump(mode="json")
 
 
 def _capture_out(cap: m.Capture) -> dict:
@@ -128,13 +96,16 @@ async def create_capture(pid: str, file: UploadFile = File(...),
                          kind: Literal["invoice", "sales_page"] = Form(...), db: Session = Depends(get_db)):
     engines.get_pharmacy(db, pid)
     extraction = await _extract(await file.read(), kind)
-    n = len(db.scalars(select(m.Capture.id)).all()) + 1
+    n = (db.scalar(select(func.count()).select_from(m.Capture)) or 0) + 1
     cap = m.Capture(id=f"cap-{n}", pharmacy_id=pid, kind=kind, status="needs_review",
                     extraction=extraction, created_at=datetime.now(timezone.utc))
     db.add(cap)
+    suspicious = extraction.get("suspicious_text") or []
+    engines.log("T1", "CAPTURE", "capture_created", db, capture=cap.id, kind=kind,
+                model=extraction.get("model"), mode=extraction.get("mode"))
+    if suspicious:
+        engines.log("T1", "CAPTURE", "suspicious_text_flagged", db, capture=cap.id, count=len(suspicious))
     db.commit()
-    store.log("T1", "CAPTURE", "capture_created", capture=cap.id, kind=kind,
-              suspicious_text=len(extraction.get("suspicious_text", [])))
     return _capture_out(cap)
 
 
@@ -165,12 +136,12 @@ def confirm_capture(pid: str, cid: str, body: CaptureConfirm, db: Session = Depe
         extraction["sales_page"] = body.sales_page.model_dump(mode="json")
     apply_extraction(db, pid, extraction, capture_id=cid)
     cap.extraction, cap.status = extraction, "confirmed"
+    engines.log("T1", "CAPTURE", "capture_confirmed", db, capture=cid, kind=cap.kind)
     db.commit()
-    store.log("T1", "CAPTURE", "capture_confirmed", capture=cid)
     return _capture_out(cap)
 
 
-# --- Read views -------------------------------------------------------------
+# --- Read views (engines) ---------------------------------------------------------------
 
 @router.get("/pharmacies/{pid}/accounts", response_model=AccountsOut)
 def get_accounts(pid: str, period_days: int = 30, db: Session = Depends(get_db)):
@@ -222,124 +193,94 @@ def get_passport(pid: str, db: Session = Depends(get_db)):
     return engines.get_passport(db, pid)
 
 
-# --- Actions (only the approve endpoint can approve) -------------------------
+# --- Actions: only this approve endpoint can approve ------------------------------------
 
 @router.get("/pharmacies/{pid}/actions", response_model=list[ActionOut])
-def list_actions(pid: str):
-    _check_pid(pid)
-    return store.actions
+def list_actions(pid: str, db: Session = Depends(get_db)):
+    return engines.list_actions(db, pid)
 
 
 @router.post("/pharmacies/{pid}/actions", response_model=ActionOut)
-def propose_action(pid: str, proposal: ActionProposal, proposed_by: Literal["owner", "agent"] = "owner"):
-    _check_pid(pid)
-    action = {"id": f"act-{len(store.actions) + 1}", "kind": proposal.kind, "status": "proposed",
-              "payload": proposal.payload, "proposed_by": proposed_by, "created_at": _now(),
-              "decided_at": None, "result": None}
-    store.actions.append(action)
-    store.log("T1", "ACTIONS", "action_proposed", action=action["id"], kind=proposal.kind, by=proposed_by)
-    return action
-
-
-_STUB_RESULTS = {
-    "return_claim": {"claim_id": "CLM-0001", "expected_credit": 9200},
-    "extension_request": {"status": "awaiting_supplier"},
-    "trim_order": {"order_id": "o-1", "new_total": 49200},
-    "set_aside": {"status": "scheduled"},
-    "loan_application": {"application_id": "APP-0001"},
-}
+def propose_action(pid: str, proposal: ActionProposal,
+                   proposed_by: Literal["owner", "agent"] | None = None, db: Session = Depends(get_db)):
+    by = proposal.proposed_by or proposed_by or "owner"
+    return engines.propose_action(db, pid, proposal.model_copy(update={"proposed_by": None}), by)
 
 
 @router.post("/pharmacies/{pid}/actions/{aid}/approve", response_model=ActionOut)
-def approve_action(pid: str, aid: str):
-    _check_pid(pid)
-    action = _find(store.actions, "id", aid, "action")
-    if action["status"] != "proposed":
-        raise HTTPException(409, f"Action is already {action['status']}")
-    action.update(status="executed", decided_at=_now(), result=_STUB_RESULTS[action["kind"]])
-    store.log("T3" if action["kind"] == "loan_application" else "T2", "EXECUTOR", "action_executed",
-              action=aid, kind=action["kind"])
-    return action
+def approve_action(pid: str, aid: str, db: Session = Depends(get_db)):
+    return action_engine.execute_owner_approval(db, pid, aid)
 
 
 @router.post("/pharmacies/{pid}/actions/{aid}/reject", response_model=ActionOut)
-def reject_action(pid: str, aid: str):
-    _check_pid(pid)
-    action = _find(store.actions, "id", aid, "action")
-    if action["status"] != "proposed":
-        raise HTTPException(409, f"Action is already {action['status']}")
-    action.update(status="rejected", decided_at=_now())
-    store.log("T1", "ACTIONS", "action_rejected", action=aid)
-    return action
+def reject_action(pid: str, aid: str, db: Session = Depends(get_db)):
+    return engines.reject_action(db, pid, aid)
 
 
-# --- Consents and lenders -----------------------------------------------------
+# --- Consents and lenders ---------------------------------------------------------------
 
 @router.get("/pharmacies/{pid}/consents", response_model=list[ConsentOut])
-def list_consents(pid: str):
-    _check_pid(pid)
-    return store.consents
+def list_consents(pid: str, db: Session = Depends(get_db)):
+    return engines.list_consents(db, pid)
 
 
 @router.post("/pharmacies/{pid}/consents", response_model=ConsentOut)
-def grant_consent(pid: str, body: ConsentIn):
-    _check_pid(pid)
-    _find(ex.LENDERS, "id", body.lender_id, "lender")
-    consent = {"id": f"cons-{len(store.consents) + 1}", "lender_id": body.lender_id,
-               "scopes": body.scopes, "granted_at": _now()}
-    store.consents.append(consent)
-    store.log("T1", "CONSENT", "consent_granted", consent=consent["id"], lender=body.lender_id)
-    return consent
+def grant_consent(pid: str, body: ConsentIn, db: Session = Depends(get_db)):
+    return engines.grant_consent(db, pid, body)
 
 
 @router.delete("/pharmacies/{pid}/consents/{consent_id}")
-def revoke_consent(pid: str, consent_id: str) -> dict:
-    _check_pid(pid)
-    consent = _find(store.consents, "id", consent_id, "consent")
-    store.consents.remove(consent)
-    store.log("T1", "CONSENT", "consent_revoked", consent=consent_id)
-    return {"status": "revoked", "id": consent_id}
+def revoke_consent(pid: str, consent_id: str, db: Session = Depends(get_db)) -> dict:
+    return engines.revoke_consent(db, pid, consent_id)
 
 
 @router.get("/lenders", response_model=list[LenderOut])
-def list_lenders():
-    return ex.LENDERS
+def list_lenders(db: Session = Depends(get_db)):
+    return engines.list_lenders(db)
 
 
 @router.get("/lenders/{lid}/applications", response_model=list[ApplicationOut])
-def lender_inbox(lid: str):
-    _find(ex.LENDERS, "id", lid, "lender")
-    consented = any(c["lender_id"] == lid for c in store.consents)
-    store.log("T0", "LENDER", "inbox_viewed", lender=lid)
-    return [a for a in store.applications if a["lender_id"] == lid] if consented else []
+def lender_inbox(lid: str, db: Session = Depends(get_db)):
+    return engines.inbox(db, lid)
 
 
 @router.post("/lenders/{lid}/applications/{appid}/decide", response_model=ApplicationOut)
-def decide_application(lid: str, appid: str):
-    app_ = _find(store.applications, "id", appid, "application")
-    if app_["lender_id"] != lid:
-        raise HTTPException(404, f"Unknown application '{appid}'")
-    app_.update(status="approved", decision=ex.APPLICATION_DECIDED["decision"])
-    store.log("T3", "LENDER", "application_decided", application=appid, approved=True)
-    return app_
+def decide_application(lid: str, appid: str, db: Session = Depends(get_db)):
+    return engines.decide(db, lid, appid)
 
 
-# --- Audit log ------------------------------------------------------------------
+# --- Audit log ----------------------------------------------------------------------------
 
 @router.get("/logs", response_model=list[LogEvent])
-def get_logs(since: str | None = None):
-    return [e for e in store.logs if since is None or e["ts"] > since]
+def get_logs(since: str | None = None, db: Session = Depends(get_db)):
+    """All events, or those after `since` (a log id like lg-12, or an ISO timestamp)."""
+    return logbus.events(db, since)
+
+
+@router.get("/logs/export", response_class=PlainTextResponse)
+def export_logs(db: Session = Depends(get_db)) -> str:
+    """The audit log as text, one line per event (the sandbox execution trace)."""
+    return "\n".join(logbus.as_text(e) for e in logbus.events(db)) + "\n"
 
 
 @router.get("/logs/stream")
-async def stream_logs():
-    async def events():
-        sent = 0
+async def stream_logs(once: bool = False, db: Session = Depends(get_db)):
+    """Server-Sent Events: every past event, then new ones as they happen.
+    `once=true` sends the backlog and closes (for tests)."""
+    factory = sessionmaker(bind=db.get_bind())
+
+    async def gen():
+        last = 0
         while True:
-            while sent < len(store.logs):
-                yield f"data: {json.dumps(store.logs[sent])}\n\n"
-                sent += 1
+            with factory() as s:
+                batch = logbus.events(s, after_id=last)
+            for e in batch:
+                last = int(e.id[3:])
+                yield f"id: {e.id}\ndata: {json.dumps(e.model_dump(mode='json'))}\n\n"
+            if once:
+                return
             yield ": keepalive\n\n"
             await asyncio.sleep(1)
 
-    return StreamingResponse(events(), media_type="text/event-stream")
+    return StreamingResponse(gen(), media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})

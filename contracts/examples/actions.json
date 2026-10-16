@@ -1,15 +1,41 @@
 [
   {
+    "id": "act-2",
+    "kind": "loan_application",
+    "status": "executed",
+    "payload": {
+      "summary": "Mobile-wallet loan",
+      "amount": 8200,
+      "lender_id": "wallet-lender",
+      "product_key": "wallet_loan"
+    },
+    "proposed_by": "owner",
+    "created_at": "2026-10-16T11:46:06.853432",
+    "decided_at": "2026-10-16T11:46:06.874531",
+    "result": {
+      "application_id": "APP-0001",
+      "summary": "Application APP-0001 sent to Wallet Lender."
+    }
+  },
+  {
     "id": "act-1",
     "kind": "return_claim",
-    "status": "proposed",
+    "status": "executed",
     "payload": {
-      "summary": "Return Omeprazole (OM2409) and Cetirizine (CT2411) to Suppliers B and C",
+      "summary": "Return expiring stock",
       "amount": 9200
     },
     "proposed_by": "agent",
-    "created_at": "2026-10-16T08:05:00Z",
-    "decided_at": null,
-    "result": null
+    "created_at": "2026-10-16T11:46:06.783082",
+    "decided_at": "2026-10-16T11:46:06.799078",
+    "result": {
+      "claim_id": "CLM-0001",
+      "expected_credit": 9200.0,
+      "batches": [
+        "OM2409",
+        "CT2411"
+      ],
+      "summary": "Claim CLM-0001 sent. Expected supplier credit BDT 9,200."
+    }
   }
 ]

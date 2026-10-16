@@ -1,16 +1,23 @@
 """Write contracts/openapi.json and contracts/examples/<endpoint>.json.
 
-Run from the repo root:  python scripts/export_openapi.py
+The examples are real responses: the script loads the seed plus demo captures
+into a throwaway SQLite database, walks the demo flow through the API and saves
+each response. Run from the repo root:  python scripts/export_openapi.py
 """
 
 import json
+import os
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
+_tmp = Path(tempfile.mkdtemp()) / "contracts.db"
+os.environ["DATABASE_URL"] = f"sqlite:///{_tmp.as_posix()}"
 
-from app.api import examples  # noqa: E402
+from fastapi.testclient import TestClient  # noqa: E402
+
 from app.main import app  # noqa: E402
 
 
@@ -21,9 +28,41 @@ def write(path: Path, data) -> None:
 
 def main() -> None:
     write(ROOT / "contracts" / "openapi.json", app.openapi())
-    for name, data in examples.ALL.items():
+    c = TestClient(app)
+    p = "/api/v1/pharmacies/green-life"
+
+    def get(path):
+        r = c.get(path)
+        r.raise_for_status()
+        return r.json()
+
+    def post(path, body=None):
+        r = c.post(path, json=body)
+        r.raise_for_status()
+        return r.json()
+
+    out = {"health": get("/api/v1/health"), "reset": post("/api/v1/dev/reset?with_demo_captures=true")}
+    out |= {"pharmacy": get(p), "accounts": get(f"{p}/accounts"), "dues": get(f"{p}/dues"),
+            "forecast": get(f"{p}/forecast"), "alerts": get(f"{p}/alerts"), "expiry": get(f"{p}/expiry"),
+            "orders": get(f"{p}/orders"), "trim": get(f"{p}/orders/o-1/trim"),
+            "funding_plan": post(f"{p}/funding-plan"), "passport": get(f"{p}/passport"),
+            "lenders": get("/api/v1/lenders"), "capture_invoice": get(f"{p}/captures/cap-demo")}
+    out["action_proposed"] = post(f"{p}/actions", {"kind": "return_claim", "proposed_by": "agent",
+                                                   "payload": {"summary": "Return expiring stock", "amount": 9200}})
+    out["action_executed"] = post(f"{p}/actions/{out['action_proposed']['id']}/approve")
+    out["consent"] = post(f"{p}/consents", {"lender_id": "wallet-lender", "scopes": ["passport", "accounts"]})
+    loan = post(f"{p}/actions", {"kind": "loan_application",
+                                 "payload": {"summary": "Mobile-wallet loan", "amount": 8200,
+                                             "lender_id": "wallet-lender", "product_key": "wallet_loan"}})
+    post(f"{p}/actions/{loan['id']}/approve")
+    out["actions"] = get(f"{p}/actions")
+    out["consents"] = get(f"{p}/consents")
+    out["applications"] = get("/api/v1/lenders/wallet-lender/applications")
+    out["application_decided"] = post(f"/api/v1/lenders/wallet-lender/applications/{out['applications'][0]['id']}/decide")
+    out["logs"] = get("/api/v1/logs")
+    for name, data in out.items():
         write(ROOT / "contracts" / "examples" / f"{name}.json", data)
-    print(f"Wrote contracts/openapi.json and {len(examples.ALL)} examples")
+    print(f"Wrote contracts/openapi.json and {len(out)} examples")
 
 
 if __name__ == "__main__":

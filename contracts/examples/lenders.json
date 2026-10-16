@@ -7,10 +7,10 @@
       {
         "key": "wallet_loan",
         "label": "Mobile-wallet loan",
-        "apr_pct": 9,
+        "apr_pct": 9.0,
         "fee_pct": null,
-        "min_amount": 500,
-        "max_amount": 30000
+        "min_amount": 500.0,
+        "max_amount": 30000.0
       }
     ]
   },
@@ -23,17 +23,17 @@
         "key": "bank_supplier_credit",
         "label": "Supplier credit",
         "apr_pct": null,
-        "fee_pct": 1,
-        "min_amount": 10000,
-        "max_amount": 500000
+        "fee_pct": 1.0,
+        "min_amount": 10000.0,
+        "max_amount": 500000.0
       },
       {
         "key": "bank_sme_loan",
         "label": "Small-business loan",
-        "apr_pct": 13,
+        "apr_pct": 13.0,
         "fee_pct": null,
-        "min_amount": 200000,
-        "max_amount": 5000000
+        "min_amount": 200000.0,
+        "max_amount": 5000000.0
       }
     ]
   }

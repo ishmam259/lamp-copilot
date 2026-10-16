@@ -1,0 +1,13 @@
+{
+  "id": "act-1",
+  "kind": "return_claim",
+  "status": "proposed",
+  "payload": {
+    "summary": "Return expiring stock",
+    "amount": 9200
+  },
+  "proposed_by": "agent",
+  "created_at": "2026-10-16T11:46:06.783082Z",
+  "decided_at": null,
+  "result": null
+}
