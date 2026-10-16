@@ -29,6 +29,7 @@ def get_forecast(db: Session, pid: str, days: int = 30,
     min(outflow, cash_buffer - balance_after). Routine sales and restock are not listed
     in `items`; named moves are, as negative amounts.
     order_totals overrides planned-order totals by order id (used to forecast after trims).
+    An accepted supplier extension moves deferred_amount of an order deferred_days later.
     """
     ph = get_pharmacy(db, pid)
     today = as_of(ph)
@@ -50,8 +51,13 @@ def get_forecast(db: Session, pid: str, days: int = 30,
     schedule = list(db.scalars(select(m.ExpenseSchedule).where(m.ExpenseSchedule.pharmacy_id == pid)))
     for o in db.scalars(select(m.PlannedOrder).where(m.PlannedOrder.pharmacy_id == pid,
                                                      m.PlannedOrder.status == "planned")):
-        if o.due_date <= end:
-            add(o.due_date, f"{o.supplier.name} order", (order_totals or {}).get(o.id, o.total))
+        total = (order_totals or {}).get(o.id, o.total)
+        deferred = min(o.deferred_amount or 0, total)
+        if o.due_date <= end and total - deferred > 0:
+            add(o.due_date, f"{o.supplier.name} order", total - deferred)
+        later = o.due_date + timedelta(days=o.deferred_days or 0)
+        if deferred > 0 and later <= end:
+            add(later, f"{o.supplier.name} order, extended part", deferred)
 
     balance = ph.cash_on_hand
     out_days, shortfalls = [], []

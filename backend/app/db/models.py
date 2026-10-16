@@ -125,6 +125,9 @@ class PlannedOrder(Base):
     ref: Mapped[str]
     due_date: Mapped[date] = mapped_column(Date)
     status: Mapped[str] = mapped_column(String, default="planned")  # planned | paid | cancelled
+    # Set when the supplier accepts an extension: this much is paid deferred_days later.
+    deferred_amount: Mapped[float] = mapped_column(Float, default=0)
+    deferred_days: Mapped[int] = mapped_column(Integer, default=0)
     supplier: Mapped[Supplier] = relationship()
     lines: Mapped[list["PlannedOrderLine"]] = relationship(back_populates="order", cascade="all, delete-orphan")
 
@@ -179,7 +182,28 @@ class Capture(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime)
 
 
-# Used from F4/F5 on (consents, lender applications, registry, actions, audit log).
+class ReturnClaim(Base):
+    __tablename__ = "return_claim"
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    pharmacy_id: Mapped[str] = mapped_column(ForeignKey("pharmacy.id"))
+    action_id: Mapped[str]
+    supplier: Mapped[str]
+    batch_no: Mapped[str]
+    expected_credit: Mapped[float] = mapped_column(Float)
+    created_at: Mapped[datetime] = mapped_column(DateTime)
+
+
+class SetAside(Base):
+    __tablename__ = "set_aside"
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    pharmacy_id: Mapped[str] = mapped_column(ForeignKey("pharmacy.id"))
+    action_id: Mapped[str]
+    amount: Mapped[float] = mapped_column(Float)
+    start: Mapped[date] = mapped_column(Date)
+    created_at: Mapped[datetime] = mapped_column(DateTime)
+
+
+# Consents, lender applications, registry, actions, audit log.
 
 class Consent(Base):
     __tablename__ = "consent"
@@ -195,6 +219,7 @@ class Application(Base):
     __tablename__ = "application"
     id: Mapped[str] = mapped_column(String, primary_key=True)
     pharmacy_id: Mapped[str] = mapped_column(ForeignKey("pharmacy.id"))
+    action_id: Mapped[str | None] = mapped_column(String, nullable=True)
     lender_id: Mapped[str] = mapped_column(ForeignKey("lender.id"))
     product_key: Mapped[str]
     amount: Mapped[float] = mapped_column(Float)

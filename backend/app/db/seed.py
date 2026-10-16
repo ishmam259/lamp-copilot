@@ -105,9 +105,29 @@ def load_seed(db: Session, with_demo_captures: bool = False, path: Path | None =
         db.add(m.Lender(id=lender["id"], name=lender["name"], kind=lender["kind"],
                         products=[m.LenderProduct(**pr) for pr in lender["products"]]))
     db.flush()
+    from app.engines.logbus import log
+
+    log("T0", "DEV", "reset", db, pharmacy=pid, with_demo_captures=with_demo_captures)
     if with_demo_captures:
         for name in DEMO_CAPTURES:
             extraction = json.loads((SEED_DIR / "demo_captures" / f"{name}.json").read_text(encoding="utf-8"))
             apply_extraction(db, pid, extraction, capture_id=f"demo-{name}")
+            log("T1", "CAPTURE", "capture_confirmed", db, capture=f"demo-{name}", kind=extraction["kind"])
+    _log_detections(db, pid)
     db.commit()
     return pid
+
+
+def _log_detections(db: Session, pid: str) -> None:
+    """What the engines find in the fresh data, so the live log starts with it."""
+    from app.engines import get_expiry, get_forecast
+    from app.engines.logbus import log
+
+    fc = get_forecast(db, pid)
+    if fc.shortfalls:
+        s = fc.shortfalls[0]
+        log("T2", "FORECAST", "shortfall_detected", db, date=s.date, amount=s.amount, cause=s.cause)
+    ex = get_expiry(db, pid)
+    if ex.batches:
+        log("T2", "EXPIRY", "batches_at_risk", db, batches=len(ex.batches), value=ex.at_risk_value,
+            return_eligible=ex.return_eligible_value)
