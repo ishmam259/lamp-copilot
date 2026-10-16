@@ -178,7 +178,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       <Sheet open={chatOpen} onOpenChange={setChatOpen}>
-        <SheetContent side="right" className="w-full gap-0 p-0 sm:max-w-md">
+        <SheetContent side="right" className="gap-0 p-0 data-[side=right]:w-full data-[side=right]:sm:max-w-md">
           <SheetHeader className="border-b border-rule">
             <SheetTitle className="text-lg">Ask LaMP</SheetTitle>
           </SheetHeader>

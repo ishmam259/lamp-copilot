@@ -125,7 +125,9 @@ function ChatFrame({
 }) {
   const [draft, setDraft] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
-  useEffect(() => endRef.current?.scrollIntoView({ behavior: "smooth" }), [turns.length, busy]);
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [turns.length, busy]);
 
   function submit(text: string) {
     const t = text.trim();

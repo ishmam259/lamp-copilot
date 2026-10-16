@@ -291,7 +291,9 @@ export async function uploadCapture(kind: "invoice" | "sales_page", file: File):
 export function subscribeLogs(onEvent: (e: LogEvent) => void): () => void {
   if (API_MODE === "mock") {
     logListeners.add(onEvent);
-    return () => logListeners.delete(onEvent);
+    return () => {
+      logListeners.delete(onEvent);
+    };
   }
   const es = new EventSource(`${BASE}/logs/stream`);
   es.onmessage = (msg) => {

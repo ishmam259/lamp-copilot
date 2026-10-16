@@ -24,7 +24,9 @@ const META = {
 export function ThemeToggle({ className, withLabel = false, onRail = false }: { className?: string; withLabel?: boolean; onRail?: boolean }) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const current = (mounted && (theme as (typeof ORDER)[number])) || "system";
   const { icon: Icon, label } = META[current];
   const next = ORDER[(ORDER.indexOf(current) + 1) % ORDER.length];
