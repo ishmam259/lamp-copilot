@@ -605,26 +605,41 @@ async function build() {
   pres.addSection({ title: "Market" });
   {
     const s = pres.addSlide({ masterName: "PLAIN", sectionTitle: "Market" });
-    T(s, "LAMP · LAST MILE PHARMACY", { x: M, y: 0.42, w: 6, h: 0.25, fontSize: 9, fontFace: F.semi, color: K.mute, charSpacing: 2 });
-    T(s, "What makes LaMP-Copilot new", { x: M, y: 0.68, w: 10, h: 0.6, fontSize: 28, fontFace: F.semi });
-    T(s, "Four things no pharmacy tool in Bangladesh does today", { x: M, y: 1.28, w: 10, h: 0.32, fontSize: 12, color: K.grey });
-    s.addShape(pres.shapes.LINE, { x: M, y: 1.72, w: W - 2 * M, h: 0, line: { color: K.line, width: 1 } });
+    ruleHead(s, "INNOVATION: WHAT MAKES LaMP NEW");
+    rrect(s, M, 0.95, W - 2 * M, 0.5, null, { line: { color: K.bright, width: 1 }, r: 0.06 });
+    T(s, [
+      { text: "Four things no pharmacy tool in Bangladesh does today. ", options: { fontFace: F.semi } },
+      { text: "Each one works in the prototype and is measured on Green Life's data." },
+    ], { x: M + 0.2, y: 0.95, w: W - 2 * M - 0.4, h: 0.5, fontSize: 11, valign: "middle" });
     const cards = [
-      ["WORKING CAPITAL · EXPIRY-AWARE", "BDT 10,800", "of stock avoided on one order", "Orders and credit sized on what will actually sell", "LaMP estimates each product's sales rate from how often it is reordered, and how much of an order can sell before expiry minus a safety buffer. Lenders can size credit on sellable value, not the order total.", "2E75B6"],
-      ["NEUTRAL · MULTI-SUPPLIER", "10–50", "suppliers per pharmacy", "Works across every supplier, not one distributor", "Dues, extensions, return claims and financing are planned across all of a shop's suppliers, unlike distributor finance that only covers its own orders.", "E46C0A"],
-      ["CREDIT · CONSENTED PASSPORT", "75.2%", "advance on 38 of 41 on time", "Supplier payments become lender evidence", "A cautious, supplier-confirmed on-time record replaces missing collateral and paperwork. It is shared per lender with consent and guarded against double financing.", K.mid],
-      ["AGENTIC · SAFE BY DESIGN", "0", "money figures computed by the AI", "An agent that acts, without touching money", "The copilot reads, explains, forecasts and prepares actions. Plain code computes every taka, and only the owner can approve a step.", "7030A0"],
+      ["bc/alarm.png", "WORKING CAPITAL · EXPIRY-AWARE", "Orders and credit sized on what will actually sell", "BDT 10,800", "of stock avoided on one order",
+        "LaMP estimates each product's sales rate from how often it is reordered, and how much of an order can sell before expiry minus a safety buffer. Lenders can size credit on sellable value, not the order total."],
+      ["bc/shop.png", "NEUTRAL · MULTI-SUPPLIER", "Works across every supplier, not one distributor", "10–50", "suppliers per pharmacy",
+        "Dues, extensions, return claims and financing are planned across all of a shop's suppliers, unlike distributor finance that only covers its own orders."],
+      ["bc/credit.png", "CREDIT · CONSENTED PASSPORT", "Supplier payments become lender evidence", "75.2%", "advance on 38 of 41 on time",
+        "A cautious, supplier-confirmed on-time record replaces missing collateral and paperwork. It is shared per lender with consent and guarded against double financing."],
+      [L.LuShieldCheck, "AGENTIC · SAFE BY DESIGN", "An agent that acts, without touching money", "0", "money figures computed by the AI",
+        "The copilot reads, explains, forecasts and prepares actions. Plain code computes every taka, and only the owner can approve a step."],
     ];
-    const cw = (W - 2 * M - 0.3) / 2, ch = 2.45;
-    cards.forEach(([k, big, bigs, t, b, c], i) => {
-      const x = M + (i % 2) * (cw + 0.3), y = 1.95 + Math.floor(i / 2) * (ch + 0.22);
-      rect(s, x, y, cw, ch, "FAFAFA", { line: { color: "EDEDED", width: 0.75 } });
-      rect(s, x, y, 0.05, ch, c);
-      T(s, k, { x: x + 0.3, y: y + 0.2, w: cw - 0.5, h: 0.25, fontSize: 8.5, fontFace: F.semi, color: K.grey, charSpacing: 1.5 });
-      T(s, [{ text: big + "  ", options: { fontSize: 26, fontFace: F.semi, color: c } }, { text: bigs, options: { fontSize: 9, color: K.mute } }], { x: x + 0.3, y: y + 0.45, w: cw - 0.5, h: 0.55, valign: "middle" });
-      T(s, t, { x: x + 0.3, y: y + 1.05, w: cw - 0.5, h: 0.32, fontSize: 12.5, fontFace: F.semi });
-      T(s, b, { x: x + 0.3, y: y + 1.4, w: cw - 0.5, h: 0.95, fontSize: 10.5, color: K.grey });
-    });
+    const cw = (W - 2 * M - 0.3) / 2, ch = 2.05;
+    for (let i = 0; i < 4; i++) {
+      const [ic, k, t, big, bigs, b] = cards[i];
+      const x = M + (i % 2) * (cw + 0.3), y = 1.68 + Math.floor(i / 2) * (ch + 0.2);
+      rect(s, x, y, cw, ch, K.mint);
+      rect(s, x, y, 0.06, ch, K.bright);
+      if (typeof ic === "string") await limeIcon(s, x + 0.28, y + 0.25, 0.7, ic);
+      else {
+        rrect(s, x + 0.28, y + 0.25, 0.7, 0.7, "5FE35F", { r: 0.18 });
+        s.addImage({ data: await icon(ic, K.ink), x: x + 0.43, y: y + 0.4, w: 0.4, h: 0.4 });
+      }
+      T(s, k, { x: x + 1.15, y: y + 0.24, w: cw - 3.35, h: 0.25, fontSize: 8.5, fontFace: F.semi, color: K.mid, charSpacing: 1 });
+      T(s, t, { x: x + 1.15, y: y + 0.48, w: cw - 3.35, h: 0.55, fontSize: 12.5, fontFace: F.semi });
+      rrect(s, x + cw - 2.0, y + 0.22, 1.8, 0.95, K.deep, { r: 0.06 });
+      T(s, [{ text: big, options: { fontSize: 20, fontFace: F.semi, color: K.yellow, breakLine: true } }, { text: bigs, options: { fontSize: 8.5, color: K.white } }], { x: x + cw - 1.95, y: y + 0.22, w: 1.7, h: 0.95, align: "center", valign: "middle" });
+      T(s, b, { x: x + 0.28, y: y + 1.25, w: cw - 0.5, h: 0.72, fontSize: 10.5, color: K.grey, valign: "middle" });
+    }
+    banner(s, M, 6.15, W - 2 * M, 0.7, "No one else combines all four: pharmacy-specific, neutral across suppliers, consented, and safe by design.", K.deep, { size: 12.5 });
+    strip(s);
   }
 
   // 21. Competitive landscape
