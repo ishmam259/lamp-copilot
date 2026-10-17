@@ -11,7 +11,7 @@ This repo is a FinTechathon 2026 team entry (International Track, Topic E: SME F
 | Person | Folders |
 |---|---|
 | Farhan (engines, API & photo reading) | `backend/pyproject.toml`, `backend/app/main.py`, `backend/app/config.py`, `backend/app/schemas/`, `backend/app/db/`, `backend/app/engines/`, `backend/app/api/`, `backend/app/agents/__init__.py`, `backend/app/agents/llm.py`, `backend/app/agents/extraction.py`, `backend/app/agents/prompts/extraction_*.md`, `contracts/`, `seed/`, `tests/engines/`, `tests/api/`, `tests/agents/test_llm.py`, `tests/agents/test_extraction.py`, `eval/`, `scripts/`, `logs/`, `docker-compose.yml`, `.env.example`, README "Run it" section |
-| @ishmam259 (frontend, chat & pitch, team lead) | `frontend/`, `deck/`, `video/`, `backend/app/agents/chat.py`, `backend/app/agents/tools.py`, `backend/app/agents/router.py`, `backend/app/agents/permissions.py`, `backend/app/agents/prompts/chat_*.md`, `tests/agents/test_chat.py`, `tests/agents/test_security.py`, `docs/` (all of it), `CLAUDE.md`, `AGENTS.md` |
+| @ishmam259 (frontend, chat & pitch, team lead) | `frontend/`, `deck/`, `video/`, `backend/app/agents/chat.py`, `backend/app/agents/tools.py`, `backend/app/agents/router.py`, `backend/app/agents/permissions.py`, `backend/app/agents/prompts/chat_*.md`, `tests/agents/conftest.py`, `tests/agents/chat_client.py`, `tests/agents/test_chat.py`, `tests/agents/test_security.py`, `docs/` (all of it), `CLAUDE.md`, `AGENTS.md` |
 
 If a change is needed outside your person's folders, stop and tell them to ask the owner. Never edit `contracts/` or `backend/app/schemas/` unless you're working with Farhan.
 
