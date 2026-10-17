@@ -1,6 +1,6 @@
 # Deck
 
-`LaMP-Copilot.pptx` is the 10-minute presentation (submission item 2). Each slide has speaker notes with a time target, about 9:45 in total. `LaMP-Copilot.pdf` is the PDF export.
+`LaMP-Copilot.pptx` is the 10-minute presentation (15 slides) (submission item 2). Each slide has speaker notes with a time target, about 9:50 in total. `LaMP-Copilot.pdf` is the PDF export.
 
 The deck is generated, so edit `build-deck.js` and rebuild rather than editing the .pptx by hand:
 

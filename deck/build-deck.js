@@ -93,6 +93,9 @@ async function iconDot(s, x, y, d, Comp, fillScheme, iconHex) {
   const pad = d * 0.24;
   s.addImage({ data: await icon(Comp, iconHex), x: x + pad, y: y + pad, w: d - 2 * pad, h: d - 2 * pad });
 }
+function photo(s, file, x, y, w, h) {
+  s.addImage({ path: asset(file), x, y, w, h, sizing: { type: "cover", w, h } });
+}
 async function shot(s, file, x, y, w, maxH) {
   const { w: pw, h: ph } = await imgSize(file);
   let h = (w * ph) / pw;
@@ -171,7 +174,7 @@ async function build() {
   {
     const s = slide("LIGHT", "Problem", "MEET GREEN LIFE PHARMACY, BOGURA", "BDT 412,500 in sales. The owner kept BDT 13,500.");
     // waterfall-style bars
-    const x0 = M, barMaxW = 3.55, top = 2.15, bh = 0.62, gapY = 0.42;
+    const x0 = M, barMaxW = 3.0, top = 2.15, bh = 0.62, gapY = 0.42;
     const rows = [
       ["Sales", 412500, forest, "BDT 412,500"],
       ["Gross profit at 12%", 49500, green, "BDT 49,500"],
@@ -180,24 +183,25 @@ async function build() {
     ];
     rows.forEach(([label, v, col, txt], i) => {
       const y = top + i * (bh + gapY);
-      s.addText(label, { x: x0, y, w: 2.9, h: bh, fontSize: 16, color: ink, valign: "middle", margin: 0, isTextBox: true });
-      s.addText(txt, { x: x0 + 2.9, y, w: 2.0, h: bh, fontSize: 18, bold: true, color: i === 3 ? forest : ink, align: "right", valign: "middle", margin: 0, isTextBox: true });
+      s.addText(label, { x: x0, y, w: 2.5, h: bh, fontSize: 16, color: ink, valign: "middle", margin: 0, isTextBox: true });
+      s.addText(txt, { x: x0 + 2.5, y, w: 1.85, h: bh, fontSize: 18, bold: true, color: i === 3 ? forest : ink, align: "right", valign: "middle", margin: 0, isTextBox: true });
       const bw = Math.max(0.12, (v / 412500) * barMaxW);
-      s.addShape(pres.shapes.RECTANGLE, { x: x0 + 5.1, y: y + 0.08, w: bw, h: bh - 0.16, fill: { color: col }, line: { color: col, width: 0 } });
+      s.addShape(pres.shapes.RECTANGLE, { x: x0 + 4.55, y: y + 0.08, w: bw, h: bh - 0.16, fill: { color: col }, line: { color: col, width: 0 } });
     });
-    // facts card
-    const cx = 9.55, cw = W - M - cx;
-    card(s, cx, 2.1, cw, 4.05);
+    // photo + facts
+    const cx = 8.55, cw = W - M - cx;
+    photo(s, "counter.jpg", cx, 2.1, cw, 1.85);
+    card(s, cx, 4.08, cw, 2.07);
     const facts = [
       ["23", "active suppliers"],
-      ["41", "invoices in 3 months, 38 paid on time"],
+      ["38 of 41", "invoices paid on time"],
       ["BDT 210,000", "sitting in stock"],
       ["BDT 38,000", "owed by patients"],
     ];
     facts.forEach(([b, t], i) => {
-      const y = 2.3 + i * 0.95;
-      s.addText(b, { x: cx + 0.3, y, w: cw - 0.5, h: 0.45, fontSize: 22, bold: true, color: forest, margin: 0, isTextBox: true });
-      s.addText(t, { x: cx + 0.3, y: y + 0.43, w: cw - 0.5, h: 0.4, fontSize: 14, color: ink, margin: 0, isTextBox: true });
+      const fx = cx + 0.25 + (i % 2) * (cw / 2), fy = 4.2 + Math.floor(i / 2) * 0.95;
+      s.addText(b, { x: fx, y: fy, w: cw / 2 - 0.3, h: 0.42, fontSize: 19, bold: true, color: forest, margin: 0, isTextBox: true });
+      s.addText(t, { x: fx, y: fy + 0.42, w: cw / 2 - 0.3, h: 0.4, fontSize: 13, color: ink, margin: 0, isTextBox: true });
     });
     s.addText("All of it lives in a stack of invoices and a handwritten sales book. One expired batch or one unnecessary loan can wipe out a week of profit.", {
       x: M, y: 6.3, w: 12.1, h: 0.55, fontSize: 15, italic: true, color: grey, margin: 0, isTextBox: true,
@@ -242,46 +246,97 @@ async function build() {
   {
     pres.addSection({ title: "Solution" });
     const s = slide("DARK", "Solution", "OUR INSIGHT", "");
+    photo(s, "interior.jpg", 8.75, 0, W - 8.75, 7.5);
     s.addText("“Every pharmacy already has a credit history. It's scattered across invoices from dozens of suppliers and a paper sales book.”", {
-      x: M, y: 1.3, w: 11.6, h: 2.0, fontSize: 32, bold: true, color: white, margin: 0, valign: "top", isTextBox: true,
+      x: M, y: 1.3, w: 7.7, h: 2.3, fontSize: 26, bold: true, color: white, margin: 0, valign: "top", isTextBox: true,
     });
-    s.addText("LaMP-Copilot assembles it, checks it and puts it to work.", { x: M, y: 3.35, w: 11.6, h: 0.5, fontSize: 20, color: "BFE3CC", margin: 0, isTextBox: true });
-    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: 4.45, w: 12.1, h: 1.95, fill: { color: forest }, line: { color: forest, width: 0 }, rectRadius: 0.12 });
-    s.addText("“The cheapest money is the cash you already have.”", { x: M + 0.4, y: 4.65, w: 11.3, h: 0.7, fontSize: 28, bold: true, color: yellow, margin: 0, isTextBox: true });
+    s.addText("LaMP-Copilot assembles it, checks it and puts it to work.", { x: M, y: 3.65, w: 7.7, h: 0.5, fontSize: 18, color: "BFE3CC", margin: 0, isTextBox: true });
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: 4.45, w: 7.75, h: 2.25, fill: { color: forest }, line: { color: forest, width: 0 }, rectRadius: 0.12 });
+    s.addText("“The cheapest money is the cash you already have.”", { x: M + 0.35, y: 4.6, w: 7.1, h: 1.0, fontSize: 24, bold: true, color: yellow, margin: 0, isTextBox: true });
     s.addText("Free up trapped cash first, then free supplier terms, then the cheapest credit. Borrow only what's left.", {
-      x: M + 0.4, y: 5.4, w: 11.3, h: 0.8, fontSize: 18, color: white, margin: 0, isTextBox: true,
+      x: M + 0.35, y: 5.6, w: 7.1, h: 0.95, fontSize: 16, color: white, margin: 0, isTextBox: true,
     });
     s.addNotes(
-      "(30 s) Two ideas drive the product. First: the pharmacy already has a credit history. Every on-time supplier payment is evidence; it's just scattered on paper. " +
-        "Second, our financing principle: the cheapest money is the cash you already have. Before suggesting any loan, LaMP looks for cash trapped in stock and in orders, then asks for free supplier days, and only then compares loans."
+      "(25 s) Two ideas drive the product. First: the pharmacy already has a credit history; every on-time supplier payment is evidence, just scattered on paper. " +
+        "Second: the cheapest money is the cash you already have. LaMP looks for trapped cash first, then free supplier days, and only then compares loans."
     );
   }
 
-  // 6. Product: three Topic E jobs
+  // 6. How LaMP solves each pain
   {
-    const s = slide("LIGHT", "Solution", "WHAT LAMP-COPILOT DOES", "Three jobs from Topic E, done for a pharmacy");
-    const cw = 3.8, gap = 0.35, y = 2.0, h = 3.95;
-    const jobs = [
-      [L.LuCamera, "Business financial analysis", ["Reads photos of supplier invoices and sales-book pages", "Owner checks every figure before it's saved", "Profit, margin, stock days, money tied up in expiring stock"]],
-      [L.LuCalendarClock, "Cash flow and alerts", ["Dues calendar across every supplier", "30-day cash forecast", "Alerts for shortfalls and expiring stock; drafts return claims and order trims"]],
-      [L.LuHandCoins, "Financing-option matching", ["Cheapest-first funding plan, true cost in taka", "Consented credit passport for lenders", "Nothing happens without the owner's approval"]],
+    const s = slide("LIGHT", "Solution", "OUR SOLUTION", "How LaMP solves each pain");
+    [["THE PAIN", 3.0], ["WHAT LAMP DOES", 6.25], ["RESULT AT GREEN LIFE", 10.25]].forEach(([t, x]) =>
+      s.addText(t, { x, y: 1.85, w: 2.9, h: 0.3, fontSize: 12, bold: true, color: grey, charSpacing: 1, margin: 0, isTextBox: true })
+    );
+    const rows = [
+      ["interior.jpg", "No financial picture", "Invoices and a handwritten sales book. Nobody knows the real profit.",
+        "Reads the photos into real accounts", "The owner confirms every figure. Profit, dues, stock and expiry on one screen.",
+        "BDT 9,200", "of expiring stock caught in time to return"],
+      ["delivery.jpg", "Cash crunch before big orders", "Supplier A's BDT 60,000 order is due before the cash is there.",
+        "Forecasts 30 days and closes the gap from inside", "Trims slow movers that would expire and asks the supplier for more days.",
+        "19,000 → 8,200", "shortfall, spotted 10 days ahead"],
+      ["bank.jpg", "No access to fair finance", "No bank product for a shop with paper records.",
+        "Prices every option in taka and builds a credit passport", "Shared only with lenders the owner chooses.",
+        "BDT 0–182", "instead of BDT 422, plus a 75.2% advance offer"],
     ];
-    for (let i = 0; i < 3; i++) {
-      const x = M + i * (cw + gap);
-      const [Ic, name, items] = jobs[i];
-      card(s, x, y, cw, h);
-      await iconDot(s, x + 0.3, y + 0.3, 0.75, Ic, forest, HEX.white);
-      s.addText(`${i + 1}`, { x: x + cw - 0.8, y: y + 0.25, w: 0.5, h: 0.6, fontSize: 30, bold: true, color: bright, align: "right", margin: 0, isTextBox: true });
-      s.addText(name, { x: x + 0.3, y: y + 1.2, w: cw - 0.6, h: 0.75, fontSize: 19, bold: true, color: ink, margin: 0, valign: "top", isTextBox: true });
-      s.addText(
-        items.map((t, k) => ({ text: t, options: { bullet: { indent: 16 }, breakLine: k < items.length - 1, paraSpaceAfter: 8 } })),
-        { x: x + 0.3, y: y + 1.95, w: cw - 0.55, h: 1.9, fontSize: 14, color: ink, margin: 0, valign: "top", isTextBox: true }
-      );
-    }
-    s.addText("The owner uses it on a phone: photograph, read, ask, approve.", { x: M, y: 6.25, w: 12.1, h: 0.45, fontSize: 16, italic: true, color: grey, margin: 0, isTextBox: true });
+    rows.forEach(([img, pain, painSub, act, actSub, big, bigSub], i) => {
+      const y = 2.25 + i * 1.55, h = 1.4;
+      photo(s, img, M, y, 2.25, h);
+      card(s, 3.0, y, 2.95, h, "FDF1F1");
+      s.addText([
+        { text: pain, options: { fontSize: 15, bold: true, color: red, breakLine: true } },
+        { text: painSub, options: { fontSize: 12, color: ink } },
+      ], { x: 3.15, y: y + 0.08, w: 2.68, h: h - 0.16, valign: "middle", margin: 0, isTextBox: true });
+      s.addShape(pres.shapes.RIGHT_ARROW, { x: 5.98, y: y + h / 2 - 0.17, w: 0.24, h: 0.34, fill: { color: grey }, line: { color: grey, width: 0 } });
+      card(s, 6.25, y, 3.75, h);
+      s.addText([
+        { text: act, options: { fontSize: 15, bold: true, color: forest, breakLine: true } },
+        { text: actSub, options: { fontSize: 12, color: ink } },
+      ], { x: 6.4, y: y + 0.08, w: 3.48, h: h - 0.16, valign: "middle", margin: 0, isTextBox: true });
+      s.addShape(pres.shapes.RIGHT_ARROW, { x: 10.0, y: y + h / 2 - 0.17, w: 0.22, h: 0.34, fill: { color: grey }, line: { color: grey, width: 0 } });
+      card(s, 10.25, y, W - M - 10.25, h, HEX.deep);
+      s.addText([
+        { text: big, options: { fontSize: 22, bold: true, color: yellow, breakLine: true } },
+        { text: bigSub, options: { fontSize: 12, color: white } },
+      ], { x: 10.4, y: y + 0.08, w: W - M - 10.55, h: h - 0.16, valign: "middle", margin: 0, isTextBox: true });
+    });
     s.addNotes(
-      "(40 s) LaMP does the three jobs Topic E asks for, specialised for a pharmacy. One: it reads photos of invoices and sales-book pages, with batch numbers and expiry dates, and the owner confirms every figure before it's saved. From that it builds real accounts. " +
-        "Two: it keeps a dues calendar across all suppliers, forecasts cash 30 days ahead and raises alerts. Three: when cash runs short it builds a cheapest-first funding plan and a credit passport the owner can share with lenders."
+      "(45 s) Here is how LaMP answers each pain. No financial picture: LaMP reads the invoice and sales-book photos into real accounts, and the owner confirms every figure. At Green Life that alone catches 9,200 taka of stock that can still go back to suppliers. " +
+        "Cash crunch: LaMP forecasts 30 days, sees the 19,000 shortfall ten days early, and closes most of it from inside the business, down to 8,200. " +
+        "No fair finance: it prices every option in taka and builds a credit passport, so the owner pays 0 to 182 taka instead of 422."
+    );
+  }
+
+  // 7. How it works, step by step (photo steps in the BCOLBD style)
+  {
+    const s = slide("LIGHT", "Solution", "HOW IT WORKS", "Five steps, all on the owner's phone");
+    const steps = [
+      ["step-phone.png", "Photograph", "Snap supplier invoices and sales-book pages."],
+      ["step-check.png", "Check", "LaMP reads them. The owner fixes anything wrong, then confirms."],
+      ["step-order.png", "See ahead", "Dues across every supplier, cash for 30 days, expiry alerts."],
+      ["step-cash.png", "Fix it cheaply", "Trapped cash first, borrow only what's left. The owner approves each step."],
+      ["step-shield.png", "Prove it", "A credit passport for the lenders the owner picks. Every step is logged."],
+    ];
+    const cw = 2.3, gap = 0.15, y = 1.95, h = 4.15;
+    for (let i = 0; i < 5; i++) {
+      const x = M + i * (cw + gap);
+      const [img, head, body] = steps[i];
+      card(s, x, y, cw, h);
+      const d = cw - 0.5;
+      s.addShape(pres.shapes.OVAL, { x: x + 0.25, y: y + 0.25, w: d, h: d, fill: { color: white }, line: { color: white, width: 0 } });
+      const { w: pw, h: ph } = await imgSize(img);
+      const box = d - 0.15;
+      let iw = box, ih = (box * ph) / pw;
+      if (ih > box) { ih = box; iw = (box * pw) / ph; }
+      s.addImage({ path: asset(img), x: x + (cw - iw) / 2, y: y + 0.25 + d - ih, w: iw, h: ih });
+      dot(s, x + 0.2, y + 2.2, 0.5, forest, i + 1, white, 15);
+      s.addText(head, { x: x + 0.8, y: y + 2.2, w: cw - 0.9, h: 0.5, fontSize: 17, bold: true, color: ink, valign: "middle", margin: 0, isTextBox: true });
+      s.addText(body, { x: x + 0.2, y: y + 2.85, w: cw - 0.4, h: 1.2, fontSize: 14, color: ink, margin: 0, valign: "top", isTextBox: true });
+    }
+    s.addText("Nothing touches money until the owner taps Approve.", { x: M, y: 6.3, w: 12.1, h: 0.45, fontSize: 16, bold: true, color: forest, margin: 0, isTextBox: true });
+    s.addNotes(
+      "(40 s) For the owner it's five steps on a phone. Photograph invoices and sales-book pages. Check what LaMP read and confirm. See dues, cash and expiry ahead. Fix shortfalls the cheapest way, approving each step. " +
+        "And prove the shop's record to a lender of its choice with the credit passport. Behind it, every step is logged."
     );
   }
 
