@@ -3,7 +3,7 @@
 **Permission tiers, known risks, privacy and execution evidence**
 
 FinTechathon 2026 · International Track · Topic E: SME Finance Copilot<br>
-Team LaMP: Ishmam Tahmid (team lead), Farhan Tahsin Khan, Pritom Roy
+Team LaMP: Ishmam Tahmid (team lead), Farhan Tahsin Khan
 
 ---
 

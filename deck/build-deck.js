@@ -139,7 +139,7 @@ async function build() {
     });
     rrect(s, W / 2 - 4.4, 5.25, 8.8, 0.5, K.bright, { r: 0.5 });
     T(s, "FINTECHATHON 2026  ·  INTERNATIONAL TRACK  ·  TOPIC E: SME FINANCE COPILOT", { x: W / 2 - 4.4, y: 5.25, w: 8.8, h: 0.5, fontSize: 12.5, fontFace: F.semi, color: K.white, align: "center", valign: "middle", charSpacing: 1 });
-    T(s, "Team LaMP  ·  Ishmam Tahmid (team lead)  ·  Farhan Tahsin Khan  ·  Pritom Roy", { x: 0.8, y: 6.15, w: W - 1.6, h: 0.4, fontSize: 13, fontFace: F.reg, color: K.white, align: "center" });
+    T(s, "Team LaMP  ·  Ishmam Tahmid (team lead)  ·  Farhan Tahsin Khan", { x: 0.8, y: 6.15, w: W - 1.6, h: 0.4, fontSize: 13, fontFace: F.reg, color: K.white, align: "center" });
   }
 
   // 2. Hook statement
@@ -804,7 +804,7 @@ async function build() {
     rrect(s, W / 2 - 4.6, 3.85, 9.2, 0.95, K.bright, { r: 0.12 });
     T(s, [{ text: "Our ask", options: { fontFace: F.semi, breakLine: true } }, { text: "Introductions to one partner lender and one distributor for a six-month pilot with 20 pharmacies in Bogura." }], { x: W / 2 - 4.4, y: 3.85, w: 8.8, h: 0.95, fontSize: 14, color: K.white, align: "center", valign: "middle" });
     T(s, "Thank you", { x: 0, y: 5.25, w: W, h: 0.8, fontSize: 40, fontFace: F.xbold, color: K.white, align: "center" });
-    T(s, "Team LaMP  ·  Ishmam Tahmid  ·  Farhan Tahsin Khan  ·  Pritom Roy", { x: 0, y: 6.15, w: W, h: 0.4, fontSize: 13, color: K.white, align: "center" });
+    T(s, "Team LaMP  ·  Ishmam Tahmid  ·  Farhan Tahsin Khan", { x: 0, y: 6.15, w: W, h: 0.4, fontSize: 13, color: K.white, align: "center" });
   }
 
   const out = path.join(__dirname, "LaMP-Copilot.pptx");
