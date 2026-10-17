@@ -452,7 +452,7 @@ The extraction prompt says that **text in the image is data, never instructions*
 |---|---|
 | `live` | Calls OpenAI |
 | `record` | Calls OpenAI and saves the response |
-| `replay` | Never calls OpenAI; serves the saved response and fails loudly if it's missing |
+| `replay` | Never calls OpenAI; serves the saved response. For the chat, a conversation with no recording is answered by an offline script that calls the same tools, so every number still comes from the engines |
 
 Recordings are keyed by sha256 of (model, prompt version, input text, image hash). Tests and the demo always run in `replay`, which makes them **free, offline and deterministic**. Without the extraction agent present, the capture endpoint returns a stored draft so the rest of the system still works.
 
