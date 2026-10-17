@@ -15,6 +15,8 @@ def ask(client, text: str, history: list | None = None) -> dict:
         if not line.startswith("data: ") or line == "data: [DONE]":
             continue
         ev = json.loads(line[6:])
+        assert ev["type"] != "error", ev
+        assert ev.get("finishReason") != "error", ev
         if ev["type"] == "text-delta":
             text += ev["delta"]
         elif ev["type"] == "tool-input-available":

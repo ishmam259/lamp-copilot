@@ -29,7 +29,7 @@ async def chat_endpoint(request: Request, db: Session = Depends(get_db)) -> Resp
     db.commit()
 
     async def on_complete(result) -> None:
-        usage = result.usage()
+        usage = result.usage
         if chat.settings.llm_mode == "live" and not model.model_name.startswith("replay"):
             chat.record_spend(usage.input_tokens, usage.output_tokens)
 

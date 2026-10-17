@@ -16,7 +16,7 @@ const SUGGESTIONS = [
 
 type Turn = { id: string; role: "user" | "assistant"; text: string; tools?: string[] };
 
-/** LaMP chat: Pritom's POST /api/v1/chat, streamed with the AI SDK UI message protocol. */
+/** LaMP chat: POST /api/v1/chat (backend/app/agents/router.py), streamed with the AI SDK UI message protocol. */
 export function ChatPanel() {
   return <LiveChat />;
 }
@@ -89,7 +89,8 @@ function ChatFrame({
               <div className="flex flex-wrap gap-1.5">
                 {t.tools.map((tool, i) => (
                   <span key={`${tool}-${i}`} className="inline-flex items-center gap-1 rounded-[2px] bg-muted px-2 py-0.5 text-xs font-semibold text-ink-2">
-                    <Wrench className="size-3" aria-hidden /> Checked {tool.replace(/^get_/, "").replaceAll("_", " ")}
+                    <Wrench className="size-3" aria-hidden />{" "}
+                    {tool === "propose_action" ? "Proposed an action" : `Checked ${tool.replace(/^get_/, "").replaceAll("_", " ")}`}
                   </span>
                 ))}
               </div>
