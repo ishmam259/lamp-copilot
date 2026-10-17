@@ -4,9 +4,10 @@ Everyone reads this. Read [IDEA_AND_PROBLEM.md](IDEA_AND_PROBLEM.md) first for w
 
 | Person | Part | Share of total work | Task file |
 |---|---|---|---|
-| **Farhan** | Engines & API | 34% | [tasks/farhan-engines-api.md](tasks/farhan-engines-api.md) |
-| **Pritom** | AI agents & documents | 33% | [tasks/pritom-agents-docs.md](tasks/pritom-agents-docs.md) |
-| **@ishmam259** (team lead) | Frontend & pitch | 33% | [tasks/ishmam259-frontend-pitch.md](tasks/ishmam259-frontend-pitch.md) |
+| **Farhan** | Engines & API, plus LLM client, photo reading and evaluation | 49% | [tasks/farhan-engines-api.md](tasks/farhan-engines-api.md) |
+| **@ishmam259** (team lead) | Frontend & pitch, plus copilot chat, permissions and documents | 51% | [tasks/ishmam259-frontend-pitch.md](tasks/ishmam259-frontend-pitch.md) |
+
+**Pritom left the team on 17 Oct 2026.** His AI work (P1–P6) is split between the two of us; the original spec stays in [tasks/pritom-agents-docs.md](tasks/pritom-agents-docs.md), and each task file says which parts are yours.
 
 **Hard deadline: 20 Oct 2026, 23:59 Beijing time = 21:59 Bangladesh time.** Our internal freeze is **20 Oct, 18:00 Bangladesh time**, leaving time to submit calmly.
 
@@ -15,7 +16,7 @@ Everyone reads this. Read [IDEA_AND_PROBLEM.md](IDEA_AND_PROBLEM.md) first for w
 ## 1. Team rules
 
 1. **Commit every ~10 minutes and push each time.** Small commits, never a day's work in one. Before every push: `git pull --rebase`.
-2. **Work only in your own folders** (table in section 3). If you need a change in someone else's folder, ask them in the group chat; don't edit it yourself. **Exception:** @ishmam259 reviews Pritom's part and may fix bugs or finish leftover work in Pritom's folders, after telling Pritom.
+2. **Work only in your own folders** (table in section 3). If you need a change in someone else's folder, ask them in the group chat; don't edit it yourself. `eval/replay/` holds recordings from both people's code; never edit them by hand.
 3. **Everyone commits to `main`.** Folder ownership keeps us out of each other's way, so no branches or pull requests are needed. If a rebase conflict ever happens, stop and ask.
 4. **Commit messages are plain and human:** `engines: add forecast shortfall detection`, `frontend: funding plan table`. No "Co-Authored-By" or AI attribution lines. Your Claude Code sessions are told this in [CLAUDE.md](../CLAUDE.md).
 5. **Never commit secrets.** The OpenAI key lives only in `.env`, which git ignores.
@@ -37,7 +38,7 @@ Everyone reads this. Read [IDEA_AND_PROBLEM.md](IDEA_AND_PROBLEM.md) first for w
    ┌───────────────▼──────────────────────────┐
    │ FastAPI (backend/app/main.py)            │
    │                                          │
-   │  api/ (Farhan)        agents/ (Pritom)   │
+   │  api/ (Farhan)        agents/ (both)     │
    │   REST routers  ◄────  extraction        │
    │        │               chat orchestrator │
    │        ▼                    │ tools      │
@@ -73,7 +74,7 @@ lamp-copilot/
 │   └── examples/*.json            one sample response per endpoint      (Farhan)
 ├── seed/
 │   ├── green_life.json            the demo pharmacy                     (Farhan)
-│   └── images/                    demo photos (invoices, sales pages)   (Pritom)
+│   └── images/                    demo photos (invoices, sales pages)   (Farhan)
 ├── backend/
 │   ├── pyproject.toml                                                  (Farhan)
 │   └── app/
@@ -82,16 +83,16 @@ lamp-copilot/
 │       ├── db/                    SQLAlchemy models, session, seed load (Farhan)
 │       ├── engines/               deterministic money logic             (Farhan)
 │       ├── api/                   REST routers                          (Farhan)
-│       └── agents/                LLM client, extraction, chat, tools   (Pritom)
+│       └── agents/                llm + extraction (Farhan); chat, tools, router, permissions (@ishmam259)
 ├── tests/
 │   ├── engines/  api/                                                  (Farhan)
-│   └── agents/                                                         (Pritom)
-├── eval/                          photo test set + accuracy script      (Pritom)
+│   └── agents/                    test_llm, test_extraction (Farhan); test_chat, test_security (@ishmam259)
+├── eval/                          photo test set + accuracy script      (Farhan)
 ├── logs/                          exported sandbox trace for submission (Farhan)
 ├── docs/
 │   ├── IDEA_AND_PROBLEM.md  PLAN.md  tasks/  LaMP_Idea_Brief.md        (@ishmam259)
-│   ├── technical/                 technical documentation (item 1)      (Pritom)
-│   └── security/                  security self-assessment (item 5)     (Pritom)
+│   ├── technical/                 technical documentation (item 1)      (@ishmam259)
+│   └── security/                  security self-assessment (item 5)     (@ishmam259)
 ├── frontend/                      Next.js app                           (@ishmam259)
 ├── deck/                          10-minute presentation (item 2)       (@ishmam259)
 └── video/                         demo video script + link (item 3)     (@ishmam259)
@@ -112,7 +113,7 @@ All endpoints are under `/api/v1`. Money is in BDT, as numbers with 2 decimals. 
 | `GET /health` | Liveness | Farhan |
 | `POST /dev/reset` | Wipe and reload the seed pharmacy (demo reset button) | Farhan |
 | `GET /pharmacies/{pid}` | Profile and settings (margin, buffers) | Farhan |
-| `POST /pharmacies/{pid}/captures` | Upload photo (`multipart`: `file`, `kind` = `invoice` or `sales_page`) → extraction draft for review | Farhan (calls Pritom's `extract`) |
+| `POST /pharmacies/{pid}/captures` | Upload photo (`multipart`: `file`, `kind` = `invoice` or `sales_page`) → extraction draft for review | Farhan (calls `agents.extraction.extract`) |
 | `GET /pharmacies/{pid}/captures/{cid}` | Get a capture and its draft | Farhan |
 | `POST /pharmacies/{pid}/captures/{cid}/confirm` | Owner submits corrected draft → saved as invoice or sales day | Farhan |
 | `GET /pharmacies/{pid}/accounts?period_days=30` | P&L, margin, stock days, patient-due days, supplier concentration, slow movers, expiring value | Farhan |
@@ -132,17 +133,17 @@ All endpoints are under `/api/v1`. Money is in BDT, as numbers with 2 decimals. 
 | `GET /lenders/{lid}/applications` | Lender inbox (only consented pharmacies) | Farhan |
 | `POST /lenders/{lid}/applications/{appid}/decide` | Simulated lender decision (deterministic rule) | Farhan |
 | `GET /logs?since=` · `GET /logs/stream` (SSE) | Audit log, live | Farhan |
-| `POST /chat` | Copilot chat, AI SDK UI message stream | **Pritom** (router mounted by Farhan) |
+| `POST /chat` | Copilot chat, AI SDK UI message stream | **@ishmam259** (router mounted by Farhan) |
 
-### 4.2 Python interfaces between Farhan and Pritom
+### 4.2 Python interfaces between the engines and the agents
 
-Pritom's code calls Farhan's engines in-process, and Farhan's capture endpoint calls Pritom's extraction. Signatures (in `backend/app/...`):
+The chat (@ishmam259) calls Farhan's engines in-process, and the capture endpoint calls Farhan's extraction. Signatures (in `backend/app/...`):
 
 ```python
-# Pritom provides (agents/extraction.py)
+# Farhan provides (agents/extraction.py)
 async def extract(image: bytes, kind: Literal["invoice", "sales_page"]) -> ExtractionResult
 
-# Pritom provides (agents/router.py)
+# @ishmam259 provides (agents/router.py)
 router: fastapi.APIRouter            # exposes POST /api/v1/chat; Farhan mounts it in main.py
 
 # Farhan provides (engines/*.py) — all take a DB session first
@@ -265,11 +266,11 @@ Farhan designs `seed/green_life.json` so the engines output these. Tests assert 
 
 | # | Item | Owner | Where |
 |---|---|---|---|
-| 1 | Technical documentation (architecture, algorithms, security design) | Pritom | `docs/technical/` → PDF |
+| 1 | Technical documentation (architecture, algorithms, security design) | @ishmam259 (eval table from Farhan) | `docs/technical/` → PDF |
 | 2 | Presentation deck (≤ 10 min) | @ishmam259 | `deck/` → PDF + PPTX |
 | 3 | Demo video (≤ 5 min) | @ishmam259 | `video/` + link |
 | 4 | Source code: README, GitHub link, deployment instructions, test cases | Farhan (README run section, tests), everyone | repo |
-| 5 | Security self-assessment (permission tiers, known-risk list) | Pritom | `docs/security/` → PDF |
+| 5 | Security self-assessment (permission tiers, known-risk list) | @ishmam259 | `docs/security/` → PDF |
 | 6 | Execution evidence: sandbox logs + demo video | Farhan (log export), @ishmam259 (video) | `logs/sandbox_execution_trace.log` |
 | — | Registration form and submission email to fintechathon@ican-x.com | @ishmam259 | email |
 

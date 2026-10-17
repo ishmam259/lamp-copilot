@@ -1,6 +1,6 @@
 # LaMP-Copilot: rules for AI coding sessions
 
-This repo is a FinTechathon 2026 team entry (International Track, Topic E: SME Finance Copilot). Three people build it, each with their own AI coding session. Follow these rules exactly.
+This repo is a FinTechathon 2026 team entry (International Track, Topic E: SME Finance Copilot). Two people build it, each with their own AI coding session. Follow these rules exactly.
 
 ## Read first
 - `docs/IDEA_AND_PROBLEM.md`: what we're building and why
@@ -10,13 +10,14 @@ This repo is a FinTechathon 2026 team entry (International Track, Topic E: SME F
 ## Ownership: only edit your person's folders
 | Person | Folders |
 |---|---|
-| Farhan (engines & API) | `backend/pyproject.toml`, `backend/app/main.py`, `backend/app/config.py`, `backend/app/schemas/`, `backend/app/db/`, `backend/app/engines/`, `backend/app/api/`, `contracts/`, `seed/green_life.json`, `seed/demo_captures/`, `tests/engines/`, `tests/api/`, `scripts/`, `logs/`, `docker-compose.yml`, `.env.example`, README "Run it" section |
-| Pritom (agents & docs) | `backend/app/agents/`, `tests/agents/`, `eval/`, `seed/images/`, `docs/technical/`, `docs/security/` |
-| @ishmam259 (frontend & pitch, team lead) | `frontend/`, `deck/`, `video/`, `docs/IDEA_AND_PROBLEM.md`, `docs/PLAN.md`, `docs/tasks/`, `CLAUDE.md`, `AGENTS.md` |
+| Farhan (engines, API & photo reading) | `backend/pyproject.toml`, `backend/app/main.py`, `backend/app/config.py`, `backend/app/schemas/`, `backend/app/db/`, `backend/app/engines/`, `backend/app/api/`, `backend/app/agents/__init__.py`, `backend/app/agents/llm.py`, `backend/app/agents/extraction.py`, `backend/app/agents/prompts/extraction_*.md`, `contracts/`, `seed/`, `tests/engines/`, `tests/api/`, `tests/agents/test_llm.py`, `tests/agents/test_extraction.py`, `eval/`, `scripts/`, `logs/`, `docker-compose.yml`, `.env.example`, README "Run it" section |
+| @ishmam259 (frontend, chat & pitch, team lead) | `frontend/`, `deck/`, `video/`, `backend/app/agents/chat.py`, `backend/app/agents/tools.py`, `backend/app/agents/router.py`, `backend/app/agents/permissions.py`, `backend/app/agents/prompts/chat_*.md`, `tests/agents/test_chat.py`, `tests/agents/test_security.py`, `docs/` (all of it), `CLAUDE.md`, `AGENTS.md` |
 
 If a change is needed outside your person's folders, stop and tell them to ask the owner. Never edit `contracts/` or `backend/app/schemas/` unless you're working with Farhan.
 
-**Exception:** @ishmam259 reviews Pritom's work and may fix bugs or finish leftover work in Pritom's folders. Tell Pritom in the group chat before editing, so you don't both change the same file.
+**Pritom left the team on 17 Oct.** His AI work is split between Farhan (LLM client, photo reading, evaluation) and @ishmam259 (chat, permissions, documents). `eval/replay/` holds recordings written by both people's code; never edit those files by hand.
+
+**Shared file:** `backend/pyproject.toml` stays Farhan's. If the chat needs a dependency (for example `pydantic-ai`), ask Farhan to add it.
 
 ## Git
 - Commit about every 10 minutes and push each time. Run `git pull --rebase` before pushing.

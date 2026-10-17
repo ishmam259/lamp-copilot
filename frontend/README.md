@@ -13,7 +13,7 @@ Open http://localhost:3000.
 
 ## Backend
 
-The app always talks to the FastAPI backend: `/api/v1/*` is proxied to it (see `next.config.ts`), so there's no CORS setup. Start the backend first (repo-root README, "Run it"). The default address is `http://127.0.0.1:8000`; to use another, create `.env.local` with `BACKEND_URL=http://host:port`. Chat goes to `POST /api/v1/chat` (Pritom's stream).
+The app always talks to the FastAPI backend: `/api/v1/*` is proxied to it (see `next.config.ts`), so there's no CORS setup. Start the backend first (repo-root README, "Run it"). The default address is `http://127.0.0.1:8000`; to use another, create `.env.local` with `BACKEND_URL=http://host:port`. Chat goes to `POST /api/v1/chat` (the copilot chat stream).
 
 ## Docker
 

@@ -16,9 +16,10 @@ Each person works only in their own folders, so no two people edit the same file
 
 | Person | Part | Share | Task file |
 |---|---|---|---|
-| **Farhan** | Engines & API | 34% | [docs/tasks/farhan-engines-api.md](docs/tasks/farhan-engines-api.md) |
-| **Pritom** | AI agents & documents | 33% | [docs/tasks/pritom-agents-docs.md](docs/tasks/pritom-agents-docs.md) |
-| **@ishmam259** (team lead) | Frontend & pitch | 33% | [docs/tasks/ishmam259-frontend-pitch.md](docs/tasks/ishmam259-frontend-pitch.md) |
+| **Farhan Tahsin Khan** | Engines & API, LLM client, photo reading, evaluation | 49% | [docs/tasks/farhan-engines-api.md](docs/tasks/farhan-engines-api.md) |
+| **A K M Ishmam Tahmid** (@ishmam259, team lead) | Frontend, copilot chat, documents, pitch | 51% | [docs/tasks/ishmam259-frontend-pitch.md](docs/tasks/ishmam259-frontend-pitch.md) |
+
+The spec for the AI work is in [docs/tasks/pritom-agents-docs.md](docs/tasks/pritom-agents-docs.md); Pritom left the team on 17 Oct and his part is split as above.
 
 Farhan writes the shared API contract (`contracts/`, `backend/app/schemas/`) and the sample pharmacy (`seed/`) first. Everyone else builds against those.
 

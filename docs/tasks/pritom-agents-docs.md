@@ -1,4 +1,10 @@
-# Pritom: AI agents & documents (33% of the project)
+# AI agents & documents: the spec (was Pritom's)
+
+> **Pritom left the team on 17 Oct 2026.** This file stays as the spec for the AI work. It is now split:
+> - **Farhan:** P1 LLM client, P2 photo extraction, P4 image-injection defence, P5 evaluation and demo photos. See [farhan-engines-api.md](farhan-engines-api.md), section F7–F10.
+> - **@ishmam259:** P3 copilot chat, P4 permissions and chat security tests, P6 documents. See [ishmam259-frontend-pitch.md](ishmam259-frontend-pitch.md), section I6–I8.
+>
+> Where this file says "you" or "Pritom", read it as whoever now owns that part.
 
 Hi Pritom. You own everything that talks to the AI model: reading invoice and sales-book photos, and the copilot chat. You also own the safety story and two submission documents: the technical documentation (item 1) and the security self-assessment (item 5). That's 30% of the score on its own.
 

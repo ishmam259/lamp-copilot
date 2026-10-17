@@ -1,4 +1,4 @@
-# Farhan: Engines & API (34% of the project)
+# Farhan: Engines & API, plus photo reading (49% of the project)
 
 Hi Farhan. You own the backbone: the database, the deterministic money logic, the REST API, the seed pharmacy, tests and Docker. The other two build on your contract, so **your first job (M1) unblocks everyone. Do it before anything else.**
 
@@ -7,8 +7,8 @@ Read first, in this order:
 2. [../PLAN.md](../PLAN.md): architecture, contract, golden numbers, rules
 3. This file
 
-**Your folders:** `backend/pyproject.toml`, `backend/app/main.py`, `backend/app/config.py`, `backend/app/schemas/`, `backend/app/db/`, `backend/app/engines/`, `backend/app/api/`, `contracts/`, `seed/green_life.json` (and `seed/demo_captures/`), `tests/engines/`, `tests/api/`, `scripts/`, `logs/`, `docker-compose.yml`, `.env.example`, and the "Run it" section of `README.md`.
-**Don't edit:** `backend/app/agents/`, `tests/agents/`, `eval/`, `docs/`, `frontend/`, `deck/`, `video/`.
+**Your folders:** `backend/pyproject.toml`, `backend/app/main.py`, `backend/app/config.py`, `backend/app/schemas/`, `backend/app/db/`, `backend/app/engines/`, `backend/app/api/`, `contracts/`, `seed/` (now including `seed/images/`), `tests/engines/`, `tests/api/`, `scripts/`, `logs/`, `docker-compose.yml`, `.env.example`, the "Run it" section of `README.md`, and from Pritom's part: `backend/app/agents/__init__.py`, `agents/llm.py`, `agents/extraction.py`, `agents/prompts/extraction_*.md`, `tests/agents/test_llm.py`, `tests/agents/test_extraction.py`, `eval/`.
+**Don't edit:** `agents/chat.py`, `agents/tools.py`, `agents/router.py`, `agents/permissions.py`, `agents/prompts/chat_*.md`, `tests/agents/test_chat.py`, `tests/agents/test_security.py`, `docs/`, `frontend/`, `deck/`, `video/`.
 
 **Rules:** commit every ~10 minutes and push (`git pull --rebase` first). Plain commit messages like `engines: add forecast`. No AI attribution lines.
 
@@ -24,7 +24,11 @@ Read first, in this order:
 | F4 | Credit passport and funding planner | 6% |
 | F5 | Duplicate-financing registry, actions + approvals + sandbox executor, audit log + SSE | 4% |
 | F6 | Tests, Docker Compose, README run section, demo script, trace export | 2% |
-| | **Total** | **34%** |
+| F7 | *(from Pritom's P1)* LLM client: OpenAI Responses API, live/record/replay modes, budget guard, image resizing | (inside F8) |
+| F8 | *(from P2)* Photo extraction: invoices and sales-book pages, checks, confidence | 10% |
+| F9 | *(from P4)* Image-injection defence and its test | 2% |
+| F10 | *(from P5)* Evaluation set, accuracy table, demo photos | 3% |
+| | **Total** | **49%** |
 
 ---
 
@@ -36,7 +40,7 @@ Read first, in this order:
 - pytest + FastAPI `TestClient`
 - PostgreSQL 16 in Docker Compose
 - SSE: FastAPI `StreamingResponse` with `text/event-stream`, or `sse-starlette`
-- **No LLM calls in your code.** Pritom's `agents/` is the only place that talks to OpenAI.
+- **LLM calls only in `backend/app/agents/`.** Your engines and API never call OpenAI; your new `agents/llm.py` and `agents/extraction.py` are the only code of yours that does.
 
 ---
 
@@ -77,7 +81,7 @@ Build the seed so the golden numbers in PLAN section 6 come out exactly. Suggest
 
 ### Demo captures
 During the demo, the owner photographs 2 invoices and 1 sales-book page. **Golden numbers hold after those three are confirmed.**
-- Put their exact content in `seed/demo_captures/*.json`. Pritom makes photos matching them.
+- Put their exact content in `seed/demo_captures/*.json`. You now also make the photos matching them (F10).
 - `POST /dev/reset?with_demo_captures=true` loads the seed plus the confirmed demo captures (used by tests and by the scripted run).
 - `POST /dev/reset` loads only the seed (used before a live demo, where the owner captures them).
 
@@ -114,7 +118,7 @@ Use `as_of_date` and a 30-day window unless noted.
 
 ## F3: Expiry and order trimming
 
-- **Sales rate per product:** total qty purchased in the last 90 days ÷ 90. This assumes stock levels are roughly stable; write that assumption in a docstring, because Pritom puts it in the technical doc.
+- **Sales rate per product:** total qty purchased in the last 90 days ÷ 90. This assumes stock levels are roughly stable; write that assumption in a docstring, because it goes into the technical doc.
 - `sellable_days` = days_to_expiry − `expiry_buffer_days` (30), minimum 0.
 - `sellable_qty` = floor(min(qty, rate × sellable_days)).
 - `at_risk_value` = (qty − sellable_qty) × unit_cost.
@@ -162,7 +166,7 @@ Build these options:
 
 ### Actions (the only way anything "happens")
 - States: `proposed → approved → executed` (or `failed`), or `proposed → rejected`.
-- `proposed_by`: `"owner"` (UI button) or `"agent"` (Pritom's chat). **Only the HTTP approve endpoint can approve. There is no Python function for the agent to approve.**
+- `proposed_by`: `"owner"` (UI button) or `"agent"` (the copilot chat). **Only the HTTP approve endpoint can approve. There is no Python function for the agent to approve.**
 - The executor is deterministic and sandbox-only. On approve:
   - `trim_order`: update the planned order lines.
   - `return_claim`: create a claim record; result `{claim_id, expected_credit}`.
@@ -195,10 +199,29 @@ Build these options:
 
 ---
 
+## F7–F10: Pritom's AI work, now yours
+
+Pritom left on 17 Oct. The full spec is in [pritom-agents-docs.md](pritom-agents-docs.md): read P1, P2, P4 and P5 there. Your capture endpoint already falls back to a stored draft when `app.agents.extraction` is missing, so nothing breaks while you build.
+
+| # | What | Spec | Latest by (BDT) |
+|---|---|---|---|
+| F7 | `agents/llm.py`: `LLM_MODE` live/record/replay, sha256 cache key, recordings in `eval/replay/`, budget guard writing `eval/spend.log` and refusing live calls past `LLM_DAILY_BUDGET_USD`, EXIF fix + resize to 1,600 px + JPEG 85 + strip metadata. Add `openai`, `pillow` and `pydantic-ai` to `pyproject.toml` (the chat needs `pydantic-ai`). | P1 | 18 Oct, 12:00 |
+| F8 | `agents/extraction.py`: `extract(image, kind) -> ExtractionResult` with structured output, plain-code checks, confidence 0.95 / 0.5 / 0.3, prompt in `agents/prompts/extraction_v1.md` | P2 | 18 Oct, 23:59 |
+| F9 | Regex screen + model flag for instruction-like text; matches removed from fields, listed in `suspicious_text`, logged. Test with an injection image: flagged, alert raised, no action created, normal fields still read. | P4 item 1 | 18 Oct, 23:59 |
+| F10 | `seed/images/`: 2 invoices + 1 sales page that extract to exactly `seed/demo_captures/*.json`, plus 1 injection invoice. `eval/`: 20–30 photos with ground truth and `eval/run_eval.py` (record once, then replay). Send the results table and total spend to @ishmam259 for the technical doc. | P5 | 19 Oct, 18:00 |
+
+**Interface for the chat:** @ishmam259 builds the chat on PydanticAI. Expose a small helper in `llm.py` that records a live call's cost in `eval/spend.log` and says whether today's budget allows another live call, and tell @ishmam259 its name.
+
+**Budget:** the team limit is still $20. Record the demo photos and the eval set once in `record` mode; everything after that runs in `replay`.
+
 ## Done means
 - [ ] M1 posted to the group by 16 Oct 23:59 BDT
 - [ ] `pytest` green, including `test_golden.py`
 - [ ] `docker compose up` brings up db + backend (+ frontend once Ishmam adds it) on a clean machine
 - [ ] `scripts/demo_run.py` runs end to end and exports `logs/sandbox_execution_trace.log`
 - [ ] README "Run it" works for a judge who has never seen the project
-- [ ] Every engine function has a docstring stating its formula and assumptions (Pritom copies them into the technical doc)
+- [ ] Every engine function has a docstring stating its formula and assumptions (they are quoted in the technical doc)
+- [ ] `extract()` works live on the demo photos, and replay recordings are committed
+- [ ] `pytest tests/agents/test_llm.py tests/agents/test_extraction.py` passes with no API key set
+- [ ] The injection photo is flagged, raises an alert and creates no action
+- [ ] Eval table and total live spend sent to @ishmam259 by 19 Oct 18:00 BDT
