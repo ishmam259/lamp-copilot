@@ -77,6 +77,28 @@ class ShelfLifeCreditOut(Model):
     batches: list[ShelfLifeBatch]
 
 
+class DbrCheck(Model):
+    label: str
+    amount: float
+    months: int
+    monthly_repayment: float
+    monthly_net_cash_flow: float
+    dbr_pct: float | None
+    cap_pct: float
+    ok: bool
+
+
+class PolicyOut(Model):
+    """The rules LaMP enforces (win plan CORE-07/08): Pause, PIN, the borrowing ceiling."""
+
+    paused: bool
+    pin_required_for: list[str]
+    dbr_cap_pct: float
+    monthly_net_cash_flow: float
+    source: dict[str, str | int]
+    examples: list[DbrCheck]
+
+
 class NotifyData(Model):
     audience: Literal["owner", "admin"]
     title: str

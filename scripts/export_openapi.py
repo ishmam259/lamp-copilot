@@ -69,6 +69,7 @@ def main() -> None:
     out["followups"] = get(f"{p}/followups")
     out["shelf_life_credit"] = get(f"{p}/shelf-life-credit")
     out["pause"] = get(f"{p}/pause")
+    out["policy"] = get(f"{p}/policy")
     out["financing_catalogue"] = get(f"{p}/financing-catalogue")
     out["account"] = get(f"{p}/account")
     out["value"] = get(f"{p}/value")

@@ -1116,6 +1116,46 @@
         }
       }
     },
+    "/api/v1/pharmacies/{pid}/policy": {
+      "get": {
+        "summary": "Get Policy",
+        "description": "The rules LaMP enforces: Pause, the PIN at loan approval, and the borrowing ceiling\nwith its published source.",
+        "operationId": "get_policy_api_v1_pharmacies__pid__policy_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicyOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/pharmacies/{pid}/pause": {
       "get": {
         "summary": "Get Pause",
@@ -2629,6 +2669,62 @@
         "title": "ConsentPreview",
         "description": "What a lender would see with these scopes (win plan CORE-16)."
       },
+      "DbrCheck": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "months": {
+            "type": "integer",
+            "title": "Months"
+          },
+          "monthly_repayment": {
+            "type": "number",
+            "title": "Monthly Repayment"
+          },
+          "monthly_net_cash_flow": {
+            "type": "number",
+            "title": "Monthly Net Cash Flow"
+          },
+          "dbr_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dbr Pct"
+          },
+          "cap_pct": {
+            "type": "number",
+            "title": "Cap Pct"
+          },
+          "ok": {
+            "type": "boolean",
+            "title": "Ok"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "label",
+          "amount",
+          "months",
+          "monthly_repayment",
+          "monthly_net_cash_flow",
+          "dbr_pct",
+          "cap_pct",
+          "ok"
+        ],
+        "title": "DbrCheck"
+      },
       "Decision": {
         "properties": {
           "approved": {
@@ -3862,6 +3958,62 @@
           "when"
         ],
         "title": "PlanStep"
+      },
+      "PolicyOut": {
+        "properties": {
+          "paused": {
+            "type": "boolean",
+            "title": "Paused"
+          },
+          "pin_required_for": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Pin Required For"
+          },
+          "dbr_cap_pct": {
+            "type": "number",
+            "title": "Dbr Cap Pct"
+          },
+          "monthly_net_cash_flow": {
+            "type": "number",
+            "title": "Monthly Net Cash Flow"
+          },
+          "source": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Source"
+          },
+          "examples": {
+            "items": {
+              "$ref": "#/components/schemas/DbrCheck"
+            },
+            "type": "array",
+            "title": "Examples"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "paused",
+          "pin_required_for",
+          "dbr_cap_pct",
+          "monthly_net_cash_flow",
+          "source",
+          "examples"
+        ],
+        "title": "PolicyOut",
+        "description": "The rules LaMP enforces (win plan CORE-07/08): Pause, PIN, the borrowing ceiling."
       },
       "SalesDay": {
         "properties": {

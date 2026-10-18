@@ -48,6 +48,7 @@ from app.schemas import (
     PassportOut,
     PauseIn,
     PauseOut,
+    PolicyOut,
     PharmacyOut,
     SessionIn,
     SessionOut,
@@ -318,6 +319,13 @@ def list_followups(pid: str, db: Session = Depends(get_db)):
     """The approved plan's conditional steps and whether they have fired."""
     engines.get_pharmacy(db, pid)
     return followups.list_followups(db, pid)
+
+
+@owner.get("/pharmacies/{pid}/policy", response_model=PolicyOut)
+def get_policy(pid: str, db: Session = Depends(get_db)):
+    """The rules LaMP enforces: Pause, the PIN at loan approval, and the borrowing ceiling
+    with its published source."""
+    return policy.get_policy(db, pid)
 
 
 @owner.get("/pharmacies/{pid}/pause", response_model=PauseOut)

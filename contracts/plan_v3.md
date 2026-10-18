@@ -84,3 +84,15 @@ On `/logs/stream`, as a normal `LogEvent`:
           "link": "/actions"}}
 ```
 Audiences: `owner`, `admin`. A notification never approves anything.
+
+## Borrowing ceiling (CORE-07)
+
+Loan proposals whose equal monthly repayment exceeds **35% of monthly net cash flow** (30-day net profit, 13,500) get **409** with the reason. The cap follows Bangladesh Bank's published debt-burden-ratio limit for unsecured personal loans (*Prudential Regulations for Consumer Financing*, First Edition 2004, p. 65, PPG Guideline No. 12), applied to the pharmacy's cash flow; the PDF is in `seed/sources/`.
+
+```
+GET /api/v1/pharmacies/green-life/policy
+200 {"paused": false, "pin_required_for": ["loan_application"], "dbr_cap_pct": 35.0,
+     "monthly_net_cash_flow": 13500, "source": {"title": "Prudential Regulations for Consumer Financing", …},
+     "examples": [{"label": "The plan's fallback loan", "amount": 8200, "monthly_repayment": 2793.99, "dbr_pct": 20.7, "ok": true},
+                  {"label": "A loan for the untrimmed shortfall", "amount": 19000, "monthly_repayment": 6473.88, "dbr_pct": 48.0, "ok": false}]}
+```
