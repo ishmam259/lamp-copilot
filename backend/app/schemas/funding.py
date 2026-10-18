@@ -26,6 +26,12 @@ class FundingOption(Model):
     reason: str
     speed: str
     certainty: Certainty
+    # Cost disclosure (win plan CORE-15): APR on the amount actually financed, its tenor,
+    # and what covering this gap costs.
+    amount_financed: float | None = None
+    tenor_days: int | None = None
+    cost_of_gap_bdt: float | None = None
+    cost_of_gap_pct_of_need: float | None = None
 
 
 class PlanStep(Model):
