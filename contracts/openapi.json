@@ -1293,6 +1293,65 @@
         }
       }
     },
+    "/api/v1/pharmacies/{pid}/consents/preview": {
+      "get": {
+        "summary": "Consent Preview",
+        "description": "What this lender would see with these scopes (comma-separated), before sharing.",
+        "operationId": "consent_preview_api_v1_pharmacies__pid__consents_preview_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "lender_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Lender Id"
+            }
+          },
+          {
+            "name": "scopes",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "passport.summary",
+              "title": "Scopes"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsentPreview"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/pharmacies/{pid}/consents/{consent_id}": {
       "delete": {
         "summary": "Revoke Consent",
@@ -2526,6 +2585,49 @@
           "granted_at"
         ],
         "title": "ConsentOut"
+      },
+      "ConsentPreview": {
+        "properties": {
+          "lender_id": {
+            "type": "string",
+            "title": "Lender Id"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scopes"
+          },
+          "shares": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Shares"
+          },
+          "withholds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Withholds"
+          },
+          "passport": {
+            "$ref": "#/components/schemas/PassportOut"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "lender_id",
+          "scopes",
+          "shares",
+          "withholds",
+          "passport"
+        ],
+        "title": "ConsentPreview",
+        "description": "What a lender would see with these scopes (win plan CORE-16)."
       },
       "Decision": {
         "properties": {

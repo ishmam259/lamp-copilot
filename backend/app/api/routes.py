@@ -33,6 +33,7 @@ from app.schemas import (
     CatalogueOut,
     ConsentIn,
     ConsentOut,
+    ConsentPreview,
     DuesOut,
     ExpiryOut,
     ExtractionResult,
@@ -336,6 +337,14 @@ def set_pause(pid: str, body: PauseIn, db: Session = Depends(get_db)):
 @owner.get("/pharmacies/{pid}/consents", response_model=list[ConsentOut])
 def list_consents(pid: str, db: Session = Depends(get_db)):
     return engines.list_consents(db, pid)
+
+
+@owner.get("/pharmacies/{pid}/consents/preview", response_model=ConsentPreview)
+def consent_preview(pid: str, lender_id: str, scopes: str = "passport.summary", db: Session = Depends(get_db)):
+    """What this lender would see with these scopes (comma-separated), before sharing."""
+    from app.engines.lenders import consent_preview as preview
+
+    return preview(db, pid, lender_id, [s for s in scopes.split(",") if s])
 
 
 @owner.post("/pharmacies/{pid}/consents", response_model=ConsentOut)
