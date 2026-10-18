@@ -1,0 +1,35 @@
+{
+  "id": "e05_invoice",
+  "kind": "invoice",
+  "invoice": {
+    "supplier_name": "Supplier K",
+    "invoice_no": "K-5365",
+    "invoice_date": "2026-09-17",
+    "due_date": "2026-10-17",
+    "total": 6060,
+    "lines": [
+      {
+        "product": "Ranitidine 150 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "RA2555",
+        "expiry_date": "2027-10-31",
+        "qty": 6,
+        "unit_cost": 210,
+        "line_total": 1260
+      },
+      {
+        "product": "Iron + folic acid, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IR2584",
+        "expiry_date": "2027-06-30",
+        "qty": 30,
+        "unit_cost": 160,
+        "line_total": 4800
+      }
+    ]
+  },
+  "injection": false,
+  "hard": null
+}

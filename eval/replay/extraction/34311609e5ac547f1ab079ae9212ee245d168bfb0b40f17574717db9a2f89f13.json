@@ -1,0 +1,41 @@
+{
+  "key": "34311609e5ac547f1ab079ae9212ee245d168bfb0b40f17574717db9a2f89f13",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "supplier_name": "Supplier O",
+    "invoice_no": "O-6511",
+    "invoice_date": "2026-09-26",
+    "due_date": "2026-10-26",
+    "total": 12400,
+    "lines": [
+      {
+        "product": "Montelukast 10 mg, box of 30",
+        "strength": null,
+        "pack": null,
+        "batch_no": "MO2520",
+        "expiry_date": "2027-10-31",
+        "qty": 20,
+        "unit_cost": 440,
+        "line_total": 8800
+      },
+      {
+        "product": "Ranitidine 150 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "RA2556",
+        "expiry_date": "2027-11-30",
+        "qty": 20,
+        "unit_cost": 180,
+        "line_total": 3600
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2667,
+    "output_tokens": 298,
+    "usd": 0.000416
+  }
+}

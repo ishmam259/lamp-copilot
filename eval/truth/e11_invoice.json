@@ -1,0 +1,35 @@
+{
+  "id": "e11_invoice",
+  "kind": "invoice",
+  "invoice": {
+    "supplier_name": "Supplier W",
+    "invoice_no": "W-7969",
+    "invoice_date": "2026-09-03",
+    "due_date": "2026-10-03",
+    "total": 6010,
+    "lines": [
+      {
+        "product": "Amoxicillin 500 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "AM2521",
+        "expiry_date": "2027-08-31",
+        "qty": 5,
+        "unit_cost": 530,
+        "line_total": 2650
+      },
+      {
+        "product": "Iron + folic acid, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IR2535",
+        "expiry_date": "2028-04-30",
+        "qty": 24,
+        "unit_cost": 140,
+        "line_total": 3360
+      }
+    ]
+  },
+  "injection": false,
+  "hard": null
+}

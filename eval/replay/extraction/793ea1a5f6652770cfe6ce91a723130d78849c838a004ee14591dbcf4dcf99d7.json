@@ -1,0 +1,61 @@
+{
+  "key": "793ea1a5f6652770cfe6ce91a723130d78849c838a004ee14591dbcf4dcf99d7",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "supplier_name": "Supplier C",
+    "invoice_no": "C-4511",
+    "invoice_date": "2026-09-22",
+    "due_date": "2026-10-06",
+    "total": 25440,
+    "lines": [
+      {
+        "product": "Metformin 500 mg, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "ME2537",
+        "expiry_date": "2028-06-30",
+        "qty": 12,
+        "unit_cost": 440,
+        "line_total": 5280
+      },
+      {
+        "product": "Vitamin B complex, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "VI2567",
+        "expiry_date": "2028-03-31",
+        "qty": 12,
+        "unit_cost": 160,
+        "line_total": 1920
+      },
+      {
+        "product": "Insulin pen, 3 ml",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IN2568",
+        "expiry_date": "2027-08-31",
+        "qty": 12,
+        "unit_cost": 1170,
+        "line_total": 14040
+      },
+      {
+        "product": "Losartan 50 mg, box of 30",
+        "strength": null,
+        "pack": null,
+        "batch_no": "LO2609",
+        "expiry_date": "2027-07-31",
+        "qty": 15,
+        "unit_cost": 280,
+        "line_total": 4200
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2611,
+    "output_tokens": 331,
+    "usd": 0.000427
+  }
+}

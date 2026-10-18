@@ -1,0 +1,65 @@
+{
+  "key": "86a3a8a0c3414c96aeafc5301f49673d8d82a690b7a183983f565946ce486140",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "days": [
+      {
+        "date": "2026-09-22",
+        "cash_sales": 15600,
+        "credit_sales": 600,
+        "dues_collected": 700,
+        "expenses": 250
+      },
+      {
+        "date": "2026-09-23",
+        "cash_sales": 12700,
+        "credit_sales": 300,
+        "dues_collected": 1300,
+        "expenses": 500
+      },
+      {
+        "date": "2026-09-24",
+        "cash_sales": 12900,
+        "credit_sales": 800,
+        "dues_collected": 400,
+        "expenses": 3000
+      },
+      {
+        "date": "2026-09-25",
+        "cash_sales": 8700,
+        "credit_sales": 1100,
+        "dues_collected": 1100,
+        "expenses": 1200
+      },
+      {
+        "date": "2026-09-26",
+        "cash_sales": 8300,
+        "credit_sales": 1300,
+        "dues_collected": 400,
+        "expenses": 1200
+      },
+      {
+        "date": "2026-09-27",
+        "cash_sales": 11700,
+        "credit_sales": 1000,
+        "dues_collected": 1100,
+        "expenses": 3000
+      },
+      {
+        "date": "2026-09-28",
+        "cash_sales": 11800,
+        "credit_sales": 300,
+        "dues_collected": 1200,
+        "expenses": 250
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2542,
+    "output_tokens": 297,
+    "usd": 0.000403
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "key": "c4c65db340ec95d205cea73fd76f7bead72fd39610f4112f2dd31cd0ce5d2ec4",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "supplier_name": "Supplier E",
+    "invoice_no": "E-2352",
+    "invoice_date": "2026-10-10",
+    "due_date": "2026-10-17",
+    "total": 7780,
+    "lines": [
+      {
+        "product": "Montelukast 10 mg, box of 30",
+        "strength": null,
+        "pack": null,
+        "batch_no": "MO2583",
+        "expiry_date": "2028-03-31",
+        "qty": 6,
+        "unit_cost": 440,
+        "line_total": 2640
+      },
+      {
+        "product": "Oral saline, box of 25",
+        "strength": null,
+        "pack": null,
+        "batch_no": "OR2564",
+        "expiry_date": "2028-08-31",
+        "qty": 3,
+        "unit_cost": 310,
+        "line_total": 930
+      },
+      {
+        "product": "Omeprazole 20 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "OM2532",
+        "expiry_date": "2028-10-31",
+        "qty": 3,
+        "unit_cost": 470,
+        "line_total": 1410
+      },
+      {
+        "product": "Calcium 500 mg, box of 60",
+        "strength": null,
+        "pack": null,
+        "batch_no": "CA2545",
+        "expiry_date": "2028-12-31",
+        "qty": 8,
+        "unit_cost": 350,
+        "line_total": 2800
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2667,
+    "output_tokens": 807,
+    "usd": 0.00067
+  }
+}

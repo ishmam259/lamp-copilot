@@ -1,0 +1,35 @@
+{
+  "id": "e03_invoice",
+  "kind": "invoice",
+  "invoice": {
+    "supplier_name": "Supplier E",
+    "invoice_no": "E-2999",
+    "invoice_date": "2026-08-25",
+    "due_date": "2026-09-24",
+    "total": 5180,
+    "lines": [
+      {
+        "product": "Iron + folic acid, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IR2561",
+        "expiry_date": "2028-05-31",
+        "qty": 30,
+        "unit_cost": 130,
+        "line_total": 3900
+      },
+      {
+        "product": "Oral saline, box of 25",
+        "strength": null,
+        "pack": null,
+        "batch_no": "OR2609",
+        "expiry_date": "2027-11-30",
+        "qty": 4,
+        "unit_cost": 320,
+        "line_total": 1280
+      }
+    ]
+  },
+  "injection": false,
+  "hard": null
+}

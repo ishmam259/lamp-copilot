@@ -1,0 +1,51 @@
+{
+  "key": "2abb85c49554f5ed00c84eef8a363086167af50f97db7680b1869e0fd1516fbf",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "supplier_name": "Supplier M",
+    "invoice_no": "M-6370",
+    "invoice_date": "2026-08-26",
+    "due_date": "2026-09-16",
+    "total": 1320,
+    "lines": [
+      {
+        "product": "Iron + folic acid, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IR2510",
+        "expiry_date": "2028-04-30",
+        "qty": 2,
+        "unit_cost": 140,
+        "line_total": 280
+      },
+      {
+        "product": "Amlodipine 5 mg, box of 30",
+        "strength": null,
+        "pack": null,
+        "batch_no": "AM2546",
+        "expiry_date": "2029-01-31",
+        "qty": 2,
+        "unit_cost": 190,
+        "line_total": 380
+      },
+      {
+        "product": "Calcium 500 mg, box of 60",
+        "strength": null,
+        "pack": null,
+        "batch_no": "CA2561",
+        "expiry_date": "2028-08-31",
+        "qty": 2,
+        "unit_cost": 330,
+        "line_total": 660
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2611,
+    "output_tokens": 421,
+    "usd": 0.000472
+  }
+}

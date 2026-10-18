@@ -1,0 +1,65 @@
+{
+  "id": "e13_invoice",
+  "kind": "invoice",
+  "invoice": {
+    "supplier_name": "Supplier A",
+    "invoice_no": "A-3172",
+    "invoice_date": "2026-10-11",
+    "due_date": "2026-10-18",
+    "total": 23625,
+    "lines": [
+      {
+        "product": "Salbutamol inhaler, 200 doses",
+        "strength": null,
+        "pack": null,
+        "batch_no": "SA2572",
+        "expiry_date": "2028-04-30",
+        "qty": 8,
+        "unit_cost": 350,
+        "line_total": 2800
+      },
+      {
+        "product": "Ibuprofen 400 mg, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IB2528",
+        "expiry_date": "2028-10-31",
+        "qty": 24,
+        "unit_cost": 250,
+        "line_total": 6000
+      },
+      {
+        "product": "Antacid suspension, 200 ml",
+        "strength": null,
+        "pack": null,
+        "batch_no": "AN2572",
+        "expiry_date": "2028-02-29",
+        "qty": 3,
+        "unit_cost": 75,
+        "line_total": 225
+      },
+      {
+        "product": "Metformin 500 mg, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "ME2538",
+        "expiry_date": "2028-12-31",
+        "qty": 20,
+        "unit_cost": 420,
+        "line_total": 8400
+      },
+      {
+        "product": "Paracetamol 500 mg, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "PA2572",
+        "expiry_date": "2029-03-31",
+        "qty": 20,
+        "unit_cost": 310,
+        "line_total": 6200
+      }
+    ]
+  },
+  "injection": false,
+  "hard": null
+}

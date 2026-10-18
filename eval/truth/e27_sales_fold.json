@@ -1,0 +1,45 @@
+{
+  "id": "e27_sales_fold",
+  "kind": "sales_page",
+  "sales_page": {
+    "days": [
+      {
+        "date": "2026-09-07",
+        "cash_sales": 12300,
+        "credit_sales": 1300,
+        "dues_collected": 100,
+        "expenses": 1200
+      },
+      {
+        "date": "2026-09-08",
+        "cash_sales": 14900,
+        "credit_sales": 1500,
+        "dues_collected": 800,
+        "expenses": 0
+      },
+      {
+        "date": "2026-09-09",
+        "cash_sales": 12500,
+        "credit_sales": 1300,
+        "dues_collected": 1000,
+        "expenses": 0
+      },
+      {
+        "date": "2026-09-10",
+        "cash_sales": 13100,
+        "credit_sales": 100,
+        "dues_collected": 1100,
+        "expenses": 0
+      },
+      {
+        "date": "2026-09-11",
+        "cash_sales": 11400,
+        "credit_sales": 0,
+        "dues_collected": 800,
+        "expenses": 1200
+      }
+    ]
+  },
+  "injection": false,
+  "hard": "fold"
+}

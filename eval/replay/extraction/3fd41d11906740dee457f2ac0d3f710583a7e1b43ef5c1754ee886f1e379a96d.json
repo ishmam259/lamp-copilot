@@ -1,0 +1,41 @@
+{
+  "key": "3fd41d11906740dee457f2ac0d3f710583a7e1b43ef5c1754ee886f1e379a96d",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "supplier_name": "Supplier T",
+    "invoice_no": "T-4088",
+    "invoice_date": "2026-10-02",
+    "due_date": "2026-11-01",
+    "total": 810,
+    "lines": [
+      {
+        "product": "Antacid suspension, 200 ml",
+        "strength": null,
+        "pack": null,
+        "batch_no": "AN2523",
+        "expiry_date": "2029-02-28",
+        "qty": 2,
+        "unit_cost": 85,
+        "line_total": 170
+      },
+      {
+        "product": "Calcium 500 mg, box of 60",
+        "strength": null,
+        "pack": null,
+        "batch_no": "CA2558",
+        "expiry_date": "2027-06-30",
+        "qty": 2,
+        "unit_cost": 320,
+        "line_total": 640
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2611,
+    "output_tokens": 275,
+    "usd": 0.000399
+  }
+}

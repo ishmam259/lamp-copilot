@@ -1,0 +1,37 @@
+{
+  "key": "2f11599e28f64f1f0ec8c8a9b72f38b6ddd0fb79f465fb8cb01bacb3cf82601c",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "days": [
+      {
+        "date": "2026-10-13",
+        "cash_sales": 10100,
+        "credit_sales": 800,
+        "dues_collected": 800,
+        "expenses": 0
+      },
+      {
+        "date": "2026-10-14",
+        "cash_sales": 13900,
+        "credit_sales": 1100,
+        "dues_collected": 1100,
+        "expenses": 0
+      },
+      {
+        "date": "2026-10-15",
+        "cash_sales": 12600,
+        "credit_sales": 1000,
+        "dues_collected": 1000,
+        "expenses": 0
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2598,
+    "output_tokens": 211,
+    "usd": 0.000365
+  }
+}
