@@ -83,3 +83,8 @@ def test_sales_page_capture_saves_only_sales_days(client):
 def test_shelf_life_credit_endpoint(client):
     s = client.get(f"{P}/shelf-life-credit").json()
     assert (s["counterfactual_purpose_blind"], s["not_financed"], s["financeable"]) == (19000, 10800, 8200)
+
+
+def test_financing_catalogue_endpoint(client):
+    c = client.get(f"{P}/financing-catalogue").json()
+    assert c["matched"] == 6 and c["plan_holds"] is True and c["options"][0]["eligible"]

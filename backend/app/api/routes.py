@@ -17,7 +17,7 @@ from app.db import models as m
 from app.db.seed import apply_extraction, load_seed
 from app.db.session import get_db
 from app.engines import actions as action_engine
-from app.engines import auth, followups, policy
+from app.engines import auth, catalogue, followups, policy
 from app.engines.common import as_of
 from app.engines import logbus
 from app.schemas import (
@@ -29,6 +29,7 @@ from app.schemas import (
     ApplicationOut,
     CaptureConfirm,
     CaptureOut,
+    CatalogueOut,
     ConsentIn,
     ConsentOut,
     DuesOut,
@@ -246,6 +247,13 @@ def funding_plan(pid: str, body: FundingRequest | None = Body(default=None), db:
     need = FundingNeed(amount=default.amount if body.amount is None else body.amount,
                        needed_by=body.needed_by or default.needed_by)
     return engines.get_funding_plan(db, pid, need)
+
+
+@owner.get("/pharmacies/{pid}/financing-catalogue", response_model=CatalogueOut)
+def financing_catalogue(pid: str, db: Session = Depends(get_db)):
+    """Sourced Bangladeshi financing archetypes matched to the need: N matched, K eligible,
+    cheapest first, with the reason each other option doesn't fit."""
+    return catalogue.get_catalogue(db, pid)
 
 
 @owner.get("/pharmacies/{pid}/passport", response_model=PassportOut)

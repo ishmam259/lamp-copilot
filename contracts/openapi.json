@@ -668,6 +668,46 @@
         }
       }
     },
+    "/api/v1/pharmacies/{pid}/financing-catalogue": {
+      "get": {
+        "summary": "Financing Catalogue",
+        "description": "Sourced Bangladeshi financing archetypes matched to the need: N matched, K eligible,\ncheapest first, with the reason each other option doesn't fit.",
+        "operationId": "financing_catalogue_api_v1_pharmacies__pid__financing_catalogue_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogueOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/pharmacies/{pid}/passport": {
       "get": {
         "summary": "Get Passport",
@@ -2055,6 +2095,223 @@
           "extraction"
         ],
         "title": "CaptureOut"
+      },
+      "CatalogueOption": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "provider_type": {
+            "type": "string",
+            "title": "Provider Type"
+          },
+          "anchored_on": {
+            "type": "string",
+            "title": "Anchored On"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "source_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Date"
+          },
+          "permitted_purpose": {
+            "type": "string",
+            "title": "Permitted Purpose"
+          },
+          "apr_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apr Pct"
+          },
+          "amount_financed": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount Financed"
+          },
+          "tenor_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tenor Days"
+          },
+          "horizon_days": {
+            "type": "integer",
+            "title": "Horizon Days"
+          },
+          "cost_of_gap_bdt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Of Gap Bdt"
+          },
+          "cost_of_gap_pct_of_need": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Of Gap Pct Of Need"
+          },
+          "speed_days": {
+            "type": "integer",
+            "title": "Speed Days"
+          },
+          "eligible": {
+            "type": "boolean",
+            "title": "Eligible"
+          },
+          "ineligible_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ineligible Reason"
+          },
+          "to_confirm": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "To Confirm",
+            "default": []
+          },
+          "note": {
+            "type": "string",
+            "title": "Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "provider_type",
+          "anchored_on",
+          "source",
+          "source_date",
+          "permitted_purpose",
+          "apr_pct",
+          "amount_financed",
+          "tenor_days",
+          "horizon_days",
+          "cost_of_gap_bdt",
+          "cost_of_gap_pct_of_need",
+          "speed_days",
+          "eligible",
+          "note"
+        ],
+        "title": "CatalogueOption",
+        "description": "A financing archetype anchored on a published Bangladeshi offer (win plan CORE-14)."
+      },
+      "CatalogueOut": {
+        "properties": {
+          "need": {
+            "$ref": "#/components/schemas/FundingNeed"
+          },
+          "horizon_days": {
+            "type": "integer",
+            "title": "Horizon Days"
+          },
+          "matched": {
+            "type": "integer",
+            "title": "Matched"
+          },
+          "eligible": {
+            "type": "integer",
+            "title": "Eligible"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/CatalogueOption"
+            },
+            "type": "array",
+            "title": "Options"
+          },
+          "cheapest_eligible_cost_bdt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cheapest Eligible Cost Bdt"
+          },
+          "plan_fallback_cost_bdt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plan Fallback Cost Bdt"
+          },
+          "plan_holds": {
+            "type": "boolean",
+            "title": "Plan Holds"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "need",
+          "horizon_days",
+          "matched",
+          "eligible",
+          "options",
+          "cheapest_eligible_cost_bdt",
+          "plan_fallback_cost_bdt",
+          "plan_holds"
+        ],
+        "title": "CatalogueOut"
       },
       "Check": {
         "properties": {
