@@ -57,7 +57,7 @@ Every `LogEvent` now carries `hash`.
 
 ```
 GET /api/v1/pharmacies/green-life/shelf-life-credit
-200 {"order_id": "PO-A-1", "needed_by": "2026-10-26",
+200 {"order_id": "o-1", "needed_by": "2026-10-26",
      "counterfactual_purpose_blind": 19000, "not_financed": 10800, "financeable": 8200,
      "reason": "10,800 of this order won't sell before expiry (30-day buffer), so it is not financed.",
      "batches": [{"product": "…", "qty_ordered": 30, "sellable_qty": 12, "unsellable_value": 10800}]}

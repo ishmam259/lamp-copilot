@@ -5,11 +5,14 @@ import math
 from datetime import timedelta
 
 from scipy.stats import beta
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.schemas import PassportOut
+from app.db import models as m
 
-from .common import as_of, get_pharmacy, invoices_since
+from app.schemas import PassportOut, ShelfLifeBatch, ShelfLifeCreditOut
+
+from .common import as_of, get_pharmacy, invoices_since, r2
 
 
 def get_passport(db: Session, pid: str) -> PassportOut:
@@ -59,3 +62,43 @@ def get_passport(db: Session, pid: str) -> PassportOut:
         partner_share_pct=round(100 - 90 * score, 1),
         evidence=evidence,
     )
+
+
+def get_shelf_life_credit(db: Session, pid: str) -> ShelfLifeCreditOut:
+    """Shelf-life credit: the ineligible-inventory rule asset-based lenders use, computed per
+    batch from the photographed invoices before the purchase.
+
+    need = the first forecast shortfall before any trim (19,000 on 26 Oct), caused by the
+    planned order due on or after that date. For each line of that order:
+        sellable_qty = floor(min(qty, sales_rate × (days_to_expiry − 30-day buffer)))
+        unsellable_value = (qty − sellable_qty) × unit_cost
+    not_financed = Σ unsellable_value (10,800): stock that won't sell before expiry is not
+    financed. financeable = max(0, need − not_financed) (8,200).
+    counterfactual_purpose_blind = the need itself: what a lender that ignores the shelf
+    would finance. It is a computed comparison, not a request anyone made.
+    """
+    from .expiry import get_trim
+    from .forecast import get_forecast
+
+    shortfalls = get_forecast(db, pid).shortfalls
+    orders = list(db.scalars(select(m.PlannedOrder).where(m.PlannedOrder.pharmacy_id == pid,
+                                                          m.PlannedOrder.status == "planned")
+                             .order_by(m.PlannedOrder.due_date)))
+    if not shortfalls or not orders:
+        need, needed_by = 0.0, as_of(get_pharmacy(db, pid))
+        order = orders[0] if orders else None
+    else:
+        need, needed_by = shortfalls[0].amount, shortfalls[0].date
+        order = next((o for o in orders if o.due_date >= needed_by), orders[0])
+    if order is None:
+        return ShelfLifeCreditOut(order_id="", needed_by=needed_by, counterfactual_purpose_blind=0, not_financed=0,
+                                  financeable=0, reason="No planned order to finance.", batches=[])
+    trim = get_trim(db, pid, order.id)
+    batches = [ShelfLifeBatch(product=l.product, qty_ordered=l.qty, sellable_qty=l.sellable_qty,
+                              unsellable_value=r2(l.at_risk_value)) for l in trim.lines]
+    not_financed = r2(min(need, sum(b.unsellable_value for b in batches)))
+    financeable = r2(max(0.0, need - not_financed))
+    reason = (f"{not_financed:,.0f} of this order won't sell before expiry, so it isn't financed."
+              if not_financed else "Every line of this order will sell before expiry.")
+    return ShelfLifeCreditOut(order_id=order.id, needed_by=needed_by, counterfactual_purpose_blind=r2(need),
+                              not_financed=not_financed, financeable=financeable, reason=reason, batches=batches)

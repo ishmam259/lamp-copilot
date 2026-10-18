@@ -78,3 +78,8 @@ def test_sales_page_capture_saves_only_sales_days(client):
     client.post(f"{P}/captures/{r.json()['id']}/confirm", json={})
     assert "K-77310" not in [i["invoice_no"] for i in client.get(f"{P}/dues").json()["items"]]
     assert client.get(f"{P}/accounts").json()["sales"] == 412500  # same days re-entered, same totals
+
+
+def test_shelf_life_credit_endpoint(client):
+    s = client.get(f"{P}/shelf-life-credit").json()
+    assert (s["counterfactual_purpose_blind"], s["not_financed"], s["financeable"]) == (19000, 10800, 8200)

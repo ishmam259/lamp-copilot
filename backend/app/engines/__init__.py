@@ -11,4 +11,4 @@ from .expiry import get_expiry, get_trim
 from .forecast import get_forecast
 from .funding import get_funding_plan
 from .orders import list_orders
-from .passport import get_passport
+from .passport import get_passport, get_shelf_life_credit

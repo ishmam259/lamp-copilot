@@ -106,3 +106,16 @@ def test_cost_disclosure(db):
     assert (ext.amount_financed, ext.tenor_days, ext.cost_of_gap_bdt) == (8_200, 20, 0)
     assert o["trim_order"].amount_financed is None and o["return_claims"].cost_of_gap_bdt is None
     assert o["bank_sme_loan"].cost_of_gap_bdt is None  # ineligible: no cost to disclose
+
+
+def test_shelf_life_credit(db):
+    """Win plan CORE-11: 19,000 purpose-blind → 10,800 not financed → 8,200 financeable."""
+    from app.engines import get_shelf_life_credit
+
+    s = get_shelf_life_credit(db, PID)
+    assert (s.order_id, s.needed_by) == ("o-1", date(2026, 10, 26))
+    assert (s.counterfactual_purpose_blind, s.not_financed, s.financeable) == (19_000, 10_800, 8_200)
+    slow = [b for b in s.batches if b.unsellable_value > 0]
+    assert [(b.qty_ordered, b.sellable_qty, b.unsellable_value) for b in slow] == [(30, 12, 10_800)]
+    # the financeable amount is exactly the need left after the trim
+    assert s.financeable == get_funding_plan(db, PID).need.amount

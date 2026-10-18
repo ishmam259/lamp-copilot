@@ -46,6 +46,7 @@ from app.schemas import (
     PharmacyOut,
     SessionIn,
     SessionOut,
+    ShelfLifeCreditOut,
     SupplierReply,
     TrimOut,
     VerifyOut,
@@ -241,6 +242,13 @@ def funding_plan(pid: str, body: FundingRequest | None = Body(default=None), db:
 @owner.get("/pharmacies/{pid}/passport", response_model=PassportOut)
 def get_passport(pid: str, db: Session = Depends(get_db)):
     return engines.get_passport(db, pid)
+
+
+@owner.get("/pharmacies/{pid}/shelf-life-credit", response_model=ShelfLifeCreditOut)
+def get_shelf_life_credit(pid: str, db: Session = Depends(get_db)):
+    """What a purpose-blind lender would finance vs what LaMP finances once stock that
+    won't sell before expiry is left out."""
+    return engines.get_shelf_life_credit(db, pid)
 
 
 # --- Actions: only this approve endpoint can approve ------------------------------------
