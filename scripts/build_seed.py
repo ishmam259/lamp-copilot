@@ -85,6 +85,32 @@ def invoice(supplier: str, no: str, inv_date: int, terms: int, lines: list[dict]
     return inv
 
 
+def alias(supplier: str) -> str:
+    """How a supplier appears on the wallet statement, e.g. 'SUPPLIER-Q PHARMA DIST'."""
+    return supplier.upper().replace(" ", "-") + " PHARMA DIST"
+
+
+def build_statement(invoices: list[dict]) -> list[dict]:
+    """Wallet statement lines for the 30 days before as_of (win plan CORE-05).
+
+    Every supplier payment in that window appears as a debit, except three planted
+    problems for the reconciliation demo: Supplier T's payment is missing from the
+    statement, Supplier Q's 8,600 was paid twice, and one debit has an unknown payee.
+    """
+    lines = []
+    for inv in invoices:
+        p = inv.get("payment")
+        if not p or p["paid_on"] < d(-30) or inv["supplier"] == "Supplier T":
+            continue
+        lines.append({"date": p["paid_on"], "amount": -p["amount"], "payee": alias(inv["supplier"]),
+                      "ref": f"TRX-{inv['invoice_no']}"})
+        if inv["invoice_no"] == "Q-3130":  # the same bill paid again two days later
+            lines.append({"date": d(-23), "amount": -p["amount"], "payee": alias(inv["supplier"]),
+                          "ref": f"TRX-{inv['invoice_no']}-2"})
+    lines.append({"date": d(-12), "amount": -4_500, "payee": "MERCHANT 01712XXXXXX", "ref": "TRX-UNKNOWN-1"})
+    return sorted(lines, key=lambda l: (l["date"], l["ref"]))
+
+
 def build_invoices() -> list[dict]:
     invoices = []
     # Supplier A: 6 boxes of Montelukast every 30 days -> 18 / 90 = 0.2 boxes a day.
@@ -245,6 +271,7 @@ def main() -> None:
         "patient_dues": PATIENT_DUES,
         "planned_orders": [PLANNED_ORDER],
         "lenders": LENDERS,
+        "statement_lines": build_statement(build_invoices()),
     }
     write(ROOT / "seed" / "green_life.json", seed)
     for key, inv in DEMO_INVOICES.items():

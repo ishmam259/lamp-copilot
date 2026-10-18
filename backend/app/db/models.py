@@ -250,6 +250,32 @@ class Action(Base):
     result: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
 
+class WalletTxn(Base):
+    """Sandbox wallet movements LaMP caused (loan payouts). The opening balance is the
+    pharmacy's cash on hand minus these."""
+
+    __tablename__ = "wallet_txn"
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    pharmacy_id: Mapped[str] = mapped_column(ForeignKey("pharmacy.id"))
+    date: Mapped[date] = mapped_column(Date)
+    amount: Mapped[float] = mapped_column(Float)  # + in, - out
+    kind: Mapped[str]
+    ref: Mapped[str]
+    created_at: Mapped[datetime] = mapped_column(DateTime)
+
+
+class StatementLine(Base):
+    """External wallet/bank statement lines (seeded), to reconcile against the books."""
+
+    __tablename__ = "statement_line"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    pharmacy_id: Mapped[str] = mapped_column(ForeignKey("pharmacy.id"))
+    date: Mapped[date] = mapped_column(Date)
+    amount: Mapped[float] = mapped_column(Float)  # + credit, - debit
+    payee: Mapped[str]
+    ref: Mapped[str]
+
+
 class FollowUp(Base):
     """A conditional step of an approved plan: if the supplier declines or doesn't reply,
     LaMP proposes the fallback (it still needs the owner's approval)."""

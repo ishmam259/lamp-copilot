@@ -120,6 +120,9 @@ def decide(db: Session, lender_id: str, app_id: str) -> ApplicationOut:
         a.decision = {"approved": True, "payout_ref": ref,
                       "reason": f"Default probability {p:.1%} is within the {MAX_DEFAULT_PROBABILITY:.0%} limit."}
         ph.cash_on_hand += a.amount
+        from .wallet import record_payout
+
+        record_payout(db, a.pharmacy_id, a.amount, ref, as_of(ph))
         log("T3", "LENDER", "application_approved", db, application=app_id, payout=ref, amount=a.amount)
         log("T3", "PAYOUT", "sandbox_payout", db, application=app_id, payout=ref, amount=a.amount)
     else:

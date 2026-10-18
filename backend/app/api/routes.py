@@ -17,10 +17,11 @@ from app.db import models as m
 from app.db.seed import apply_extraction, load_seed
 from app.db.session import get_db
 from app.engines import actions as action_engine
-from app.engines import auth, catalogue, followups, policy
+from app.engines import auth, catalogue, followups, policy, wallet
 from app.engines.common import as_of
 from app.engines import logbus
 from app.schemas import (
+    AccountOut,
     AccountsOut,
     ActionOut,
     ActionProposal,
@@ -207,6 +208,12 @@ def confirm_capture(pid: str, cid: str, body: CaptureConfirm, db: Session = Depe
 @owner.get("/pharmacies/{pid}/accounts", response_model=AccountsOut)
 def get_accounts(pid: str, period_days: int = 30, db: Session = Depends(get_db)):
     return engines.get_accounts(db, pid, period_days)
+
+
+@owner.get("/pharmacies/{pid}/account", response_model=AccountOut)
+def get_account(pid: str, db: Session = Depends(get_db)):
+    """Sandbox wallet balance and transactions, and the statement matched to the books."""
+    return wallet.get_account(db, pid)
 
 
 @owner.get("/pharmacies/{pid}/dues", response_model=DuesOut)

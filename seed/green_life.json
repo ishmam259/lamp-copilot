@@ -1927,5 +1927,85 @@
         }
       ]
     }
+  ],
+  "statement_lines": [
+    {
+      "date": "2026-09-16",
+      "amount": -15020,
+      "payee": "SUPPLIER-O PHARMA DIST",
+      "ref": "TRX-O-3127"
+    },
+    {
+      "date": "2026-09-18",
+      "amount": -11300,
+      "payee": "SUPPLIER-P PHARMA DIST",
+      "ref": "TRX-P-3128"
+    },
+    {
+      "date": "2026-09-20",
+      "amount": -12300,
+      "payee": "SUPPLIER-P PHARMA DIST",
+      "ref": "TRX-P-3129"
+    },
+    {
+      "date": "2026-09-21",
+      "amount": -8600,
+      "payee": "SUPPLIER-Q PHARMA DIST",
+      "ref": "TRX-Q-3130"
+    },
+    {
+      "date": "2026-09-23",
+      "amount": -8600,
+      "payee": "SUPPLIER-Q PHARMA DIST",
+      "ref": "TRX-Q-3130-2"
+    },
+    {
+      "date": "2026-09-23",
+      "amount": -13540,
+      "payee": "SUPPLIER-Q PHARMA DIST",
+      "ref": "TRX-Q-3131"
+    },
+    {
+      "date": "2026-09-25",
+      "amount": -20620,
+      "payee": "SUPPLIER-R PHARMA DIST",
+      "ref": "TRX-R-3132"
+    },
+    {
+      "date": "2026-09-30",
+      "amount": -5200,
+      "payee": "SUPPLIER-U PHARMA DIST",
+      "ref": "TRX-U-3135"
+    },
+    {
+      "date": "2026-10-02",
+      "amount": -7680,
+      "payee": "SUPPLIER-V PHARMA DIST",
+      "ref": "TRX-V-3136"
+    },
+    {
+      "date": "2026-10-04",
+      "amount": -22600,
+      "payee": "SUPPLIER-A PHARMA DIST",
+      "ref": "TRX-A-4403"
+    },
+    {
+      "date": "2026-10-04",
+      "amount": -11350,
+      "payee": "SUPPLIER-S PHARMA DIST",
+      "ref": "TRX-S-3133"
+    },
+    {
+      "date": "2026-10-04",
+      "amount": -4500,
+      "payee": "MERCHANT 01712XXXXXX",
+      "ref": "TRX-UNKNOWN-1"
+    },
+    {
+      "date": "2026-10-04",
+      "amount": -16720,
+      "payee": "SUPPLIER-W PHARMA DIST",
+      "ref": "TRX-W-3137"
+    }
   ]
 }

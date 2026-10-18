@@ -341,6 +341,46 @@
         }
       }
     },
+    "/api/v1/pharmacies/{pid}/account": {
+      "get": {
+        "summary": "Get Account",
+        "description": "Sandbox wallet balance and transactions, and the statement matched to the books.",
+        "operationId": "get_account_api_v1_pharmacies__pid__account_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/pharmacies/{pid}/dues": {
       "get": {
         "summary": "Get Dues",
@@ -1642,6 +1682,58 @@
   },
   "components": {
     "schemas": {
+      "AccountOut": {
+        "properties": {
+          "opening_balance": {
+            "type": "number",
+            "title": "Opening Balance"
+          },
+          "balance": {
+            "type": "number",
+            "title": "Balance"
+          },
+          "transactions": {
+            "items": {
+              "$ref": "#/components/schemas/WalletTxnOut"
+            },
+            "type": "array",
+            "title": "Transactions"
+          },
+          "matches": {
+            "items": {
+              "$ref": "#/components/schemas/StatementMatch"
+            },
+            "type": "array",
+            "title": "Matches"
+          },
+          "counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Counts"
+          },
+          "recommendations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "opening_balance",
+          "balance",
+          "transactions",
+          "matches",
+          "counts",
+          "recommendations"
+        ],
+        "title": "AccountOut",
+        "description": "Sandbox wallet and its reconciliation (win plan CORE-05)."
+      },
       "AccountsOut": {
         "properties": {
           "period_days": {
@@ -3835,6 +3927,74 @@
         ],
         "title": "SlowMover"
       },
+      "StatementMatch": {
+        "properties": {
+          "ref": {
+            "type": "string",
+            "title": "Ref"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "payee": {
+            "type": "string",
+            "title": "Payee"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "matched",
+              "duplicate",
+              "unmatched",
+              "missing_from_statement"
+            ],
+            "title": "Status"
+          },
+          "invoice_no": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice No"
+          },
+          "supplier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Supplier"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ref",
+          "date",
+          "amount",
+          "payee",
+          "status",
+          "note"
+        ],
+        "title": "StatementMatch"
+      },
       "SupplierReply": {
         "properties": {
           "action_id": {
@@ -4056,6 +4216,36 @@
           "head_hash"
         ],
         "title": "VerifyOut"
+      },
+      "WalletTxnOut": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "ref": {
+            "type": "string",
+            "title": "Ref"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "date",
+          "amount",
+          "kind",
+          "ref"
+        ],
+        "title": "WalletTxnOut"
       }
     }
   }

@@ -7,8 +7,8 @@
     "amount": 9200
   },
   "proposed_by": "owner",
-  "created_at": "2026-10-18T20:49:31.743118Z",
-  "decided_at": "2026-10-18T20:49:31.760133Z",
+  "created_at": "2026-10-18T20:53:10.929178Z",
+  "decided_at": "2026-10-18T20:53:10.945822Z",
   "result": {
     "claim_id": "CLM-0001",
     "expected_credit": 9200.0,

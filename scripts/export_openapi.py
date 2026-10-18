@@ -70,6 +70,7 @@ def main() -> None:
     out["shelf_life_credit"] = get(f"{p}/shelf-life-credit")
     out["pause"] = get(f"{p}/pause")
     out["financing_catalogue"] = get(f"{p}/financing-catalogue")
+    out["account"] = get(f"{p}/account")
     out["logs_verify"] = get("/api/v1/logs/verify")
     out["logs"] = get("/api/v1/logs")
     for name, data in out.items():
