@@ -89,3 +89,44 @@ def test_budget_guard(monkeypatch):
     assert llm.SPEND_LOG.read_text().split(",")[1] == "chat"
     assert not llm.live_allowed()
     assert chat.model_for_mode("live").model_name.startswith("replay")
+
+
+def test_replay_key_ignores_action_ids():
+    """A recording still matches when earlier demo steps changed the action numbering."""
+    from pydantic_ai.messages import ToolCallPart, ToolReturnPart
+
+    def convo(aid):
+        return [ModelRequest(parts=[UserPromptPart(content="What is expiring?")]),
+                ModelResponse(parts=[ToolCallPart(tool_name="propose_action", args={"kind": "return_claim"}, tool_call_id="t1")]),
+                ModelRequest(parts=[ToolReturnPart(tool_name="propose_action", tool_call_id="t1",
+                                                   content={"action_id": aid, "kind": "return_claim", "status": "proposed"})])]
+
+    assert chat.conversation_key(convo("act-1")) == chat.conversation_key(convo("act-7"))
+
+
+def test_parallel_proposals_get_distinct_actions(client, monkeypatch):
+    """The model may ask for several proposals in one response; each gets its own action."""
+    import json as _json
+
+    from pydantic_ai.models.function import DeltaToolCall, FunctionModel
+
+    async def three_at_once(messages, info):
+        if any(getattr(p, "tool_name", None) == "propose_action" for m in messages for p in m.parts
+               if type(p).__name__ == "ToolReturnPart"):
+            yield "Proposed."
+            return
+        kinds = ["trim_order", "extension_request", "loan_application"]
+        yield {i: DeltaToolCall(name="propose_action", json_args=_json.dumps({"kind": k, "amount": 8200}),
+                                tool_call_id=f"p{i}") for i, k in enumerate(kinds)}
+
+    monkeypatch.setattr(chat, "model_for_mode", lambda mode=None: FunctionModel(stream_function=three_at_once,
+                                                                                model_name="test"))
+    ask(client, "Cover the shortfall")
+    actions = client.get("/api/v1/pharmacies/green-life/actions").json()
+    assert sorted(a["kind"] for a in actions) == ["extension_request", "loan_application", "trim_order"]
+    assert len({a["id"] for a in actions}) == 3
+
+
+def test_tools_run_one_at_a_time():
+    """All tools share the request's database session, so none may run in parallel."""
+    assert all(t.sequential for t in chat.agent._function_toolset.tools.values())

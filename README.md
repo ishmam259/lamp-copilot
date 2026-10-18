@@ -83,6 +83,6 @@ python -m venv .venv
 ```
 Tests use an in-memory SQLite database by default. To run them against the Docker PostgreSQL, create a test database once (`docker compose exec db createdb -U lamp lamp_test`), then set `TEST_DATABASE_URL=postgresql+psycopg://lamp:lamp@127.0.0.1:5433/lamp_test` before running pytest.
 
-**Replay vs live mode.** `LLM_MODE=replay` (the default, used by tests and the demo script) makes no OpenAI calls. Photo capture returns a stored draft until the extraction agent is in place. Set `LLM_MODE=live` and `OPENAI_API_KEY` in `.env` to read real photos with OpenAI. The team budget is $20, so keep live runs short.
+**Replay vs live mode.** `LLM_MODE=replay` (the default, used by tests and the demo script) makes no OpenAI calls. The demo photos in `seed/images/` and the 27 evaluation photos in `eval/images/` replay from saved recordings; any other photo returns a sample draft to correct. The copilot chat answers its four suggested questions offline from the same engines. Set `LLM_MODE=live` and `OPENAI_API_KEY` in `.env` to read real photos with OpenAI. The team budget is $20, so keep live runs short.
 
 **Regenerating files.** `python scripts/build_seed.py` rebuilds `seed/` from the numbers in that script. `python scripts/export_openapi.py` rebuilds `contracts/openapi.json` and `contracts/examples/` from real API responses.

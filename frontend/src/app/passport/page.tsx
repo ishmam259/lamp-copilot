@@ -59,7 +59,10 @@ export default function PassportPage() {
                   </li>
                 ))}
               </ol>
-              <p className="mt-2 text-sm text-ink-2">Each square is one invoice, oldest first. All {num(passport.confirmed_share * 100)}% were confirmed by the supplier.</p>
+              <p className="mt-2 text-sm text-ink-2">Each square is one invoice, oldest first.{" "}
+                {passport.confirmed_share >= 1
+                  ? "Every one was confirmed by its supplier."
+                  : `${num(passport.confirmed_share * 100)}% were confirmed by their supplier.`}</p>
             </Carton>
 
             <Carton tone="ink" title="What a lender would offer">

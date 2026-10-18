@@ -32,7 +32,7 @@ from . import llm
 from .permissions import MAX_TOOL_CALLS
 from .tools import TOOLS, ChatDeps
 
-PROMPT_VERSION = "chat_v1"
+PROMPT_VERSION = "chat_v2"
 PROMPT = (Path(__file__).parent / "prompts" / f"{PROMPT_VERSION}.md").read_text(encoding="utf-8")
 REPLAY_DIR = REPO_ROOT / "eval" / "replay" / "chat"
 
@@ -70,7 +70,11 @@ def conversation_key(messages: list[ModelMessage]) -> str:
             elif isinstance(part, ToolCallPart):
                 turn.append(["call", part.tool_name, part.args_as_dict()])
             elif isinstance(part, ToolReturnPart):
-                turn.append(["return", part.tool_name, part.model_response_str()])
+                content = part.model_response_str()
+                if part.tool_name == "propose_action" and isinstance(part.content, dict):
+                    # action ids depend on what was proposed earlier in the demo
+                    content = json.dumps({k: v for k, v in part.content.items() if k != "action_id"}, sort_keys=True)
+                turn.append(["return", part.tool_name, content])
             elif isinstance(part, RetryPromptPart):
                 turn.append(["retry", part.tool_name, part.model_response()])
     raw = json.dumps([CHAT_MODEL, PROMPT_VERSION, users, turn], sort_keys=True, default=str)

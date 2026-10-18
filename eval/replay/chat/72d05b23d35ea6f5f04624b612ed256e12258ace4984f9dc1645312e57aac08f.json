@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "The bank’s offer is based on your payment record and estimated repayment risk. You paid 38 of 41 invoices on time. The cautious on-time estimate is 0.826, and the estimated default probability is 0.03. That supports an advance rate of 75.2%, which is why the offer is about 75%. Paying more invoices on time can raise the estimate.",
+        "id": "msg_044c2d202c9bd724006ad4df4d763087d295caf4aab9ca7d4e",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1506,
+      "cache_write_tokens": 237,
+      "cache_read_tokens": 1266,
+      "output_tokens": 83,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-18T15:01:34.516298Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-18T15:01:32Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_044c2d202c9bd724006ad4df4cd62487d2af35935eddde0896",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

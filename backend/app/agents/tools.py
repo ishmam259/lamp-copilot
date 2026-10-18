@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from datetime import date
 from typing import Any, Literal
 
-from pydantic_ai import RunContext
+from pydantic_ai import RunContext, Tool
 from sqlalchemy.orm import Session
 
 from app import engines
@@ -116,5 +116,7 @@ def propose_action(ctx: RunContext[ChatDeps],
             "note": "Proposed only. The owner must approve it in Actions."}
 
 
-TOOLS = [get_accounts, get_dues, get_forecast, get_alerts, get_expiry, get_orders, get_trim,
-         get_funding_plan, get_passport, propose_action]
+# Every tool shares the request's database session, so they run one at a time, never in parallel.
+TOOLS = [Tool(f, sequential=True) for f in (
+    get_accounts, get_dues, get_forecast, get_alerts, get_expiry, get_orders, get_trim,
+    get_funding_plan, get_passport, propose_action)]
