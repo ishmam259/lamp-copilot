@@ -20,6 +20,7 @@ services:
       context: ./backend
       additional_contexts:
         seed: ./seed
+        replay: ./eval/replay
     env_file:
       - path: .env
         required: false
