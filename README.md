@@ -37,15 +37,16 @@ Copy `.env.example` to `.env` and add your own OpenAI API key. Never commit `.en
 ## Run it
 You need [Docker Desktop](https://www.docker.com/products/docker-desktop/) running. Python 3.12 and Node 20+ are only needed for the tests, the demo script and the frontend.
 
-**1. Start the database and the API**
+**1. Start the database, the API and the frontend**
 ```bash
-cp .env.example .env
+cp -n .env.example .env   # -n keeps an .env you already filled in
 docker compose up -d --build
 ```
-On first start the API loads the demo pharmacy, Green Life Pharmacy in Bogura.
+On first start the API loads the demo pharmacy, Green Life Pharmacy in Bogura. The first build takes a few minutes.
 
 | What | Where |
 |---|---|
+| App (built frontend, live API) | http://127.0.0.1:3001 |
 | API | http://127.0.0.1:8000/api/v1/health |
 | API docs (try every endpoint) | http://127.0.0.1:8000/docs |
 | Live audit log (SSE) | http://127.0.0.1:8000/api/v1/logs/stream |
@@ -53,7 +54,7 @@ On first start the API loads the demo pharmacy, Green Life Pharmacy in Bogura.
 
 Use `127.0.0.1` rather than `localhost`: some Docker Desktop setups on Windows don't answer on IPv6. The database is on host port 5433 because a local PostgreSQL install often already holds 5432.
 
-**2. Start the frontend** (in another terminal)
+**2. Optional: run the frontend in dev mode** (in another terminal, for editing the UI)
 ```bash
 cd frontend
 npm ci
