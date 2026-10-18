@@ -40,13 +40,28 @@ Demo & presentation owner: M1 · Contract owner: M2 · Submission owner: M1 · G
 
 Created only after the team approves the plan (`/assign`). States: TODO → DOING → DONE, or BLOCKED.
 
-Per-person lists, in rank order with hours: **`plan/tasks/farhan.md`** and **`plan/tasks/ishmam.md`**. Shared items are split by folder ownership; each person does their part. Work Level A in full, then Level B, then Level C.
+Per-person lists, written like the earlier `docs/tasks/` files and **product work only**: **`plan/tasks/farhan.md`** (A0–A8, B1–B3, C1–C2; 61%) and **`plan/tasks/ishmam.md`** (I1–I16; 39%). Shared items are split by folder ownership; each person does their part. Level A first, then B, then C.
 
-| Level | Farhan (M2) | Ishmam (M1) | Shared (split by folder) |
-|---|---|---|---|
-| A | CORE-04 follow-through, CORE-09 hash chain | SUB-01, SUB-10, DOC-01, FIX-01, SUB-08, CORE-01, DOC-03, SUB-06a, SUB-09, FIX-02 | SUB-02, **CORE-13**, CORE-15, CORE-08, CORE-03, CORE-11, CORE-06 |
-| B | PROOF-03 real-photo eval, DOC-04 figures, SUB-07 trace | CORE-02 visible plan, DOC-02, SUB-05 deck | PROOF-04, CORE-14, CORE-05, CORE-10, PROOF-01, PROOF-02, SUB-06b, SUB-03/04 |
-| C | — | — | CORE-16, CORE-07, PROOF-05, CORE-11b |
+| Plan ID | Farhan | Ishmam |
+|---|---|---|
+| Contract (G1b) | A0 | — |
+| CORE-13 close the API | A1 (session, lender key, caller, PIN at approval, dev off, 10 HTTP tests) | I1 (PIN screen, cookie, `/chat` check) |
+| CORE-15 cost disclosure | A2 (engine fields) | I4 (funding page) |
+| CORE-08 Pause | A3 | I5 |
+| CORE-09 hash chain | A4 | I6 |
+| CORE-03 money-figure tracing | A5 (`engines/fidelity.py`) | I7 (`chat.py`, badge, block) |
+| CORE-11 shelf-life credit | A6 | I8 |
+| CORE-04 follow-through | A7 | — |
+| CORE-06 notifications | A8 (notify events) | I9 (service worker) |
+| FIX-01 sales-page review · FIX-02 funding from API · CORE-01 recorded chat | — | I2 · I10 · I3 |
+| CORE-14 catalogue | B1 | I11 |
+| CORE-05 wallet + reconciliation | B2 | I12 |
+| CORE-10 value ledger | B3 | I13 |
+| CORE-02 visible plan | — | I14 |
+| CORE-16 consent scopes | C1 | I15 |
+| CORE-07 borrowing ceiling | C2 | I16 |
+
+Not in the task lists (non-product, for later): deliverables (SUB-*), documents (DOC-*), measurements (PROOF-*), CORE-11b curve.
 
 All tasks start TODO.
 
