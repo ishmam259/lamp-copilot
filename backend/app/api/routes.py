@@ -16,6 +16,7 @@ from app.db import models as m
 from app.db.seed import apply_extraction, load_seed
 from app.db.session import get_db
 from app.engines import actions as action_engine
+from app.engines.common import as_of
 from app.engines import logbus
 from app.schemas import (
     AccountsOut,
@@ -76,7 +77,7 @@ def get_pharmacy(pid: str, db: Session = Depends(get_db)):
 
 # --- Captures -------------------------------------------------------------------------
 
-async def _extract(image: bytes, kind: str, db: Session) -> dict:
+async def _extract(image: bytes, kind: str, db: Session, today=None) -> dict:
     """Read the photo with the extractor (it falls back to the example draft for an
     unrecorded photo in replay mode). A refused live call is a 503."""
     try:
@@ -85,7 +86,7 @@ async def _extract(image: bytes, kind: str, db: Session) -> dict:
     except ImportError:
         return ex.fallback_extraction(kind)
     try:
-        result = await extraction.extract(image, kind, db=db)
+        result = await extraction.extract(image, kind, db=db, today=today)
     except llm.BudgetExceeded as e:
         raise HTTPException(503, str(e))
     return ExtractionResult.model_validate(result).model_dump(mode="json")
@@ -98,8 +99,8 @@ def _capture_out(cap: m.Capture) -> dict:
 @router.post("/pharmacies/{pid}/captures", response_model=CaptureOut)
 async def create_capture(pid: str, file: UploadFile = File(...),
                          kind: Literal["invoice", "sales_page"] = Form(...), db: Session = Depends(get_db)):
-    engines.get_pharmacy(db, pid)
-    extraction = await _extract(await file.read(), kind, db)
+    ph = engines.get_pharmacy(db, pid)
+    extraction = await _extract(await file.read(), kind, db, today=as_of(ph))
     n = (db.scalar(select(func.count()).select_from(m.Capture)) or 0) + 1
     cap = m.Capture(id=f"cap-{n}", pharmacy_id=pid, kind=kind, status="needs_review",
                     extraction=extraction, created_at=datetime.now(timezone.utc))

@@ -5,7 +5,7 @@ The model only copies what it sees (structured output). Plain code then:
 - sets confidence: 0.95 by default, 0.5 for fields the model marked uncertain, 0.3 for
   fields in a failed check (only fields below 0.95 are listed),
 - screens every text field for instruction-like text. Matches are removed from the data,
-  listed in `suspicious_text` and logged. The draft never triggers an action by itself.
+  listed in `suspicious_text` (the capture endpoint logs it). The draft never triggers an action by itself.
 """
 
 import calendar
@@ -24,9 +24,16 @@ PROMPT = (Path(__file__).parent / "prompts" / f"{PROMPT_VERSION}.md").read_text(
 TOLERANCE = 0.01  # ±1% for sums
 MAX_QTY, MAX_UNIT_COST, MAX_TOTAL = 100_000, 1_000_000, 100_000_000
 
+# Imperative phrases and text addressed to an AI only. Plain words that also appear on real
+# invoices ("DGDA approved", "Loan No. 5", "Transfer note") must not match.
 SUSPICIOUS = re.compile(
-    r"\bapprov\w*|\bignore\s+(all|previous|prior|the)\b|\byou\s+are\b|\bAI\s*:|\bsystem\b|\bassistant\b"
-    r"|\bloan\b|\btransfer\w*|\b(credit\s+)?limit\b|\binstruction\w*|\bdisregard\b|\boverride\b",
+    r"\b(AI|assistant|chatbot|system|model|copilot)\s*(note|message|instruction)?\s*(to\s+\w+\s*)?[:>]"
+    r"|\bignore\s+(all|any|previous|prior|earlier|your|the\s+above)\b"
+    r"|\bdisregard\s+(all|any|previous|prior|your|the)\b"
+    r"|\byou\s+are\s+(now|an?\s+(ai|assistant|model|bot))\b"
+    r"|\b(approve|transfer|send|pay|disburse|release|grant|sanction)\s+"
+    r"(the|a|an|all|this|full|maximum|max|it|money|funds|loan|credit|\d)"
+    r"|\b(raise|increase|max\s+out)\s+(the\s+|my\s+|our\s+)?(credit\s+)?limit",
     re.IGNORECASE,
 )
 
@@ -309,16 +316,23 @@ def build_result(raw: dict, kind: Literal["invoice", "sales_page"], model: str,
     })
 
 
-async def extract(image: bytes, kind: Literal["invoice", "sales_page"], db=None) -> ExtractionResult:
+def task_text(kind: str) -> str:
+    """The user message sent with the photo (part of the replay key)."""
+    label = "a supplier invoice" if kind == "invoice" else "a page of the pharmacy's sales book"
+    return f"This photo is {label}. Copy it into the schema."
+
+
+async def extract(image: bytes, kind: Literal["invoice", "sales_page"], db=None,
+                  today: date | None = None) -> ExtractionResult:
     """Read one photo. In replay mode an unrecorded photo returns the stored example draft
     (prompt_version "fallback") so the capture screen never breaks during a demo.
     Raises llm.BudgetExceeded in live mode with no key or over budget. Pass `db` (the
-    request's session) to log inside its transaction; without it nothing is logged here."""
-    label = "a supplier invoice" if kind == "invoice" else "a page of the pharmacy's sales book"
+    request's session) to log inside its transaction; without it nothing is logged here.
+    Pass `today` (the pharmacy's as_of_date) for the date checks; the caller logs flagged text."""
     try:
         out = await llm.structured_call(
             component="extraction", prompt_version=PROMPT_VERSION, instructions=PROMPT,
-            text=f"This photo is {label}. Copy it into the schema.",
+            text=task_text(kind),
             schema_name=kind, schema=INVOICE_SCHEMA if kind == "invoice" else SALES_SCHEMA,
             image=image, effort="medium",
         )
@@ -329,10 +343,7 @@ async def extract(image: bytes, kind: Literal["invoice", "sales_page"], db=None)
         draft = fallback_extraction(kind)
         draft.update(model="none", prompt_version="fallback", mode="replay")
         return ExtractionResult.model_validate(draft)
-    result = build_result(out.data, kind, out.model, out.mode)
-    if result.suspicious_text:
-        _log(db, "suspicious_text_flagged", kind=kind, count=len(result.suspicious_text), text=result.suspicious_text)
-    return result
+    return build_result(out.data, kind, out.model, out.mode, today)
 
 
 def _log(db, event: str, **data) -> None:
