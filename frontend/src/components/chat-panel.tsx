@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { ArrowUp, Wrench } from "lucide-react";
+import { ArrowUp, Check, ListChecks, Wrench } from "lucide-react";
 import { cn } from "cn";
 import { PID } from "@/lib/api";
 
@@ -14,7 +14,7 @@ const SUGGESTIONS = [
   "Why did the bank offer 75%?",
 ];
 
-type Turn = { id: string; role: "user" | "assistant"; text: string; tools?: string[] };
+type Turn = { id: string; role: "user" | "assistant"; text: string; tools?: string[]; plan?: string[] };
 
 /** LaMP chat: POST /api/v1/chat (backend/app/agents/router.py), streamed with the AI SDK UI message protocol. */
 export function ChatPanel() {
@@ -35,7 +35,11 @@ function LiveChat() {
       .join(""),
     tools: m.parts
       .filter((p) => p.type.startsWith("tool-") || p.type === "dynamic-tool")
-      .map((p) => ("toolName" in p ? String((p as { toolName: string }).toolName) : p.type.replace(/^tool-/, ""))),
+      .map((p) => ("toolName" in p ? String((p as { toolName: string }).toolName) : p.type.replace(/^tool-/, "")))
+      .filter((t) => t !== "share_plan"),
+    plan: m.parts
+      .filter((p) => p.type === "tool-share_plan" || ("toolName" in p && (p as { toolName: string }).toolName === "share_plan"))
+      .flatMap((p) => ((p as { input?: { steps?: unknown } }).input?.steps as string[] | undefined) ?? []),
   }));
   return (
     <ChatFrame
@@ -83,8 +87,37 @@ function ChatFrame({
             </p>
           </div>
         )}
-        {turns.map((t) => (
+        {turns.map((t, ti) => (
           <div key={t.id} className={cn("flex flex-col gap-1.5", t.role === "user" ? "items-end" : "items-start")}>
+            {t.plan && t.plan.length > 0 && (
+              <div className="w-full max-w-[92%] rounded-[var(--radius)] border border-rule bg-board p-3">
+                <p className="flex items-center gap-1.5 text-xs font-semibold text-ink-2">
+                  <ListChecks className="size-4" aria-hidden /> LaMP&apos;s plan
+                </p>
+                <ol className="mt-1.5 space-y-1">
+                  {t.plan.map((step, i) => {
+                    const done = !(busy && ti === turns.length - 1) || !!t.text;
+                    return (
+                      <li key={`${step}-${i}`} className="flex items-start gap-2 text-sm text-ink">
+                        <span
+                          className={cn(
+                            "mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-[2px] border",
+                            done ? "border-cash bg-cash text-primary-foreground" : "border-rule"
+                          )}
+                          aria-hidden
+                        >
+                          {done && <Check className="size-3" />}
+                        </span>
+                        <span>
+                          {step}
+                          <span className="sr-only">{done ? " (done)" : " (in progress)"}</span>
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+            )}
             {t.tools && t.tools.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {t.tools.map((tool, i) => (

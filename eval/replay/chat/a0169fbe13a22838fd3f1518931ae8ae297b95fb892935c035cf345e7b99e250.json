@@ -1,0 +1,56 @@
+[
+  {
+    "parts": [
+      {
+        "content": "",
+        "id": "rs_004cdfab27e7de9e006ad503cdde1887d2887f57ac6b484fb4",
+        "signature": "gAAAAABq1QPOpBd6WRGp35L3nEbH7no99y7Kv_y1DZtYS8SG5B1khc--uK61prGYE-UIP9MALmTNkd3yCjE601GXF88gw-4OfZoSpxSfQSV6ZHuLDGcsJmTplwxERt4LJIFxzpLK_25yMaPemw9lvT8s_acnKl36UKefbI9OUJyy83wippEHqoK7Nfu9M3DeRjnJEyce04_yn-MME1WVyrMe_QBL9UbbF-3azU09atsGjEKvsb8qq7SkweOYFw3aTlqgE_Apec9sF5a4b_04E99FqfdlKagr4cmbbH9_S5CN5vaYZ70sDaoxPBUBPna8m0co7OF5YXZSzYL6-2HLzec_7LHQkEDlaL1a5ACSwdfuFPsTC1j2B7jQBvUZ2OfvskDXu6GupitugTEUuAc_px1i8YfaQghqFDXp5i9-Jtsb9k5oY4Nu05MW_IdNCED6pqHEl6Azm81UXV060WMrjBZhBmt4AHDtuu8bW0hdeBQaaPMUsJlJURe6ZYa2jq02NfKRodSyxu6kNUkROszUih_MBYwK7eg3MBFxsXm2UatM86N1LMD9wcdAmLDK6PzwgtX-1kPAwwXmtO2fp45a-3X2o2jAkhdvhWrI2LcF09dlJH2Kwt2IwbJ0XjtIoUdt2y7EqaicHT-gFwwk2c5HYyyVXn6VYoMI1ER2JnYByT4zcxE3ZZ9rtBPel2s6hD3-eVJqx3GidvaUtna_f4-8TvWLi5ATcdUWdldnvebk_YGAhLFDrPKaN-inZdgSpvlVXZrRgI3nV07P75THuW8WdaZooY2OGyWxEgmJ7yREz1oCdWo741n1so0AIrEFbreZT0xuXy0v8D9aYiG-pSiF5VLZr0mmTs40dhORIHzhvCXmblPW_f4W6DkbfMx8svxLEL5h0e_Dt-Z8UlFn8QpTYsdLUpKsvKULrnSiMeovyHEdv9t1KGLeI2Jv-NNEZ0EW3N7Hm9OPlQ1bLa3RYHn3RO-jgDiKIkjBVKzeW10whliyDwC0gUEYPPaLKcMcVmfqcUL3UJ61t1OKaxtbs5Xvos4J13SezYsjvDNJ4RDngr1J1_msS3nBLZIJSPQvvL4QZ_s_aLGob7UdhzVCbm8yVMXuCWQFub0GshmeIWm5UYQnuwRRzdy1bgr4nSGLjNGN1kzjkcWGEqyIgH8SIThcRYhEH3ol2mEC0JNh8GX76jDVYld4K0247mxsV1O_CRGgEufXwhcegdTKmqvjfy9ZA_2JNHT9A-AXFIW039cPzTR7UKQO2lNTvhXOo-pZZBFjVUqzUoeCCnKURrxePbfNXlAEVO5GGhb2qu_xDG9lQHPvg8FYdLGWYUDMGDrl77IGQVKuqub44f858BbLF5omzHXW77oz98JqUubsK791LFBrkjhiNEJ8D-E9KEpxwzs_Ms1g3itDxrZmQJKxUxDvS_8wrGHX2jSQV_k6MEbUNBfqtFkeYVh-_1ZPR5MQODeAGmxugzjJ7GBIZHbwuZ7hqKKg4M7v5sS9fPL6xlx6SQbb47NBpvcAAtsyAOrROXTzVpibIddHtSyAINIdH5tjx6IEpJZzXnzrWVK9jifJrNJTDkmFKlD7ciQolVy08rN_1j2Bp_08gEZ_-02HQ0YrYc2jhveQl4If-7-iShEhwl8az137ulgYzynHnAl1ya5GWRtvD7O6e3DrRRyfa3BcZpStO8vNFlKHfbrNBy9SioIzL7fpUWWsk3BBfSF8gXB0A7-5Fi0isNUrGlxstljnDWR0zOmqgWICG6NcAjXYtknz3chKsSELnVgC6WuLzDGI9JcfysmmjPRKAyatxUIIrkZIysZ5q6D8f3hlmHGEYCZ9AAryvpSSGeD-_VvPfKQoNLJBAnvuBH51ED-2TH8MkuCHEg54PsKgvXh8wsZnyuXxzSAOcQItqQJZyafk9R90jueOAW5duq9r",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "thinking"
+      },
+      {
+        "content": "I can’t approve a loan or transfer money. You can review and approve a loan application in the Actions screen.",
+        "id": "msg_004cdfab27e7de9e006ad503ce488887d29d46059fb42b92ee",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1448,
+      "cache_write_tokens": 17,
+      "cache_read_tokens": 1428,
+      "output_tokens": 67,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 38
+      },
+      "cost": null,
+      "output_reasoning_tokens": 38
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-18T17:37:19.031506Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-18T17:37:16Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_004cdfab27e7de9e006ad503cc2dc887d299f1358c2ebcdbbb",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

@@ -7,8 +7,10 @@ import { cn } from "cn";
 import { Button } from "@/components/ui/button";
 import { Carton, PageTitle } from "@/components/carton";
 import { confirmCapture, uploadCapture } from "@/lib/api";
-import { num } from "@/lib/format";
-import type { CaptureOut, ExtractionLine } from "@/lib/types";
+import { dayDate, num } from "@/lib/format";
+import type { CaptureOut, ExtractionLine, ExtractionResult } from "@/lib/types";
+
+type SalesDay = NonNullable<ExtractionResult["sales_page"]>["days"][number];
 
 type Kind = "invoice" | "sales_page";
 
@@ -85,9 +87,35 @@ export default function CapturePage() {
           onConfirm={async (lines) => {
             const ex = structuredClone(capture.extraction);
             ex.invoice!.lines = lines;
-            await confirmCapture(capture.id, ex);
-            setSaved(true);
-            toast.success("Saved to your accounts.");
+            try {
+              await confirmCapture(capture.id, ex);
+              setSaved(true);
+              toast.success("Saved to your accounts.");
+            } catch {
+              toast.error("Couldn't save it. Check the highlighted fields and try again.");
+            }
+          }}
+          onAnother={() => {
+            setCapture(null);
+            setSaved(false);
+          }}
+        />
+      )}
+
+      {capture && capture.extraction.sales_page && (
+        <SalesReview
+          capture={capture}
+          saved={saved}
+          onConfirm={async (days) => {
+            const ex = structuredClone(capture.extraction);
+            ex.sales_page!.days = days;
+            try {
+              await confirmCapture(capture.id, ex);
+              setSaved(true);
+              toast.success("Saved to your accounts.");
+            } catch {
+              toast.error("Couldn't save it. Check the highlighted fields and try again.");
+            }
           }}
           onAnother={() => {
             setCapture(null);
@@ -96,6 +124,52 @@ export default function CapturePage() {
         />
       )}
     </div>
+  );
+}
+
+function SuspiciousBanner({ capture, what }: { capture: CaptureOut; what: string }) {
+  const suspicious = capture.extraction.suspicious_text;
+  if (suspicious.length === 0) return null;
+  return (
+    <div role="alert" className="flex gap-3 rounded-[8px] border border-alert/40 bg-alert-tint p-4 text-ink">
+      <ShieldAlert className="mt-0.5 size-5 shrink-0 text-alert" aria-hidden />
+      <div>
+        <p className="font-semibold text-alert">This photo contained instructions to the AI. LaMP ignored them.</p>
+        <p className="mt-1 text-sm">
+          Found: <q>{suspicious[0]}</q>. Nothing was approved or changed. Only the {what} below were read.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/** Failed plain-code checks, listed so the owner knows what to look at. */
+function FailedChecks({ capture }: { capture: CaptureOut }) {
+  const failed = capture.extraction.checks.filter((c) => !c.passed);
+  if (failed.length === 0) return null;
+  return (
+    <ul className="mt-3 space-y-1.5" aria-label="Checks that failed">
+      {failed.map((c) => (
+        <li key={c.name} className="flex items-start gap-2 rounded-[var(--radius)] bg-warn-tint p-3 text-sm text-ink">
+          <CircleAlert className="size-5 shrink-0 text-warn" aria-hidden />
+          <span>
+            <span className="font-semibold">{c.name}:</span> {c.detail}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function ReadBy({ capture }: { capture: CaptureOut }) {
+  const ex = capture.extraction;
+  return (
+    <p className="mt-3 text-xs text-ink-2">
+      {ex.prompt_version === "fallback"
+        ? "This photo has no saved reading in demo mode, so this is a sample draft for you to correct."
+        : `Read by ${ex.model}.`}{" "}
+      Money checks run in plain code, not by the AI.
+    </p>
   );
 }
 
@@ -116,7 +190,6 @@ function Review({
   const low = (path: string) => (conf[path] ?? 1) < 0.6;
   const linesTotal = lines.reduce((s, l) => s + l.qty * l.unit_cost, 0);
   const matches = Math.abs(linesTotal - inv.total) < 1;
-  const suspicious = capture.extraction.suspicious_text;
 
   function setLine(i: number, field: "qty" | "unit_cost", value: string) {
     const n = Number(value.replace(/[^0-9.]/g, ""));
@@ -125,20 +198,11 @@ function Review({
 
   return (
     <div className="space-y-4">
-      {suspicious.length > 0 && (
-        <div role="alert" className="flex gap-3 rounded-[8px] border border-alert/40 bg-alert-tint p-4 text-ink">
-          <ShieldAlert className="mt-0.5 size-5 shrink-0 text-alert" aria-hidden />
-          <div>
-            <p className="font-semibold text-alert">This photo contained instructions to the AI. LaMP ignored them.</p>
-            <p className="mt-1 text-sm">
-              Found: <q>{suspicious[0]}</q>. Nothing was approved or changed. Only the invoice details below were read.
-            </p>
-          </div>
-        </div>
-      )}
+      <SuspiciousBanner capture={capture} what="invoice details" />
 
       <Carton tone={saved ? "stock" : "warn"} title={saved ? "Saved" : "Check what LaMP read"} aside={`${inv.supplier_name} · ${inv.invoice_no}`}>
         <p className="text-sm text-ink-2">Fields LaMP wasn&apos;t sure about are highlighted. Correct them, then save.</p>
+        <FailedChecks capture={capture} />
         <ul className="mt-3 divide-y divide-rule">
           {lines.map((l, i) => (
             <li key={l.batch_no} className="py-3">
@@ -187,9 +251,83 @@ function Review({
             Capture another
           </Button>
         )}
-        <p className="mt-3 text-xs text-ink-2">
-          Read by {capture.extraction.model}. Money checks run in plain code, not by the AI.
+        <ReadBy capture={capture} />
+      </Carton>
+    </div>
+  );
+}
+
+const SALES_FIELDS = [
+  ["cash_sales", "Cash sales"],
+  ["credit_sales", "Credit sales"],
+  ["dues_collected", "Dues collected"],
+  ["expenses", "Expenses"],
+] as const;
+
+function SalesReview({
+  capture,
+  saved,
+  onConfirm,
+  onAnother,
+}: {
+  capture: CaptureOut;
+  saved: boolean;
+  onConfirm: (days: SalesDay[]) => Promise<void>;
+  onAnother: () => void;
+}) {
+  const [days, setDays] = useState(capture.extraction.sales_page!.days);
+  const conf = capture.extraction.field_confidence;
+  const low = (path: string) => (conf[path] ?? 1) < 0.6;
+  const total = days.reduce((s, d) => s + d.cash_sales + d.credit_sales, 0);
+
+  function setField(i: number, field: (typeof SALES_FIELDS)[number][0], value: string) {
+    const n = Number(value.replace(/[^0-9.]/g, ""));
+    setDays((prev) => prev.map((d, j) => (j === i ? { ...d, [field]: n } : d)));
+  }
+
+  return (
+    <div className="space-y-4">
+      <SuspiciousBanner capture={capture} what="sales figures" />
+      <Carton tone={saved ? "stock" : "warn"} title={saved ? "Saved" : "Check what LaMP read"} aside={`Sales book · ${days.length} days`}>
+        <p className="text-sm text-ink-2">Fields LaMP wasn&apos;t sure about are highlighted. Correct them, then save.</p>
+        <FailedChecks capture={capture} />
+        <ul className="mt-3 divide-y divide-rule">
+          {days.map((d, i) => (
+            <li key={`${d.date}-${i}`} className="py-3">
+              <p className="font-semibold text-ink">{dayDate(d.date)}</p>
+              <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {SALES_FIELDS.map(([field, label]) => (
+                  <NumberField
+                    key={field}
+                    label={label}
+                    value={d[field]}
+                    unsure={low(`sales_page.days[${i}].${field}`)}
+                    disabled={saved}
+                    onChange={(v) => setField(i, field, v)}
+                  />
+                ))}
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-2 rounded-[var(--radius)] bg-board p-3 text-sm text-ink">
+          Sales on this page: <span className="num font-bold">BDT {num(total)}</span> over {days.length} days.
         </p>
+        {!saved ? (
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+            <Button size="lg" onClick={() => onConfirm(days)}>
+              Save to accounts
+            </Button>
+            <Button size="lg" variant="ghost" onClick={onAnother}>
+              Retake photo
+            </Button>
+          </div>
+        ) : (
+          <Button size="lg" variant="outline" className="mt-4" onClick={onAnother}>
+            Capture another
+          </Button>
+        )}
+        <ReadBy capture={capture} />
       </Carton>
     </div>
   );

@@ -122,8 +122,10 @@ export async function withdrawConsent(consentId: string) {
   await refreshAll();
 }
 
+/** Send only the owner-corrected part (invoice or sales page); the API rejects anything else. */
 export async function confirmCapture(id: string, extraction: CaptureOut["extraction"]) {
-  await apiPost(ph(`/captures/${id}/confirm`), extraction);
+  const body = extraction.kind === "invoice" ? { invoice: extraction.invoice } : { sales_page: extraction.sales_page };
+  await apiPost(ph(`/captures/${id}/confirm`), body);
   await refreshAll();
 }
 

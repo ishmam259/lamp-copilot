@@ -55,7 +55,7 @@ Every actor and every logged event belongs to one of four tiers. The tier is wri
 | AI component | Tier | Holds | Explicitly does not hold |
 |---|---|---|---|
 | Extraction agent | T1 (draft only) | One image in, one `ExtractionResult` out | Database write access: drafts are saved only when the owner confirms |
-| Chat agent | T2 read + T1 propose | `get_accounts`, `get_dues`, `get_forecast`, `get_alerts`, `get_expiry`, `get_orders`, `get_trim`, `get_funding_plan`, `get_passport`, `propose_action` | Any approve, execute, reject, transfer, consent or contact tool |
+| Chat agent | T2 read + T1 propose | `get_accounts`, `get_dues`, `get_forecast`, `get_alerts`, `get_expiry`, `get_orders`, `get_trim`, `get_funding_plan`, `get_passport`, `share_plan` (shows its plan; no data, no state), `propose_action` | Any approve, execute, reject, transfer, consent or contact tool |
 
 The chat agent's proposals are stored with `proposed_by = "agent"`, and the Actions inbox shows the owner who proposed each one. The tier of every chat tool is declared in `backend/app/agents/permissions.py`, and `tests/agents/test_security.py` checks the agent against it. A chat run is limited to 5 tool calls.
 
@@ -168,7 +168,7 @@ It shows:
 
 ## 6. Security tests and results
 
-`pytest` runs 131 tests; all pass. The security-relevant ones:
+`pytest` runs 134 tests; all pass. The security-relevant ones:
 
 | Test | What it proves | Result |
 |---|---|---|

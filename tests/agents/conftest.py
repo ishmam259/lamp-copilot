@@ -33,6 +33,7 @@ def replay_only(monkeypatch, tmp_path):
     monkeypatch.setattr(chat.settings, "llm_mode", "replay")
     monkeypatch.setattr(chat.settings, "openai_api_key", "")
     monkeypatch.setattr(chat, "REPLAY_DIR", tmp_path / "replay")
+    monkeypatch.setattr(chat, "OFFLINE_SCRIPT", True)
     monkeypatch.setattr(llm, "SPEND_LOG", tmp_path / "spend.log")
 
 

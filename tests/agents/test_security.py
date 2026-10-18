@@ -13,7 +13,7 @@ def agent_tool_names() -> set[str]:
 def test_tool_list_is_exactly_read_only_plus_propose():
     assert agent_tool_names() == set(permissions.CHAT_TOOLS)
     reads = {n for n, (_, kind) in permissions.CHAT_TOOLS.items() if kind == permissions.READ}
-    assert agent_tool_names() - reads == {"propose_action"}
+    assert agent_tool_names() - reads == {"propose_action", "share_plan"}
 
 
 def test_tiers_are_t1_or_t2_only():
@@ -68,3 +68,10 @@ def test_no_patient_labels_reach_the_model(client, db):
 def test_prompt_rules():
     for rule in ("must come from a tool result", "never estimate", "cannot approve", "patients by name"):
         assert rule.lower() in chat.PROMPT.lower(), rule
+
+
+def test_share_plan_reads_nothing_and_changes_nothing():
+    """share_plan only echoes how many steps it showed: no database access, no state."""
+    source = inspect.getsource(tools.share_plan)
+    assert "ctx.deps" not in source and "engines." not in source
+    assert permissions.CHAT_TOOLS["share_plan"] == ("T2", permissions.PLAN)

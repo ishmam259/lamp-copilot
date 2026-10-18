@@ -130,3 +130,19 @@ def test_parallel_proposals_get_distinct_actions(client, monkeypatch):
 def test_tools_run_one_at_a_time():
     """All tools share the request's database session, so none may run in parallel."""
     assert all(t.sequential for t in chat.agent._function_toolset.tools.values())
+
+
+def test_unrecorded_question_gets_an_honest_reply(client, monkeypatch):
+    """Outside tests, replay never pretends: an unrecorded question says it wasn't recorded."""
+    monkeypatch.setattr(chat, "OFFLINE_SCRIPT", False)
+    r = ask(client, "How did we do this month?")
+    assert r["calls"] == [] and "wasn't recorded" in r["text"] and "LLM_MODE=live" in r["text"]
+
+
+def test_replay_key_uses_only_the_latest_question():
+    """A recorded question still replays when the owner asked something else first."""
+    first = [ModelRequest(parts=[UserPromptPart(content="What is expiring?")])]
+    later = [ModelRequest(parts=[UserPromptPart(content="How did we do this month?")]),
+             ModelResponse(parts=[TextPart(content="Fine.")]),
+             ModelRequest(parts=[UserPromptPart(content="What is expiring?")])]
+    assert chat.conversation_key(first) == chat.conversation_key(later)

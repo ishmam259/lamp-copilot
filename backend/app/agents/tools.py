@@ -99,6 +99,13 @@ def get_passport(ctx: RunContext[ChatDeps]) -> dict:
     return p
 
 
+def share_plan(ctx: RunContext[ChatDeps], steps: list[str]) -> dict:
+    """Show the owner your plan as a short checklist before you start a multi-step answer,
+    e.g. ["Check the cash forecast and options", "Propose the cheapest steps"]. 2 to 4 steps,
+    a few words each. This reads no data and changes nothing."""
+    return {"shown": True, "steps": len(steps)}
+
+
 def propose_action(ctx: RunContext[ChatDeps],
                    kind: Literal["return_claim", "extension_request", "trim_order", "set_aside", "loan_application"],
                    amount: float | None = None, order_id: str | None = None, reason: str = "") -> dict:
@@ -119,4 +126,4 @@ def propose_action(ctx: RunContext[ChatDeps],
 # Every tool shares the request's database session, so they run one at a time, never in parallel.
 TOOLS = [Tool(f, sequential=True) for f in (
     get_accounts, get_dues, get_forecast, get_alerts, get_expiry, get_orders, get_trim,
-    get_funding_plan, get_passport, propose_action)]
+    get_funding_plan, get_passport, share_plan, propose_action)]

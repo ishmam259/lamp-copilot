@@ -8,9 +8,10 @@ LLM_MODE picks how the model is reached:
           calls stop once today's spend passes LLM_DAILY_BUDGET_USD (both through
           agents/llm.py, so photo reading and chat share one daily budget).
 - record: OpenAI, and every model response is saved under eval/replay/chat/.
-- replay: never calls OpenAI. Serves the saved response for the same conversation;
-          if there is none, an offline script answers the four demo questions by
-          calling the same tools, so every number still comes from the engines.
+- replay: never calls OpenAI. Serves the saved response for the same question; a
+          question with no recording gets an honest "not recorded" reply. Tests switch
+          on OFFLINE_SCRIPT instead, which answers the demo questions by calling the same
+          tools, so every number still comes from the engines.
 """
 
 import hashlib
@@ -32,7 +33,7 @@ from . import llm
 from .permissions import MAX_TOOL_CALLS
 from .tools import TOOLS, ChatDeps
 
-PROMPT_VERSION = "chat_v2"
+PROMPT_VERSION = "chat_v3"
 PROMPT = (Path(__file__).parent / "prompts" / f"{PROMPT_VERSION}.md").read_text(encoding="utf-8")
 REPLAY_DIR = REPO_ROOT / "eval" / "replay" / "chat"
 
@@ -46,7 +47,7 @@ class ChatSettings(BaseSettings):
 
 
 CHAT_MODEL = ChatSettings().openai_chat_model
-USAGE_LIMITS = UsageLimits(tool_calls_limit=MAX_TOOL_CALLS, request_limit=MAX_TOOL_CALLS + 2)
+USAGE_LIMITS = UsageLimits(tool_calls_limit=MAX_TOOL_CALLS + 1, request_limit=MAX_TOOL_CALLS + 3)  # + share_plan
 
 
 def record_spend(input_tokens: int, output_tokens: int) -> float:
@@ -57,9 +58,9 @@ def record_spend(input_tokens: int, output_tokens: int) -> float:
 # --- Replay keys ----------------------------------------------------------------------
 
 def conversation_key(messages: list[ModelMessage]) -> str:
-    """sha256 of the model, prompt version, every user message, and this turn's tool calls
-    and results. Earlier assistant wording and ids/timestamps are left out, so the same
-    questions over the same data give the same key."""
+    """sha256 of the model, prompt version, the latest user message, and this turn's tool
+    calls and results. Earlier turns, assistant wording and ids/timestamps are left out,
+    so the same question over the same data gives the same key, whatever was asked before."""
     users: list[str] = []
     turn: list = []
     for msg in messages:
@@ -77,7 +78,7 @@ def conversation_key(messages: list[ModelMessage]) -> str:
                 turn.append(["return", part.tool_name, content])
             elif isinstance(part, RetryPromptPart):
                 turn.append(["retry", part.tool_name, part.model_response()])
-    raw = json.dumps([CHAT_MODEL, PROMPT_VERSION, users, turn], sort_keys=True, default=str)
+    raw = json.dumps([CHAT_MODEL, PROMPT_VERSION, users[-1:], turn], sort_keys=True, default=str)
     return hashlib.sha256(raw.encode()).hexdigest()
 
 
@@ -242,11 +243,22 @@ def _openai_model():
     return OpenAIResponsesModel(CHAT_MODEL, provider=OpenAIProvider(api_key=settings.openai_api_key))
 
 
+NOT_RECORDED = ("This question wasn't recorded for the demo, so I can't answer it in replay mode. "
+                "Set LLM_MODE=live in .env to ask it, or try one of the suggested questions.")
+
+# Tests set this to answer unrecorded questions with the offline script instead.
+OFFLINE_SCRIPT = False
+
+
 async def _replay(messages: list[ModelMessage], info: AgentInfo) -> AsyncIterator[str | dict[int, DeltaToolCall]]:
     saved = _load(conversation_key(messages))
     if saved is None:
-        async for chunk in _script(messages, info):
-            yield chunk
+        if OFFLINE_SCRIPT:
+            async for chunk in _script(messages, info):
+                yield chunk
+        else:
+            for chunk in re.findall(r"\S+\s*", NOT_RECORDED):
+                yield chunk
         return
     for i, part in enumerate(saved.parts):
         if isinstance(part, ToolCallPart):

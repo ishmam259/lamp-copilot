@@ -6,14 +6,26 @@ import { toast } from "sonner";
 import { ArrowRight, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
-import { proposeAction, useActions, useFundingPlan } from "@/lib/api";
+import { proposeAction, useActions, useForecast, useFundingPlan } from "@/lib/api";
 import { bdt, dayDate, num, stampDate } from "@/lib/format";
 import type { ActionKind } from "@/lib/types";
 
 export default function FundingPage() {
   const { data: plan, error } = useFundingPlan();
   const { data: actions } = useActions();
+  const { data: forecast } = useForecast();
   const [busy, setBusy] = useState(false);
+
+  // Every figure below comes from the API: the plan, its options, and the untrimmed forecast shortfall.
+  const options = plan?.options ?? [];
+  const trim = options.find((o) => o.key === "trim_order" && o.eligible);
+  const primary = plan?.plan.steps.find((s) => s.action_kind !== "trim_order" && !s.fallback_for);
+  const primaryOption = primary?.action_kind === "extension_request" ? options.find((o) => o.key === "supplier_extension") : undefined;
+  const fallback = options
+    .filter((o) => o.eligible && o.certainty === "certain" && o.cost_bdt != null && !["trim_order", "return_claims"].includes(o.key))
+    .sort((a, b) => (a.cost_bdt ?? 0) - (b.cost_bdt ?? 0))[0];
+  const hasFallback = !!plan?.plan.steps.some((s) => s.fallback_for);
+  const untrimmed = forecast?.shortfalls[0]?.amount;
 
   const planKinds = new Set(plan?.plan.steps.map((s) => s.action_kind));
   const alreadyProposed = actions?.some((a) => planKinds.has(a.kind) && a.kind !== "return_claim" && a.status !== "rejected");
@@ -50,10 +62,14 @@ export default function FundingPage() {
               <span className="num">{bdt(plan.need.amount)} to cover</span>
               <span className="sb-time">by {dayDate(plan.need.needed_by)}</span>
             </h2>
-            <p className="sb-sub mt-1.5 text-[1.0625rem] font-medium">Left after trimming the slow mover from Supplier A&apos;s order.</p>
+            {trim && (
+              <p className="sb-sub mt-1.5 text-[1.0625rem] font-medium">
+                Left after you {trim.label.charAt(0).toLowerCase() + trim.label.slice(1)} ({bdt(trim.amount)} saved).
+              </p>
+            )}
           </section>
           <div className="lg:col-span-12">
-            <Carton tone="ink" title="Recommended plan" aside={`Costs ${bdt(plan.plan.total_cost_bdt)} if Supplier A agrees`}>
+            <Carton tone="ink" title="Recommended plan" aside={primaryOption ? `Costs ${bdt(plan.plan.total_cost_bdt)} if ${primaryOption.provider} agrees` : `Costs ${bdt(plan.plan.total_cost_bdt)}`}>
               <ol className="space-y-3 lg:grid lg:grid-cols-3 lg:gap-4 lg:space-y-0">
                 {plan.plan.steps.map((s, i) => (
                   <li key={s.label} className="flex gap-3">
@@ -68,10 +84,19 @@ export default function FundingPage() {
                   </li>
                 ))}
               </ol>
-              <div className="mt-4 rounded-[var(--radius)] bg-stock-tint p-3 text-ink">
-                Borrowing the full BDT 19,000 straight away would cost <span className="num font-bold">{bdt(plan.naive_cost_bdt)}</span> in interest, and you&apos;d
-                still hold stock that expires. This plan costs <span className="num font-bold">BDT 0–182</span>.
-              </div>
+              {untrimmed != null && untrimmed > plan.need.amount && (
+                <div className="mt-4 rounded-[var(--radius)] bg-stock-tint p-3 text-ink">
+                  Borrowing the full <span className="num">{bdt(untrimmed)}</span> straight away would cost{" "}
+                  <span className="num font-bold">{bdt(plan.naive_cost_bdt)}</span> in interest, and you&apos;d still hold stock that expires. This plan costs{" "}
+                  <span className="num font-bold">{bdt(plan.plan.total_cost_bdt)}</span>
+                  {hasFallback && fallback && fallback.cost_bdt !== plan.plan.total_cost_bdt && (
+                    <>
+                      , or <span className="num font-bold">{bdt(fallback.cost_bdt!)}</span> if the fallback is needed
+                    </>
+                  )}
+                  .
+                </div>
+              )}
               <Button size="lg" className="mt-4 w-full sm:w-auto" disabled={busy || !!alreadyProposed} onClick={proposePlan}>
                 {alreadyProposed ? "Plan is in Actions" : "Add this plan to Actions"}
               </Button>
