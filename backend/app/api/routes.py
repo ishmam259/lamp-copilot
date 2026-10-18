@@ -9,6 +9,7 @@ from typing import Literal
 from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, Response, UploadFile
 from fastapi.responses import PlainTextResponse, StreamingResponse
 from sqlalchemy import func, select
+from sqlalchemy.exc import OperationalError, ProgrammingError
 from sqlalchemy.orm import Session, sessionmaker
 
 from app import engines
@@ -16,7 +17,7 @@ from app.db import models as m
 from app.db.seed import apply_extraction, load_seed
 from app.db.session import get_db
 from app.engines import actions as action_engine
-from app.engines import auth, policy
+from app.engines import auth, followups, policy
 from app.engines.common import as_of
 from app.engines import logbus
 from app.schemas import (
@@ -33,6 +34,7 @@ from app.schemas import (
     DuesOut,
     ExpiryOut,
     ExtractionResult,
+    FollowUpOut,
     ForecastOut,
     FundingNeed,
     FundingPlanOut,
@@ -73,7 +75,11 @@ def health() -> dict:
 def dev_reset(with_demo_captures: bool = False, db: Session = Depends(get_db)) -> dict:
     """Wipe everything and reload the seed (plus the three demo captures if asked)."""
     # Keep owners signed in across the reset.
-    sessions = [(s.token, s.pharmacy_id, s.created_at, s.expires_at) for s in db.scalars(select(m.OwnerSession))]
+    try:
+        sessions = [(s.token, s.pharmacy_id, s.created_at, s.expires_at) for s in db.scalars(select(m.OwnerSession))]
+    except (OperationalError, ProgrammingError):  # brand-new database: no tables yet
+        db.rollback()
+        sessions = []
     pid = load_seed(db, with_demo_captures=with_demo_captures)
     for token, sp, created, expires in sessions:
         if db.get(m.Pharmacy, sp) is not None:
@@ -85,7 +91,7 @@ def dev_reset(with_demo_captures: bool = False, db: Session = Depends(get_db)) -
 @dev.post("/dev/simulate/supplier-reply", response_model=ActionOut)
 def simulate_supplier_reply(body: SupplierReply, db: Session = Depends(get_db)):
     """Demo only: the supplier answers an extension request."""
-    return engines.supplier_reply(db, body.action_id, body.accepted)
+    return engines.supplier_reply(db, body.action_id, body.resolved())
 
 
 # --- Owner unlock -------------------------------------------------------------------------
@@ -148,6 +154,9 @@ async def create_capture(pid: str, file: UploadFile = File(...),
                 model=extraction.get("model"), mode=extraction.get("mode"))
     if suspicious:
         engines.log("T1", "CAPTURE", "suspicious_text_flagged", db, capture=cap.id, count=len(suspicious))
+        logbus.notify("owner", "A photo contained instructions",
+                      f"{len(suspicious)} line(s) in this {kind.replace('_', ' ')} were ignored. Nothing was done; "
+                      "check the draft before confirming.", f"/capture?id={cap.id}", db)
     db.commit()
     return _capture_out(cap)
 
@@ -279,6 +288,13 @@ def approve_action(pid: str, aid: str, body: ApprovalIn | None = Body(default=No
 @owner.post("/pharmacies/{pid}/actions/{aid}/reject", response_model=ActionOut)
 def reject_action(pid: str, aid: str, db: Session = Depends(get_db)):
     return engines.reject_action(db, pid, aid)
+
+
+@owner.get("/pharmacies/{pid}/followups", response_model=list[FollowUpOut])
+def list_followups(pid: str, db: Session = Depends(get_db)):
+    """The approved plan's conditional steps and whether they have fired."""
+    engines.get_pharmacy(db, pid)
+    return followups.list_followups(db, pid)
 
 
 @owner.get("/pharmacies/{pid}/pause", response_model=PauseOut)

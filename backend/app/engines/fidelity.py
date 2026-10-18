@@ -148,3 +148,15 @@ def trace(text: str, tool_outputs: list[Any]) -> TraceResult:
             f.traced, f.matched = True, [p for p, o in hits if o is None or o in named or not named]
         figures.append(f)
     return TraceResult(figures)
+
+
+def report_blocked(result: TraceResult, db=None) -> None:
+    """Call when a chat answer is blocked for an untraced money figure: logs it and
+    notifies the admin (win plan CORE-03 / CORE-06)."""
+    from .logbus import log, notify
+
+    figures = [f.text for f in result.untraced]
+    log("T1", "CHAT", "answer_blocked_untraced", db, untraced=figures, traced=result.traced, total=result.total)
+    notify("admin", "Chat answer blocked",
+           f"{len(figures)} money figure(s) didn't match LaMP's engines: {', '.join(figures)}. "
+           "The owner saw a safe message instead.", "/log", db)

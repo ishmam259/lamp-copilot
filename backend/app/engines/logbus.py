@@ -55,6 +55,13 @@ def log(tier: str, component: str, event: str, db: Session | None = None, **data
         own.commit()
 
 
+def notify(audience: str, title: str, body: str, link: str | None = None, db: Session | None = None) -> None:
+    """A notification for the owner's or the admin's screen (win plan CORE-06). It travels
+    on the log stream as component NOTIFY, event "notify". The caller builds the text from
+    engine numbers; a notification never approves anything."""
+    log("T1", "NOTIFY", "notify", db, audience=audience, title=title, body=body, link=link)
+
+
 def canonical(ts: datetime, tier: str, component: str, event: str, data: dict) -> str:
     """The exact text that is hashed: compact JSON with sorted keys and a UTC timestamp."""
     ts = ts if ts.tzinfo else ts.replace(tzinfo=timezone.utc)

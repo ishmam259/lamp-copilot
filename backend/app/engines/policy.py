@@ -31,6 +31,10 @@ def set_pause(db: Session, pid: str, paused: bool) -> PauseOut:
     now = datetime.now(timezone.utc)
     ph.settings = {**(ph.settings or {}), "paused": paused, "paused_changed_at": now.isoformat()}
     log("T1", "POLICY", "agent_paused" if paused else "agent_resumed", db, pharmacy=pid)
+    if not paused:
+        from .followups import retry_held
+
+        retry_held(db, pid)
     db.commit()
     return PauseOut(paused=paused, changed_at=now)
 

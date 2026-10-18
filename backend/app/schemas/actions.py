@@ -14,8 +14,16 @@ class ActionProposal(Model):
 
 
 class SupplierReply(Model):
+    """Demo simulator body: `outcome`, or the older `accepted` flag."""
+
     action_id: str
-    accepted: bool
+    accepted: bool | None = None
+    outcome: Literal["accepted", "declined", "no_reply"] | None = None
+
+    def resolved(self) -> str:
+        if self.outcome:
+            return self.outcome
+        return "accepted" if self.accepted else "declined"
 
 
 class ActionOut(Model):

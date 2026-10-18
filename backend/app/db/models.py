@@ -250,6 +250,24 @@ class Action(Base):
     result: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
 
+class FollowUp(Base):
+    """A conditional step of an approved plan: if the supplier declines or doesn't reply,
+    LaMP proposes the fallback (it still needs the owner's approval)."""
+
+    __tablename__ = "followup"
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    pharmacy_id: Mapped[str] = mapped_column(ForeignKey("pharmacy.id"))
+    plan_action_id: Mapped[str]
+    fallback_kind: Mapped[str]
+    fallback_payload: Mapped[dict] = mapped_column(JSON)
+    amount: Mapped[float] = mapped_column(Float)
+    deadline: Mapped[date] = mapped_column(Date)
+    status: Mapped[str] = mapped_column(String, default="waiting")  # waiting | fired | cancelled
+    trigger: Mapped[str | None] = mapped_column(String, nullable=True)  # declined | no_reply, once known
+    fired_action_id: Mapped[str | None] = mapped_column(String, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime)
+
+
 class OwnerSession(Base):
     __tablename__ = "owner_session"
     token: Mapped[str] = mapped_column(String, primary_key=True)

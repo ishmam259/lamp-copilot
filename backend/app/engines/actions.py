@@ -174,13 +174,21 @@ def _extension_request(db: Session, pid: str, a: m.Action) -> dict:
     order = _order(db, pid, a.payload)
     log("T2", "SUPPLIERS", "extension_requested", db, supplier=order.supplier.name, order=order.id,
         days=EXTENSION_DAYS, amount=a.payload.get("amount"))
+    from .followups import create_for_extension
+
+    create_for_extension(db, pid, a)
     return {"status": "awaiting_supplier", "order_id": order.id,
             "summary": f"Request sent. Waiting for {order.supplier.name}."}
 
 
-def supplier_reply(db: Session, aid: str, accepted: bool) -> ActionOut:
-    """Simulated supplier answer to an executed extension request. If accepted, the
-    requested amount of the order is paid EXTENSION_DAYS later."""
+def supplier_reply(db: Session, aid: str, outcome: str | bool) -> ActionOut:
+    """Simulated supplier answer to an executed extension request: "accepted", "declined"
+    or "no_reply" (no answer by the follow-up deadline). If accepted, the requested amount
+    of the order is paid EXTENSION_DAYS later. Declined or no reply fires the plan's
+    follow-up (the fallback proposal and a notification)."""
+    if isinstance(outcome, bool):
+        outcome = "accepted" if outcome else "declined"
+    accepted = outcome == "accepted"
     a = db.get(m.Action, aid)
     if a is None or a.kind != "extension_request":
         raise HTTPException(404, f"No extension request '{aid}'")
@@ -191,11 +199,15 @@ def supplier_reply(db: Session, aid: str, accepted: bool) -> ActionOut:
     if accepted:
         order.deferred_amount, order.deferred_days = amount, EXTENSION_DAYS
     name = order.supplier.name
-    a.result = {**a.result, "status": "accepted" if accepted else "declined",
-                "summary": (f"{name} agreed: BDT {amount:,.0f} is now due {EXTENSION_DAYS} days later." if accepted
-                            else f"{name} declined the extension.")}
-    log("T2", "SUPPLIERS", "extension_accepted" if accepted else "extension_declined", db, action=aid,
-        supplier=name, amount=amount)
+    summary = {"accepted": f"{name} agreed: BDT {amount:,.0f} is now due {EXTENSION_DAYS} days later.",
+               "declined": f"{name} declined the extension.",
+               "no_reply": f"{name} didn't reply by the deadline."}[outcome]
+    a.result = {**a.result, "status": outcome, "summary": summary}
+    log("T2", "SUPPLIERS", {"accepted": "extension_accepted", "declined": "extension_declined",
+                            "no_reply": "extension_no_reply"}[outcome], db, action=aid, supplier=name, amount=amount)
+    from .followups import on_supplier_reply
+
+    on_supplier_reply(db, a.pharmacy_id, a, outcome)
     db.commit()
     return to_out(a)
 

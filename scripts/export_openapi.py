@@ -64,6 +64,12 @@ def main() -> None:
     out["consents"] = get(f"{p}/consents")
     out["applications"] = get("/api/v1/lenders/wallet-lender/applications")
     out["application_decided"] = post(f"/api/v1/lenders/wallet-lender/applications/{out['applications'][0]['id']}/decide")
+    ext = post(f"{p}/actions", {"kind": "extension_request", "payload": {"amount": 8200}})
+    post(f"{p}/actions/{ext['id']}/approve")
+    out["followups"] = get(f"{p}/followups")
+    out["shelf_life_credit"] = get(f"{p}/shelf-life-credit")
+    out["pause"] = get(f"{p}/pause")
+    out["logs_verify"] = get("/api/v1/logs/verify")
     out["logs"] = get("/api/v1/logs")
     for name, data in out.items():
         write(ROOT / "contracts" / "examples" / f"{name}.json", data)

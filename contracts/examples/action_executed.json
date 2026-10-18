@@ -6,9 +6,9 @@
     "summary": "Return expiring stock",
     "amount": 9200
   },
-  "proposed_by": "agent",
-  "created_at": "2026-10-16T11:56:51.535458Z",
-  "decided_at": "2026-10-16T11:56:51.547505Z",
+  "proposed_by": "owner",
+  "created_at": "2026-10-18T20:45:49.093437Z",
+  "decided_at": "2026-10-18T20:45:49.110181Z",
   "result": {
     "claim_id": "CLM-0001",
     "expected_credit": 9200.0,
@@ -17,5 +17,6 @@
       "CT2411"
     ],
     "summary": "Claim CLM-0001 sent. Expected supplier credit BDT 9,200."
-  }
+  },
+  "requires_pin": false
 }
