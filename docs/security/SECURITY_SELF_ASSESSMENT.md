@@ -168,7 +168,7 @@ It shows:
 
 ## 6. Security tests and results
 
-`pytest` runs 128 tests; all pass. The security-relevant ones:
+`pytest` runs 131 tests; all pass. The security-relevant ones:
 
 | Test | What it proves | Result |
 |---|---|---|

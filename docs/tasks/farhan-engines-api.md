@@ -215,13 +215,13 @@ Pritom left on 17 Oct. The full spec is in [pritom-agents-docs.md](pritom-agents
 **Budget:** the team limit is still $20. Record the demo photos and the eval set once in `record` mode; everything after that runs in `replay`.
 
 ## Done means
-- [ ] M1 posted to the group by 16 Oct 23:59 BDT
-- [ ] `pytest` green, including `test_golden.py`
-- [ ] `docker compose up` brings up db + backend (+ frontend once Ishmam adds it) on a clean machine
-- [ ] `scripts/demo_run.py` runs end to end and exports `logs/sandbox_execution_trace.log`
+- [x] M1 posted to the group by 16 Oct 23:59 BDT
+- [x] `pytest` green, including `test_golden.py`
+- [x] `docker compose up` brings up db + backend (+ frontend once Ishmam adds it) on a clean machine
+- [x] `scripts/demo_run.py` runs end to end and exports `logs/sandbox_execution_trace.log`
 - [ ] README "Run it" works for a judge who has never seen the project
-- [ ] Every engine function has a docstring stating its formula and assumptions (they are quoted in the technical doc)
-- [ ] `extract()` works live on the demo photos, and replay recordings are committed
-- [ ] `pytest tests/agents/test_llm.py tests/agents/test_extraction.py` passes with no API key set
-- [ ] The injection photo is flagged, raises an alert and creates no action
-- [ ] Eval table and total live spend sent to @ishmam259 by 19 Oct 18:00 BDT
+- [x] Every engine function has a docstring stating its formula and assumptions (they are quoted in the technical doc)
+- [x] `extract()` works live on the demo photos, and replay recordings are committed
+- [x] `pytest tests/agents/test_llm.py tests/agents/test_extraction.py` passes with no API key set
+- [x] The injection photo is flagged, raises an alert and creates no action
+- [x] Eval table and total live spend sent to @ishmam259 by 19 Oct 18:00 BDT
