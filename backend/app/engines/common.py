@@ -11,6 +11,7 @@ from app.db import models as m
 
 
 def get_pharmacy(db: Session, pid: str) -> m.Pharmacy:
+    """The pharmacy row, or HTTP 404 if the id is unknown."""
     ph = db.get(m.Pharmacy, pid)
     if ph is None:
         raise HTTPException(404, f"Unknown pharmacy '{pid}'")
@@ -18,14 +19,17 @@ def get_pharmacy(db: Session, pid: str) -> m.Pharmacy:
 
 
 def as_of(ph: m.Pharmacy) -> date:
+    """The pharmacy's fixed "today" (settings.as_of_date). Engines never read the real clock."""
     return date.fromisoformat(ph.settings["as_of_date"])
 
 
 def margin(ph: m.Pharmacy) -> float:
+    """Gross margin as a fraction: settings.gross_margin_pct / 100 (12% in the seed)."""
     return ph.settings["gross_margin_pct"] / 100
 
 
 def r2(x: float) -> float:
+    """Round to 2 decimals for money. Adding 0.0 turns -0.0 into 0.0."""
     return round(x + 0.0, 2)
 
 

@@ -48,6 +48,7 @@ def log(tier: str, component: str, event: str, db: Session | None = None, **data
 
 
 def to_event(row: m.AuditLog) -> LogEvent:
+    """Audit-log row to LogEvent. Naive timestamps are treated as UTC."""
     ts = row.ts if row.ts.tzinfo else row.ts.replace(tzinfo=timezone.utc)
     return LogEvent(id=f"lg-{row.id}", ts=ts, tier=row.tier, component=row.component, event=row.event,
                     data=row.data or {})

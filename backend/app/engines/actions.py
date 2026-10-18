@@ -30,6 +30,7 @@ def _now() -> datetime:
 
 
 def to_out(a: m.Action) -> ActionOut:
+    """DB row to API shape. No calculation."""
     return ActionOut(id=a.id, kind=a.kind, status=a.status, payload=a.payload, proposed_by=a.proposed_by,
                      created_at=a.created_at, decided_at=a.decided_at, result=a.result)
 
@@ -71,6 +72,7 @@ def _get(db: Session, pid: str, aid: str) -> m.Action:
 
 
 def reject_action(db: Session, pid: str, aid: str) -> ActionOut:
+    """Owner rejected: mark it rejected and log it. Nothing is executed."""
     a = _get(db, pid, aid)
     a.status, a.decided_at = "rejected", _now()
     log("T1", "ACTIONS", "action_rejected", db, action=aid, kind=a.kind)
