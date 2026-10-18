@@ -14,14 +14,14 @@ from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlalchemy.orm import Session
 
-from app.config import settings
+from app.config import registry_secret
 from app.db import models as m
 
 
 def commitment(supplier_id: int, invoice_no: str, pharmacy_id: str, total: float, invoice_date: date) -> str:
     """hex HMAC-SHA256(REGISTRY_KEY, "{supplier_id}|{invoice_no}|{pharmacy_id}|{total:.2f}|{invoice_date}")."""
     msg = f"{supplier_id}|{invoice_no}|{pharmacy_id}|{total:.2f}|{invoice_date.isoformat()}"
-    return hmac.new(settings.registry_key.encode(), msg.encode(), hashlib.sha256).hexdigest()
+    return hmac.new(registry_secret().encode(), msg.encode(), hashlib.sha256).hexdigest()
 
 
 def try_lock(db: Session, value: str, application_id: str) -> bool:

@@ -32,6 +32,16 @@ class ConsentOut(Model):
     granted_at: Timestamp
 
 
+class ConsentPreview(Model):
+    """What a lender would see with these scopes (win plan CORE-16)."""
+
+    lender_id: str
+    scopes: list[str]
+    shares: list[str]
+    withholds: list[str]
+    passport: PassportOut
+
+
 class Decision(Model):
     approved: bool
     payout_ref: str | None = None

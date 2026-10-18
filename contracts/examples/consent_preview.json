@@ -1,0 +1,24 @@
+{
+  "lender_id": "wallet-lender",
+  "scopes": [
+    "passport.summary"
+  ],
+  "shares": [
+    "Score, terms and the on-time count (38 of 41)"
+  ],
+  "withholds": [
+    "The invoice-by-invoice payment record behind the score"
+  ],
+  "passport": {
+    "invoices_total": 41,
+    "paid_on_time": 38,
+    "confirmed_share": 1.0,
+    "theta_mean": 0.907,
+    "theta_low_5pct": 0.826,
+    "default_probability": 0.03,
+    "score": 0.507,
+    "advance_rate_pct": 75.2,
+    "partner_share_pct": 54.4,
+    "evidence": []
+  }
+}

@@ -46,6 +46,10 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
     - bank_supplier_credit: fee_pct x the (trimmed) order total per 30 days, eligible
       with >= min_history_invoices settled invoices
     - bank_sme_loan: eligible only from min_amount and min_history_months of history
+    Cost disclosure on each financing option: APR on the amount actually financed
+    (amount_financed), tenor_days, and the cost of covering this gap in BDT and as a
+    % of the need. Supplier credit finances the whole trimmed order (49,200) for 30
+    days: APR 12.2%, cost 492 = 6.0% of the 8,200 gap. Different tenors stay visible.
     Plan: trims first. Then the cheapest eligible option that covers the need; if it
     is uncertain, add the cheapest certain one as a fallback at needed_by - 3 days.
     total_cost_bdt assumes the primary option works. naive_cost_bdt = a wallet loan
@@ -74,10 +78,16 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
 
     options = []
 
-    def opt(key, label, provider, amt, cost, apr, eligible, reason, speed, certainty):
+    def opt(key, label, provider, amt, cost, apr, eligible, reason, speed, certainty, financed=None, tenor=None):
+        """`financed`/`tenor` are the cost disclosure: what is actually financed and for how
+        long. The cost of covering the gap is the option's cost; its share is cost / need."""
+        disclosed = financed is not None and cost is not None
         options.append({"key": key, "label": label, "provider": provider, "amount": r2(amt),
                         "cost_bdt": None if cost is None else r2(cost), "apr_pct": apr, "eligible": eligible,
-                        "reason": reason, "speed": speed, "certainty": certainty})
+                        "reason": reason, "speed": speed, "certainty": certainty,
+                        "amount_financed": r2(financed) if financed is not None else None, "tenor_days": tenor,
+                        "cost_of_gap_bdt": r2(cost) if disclosed else None,
+                        "cost_of_gap_pct_of_need": round(cost / amount * 100, 2) if disclosed and amount > 0 else None})
 
     if order:
         t = trims[order.id]
@@ -97,14 +107,15 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
         opt("supplier_extension", f"Ask {supplier.name} for {EXTENSION_DAYS} more days", supplier.name, amount, 0,
             None, ok, f"You paid {passport.paid_on_time} of {passport.invoices_total} invoices on time." if ok
             else f"Needs a verified supplier and at least {EXTENSION_MIN_ON_TIME:.0%} of invoices paid on time.",
-            "1–3 days", "uncertain")
+            "1–3 days", "uncertain", financed=amount, tenor=EXTENSION_DAYS)
 
     w = _product(db, "wallet_loan")
     ok = w.min_amount <= amount <= w.max_amount
     opt("wallet_loan", "Mobile-wallet loan, 3 months", w.lender.name, amount,
         _loan_cost(amount, w.apr_pct, w.tenor_days) if ok else None, w.apr_pct, ok,
         f"Within the {_bdt(w.min_amount)}–{w.max_amount:,.0f} limit." if ok
-        else f"Loans run from {_bdt(w.min_amount)} to {w.max_amount:,.0f}.", "Same day", "certain")
+        else f"Loans run from {_bdt(w.min_amount)} to {w.max_amount:,.0f}.", "Same day", "certain",
+        financed=amount, tenor=w.tenor_days)
 
     b = _product(db, "bank_supplier_credit")
     ok = bool(order) and passport.invoices_total >= b.min_history_invoices and b.min_amount <= order_total <= b.max_amount
@@ -112,7 +123,8 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
         b.lender.name, order_total, order_total * b.fee_pct / 100 * b.tenor_days / 30 if ok else None,
         round(b.fee_pct * 365 / b.tenor_days, 1), ok,
         f"{b.fee_pct:g}% of the order for {b.tenor_days} days." if ok
-        else f"Needs at least {b.min_history_invoices} paid invoices of history.", "2–3 days", "certain")
+        else f"Needs at least {b.min_history_invoices} paid invoices of history.", "2–3 days", "certain",
+        financed=order_total, tenor=b.tenor_days)  # the bank finances the whole order to cover the gap
 
     sme = _product(db, "bank_sme_loan")
     first = db.scalar(select(m.Invoice.invoice_date).where(m.Invoice.pharmacy_id == pid)
@@ -122,7 +134,7 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
     opt("bank_sme_loan", "Bank small-business loan", sme.lender.name, amount,
         _loan_cost(amount, sme.apr_pct, sme.tenor_days) if ok else None, sme.apr_pct if ok else None, ok,
         "Eligible." if ok else f"Minimum loan is {_bdt(sme.min_amount)}, with {sme.min_history_months} months of history.",
-        "2–4 weeks", "certain")
+        "2–4 weeks", "certain", financed=amount, tenor=sme.tenor_days)
 
     steps, total = [], 0.0
     by_key = {o["key"]: o for o in options}

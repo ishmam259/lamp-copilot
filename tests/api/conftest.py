@@ -31,8 +31,27 @@ def _get_db():
 app.dependency_overrides[get_db] = _get_db
 
 
+from api_support import PIN  # noqa: E402
+
+
 @pytest.fixture
-def client():
+def anon():
+    """A fresh seed and a client that hasn't signed in."""
     with TestSession() as s:
         load_seed(s, with_demo_captures=True)
     return TestClient(app)
+
+
+@pytest.fixture
+def client(anon):
+    """Signed in as the owner of green-life. Lender calls pass headers=lender_headers(...)."""
+    r = anon.post("/api/v1/pharmacies/green-life/session", json={"pin": PIN})
+    assert r.status_code == 200, r.text
+    return anon
+
+
+@pytest.fixture
+def api_db():
+    """A session on the API tests' database."""
+    with TestSession() as s:
+        yield s

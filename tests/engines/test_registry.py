@@ -9,6 +9,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.db import models as m
+from app.config import settings
 from app.engines import registry
 
 
@@ -16,7 +17,7 @@ def test_commitment_is_stable_and_keyed(monkeypatch):
     a = registry.commitment(1, "A-1", "green-life", 60000, date(2026, 10, 26))
     assert a == registry.commitment(1, "A-1", "green-life", 60000.0, date(2026, 10, 26))
     assert len(a) == 64 and a != registry.commitment(1, "A-1", "green-life", 60000.01, date(2026, 10, 26))
-    monkeypatch.setattr(registry.settings, "registry_key", "other")
+    monkeypatch.setattr(settings, "registry_key", "other")
     assert a != registry.commitment(1, "A-1", "green-life", 60000, date(2026, 10, 26))
 
 

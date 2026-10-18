@@ -12,3 +12,4 @@ class LogEvent(Model):
     component: str
     event: str
     data: dict[str, Any] = {}
+    hash: str | None = None  # sha256(prev_hash + canonical event): the audit log is a hash chain

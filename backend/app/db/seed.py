@@ -103,7 +103,11 @@ def load_seed(db: Session, with_demo_captures: bool = False, path: Path | None =
                                                         expiry_date=_d(l["expiry_date"])) for l in o["lines"]]))
     for lender in seed["lenders"]:
         db.add(m.Lender(id=lender["id"], name=lender["name"], kind=lender["kind"],
+                        api_key_sha256=lender.get("api_key_sha256"),
                         products=[m.LenderProduct(**pr) for pr in lender["products"]]))
+    for line in seed.get("statement_lines", []):
+        db.add(m.StatementLine(pharmacy_id=pid, date=_d(line["date"]), amount=line["amount"], payee=line["payee"],
+                               ref=line["ref"]))
     db.flush()
     from app.engines.logbus import log
 

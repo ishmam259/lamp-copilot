@@ -8,7 +8,8 @@
       "gross_margin_pct": 12,
       "cash_buffer": 0,
       "expiry_buffer_days": 30,
-      "as_of_date": "2026-10-16"
+      "as_of_date": "2026-10-16",
+      "owner_pin": "scrypt$green-life-demo$ec589c7c3d2fd882d4eae0cb07bcc57a110c7d914d86c1e502c0226f8fa44808"
     }
   },
   "suppliers": [
@@ -1878,6 +1879,7 @@
       "id": "wallet-lender",
       "name": "Wallet Lender",
       "kind": "mobile_wallet",
+      "api_key_sha256": "05e5b0c0a660b0ed350cd8dac8a543df3ea6e2c9c5669df142d77f8af53c2bdb",
       "products": [
         {
           "key": "wallet_loan",
@@ -1897,6 +1899,7 @@
       "id": "partner-bank",
       "name": "Partner Bank",
       "kind": "bank",
+      "api_key_sha256": "ed2a70eaafe3262676c73f510a3425a5cf07f5a9bf69e9b8fd15f499608aa20e",
       "products": [
         {
           "key": "bank_supplier_credit",
@@ -1923,6 +1926,86 @@
           "cost_bearer": "pharmacy"
         }
       ]
+    }
+  ],
+  "statement_lines": [
+    {
+      "date": "2026-09-16",
+      "amount": -15020,
+      "payee": "SUPPLIER-O PHARMA DIST",
+      "ref": "TRX-O-3127"
+    },
+    {
+      "date": "2026-09-18",
+      "amount": -11300,
+      "payee": "SUPPLIER-P PHARMA DIST",
+      "ref": "TRX-P-3128"
+    },
+    {
+      "date": "2026-09-20",
+      "amount": -12300,
+      "payee": "SUPPLIER-P PHARMA DIST",
+      "ref": "TRX-P-3129"
+    },
+    {
+      "date": "2026-09-21",
+      "amount": -8600,
+      "payee": "SUPPLIER-Q PHARMA DIST",
+      "ref": "TRX-Q-3130"
+    },
+    {
+      "date": "2026-09-23",
+      "amount": -8600,
+      "payee": "SUPPLIER-Q PHARMA DIST",
+      "ref": "TRX-Q-3130-2"
+    },
+    {
+      "date": "2026-09-23",
+      "amount": -13540,
+      "payee": "SUPPLIER-Q PHARMA DIST",
+      "ref": "TRX-Q-3131"
+    },
+    {
+      "date": "2026-09-25",
+      "amount": -20620,
+      "payee": "SUPPLIER-R PHARMA DIST",
+      "ref": "TRX-R-3132"
+    },
+    {
+      "date": "2026-09-30",
+      "amount": -5200,
+      "payee": "SUPPLIER-U PHARMA DIST",
+      "ref": "TRX-U-3135"
+    },
+    {
+      "date": "2026-10-02",
+      "amount": -7680,
+      "payee": "SUPPLIER-V PHARMA DIST",
+      "ref": "TRX-V-3136"
+    },
+    {
+      "date": "2026-10-04",
+      "amount": -22600,
+      "payee": "SUPPLIER-A PHARMA DIST",
+      "ref": "TRX-A-4403"
+    },
+    {
+      "date": "2026-10-04",
+      "amount": -11350,
+      "payee": "SUPPLIER-S PHARMA DIST",
+      "ref": "TRX-S-3133"
+    },
+    {
+      "date": "2026-10-04",
+      "amount": -4500,
+      "payee": "MERCHANT 01712XXXXXX",
+      "ref": "TRX-UNKNOWN-1"
+    },
+    {
+      "date": "2026-10-04",
+      "amount": -16720,
+      "payee": "SUPPLIER-W PHARMA DIST",
+      "ref": "TRX-W-3137"
     }
   ]
 }

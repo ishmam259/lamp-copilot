@@ -35,6 +35,45 @@ def active_consent(db: Session, pid: str, lender_id: str) -> m.Consent | None:
                                              m.Consent.revoked_at.is_(None)))
 
 
+# Consent scopes (win plan CORE-16). "passport" is the older all-in scope.
+SCOPES = {
+    "passport.summary": "Score, terms and the on-time count (38 of 41)",
+    "passport.evidence": "The invoice-by-invoice payment record behind the score",
+    "passport": "Summary and evidence (older scope)",
+    "accounts": "Accounts summary (older scope; no lender screen uses it)",
+}
+
+
+def lender_view(passport, scopes: list[str]):
+    """The passport as a lender with these scopes sees it: evidence only with
+    passport.evidence (or the older passport scope)."""
+    if "passport" in scopes or "passport.evidence" in scopes:
+        return passport
+    return passport.model_copy(update={"evidence": []})
+
+
+def consent_preview(db: Session, pid: str, lender_id: str, scopes: list[str]) -> dict:
+    """What this lender would see with these scopes, before the owner shares anything."""
+    from .passport import get_passport
+
+    get_pharmacy(db, pid)
+    if db.get(m.Lender, lender_id) is None:
+        raise HTTPException(404, f"Unknown lender '{lender_id}'")
+    _check_scopes(scopes)
+    view = lender_view(get_passport(db, pid), scopes)
+    shared = [k for k in ("passport.summary", "passport.evidence")
+              if k in scopes or "passport" in scopes or (k == "passport.summary" and "passport.evidence" in scopes)]
+    return {"lender_id": lender_id, "scopes": scopes, "shares": [SCOPES[k] for k in shared],
+            "withholds": [SCOPES[k] for k in ("passport.summary", "passport.evidence") if k not in shared],
+            "passport": view}
+
+
+def _check_scopes(scopes: list[str]) -> None:
+    unknown = [s for s in scopes if s not in SCOPES]
+    if unknown:
+        raise HTTPException(422, f"Unknown scope(s): {', '.join(unknown)}. Known: {', '.join(SCOPES)}")
+
+
 def _consent_out(c: m.Consent) -> ConsentOut:
     return ConsentOut(id=c.id, lender_id=c.lender_id, scopes=c.scopes, granted_at=c.granted_at)
 
@@ -52,6 +91,7 @@ def grant_consent(db: Session, pid: str, body: ConsentIn) -> ConsentOut:
     get_pharmacy(db, pid)
     if db.get(m.Lender, body.lender_id) is None:
         raise HTTPException(404, f"Unknown lender '{body.lender_id}'")
+    _check_scopes(body.scopes)
     old = active_consent(db, pid, body.lender_id)
     if old:
         old.revoked_at = _now()
@@ -78,9 +118,11 @@ def _app_out(db: Session, a: m.Application) -> ApplicationOut:
     from .passport import get_passport
 
     ph = get_pharmacy(db, a.pharmacy_id)
+    consent = active_consent(db, a.pharmacy_id, a.lender_id)
+    passport = lender_view(get_passport(db, a.pharmacy_id), consent.scopes if consent else [])
     return ApplicationOut(id=a.id, pharmacy_id=a.pharmacy_id, pharmacy_name=ph.name, lender_id=a.lender_id,
                           product_key=a.product_key, amount=a.amount, status=a.status,
-                          passport=get_passport(db, a.pharmacy_id), decision=a.decision, created_at=a.created_at)
+                          passport=passport, decision=a.decision, created_at=a.created_at)
 
 
 def inbox(db: Session, lender_id: str) -> list[ApplicationOut]:
@@ -120,6 +162,9 @@ def decide(db: Session, lender_id: str, app_id: str) -> ApplicationOut:
         a.decision = {"approved": True, "payout_ref": ref,
                       "reason": f"Default probability {p:.1%} is within the {MAX_DEFAULT_PROBABILITY:.0%} limit."}
         ph.cash_on_hand += a.amount
+        from .wallet import record_payout
+
+        record_payout(db, a.pharmacy_id, a.amount, ref, as_of(ph))
         log("T3", "LENDER", "application_approved", db, application=app_id, payout=ref, amount=a.amount)
         log("T3", "PAYOUT", "sandbox_payout", db, application=app_id, payout=ref, amount=a.amount)
     else:

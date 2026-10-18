@@ -56,7 +56,8 @@ def test_reset_without_captures(client):
 
 
 def test_unknown_pharmacy(client):
-    assert client.get("/api/v1/pharmacies/nope/accounts").status_code == 404
+    # A signed-in owner can't reach another pharmacy's data.
+    assert client.get("/api/v1/pharmacies/nope/accounts").status_code == 403
 
 
 @pytest.mark.parametrize("body", [None, {}, {"amount": None}])
@@ -77,3 +78,13 @@ def test_sales_page_capture_saves_only_sales_days(client):
     client.post(f"{P}/captures/{r.json()['id']}/confirm", json={})
     assert "K-77310" not in [i["invoice_no"] for i in client.get(f"{P}/dues").json()["items"]]
     assert client.get(f"{P}/accounts").json()["sales"] == 412500  # same days re-entered, same totals
+
+
+def test_shelf_life_credit_endpoint(client):
+    s = client.get(f"{P}/shelf-life-credit").json()
+    assert (s["counterfactual_purpose_blind"], s["not_financed"], s["financeable"]) == (19000, 10800, 8200)
+
+
+def test_financing_catalogue_endpoint(client):
+    c = client.get(f"{P}/financing-catalogue").json()
+    assert c["matched"] == 6 and c["plan_holds"] is True and c["options"][0]["eligible"]

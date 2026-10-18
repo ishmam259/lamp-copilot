@@ -26,6 +26,12 @@ class FundingOption(Model):
     reason: str
     speed: str
     certainty: Certainty
+    # Cost disclosure (win plan CORE-15): APR on the amount actually financed, its tenor,
+    # and what covering this gap costs.
+    amount_financed: float | None = None
+    tenor_days: int | None = None
+    cost_of_gap_bdt: float | None = None
+    cost_of_gap_pct_of_need: float | None = None
 
 
 class PlanStep(Model):
@@ -46,3 +52,37 @@ class FundingPlanOut(Model):
     options: list[FundingOption]
     plan: FundingPlan
     naive_cost_bdt: float
+
+
+class CatalogueOption(Model):
+    """A financing archetype anchored on a published Bangladeshi offer (win plan CORE-14)."""
+
+    key: str
+    label: str
+    provider_type: str
+    anchored_on: str
+    source: str
+    source_date: ISODate | None
+    permitted_purpose: str
+    apr_pct: float | None
+    amount_financed: float | None
+    tenor_days: int | None
+    horizon_days: int
+    cost_of_gap_bdt: float | None
+    cost_of_gap_pct_of_need: float | None
+    speed_days: int
+    eligible: bool
+    ineligible_reason: str | None = None
+    to_confirm: list[str] = []
+    note: str
+
+
+class CatalogueOut(Model):
+    need: FundingNeed
+    horizon_days: int
+    matched: int
+    eligible: int
+    options: list[CatalogueOption]   # eligible first, then cheapest first
+    cheapest_eligible_cost_bdt: float | None
+    plan_fallback_cost_bdt: float | None
+    plan_holds: bool                # no eligible catalogue option is cheaper than the plan's fallback

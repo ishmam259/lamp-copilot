@@ -47,3 +47,48 @@ class DueItem(Model):
 class DuesOut(Model):
     items: list[DueItem]
     total_due: float
+
+
+class WalletTxnOut(Model):
+    date: ISODate
+    amount: float
+    kind: str
+    ref: str
+
+
+class StatementMatch(Model):
+    ref: str
+    date: ISODate
+    amount: float
+    payee: str
+    status: Literal["matched", "duplicate", "unmatched", "missing_from_statement"]
+    invoice_no: str | None = None
+    supplier: str | None = None
+    note: str
+
+
+class AccountOut(Model):
+    """Sandbox wallet and its reconciliation (win plan CORE-05)."""
+
+    opening_balance: float
+    balance: float
+    transactions: list[WalletTxnOut]
+    matches: list[StatementMatch]
+    counts: dict[str, int]
+    recommendations: list[str]
+
+
+class ValueItem(Model):
+    action_id: str
+    kind: str
+    label: str
+    amount: float
+    basis: str           # how the amount is computed
+    counterfactual: str  # what would have happened without LaMP
+
+
+class ValueOut(Model):
+    """Value ledger (win plan CORE-10): money LaMP's executed actions saved or recovered."""
+
+    items: list[ValueItem]
+    total: float

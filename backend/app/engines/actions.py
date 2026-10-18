@@ -32,7 +32,16 @@ def _now() -> datetime:
 def to_out(a: m.Action) -> ActionOut:
     """DB row to API shape. No calculation."""
     return ActionOut(id=a.id, kind=a.kind, status=a.status, payload=a.payload, proposed_by=a.proposed_by,
-                     created_at=a.created_at, decided_at=a.decided_at, result=a.result)
+                     created_at=a.created_at, decided_at=a.decided_at, result=a.result,
+                     requires_pin=requires_pin(a.kind))
+
+
+PIN_KINDS = {"loan_application"}  # Tier 3: money from a lender
+
+
+def requires_pin(kind: str) -> bool:
+    """True if approving this kind of action must re-enter the owner PIN."""
+    return kind in PIN_KINDS
 
 
 def list_actions(db: Session, pid: str) -> list[ActionOut]:
@@ -51,8 +60,12 @@ def _next_id(db: Session, model, prefix: str, width: int = 0) -> str:
 def propose_action(db: Session, pid: str, proposal: ActionProposal, proposed_by: str) -> ActionOut:
     """Store a proposal. It does nothing until the owner approves it."""
     get_pharmacy(db, pid)
-    if proposed_by not in ("owner", "agent"):
-        raise HTTPException(422, "proposed_by must be 'owner' or 'agent'")
+    if proposed_by not in ("owner", "agent", "lamp-scheduler"):
+        raise HTTPException(422, "proposed_by must be 'owner', 'agent' or 'lamp-scheduler'")
+    from .policy import check_borrowing_ceiling, check_can_propose
+
+    check_can_propose(db, pid, proposed_by)
+    check_borrowing_ceiling(db, pid, proposal.kind, proposal.payload)
     a = m.Action(id=_next_id(db, m.Action, "act-"), pharmacy_id=pid, kind=proposal.kind, status="proposed",
                  payload=proposal.payload, proposed_by=proposed_by, created_at=_now())
     db.add(a)
@@ -84,6 +97,9 @@ def execute_owner_approval(db: Session, pid: str, aid: str) -> ActionOut:
     """Owner approved: run the deterministic sandbox executor for this action.
     Called only from the HTTP approve endpoint."""
     a = _get(db, pid, aid)
+    from .policy import check_can_approve
+
+    check_can_approve(db, pid, a.proposed_by)
     a.status, a.decided_at = "approved", _now()
     log("T1", "ACTIONS", "action_approved_by_owner", db, action=aid, kind=a.kind)
     db.flush()
@@ -159,13 +175,21 @@ def _extension_request(db: Session, pid: str, a: m.Action) -> dict:
     order = _order(db, pid, a.payload)
     log("T2", "SUPPLIERS", "extension_requested", db, supplier=order.supplier.name, order=order.id,
         days=EXTENSION_DAYS, amount=a.payload.get("amount"))
+    from .followups import create_for_extension
+
+    create_for_extension(db, pid, a)
     return {"status": "awaiting_supplier", "order_id": order.id,
             "summary": f"Request sent. Waiting for {order.supplier.name}."}
 
 
-def supplier_reply(db: Session, aid: str, accepted: bool) -> ActionOut:
-    """Simulated supplier answer to an executed extension request. If accepted, the
-    requested amount of the order is paid EXTENSION_DAYS later."""
+def supplier_reply(db: Session, aid: str, outcome: str | bool) -> ActionOut:
+    """Simulated supplier answer to an executed extension request: "accepted", "declined"
+    or "no_reply" (no answer by the follow-up deadline). If accepted, the requested amount
+    of the order is paid EXTENSION_DAYS later. Declined or no reply fires the plan's
+    follow-up (the fallback proposal and a notification)."""
+    if isinstance(outcome, bool):
+        outcome = "accepted" if outcome else "declined"
+    accepted = outcome == "accepted"
     a = db.get(m.Action, aid)
     if a is None or a.kind != "extension_request":
         raise HTTPException(404, f"No extension request '{aid}'")
@@ -176,11 +200,15 @@ def supplier_reply(db: Session, aid: str, accepted: bool) -> ActionOut:
     if accepted:
         order.deferred_amount, order.deferred_days = amount, EXTENSION_DAYS
     name = order.supplier.name
-    a.result = {**a.result, "status": "accepted" if accepted else "declined",
-                "summary": (f"{name} agreed: BDT {amount:,.0f} is now due {EXTENSION_DAYS} days later." if accepted
-                            else f"{name} declined the extension.")}
-    log("T2", "SUPPLIERS", "extension_accepted" if accepted else "extension_declined", db, action=aid,
-        supplier=name, amount=amount)
+    summary = {"accepted": f"{name} agreed: BDT {amount:,.0f} is now due {EXTENSION_DAYS} days later.",
+               "declined": f"{name} declined the extension.",
+               "no_reply": f"{name} didn't reply by the deadline."}[outcome]
+    a.result = {**a.result, "status": outcome, "summary": summary}
+    log("T2", "SUPPLIERS", {"accepted": "extension_accepted", "declined": "extension_declined",
+                            "no_reply": "extension_no_reply"}[outcome], db, action=aid, supplier=name, amount=amount)
+    from .followups import on_supplier_reply
+
+    on_supplier_reply(db, a.pharmacy_id, a, outcome)
     db.commit()
     return to_out(a)
 
@@ -247,3 +275,8 @@ EXECUTORS = {
     "loan_application": _loan_application,
     "set_aside": _set_aside,
 }
+
+
+def get_action(db: Session, pid: str, aid: str) -> m.Action:
+    """The action, or HTTP 404."""
+    return _get(db, pid, aid)

@@ -152,6 +152,7 @@ class Lender(Base):
     id: Mapped[str] = mapped_column(String, primary_key=True)
     name: Mapped[str]
     kind: Mapped[str]
+    api_key_sha256: Mapped[str | None] = mapped_column(String, nullable=True)
     products: Mapped[list["LenderProduct"]] = relationship(back_populates="lender", cascade="all, delete-orphan")
 
 
@@ -249,6 +250,58 @@ class Action(Base):
     result: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
 
+class WalletTxn(Base):
+    """Sandbox wallet movements LaMP caused (loan payouts). The opening balance is the
+    pharmacy's cash on hand minus these."""
+
+    __tablename__ = "wallet_txn"
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    pharmacy_id: Mapped[str] = mapped_column(ForeignKey("pharmacy.id"))
+    date: Mapped[date] = mapped_column(Date)
+    amount: Mapped[float] = mapped_column(Float)  # + in, - out
+    kind: Mapped[str]
+    ref: Mapped[str]
+    created_at: Mapped[datetime] = mapped_column(DateTime)
+
+
+class StatementLine(Base):
+    """External wallet/bank statement lines (seeded), to reconcile against the books."""
+
+    __tablename__ = "statement_line"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    pharmacy_id: Mapped[str] = mapped_column(ForeignKey("pharmacy.id"))
+    date: Mapped[date] = mapped_column(Date)
+    amount: Mapped[float] = mapped_column(Float)  # + credit, - debit
+    payee: Mapped[str]
+    ref: Mapped[str]
+
+
+class FollowUp(Base):
+    """A conditional step of an approved plan: if the supplier declines or doesn't reply,
+    LaMP proposes the fallback (it still needs the owner's approval)."""
+
+    __tablename__ = "followup"
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    pharmacy_id: Mapped[str] = mapped_column(ForeignKey("pharmacy.id"))
+    plan_action_id: Mapped[str]
+    fallback_kind: Mapped[str]
+    fallback_payload: Mapped[dict] = mapped_column(JSON)
+    amount: Mapped[float] = mapped_column(Float)
+    deadline: Mapped[date] = mapped_column(Date)
+    status: Mapped[str] = mapped_column(String, default="waiting")  # waiting | fired | cancelled
+    trigger: Mapped[str | None] = mapped_column(String, nullable=True)  # declined | no_reply, once known
+    fired_action_id: Mapped[str | None] = mapped_column(String, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime)
+
+
+class OwnerSession(Base):
+    __tablename__ = "owner_session"
+    token: Mapped[str] = mapped_column(String, primary_key=True)
+    pharmacy_id: Mapped[str] = mapped_column(ForeignKey("pharmacy.id"))
+    created_at: Mapped[datetime] = mapped_column(DateTime)
+    expires_at: Mapped[datetime] = mapped_column(DateTime)
+
+
 class AuditLog(Base):
     __tablename__ = "audit_log"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -257,3 +310,6 @@ class AuditLog(Base):
     component: Mapped[str]
     event: Mapped[str]
     data: Mapped[dict] = mapped_column(JSON)
+    # Hash chain: hash = sha256(prev_hash + canonical event). Editing any row breaks it.
+    prev_hash: Mapped[str] = mapped_column(String, default="")
+    hash: Mapped[str] = mapped_column(String, default="")

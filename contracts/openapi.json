@@ -25,32 +25,39 @@
         }
       }
     },
-    "/api/v1/dev/reset": {
+    "/api/v1/pharmacies/{pid}/session": {
       "post": {
-        "summary": "Dev Reset",
-        "description": "Wipe everything and reload the seed (plus the three demo captures if asked).",
-        "operationId": "dev_reset_api_v1_dev_reset_post",
+        "summary": "Create Session",
+        "description": "The owner's PIN unlocks the app: sets the HttpOnly session cookie.",
+        "operationId": "create_session_api_v1_pharmacies__pid__session_post",
         "parameters": [
           {
-            "name": "with_demo_captures",
-            "in": "query",
-            "required": false,
+            "name": "pid",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "boolean",
-              "default": false,
-              "title": "With Demo Captures"
+              "type": "string",
+              "title": "Pid"
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionIn"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": true,
-                  "title": "Response Dev Reset Api V1 Dev Reset Post"
+                  "$ref": "#/components/schemas/SessionOut"
                 }
               }
             }
@@ -68,38 +75,21 @@
         }
       }
     },
-    "/api/v1/dev/simulate/supplier-reply": {
-      "post": {
-        "summary": "Simulate Supplier Reply",
-        "description": "Demo only: the supplier answers an extension request.",
-        "operationId": "simulate_supplier_reply_api_v1_dev_simulate_supplier_reply_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SupplierReply"
-              }
-            }
-          },
-          "required": true
-        },
+    "/api/v1/lenders": {
+      "get": {
+        "summary": "List Lenders",
+        "operationId": "list_lenders_api_v1_lenders_get",
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionOut"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "items": {
+                    "$ref": "#/components/schemas/LenderOut"
+                  },
+                  "type": "array",
+                  "title": "Response List Lenders Api V1 Lenders Get"
                 }
               }
             }
@@ -334,6 +324,86 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AccountsOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/account": {
+      "get": {
+        "summary": "Get Account",
+        "description": "Sandbox wallet balance and transactions, and the statement matched to the books.",
+        "operationId": "get_account_api_v1_pharmacies__pid__account_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/value": {
+      "get": {
+        "summary": "Get Value",
+        "description": "What the approved actions saved or recovered, each with its basis and counterfactual.",
+        "operationId": "get_value_api_v1_pharmacies__pid__value_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueOut"
                 }
               }
             }
@@ -678,6 +748,46 @@
         }
       }
     },
+    "/api/v1/pharmacies/{pid}/financing-catalogue": {
+      "get": {
+        "summary": "Financing Catalogue",
+        "description": "Sourced Bangladeshi financing archetypes matched to the need: N matched, K eligible,\ncheapest first, with the reason each other option doesn't fit.",
+        "operationId": "financing_catalogue_api_v1_pharmacies__pid__financing_catalogue_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogueOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/pharmacies/{pid}/passport": {
       "get": {
         "summary": "Get Passport",
@@ -700,6 +810,46 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PassportOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/shelf-life-credit": {
+      "get": {
+        "summary": "Get Shelf Life Credit",
+        "description": "What a purpose-blind lender would finance vs what LaMP finances once stock that\nwon't sell before expiry is left out.",
+        "operationId": "get_shelf_life_credit_api_v1_pharmacies__pid__shelf_life_credit_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShelfLifeCreditOut"
                 }
               }
             }
@@ -761,6 +911,7 @@
       },
       "post": {
         "summary": "Propose Action",
+        "description": "Over HTTP the caller is always the owner: `proposed_by` in the body is ignored.\nThe chat proposes in-process as \"agent\", the follow-up runner as \"lamp-scheduler\".",
         "operationId": "propose_action_api_v1_pharmacies__pid__actions_post",
         "parameters": [
           {
@@ -770,26 +921,6 @@
             "schema": {
               "type": "string",
               "title": "Pid"
-            }
-          },
-          {
-            "name": "proposed_by",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "enum": [
-                    "owner",
-                    "agent"
-                  ],
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Proposed By"
             }
           }
         ],
@@ -830,6 +961,7 @@
     "/api/v1/pharmacies/{pid}/actions/{aid}/approve": {
       "post": {
         "summary": "Approve Action",
+        "description": "Loan applications (Tier 3) re-ask the owner PIN: re-authentication at approval.",
         "operationId": "approve_action_api_v1_pharmacies__pid__actions__aid__approve_post",
         "parameters": [
           {
@@ -851,6 +983,23 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/ApprovalIn"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -906,6 +1055,177 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ActionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/followups": {
+      "get": {
+        "summary": "List Followups",
+        "description": "The approved plan's conditional steps and whether they have fired.",
+        "operationId": "list_followups_api_v1_pharmacies__pid__followups_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FollowUpOut"
+                  },
+                  "title": "Response List Followups Api V1 Pharmacies  Pid  Followups Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/policy": {
+      "get": {
+        "summary": "Get Policy",
+        "description": "The rules LaMP enforces: Pause, the PIN at loan approval, and the borrowing ceiling\nwith its published source.",
+        "operationId": "get_policy_api_v1_pharmacies__pid__policy_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicyOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pharmacies/{pid}/pause": {
+      "get": {
+        "summary": "Get Pause",
+        "operationId": "get_pause_api_v1_pharmacies__pid__pause_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PauseOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Set Pause",
+        "description": "Pause LaMP: the copilot and the scheduler can't propose, and their proposals can't\nbe approved, until the owner resumes it.",
+        "operationId": "set_pause_api_v1_pharmacies__pid__pause_post",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PauseIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PauseOut"
                 }
               }
             }
@@ -1013,6 +1333,65 @@
         }
       }
     },
+    "/api/v1/pharmacies/{pid}/consents/preview": {
+      "get": {
+        "summary": "Consent Preview",
+        "description": "What this lender would see with these scopes (comma-separated), before sharing.",
+        "operationId": "consent_preview_api_v1_pharmacies__pid__consents_preview_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "lender_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Lender Id"
+            }
+          },
+          {
+            "name": "scopes",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "passport.summary",
+              "title": "Scopes"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsentPreview"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/pharmacies/{pid}/consents/{consent_id}": {
       "delete": {
         "summary": "Revoke Consent",
@@ -1063,28 +1442,6 @@
         }
       }
     },
-    "/api/v1/lenders": {
-      "get": {
-        "summary": "List Lenders",
-        "operationId": "list_lenders_api_v1_lenders_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/LenderOut"
-                  },
-                  "type": "array",
-                  "title": "Response List Lenders Api V1 Lenders Get"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/lenders/{lid}/applications": {
       "get": {
         "summary": "Lender Inbox",
@@ -1097,6 +1454,22 @@
             "schema": {
               "type": "string",
               "title": "Lid"
+            }
+          },
+          {
+            "name": "x-lender-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Lender-Key"
             }
           }
         ],
@@ -1149,6 +1522,22 @@
             "schema": {
               "type": "string",
               "title": "Appid"
+            }
+          },
+          {
+            "name": "x-lender-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Lender-Key"
             }
           }
         ],
@@ -1230,8 +1619,24 @@
     "/api/v1/logs/export": {
       "get": {
         "summary": "Export Logs",
-        "description": "The audit log as text, one line per event (the sandbox execution trace).",
+        "description": "The audit log, one event per line: readable text (the sandbox execution trace), or\nJSONL with every field and both hashes, which scripts/verify_trace.py can re-check.",
         "operationId": "export_logs_api_v1_logs_export_get",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "text",
+                "jsonl"
+              ],
+              "type": "string",
+              "default": "text",
+              "title": "Format"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -1239,6 +1644,35 @@
               "text/plain": {
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/logs/verify": {
+      "get": {
+        "summary": "Verify Logs",
+        "description": "Recompute the hash chain: intact, number of events, and the head hash.",
+        "operationId": "verify_logs_api_v1_logs_verify_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyOut"
                 }
               }
             }
@@ -1284,10 +1718,161 @@
           }
         }
       }
+    },
+    "/api/v1/dev/reset": {
+      "post": {
+        "summary": "Dev Reset",
+        "description": "Wipe everything and reload the seed (plus the three demo captures if asked).",
+        "operationId": "dev_reset_api_v1_dev_reset_post",
+        "parameters": [
+          {
+            "name": "with_demo_captures",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "With Demo Captures"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Dev Reset Api V1 Dev Reset Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dev/simulate/supplier-reply": {
+      "post": {
+        "summary": "Simulate Supplier Reply",
+        "description": "Demo only: the supplier answers an extension request.",
+        "operationId": "simulate_supplier_reply_api_v1_dev_simulate_supplier_reply_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SupplierReply"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/chat": {
+      "post": {
+        "summary": "Chat Endpoint",
+        "description": "Body: the AI SDK's chat request, plus `pharmacy_id` (default `green-life`).",
+        "operationId": "chat_endpoint_api_v1_chat_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AccountOut": {
+        "properties": {
+          "opening_balance": {
+            "type": "number",
+            "title": "Opening Balance"
+          },
+          "balance": {
+            "type": "number",
+            "title": "Balance"
+          },
+          "transactions": {
+            "items": {
+              "$ref": "#/components/schemas/WalletTxnOut"
+            },
+            "type": "array",
+            "title": "Transactions"
+          },
+          "matches": {
+            "items": {
+              "$ref": "#/components/schemas/StatementMatch"
+            },
+            "type": "array",
+            "title": "Matches"
+          },
+          "counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Counts"
+          },
+          "recommendations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "opening_balance",
+          "balance",
+          "transactions",
+          "matches",
+          "counts",
+          "recommendations"
+        ],
+        "title": "AccountOut",
+        "description": "Sandbox wallet and its reconciliation (win plan CORE-05)."
+      },
       "AccountsOut": {
         "properties": {
           "period_days": {
@@ -1410,7 +1995,8 @@
             "type": "string",
             "enum": [
               "owner",
-              "agent"
+              "agent",
+              "lamp-scheduler"
             ],
             "title": "Proposed By"
           },
@@ -1442,6 +2028,11 @@
               }
             ],
             "title": "Result"
+          },
+          "requires_pin": {
+            "type": "boolean",
+            "title": "Requires Pin",
+            "default": false
           }
         },
         "additionalProperties": false,
@@ -1481,7 +2072,8 @@
                 "type": "string",
                 "enum": [
                   "owner",
-                  "agent"
+                  "agent",
+                  "lamp-scheduler"
                 ]
               },
               {
@@ -1619,11 +2211,29 @@
         ],
         "title": "ApplicationOut"
       },
+      "ApprovalIn": {
+        "properties": {
+          "pin": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pin"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ApprovalIn"
+      },
       "Body_create_capture_api_v1_pharmacies__pid__captures_post": {
         "properties": {
           "file": {
             "type": "string",
-            "contentMediaType": "application/octet-stream",
+            "format": "binary",
             "title": "File"
           },
           "kind": {
@@ -1717,6 +2327,223 @@
         ],
         "title": "CaptureOut"
       },
+      "CatalogueOption": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "provider_type": {
+            "type": "string",
+            "title": "Provider Type"
+          },
+          "anchored_on": {
+            "type": "string",
+            "title": "Anchored On"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "source_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Date"
+          },
+          "permitted_purpose": {
+            "type": "string",
+            "title": "Permitted Purpose"
+          },
+          "apr_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apr Pct"
+          },
+          "amount_financed": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount Financed"
+          },
+          "tenor_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tenor Days"
+          },
+          "horizon_days": {
+            "type": "integer",
+            "title": "Horizon Days"
+          },
+          "cost_of_gap_bdt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Of Gap Bdt"
+          },
+          "cost_of_gap_pct_of_need": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Of Gap Pct Of Need"
+          },
+          "speed_days": {
+            "type": "integer",
+            "title": "Speed Days"
+          },
+          "eligible": {
+            "type": "boolean",
+            "title": "Eligible"
+          },
+          "ineligible_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ineligible Reason"
+          },
+          "to_confirm": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "To Confirm",
+            "default": []
+          },
+          "note": {
+            "type": "string",
+            "title": "Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "provider_type",
+          "anchored_on",
+          "source",
+          "source_date",
+          "permitted_purpose",
+          "apr_pct",
+          "amount_financed",
+          "tenor_days",
+          "horizon_days",
+          "cost_of_gap_bdt",
+          "cost_of_gap_pct_of_need",
+          "speed_days",
+          "eligible",
+          "note"
+        ],
+        "title": "CatalogueOption",
+        "description": "A financing archetype anchored on a published Bangladeshi offer (win plan CORE-14)."
+      },
+      "CatalogueOut": {
+        "properties": {
+          "need": {
+            "$ref": "#/components/schemas/FundingNeed"
+          },
+          "horizon_days": {
+            "type": "integer",
+            "title": "Horizon Days"
+          },
+          "matched": {
+            "type": "integer",
+            "title": "Matched"
+          },
+          "eligible": {
+            "type": "integer",
+            "title": "Eligible"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/CatalogueOption"
+            },
+            "type": "array",
+            "title": "Options"
+          },
+          "cheapest_eligible_cost_bdt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cheapest Eligible Cost Bdt"
+          },
+          "plan_fallback_cost_bdt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plan Fallback Cost Bdt"
+          },
+          "plan_holds": {
+            "type": "boolean",
+            "title": "Plan Holds"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "need",
+          "horizon_days",
+          "matched",
+          "eligible",
+          "options",
+          "cheapest_eligible_cost_bdt",
+          "plan_fallback_cost_bdt",
+          "plan_holds"
+        ],
+        "title": "CatalogueOut"
+      },
       "Check": {
         "properties": {
           "name": {
@@ -1798,6 +2625,105 @@
           "granted_at"
         ],
         "title": "ConsentOut"
+      },
+      "ConsentPreview": {
+        "properties": {
+          "lender_id": {
+            "type": "string",
+            "title": "Lender Id"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scopes"
+          },
+          "shares": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Shares"
+          },
+          "withholds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Withholds"
+          },
+          "passport": {
+            "$ref": "#/components/schemas/PassportOut"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "lender_id",
+          "scopes",
+          "shares",
+          "withholds",
+          "passport"
+        ],
+        "title": "ConsentPreview",
+        "description": "What a lender would see with these scopes (win plan CORE-16)."
+      },
+      "DbrCheck": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "months": {
+            "type": "integer",
+            "title": "Months"
+          },
+          "monthly_repayment": {
+            "type": "number",
+            "title": "Monthly Repayment"
+          },
+          "monthly_net_cash_flow": {
+            "type": "number",
+            "title": "Monthly Net Cash Flow"
+          },
+          "dbr_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dbr Pct"
+          },
+          "cap_pct": {
+            "type": "number",
+            "title": "Cap Pct"
+          },
+          "ok": {
+            "type": "boolean",
+            "title": "Ok"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "label",
+          "amount",
+          "months",
+          "monthly_repayment",
+          "monthly_net_cash_flow",
+          "dbr_pct",
+          "cap_pct",
+          "ok"
+        ],
+        "title": "DbrCheck"
       },
       "Decision": {
         "properties": {
@@ -2182,6 +3108,75 @@
         ],
         "title": "ExtractionResult"
       },
+      "FollowUpOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "plan_action_id": {
+            "type": "string",
+            "title": "Plan Action Id"
+          },
+          "fallback_kind": {
+            "type": "string",
+            "const": "loan_application",
+            "title": "Fallback Kind"
+          },
+          "fallback_payload": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Fallback Payload"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date",
+            "title": "Deadline"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "waiting",
+              "fired",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "fired_action_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fired Action Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "plan_action_id",
+          "fallback_kind",
+          "fallback_payload",
+          "amount",
+          "deadline",
+          "status",
+          "created_at"
+        ],
+        "title": "FollowUpOut"
+      },
       "ForecastDay": {
         "properties": {
           "date": {
@@ -2348,6 +3343,50 @@
               "uncertain"
             ],
             "title": "Certainty"
+          },
+          "amount_financed": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount Financed"
+          },
+          "tenor_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tenor Days"
+          },
+          "cost_of_gap_bdt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Of Gap Bdt"
+          },
+          "cost_of_gap_pct_of_need": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Of Gap Pct Of Need"
           }
         },
         "additionalProperties": false,
@@ -2585,6 +3624,17 @@
             "type": "object",
             "title": "Data",
             "default": {}
+          },
+          "hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hash"
           }
         },
         "additionalProperties": false,
@@ -2763,6 +3813,46 @@
         ],
         "title": "PassportOut"
       },
+      "PauseIn": {
+        "properties": {
+          "paused": {
+            "type": "boolean",
+            "title": "Paused"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "paused"
+        ],
+        "title": "PauseIn"
+      },
+      "PauseOut": {
+        "properties": {
+          "paused": {
+            "type": "boolean",
+            "title": "Paused"
+          },
+          "changed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Changed At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "paused"
+        ],
+        "title": "PauseOut"
+      },
       "PharmacyOut": {
         "properties": {
           "id": {
@@ -2869,6 +3959,62 @@
         ],
         "title": "PlanStep"
       },
+      "PolicyOut": {
+        "properties": {
+          "paused": {
+            "type": "boolean",
+            "title": "Paused"
+          },
+          "pin_required_for": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Pin Required For"
+          },
+          "dbr_cap_pct": {
+            "type": "number",
+            "title": "Dbr Cap Pct"
+          },
+          "monthly_net_cash_flow": {
+            "type": "number",
+            "title": "Monthly Net Cash Flow"
+          },
+          "source": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Source"
+          },
+          "examples": {
+            "items": {
+              "$ref": "#/components/schemas/DbrCheck"
+            },
+            "type": "array",
+            "title": "Examples"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "paused",
+          "pin_required_for",
+          "dbr_cap_pct",
+          "monthly_net_cash_flow",
+          "source",
+          "examples"
+        ],
+        "title": "PolicyOut",
+        "description": "The rules LaMP enforces (win plan CORE-07/08): Pause, PIN, the borrowing ceiling."
+      },
       "SalesDay": {
         "properties": {
           "date": {
@@ -2903,6 +4049,123 @@
           "expenses"
         ],
         "title": "SalesDay"
+      },
+      "SessionIn": {
+        "properties": {
+          "pin": {
+            "type": "string",
+            "title": "Pin"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pin"
+        ],
+        "title": "SessionIn"
+      },
+      "SessionOut": {
+        "properties": {
+          "pharmacy_id": {
+            "type": "string",
+            "title": "Pharmacy Id"
+          },
+          "role": {
+            "type": "string",
+            "const": "owner",
+            "title": "Role"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pharmacy_id",
+          "role",
+          "expires_at"
+        ],
+        "title": "SessionOut"
+      },
+      "ShelfLifeBatch": {
+        "properties": {
+          "product": {
+            "type": "string",
+            "title": "Product"
+          },
+          "qty_ordered": {
+            "type": "integer",
+            "title": "Qty Ordered"
+          },
+          "sellable_qty": {
+            "type": "integer",
+            "title": "Sellable Qty"
+          },
+          "unsellable_value": {
+            "type": "number",
+            "title": "Unsellable Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "product",
+          "qty_ordered",
+          "sellable_qty",
+          "unsellable_value"
+        ],
+        "title": "ShelfLifeBatch"
+      },
+      "ShelfLifeCreditOut": {
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "title": "Order Id"
+          },
+          "needed_by": {
+            "type": "string",
+            "format": "date",
+            "title": "Needed By"
+          },
+          "counterfactual_purpose_blind": {
+            "type": "number",
+            "title": "Counterfactual Purpose Blind"
+          },
+          "not_financed": {
+            "type": "number",
+            "title": "Not Financed"
+          },
+          "financeable": {
+            "type": "number",
+            "title": "Financeable"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "batches": {
+            "items": {
+              "$ref": "#/components/schemas/ShelfLifeBatch"
+            },
+            "type": "array",
+            "title": "Batches"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "order_id",
+          "needed_by",
+          "counterfactual_purpose_blind",
+          "not_financed",
+          "financeable",
+          "reason",
+          "batches"
+        ],
+        "title": "ShelfLifeCreditOut"
       },
       "Shortfall": {
         "properties": {
@@ -2958,6 +4221,74 @@
         ],
         "title": "SlowMover"
       },
+      "StatementMatch": {
+        "properties": {
+          "ref": {
+            "type": "string",
+            "title": "Ref"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "payee": {
+            "type": "string",
+            "title": "Payee"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "matched",
+              "duplicate",
+              "unmatched",
+              "missing_from_statement"
+            ],
+            "title": "Status"
+          },
+          "invoice_no": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice No"
+          },
+          "supplier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Supplier"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ref",
+          "date",
+          "amount",
+          "payee",
+          "status",
+          "note"
+        ],
+        "title": "StatementMatch"
+      },
       "SupplierReply": {
         "properties": {
           "action_id": {
@@ -2965,17 +4296,40 @@
             "title": "Action Id"
           },
           "accepted": {
-            "type": "boolean",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Accepted"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "accepted",
+                  "declined",
+                  "no_reply"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outcome"
           }
         },
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "action_id",
-          "accepted"
+          "action_id"
         ],
-        "title": "SupplierReply"
+        "title": "SupplierReply",
+        "description": "Demo simulator body: `outcome`, or the older `accepted` flag."
       },
       "SupplierShare": {
         "properties": {
@@ -3105,13 +4459,6 @@
           "type": {
             "type": "string",
             "title": "Error Type"
-          },
-          "input": {
-            "title": "Input"
-          },
-          "ctx": {
-            "type": "object",
-            "title": "Context"
           }
         },
         "type": "object",
@@ -3121,6 +4468,140 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "ValueItem": {
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "title": "Action Id"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "basis": {
+            "type": "string",
+            "title": "Basis"
+          },
+          "counterfactual": {
+            "type": "string",
+            "title": "Counterfactual"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action_id",
+          "kind",
+          "label",
+          "amount",
+          "basis",
+          "counterfactual"
+        ],
+        "title": "ValueItem"
+      },
+      "ValueOut": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ValueItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "number",
+            "title": "Total"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "ValueOut",
+        "description": "Value ledger (win plan CORE-10): money LaMP's executed actions saved or recovered."
+      },
+      "VerifyOut": {
+        "properties": {
+          "intact": {
+            "type": "boolean",
+            "title": "Intact"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "head_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Head Hash"
+          },
+          "first_bad_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Bad Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "intact",
+          "count",
+          "head_hash"
+        ],
+        "title": "VerifyOut"
+      },
+      "WalletTxnOut": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "ref": {
+            "type": "string",
+            "title": "Ref"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "date",
+          "amount",
+          "kind",
+          "ref"
+        ],
+        "title": "WalletTxnOut"
       }
     }
   }

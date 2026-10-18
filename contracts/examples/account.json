@@ -1,0 +1,175 @@
+{
+  "opening_balance": 39150.0,
+  "balance": 47350.0,
+  "transactions": [
+    {
+      "date": "2026-10-16",
+      "amount": 8200.0,
+      "kind": "loan_payout",
+      "ref": "SANDBOX-WALLET-LENDER-20261016-0001"
+    }
+  ],
+  "matches": [
+    {
+      "ref": "TRX-O-3127",
+      "date": "2026-09-16",
+      "amount": -15020.0,
+      "payee": "SUPPLIER-O PHARMA DIST",
+      "status": "matched",
+      "invoice_no": "O-3127",
+      "supplier": "Supplier O",
+      "note": "Payment for O-3127."
+    },
+    {
+      "ref": "TRX-P-3128",
+      "date": "2026-09-18",
+      "amount": -11300.0,
+      "payee": "SUPPLIER-P PHARMA DIST",
+      "status": "matched",
+      "invoice_no": "P-3128",
+      "supplier": "Supplier P",
+      "note": "Payment for P-3128."
+    },
+    {
+      "ref": "TRX-P-3129",
+      "date": "2026-09-20",
+      "amount": -12300.0,
+      "payee": "SUPPLIER-P PHARMA DIST",
+      "status": "matched",
+      "invoice_no": "P-3129",
+      "supplier": "Supplier P",
+      "note": "Payment for P-3129."
+    },
+    {
+      "ref": "TRX-Q-3130",
+      "date": "2026-09-21",
+      "amount": -8600.0,
+      "payee": "SUPPLIER-Q PHARMA DIST",
+      "status": "matched",
+      "invoice_no": "Q-3130",
+      "supplier": "Supplier Q",
+      "note": "Payment for Q-3130."
+    },
+    {
+      "ref": "TRX-Q-3130-2",
+      "date": "2026-09-23",
+      "amount": -8600.0,
+      "payee": "SUPPLIER-Q PHARMA DIST",
+      "status": "duplicate",
+      "invoice_no": "Q-3130",
+      "supplier": "Supplier Q",
+      "note": "Q-3130 was already paid on 21 Sep: this looks like a second payment."
+    },
+    {
+      "ref": "TRX-Q-3131",
+      "date": "2026-09-23",
+      "amount": -13540.0,
+      "payee": "SUPPLIER-Q PHARMA DIST",
+      "status": "matched",
+      "invoice_no": "Q-3131",
+      "supplier": "Supplier Q",
+      "note": "Payment for Q-3131."
+    },
+    {
+      "ref": "TRX-R-3132",
+      "date": "2026-09-25",
+      "amount": -20620.0,
+      "payee": "SUPPLIER-R PHARMA DIST",
+      "status": "matched",
+      "invoice_no": "R-3132",
+      "supplier": "Supplier R",
+      "note": "Payment for R-3132."
+    },
+    {
+      "ref": "TRX-U-3135",
+      "date": "2026-09-30",
+      "amount": -5200.0,
+      "payee": "SUPPLIER-U PHARMA DIST",
+      "status": "matched",
+      "invoice_no": "U-3135",
+      "supplier": "Supplier U",
+      "note": "Payment for U-3135."
+    },
+    {
+      "ref": "TRX-V-3136",
+      "date": "2026-10-02",
+      "amount": -7680.0,
+      "payee": "SUPPLIER-V PHARMA DIST",
+      "status": "matched",
+      "invoice_no": "V-3136",
+      "supplier": "Supplier V",
+      "note": "Payment for V-3136."
+    },
+    {
+      "ref": "TRX-A-4403",
+      "date": "2026-10-04",
+      "amount": -22600.0,
+      "payee": "SUPPLIER-A PHARMA DIST",
+      "status": "matched",
+      "invoice_no": "A-4403",
+      "supplier": "Supplier A",
+      "note": "Payment for A-4403."
+    },
+    {
+      "ref": "TRX-S-3133",
+      "date": "2026-10-04",
+      "amount": -11350.0,
+      "payee": "SUPPLIER-S PHARMA DIST",
+      "status": "matched",
+      "invoice_no": "S-3133",
+      "supplier": "Supplier S",
+      "note": "Payment for S-3133."
+    },
+    {
+      "ref": "TRX-UNKNOWN-1",
+      "date": "2026-10-04",
+      "amount": -4500.0,
+      "payee": "MERCHANT 01712XXXXXX",
+      "status": "unmatched",
+      "invoice_no": null,
+      "supplier": null,
+      "note": "No bill in the books matches this payment."
+    },
+    {
+      "ref": "TRX-W-3137",
+      "date": "2026-10-04",
+      "amount": -16720.0,
+      "payee": "SUPPLIER-W PHARMA DIST",
+      "status": "matched",
+      "invoice_no": "W-3137",
+      "supplier": "Supplier W",
+      "note": "Payment for W-3137."
+    },
+    {
+      "ref": "T-3134",
+      "date": "2026-09-28",
+      "amount": -12750.0,
+      "payee": "Supplier T",
+      "status": "missing_from_statement",
+      "invoice_no": "T-3134",
+      "supplier": "Supplier T",
+      "note": "Recorded as paid, but no such payment is on the statement."
+    },
+    {
+      "ref": "SANDBOX-WALLET-LENDER-20261016-0001",
+      "date": "2026-10-16",
+      "amount": 8200.0,
+      "payee": "Loan payout",
+      "status": "matched",
+      "invoice_no": null,
+      "supplier": null,
+      "note": "Sandbox loan payout credited to the wallet."
+    }
+  ],
+  "counts": {
+    "matched": 12,
+    "duplicate": 1,
+    "unmatched": 1,
+    "missing_from_statement": 1
+  },
+  "recommendations": [
+    "Ask Supplier Q to refund or credit BDT 8,600 paid twice for Q-3130.",
+    "Check the BDT 4,500 payment to MERCHANT 01712XXXXXX on 04 Oct: add the bill if it was a business expense.",
+    "T-3134 (Supplier T) is marked paid but the money never left: confirm with the supplier before they chase it."
+  ]
+}
