@@ -5,7 +5,8 @@ plus propose_action); its rules are in prompts/chat_v1.md.
 
 LLM_MODE picks how the model is reached:
 - live:   OpenAI, streamed. Each run's cost is appended to eval/spend.log, and live
-          calls stop once today's spend passes LLM_DAILY_BUDGET_USD.
+          calls stop once today's spend passes LLM_DAILY_BUDGET_USD (both through
+          agents/llm.py, so photo reading and chat share one daily budget).
 - record: OpenAI, and every model response is saved under eval/replay/chat/.
 - replay: never calls OpenAI. Serves the saved response for the same conversation;
           if there is none, an offline script answers the four demo questions by
@@ -16,7 +17,7 @@ import hashlib
 import json
 import re
 from collections.abc import AsyncIterator
-from datetime import date, datetime, timezone
+from datetime import date
 from pathlib import Path
 
 from pydantic_ai import Agent, ModelMessagesTypeAdapter, UsageLimits
@@ -25,58 +26,32 @@ from pydantic_ai.messages import (ModelMessage, ModelRequest, ModelResponse, Ret
 from pydantic_ai.models.function import AgentInfo, DeltaToolCall, FunctionModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from app.config import REPO_ROOT
+from app.config import REPO_ROOT, settings
 
+from . import llm
 from .permissions import MAX_TOOL_CALLS
 from .tools import TOOLS, ChatDeps
 
 PROMPT_VERSION = "chat_v1"
 PROMPT = (Path(__file__).parent / "prompts" / f"{PROMPT_VERSION}.md").read_text(encoding="utf-8")
 REPLAY_DIR = REPO_ROOT / "eval" / "replay" / "chat"
-SPEND_LOG = REPO_ROOT / "eval" / "spend.log"
-
-# gpt-6-luna prices, USD per 1M tokens
-PRICE_IN, PRICE_OUT = 0.10, 0.50
 
 
 class ChatSettings(BaseSettings):
+    """The chat's model name. LLM_MODE, the API key and the daily budget come from app.config."""
+
     model_config = SettingsConfigDict(env_file=REPO_ROOT / ".env", extra="ignore")
 
-    llm_mode: str = "replay"
-    openai_api_key: str = ""
     openai_chat_model: str = "gpt-6-luna"
-    llm_daily_budget_usd: float = 1.00
 
 
-settings = ChatSettings()
+CHAT_MODEL = ChatSettings().openai_chat_model
 USAGE_LIMITS = UsageLimits(tool_calls_limit=MAX_TOOL_CALLS, request_limit=MAX_TOOL_CALLS + 2)
 
 
-# --- Spend log (shared format with agents/llm.py) --------------------------------------
-
-def spent_today() -> float:
-    """USD spent today, from eval/spend.log lines `date,component,model,in_tokens,out_tokens,usd`."""
-    if not SPEND_LOG.exists():
-        return 0.0
-    today = date.today().isoformat()
-    total = 0.0
-    for line in SPEND_LOG.read_text(encoding="utf-8").splitlines():
-        parts = line.split(",")
-        if len(parts) == 6 and parts[0] == today:
-            total += float(parts[5])
-    return total
-
-
 def record_spend(input_tokens: int, output_tokens: int) -> float:
-    usd = (input_tokens * PRICE_IN + output_tokens * PRICE_OUT) / 1_000_000
-    SPEND_LOG.parent.mkdir(parents=True, exist_ok=True)
-    with SPEND_LOG.open("a", encoding="utf-8") as f:
-        f.write(f"{date.today().isoformat()},chat,{settings.openai_chat_model},{input_tokens},{output_tokens},{usd:.6f}\n")
-    return usd
-
-
-def live_allowed() -> bool:
-    return bool(settings.openai_api_key) and spent_today() < settings.llm_daily_budget_usd
+    """Log one chat run's cost in eval/spend.log (shared with photo reading)."""
+    return llm.record_spend("chat", CHAT_MODEL, input_tokens, output_tokens)
 
 
 # --- Replay keys ----------------------------------------------------------------------
@@ -98,7 +73,7 @@ def conversation_key(messages: list[ModelMessage]) -> str:
                 turn.append(["return", part.tool_name, part.model_response_str()])
             elif isinstance(part, RetryPromptPart):
                 turn.append(["retry", part.tool_name, part.model_response()])
-    raw = json.dumps([settings.openai_chat_model, PROMPT_VERSION, users, turn], sort_keys=True, default=str)
+    raw = json.dumps([CHAT_MODEL, PROMPT_VERSION, users, turn], sort_keys=True, default=str)
     return hashlib.sha256(raw.encode()).hexdigest()
 
 
@@ -260,7 +235,7 @@ def _openai_model():
     from pydantic_ai.models.openai import OpenAIResponsesModel
     from pydantic_ai.providers.openai import OpenAIProvider
 
-    return OpenAIResponsesModel(settings.openai_chat_model, provider=OpenAIProvider(api_key=settings.openai_api_key))
+    return OpenAIResponsesModel(CHAT_MODEL, provider=OpenAIProvider(api_key=settings.openai_api_key))
 
 
 async def _replay(messages: list[ModelMessage], info: AgentInfo) -> AsyncIterator[str | dict[int, DeltaToolCall]]:
@@ -289,11 +264,11 @@ async def _record(messages: list[ModelMessage], info: AgentInfo) -> AsyncIterato
 
 def model_for_mode(mode: str | None = None):
     mode = mode or settings.llm_mode
-    if mode == "live" and live_allowed():
+    if mode == "live" and llm.live_allowed():
         return _openai_model()
-    if mode == "record" and live_allowed():
-        return FunctionModel(stream_function=_record, model_name=f"record:{settings.openai_chat_model}")
-    return FunctionModel(stream_function=_replay, model_name=f"replay:{settings.openai_chat_model}")
+    if mode == "record" and llm.live_allowed():
+        return FunctionModel(stream_function=_record, model_name=f"record:{CHAT_MODEL}")
+    return FunctionModel(stream_function=_replay, model_name=f"replay:{CHAT_MODEL}")
 
 
 agent = Agent(

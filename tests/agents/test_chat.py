@@ -3,7 +3,7 @@ proposals that wait for the owner, and replay of a recorded conversation."""
 
 from pydantic_ai.messages import ModelRequest, ModelResponse, TextPart, UserPromptPart
 
-from app.agents import chat
+from app.agents import chat, llm
 from chat_client import ask
 
 
@@ -84,7 +84,8 @@ def test_replay_never_builds_an_openai_model(monkeypatch):
 def test_budget_guard(monkeypatch):
     monkeypatch.setattr(chat.settings, "openai_api_key", "sk-test")
     monkeypatch.setattr(chat.settings, "llm_daily_budget_usd", 0.001)
-    assert chat.live_allowed()
+    assert llm.live_allowed()
     chat.record_spend(10_000, 2_000)  # 0.001 + 0.001 USD
-    assert not chat.live_allowed()
+    assert llm.SPEND_LOG.read_text().split(",")[1] == "chat"
+    assert not llm.live_allowed()
     assert chat.model_for_mode("live").model_name.startswith("replay")

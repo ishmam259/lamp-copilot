@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from app.agents import chat
+from app.agents import chat, llm
 from app.db.seed import load_seed
 from app.db.session import get_db
 from app.main import app
@@ -33,7 +33,7 @@ def replay_only(monkeypatch, tmp_path):
     monkeypatch.setattr(chat.settings, "llm_mode", "replay")
     monkeypatch.setattr(chat.settings, "openai_api_key", "")
     monkeypatch.setattr(chat, "REPLAY_DIR", tmp_path / "replay")
-    monkeypatch.setattr(chat, "SPEND_LOG", tmp_path / "spend.log")
+    monkeypatch.setattr(llm, "SPEND_LOG", tmp_path / "spend.log")
 
 
 @pytest.fixture
