@@ -189,7 +189,7 @@ Check these at M2 (18 Oct) and M3 (19 Oct). Farhan owns the photo-reading and ev
 
 **Eval and documents (P5–P6)**
 - [ ] 20–30 photos with ground truth, with no real company or patient data
-- [ ] Accuracy table in the technical doc, and total live spend recorded
+- [x] Accuracy table in the technical doc, and total live spend recorded
 - [x] Technical doc covers architecture, every algorithm (with formulas), AI design, testing and limitations
 - [x] Security report has the permission-tier table and all 11 risks with mitigations
 - [ ] Both exported to PDF and reviewed by 20 Oct 12:00 BDT
