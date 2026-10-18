@@ -37,7 +37,7 @@ Hello, we're team LaMP, short for Last Mile Pharmacy. Our entry for Topic E is L
 Last month, Green Life Pharmacy in Bogura sold 412,500 taka of medicine and kept only 13,500. The owner couldn't see that, because every number lived in a stack of paper.
 
 ## 3. Situation analysis (0:30)
-Bangladesh makes its own medicine: 213 manufacturers cover about 98% of demand in a market of about 3.3 billion dollars. But medicine reaches people through more than 173,000 licensed pharmacies. Each one buys from 10 to 50 suppliers on 30 to 60 days of informal credit, on thin margins, and all of it on paper.
+Bangladesh makes its own medicine: about 213 working manufacturers cover about 98% of demand in a market of about 3.3 billion dollars. But medicine reaches people through more than 173,000 licensed pharmacies. Each one buys on credit from 10 to 50 drug companies, on margins of 10 to 15%, and all of it on paper.
 
 ## 4. Meet Green Life (0:25)
 Green Life is our example shop, and every number in this deck is reproduced exactly by our code. It made a 13,500 taka profit last month. It has 18,400 taka of stock expiring within 60 days. And Supplier A's 60,000 taka order is due on 26 October, when it will only have 41,000.

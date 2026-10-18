@@ -28,4 +28,4 @@ node build-deck.js
 - **Screenshots:**
   - They are `assets/*-m.png`, taken from the running app after `POST /api/v1/dev/reset?with_demo_captures=true`.
   - Retake them if the UI changes.
-- **Facts to verify before submitting:** slide 3 and slide 6 reuse market figures from the BCOLBD study that have no source in our docs. Those are $3.29B, >10.8% CAGR, 1.83% of GDP, 213 manufacturers, 98% local supply, BDT 1–3 lakh inventory, and CMSME lending to 27% by 2029.
+- **Market figures (checked 18 Oct 2026):** slide 3 uses IQVIA MAT Q1 2026 via industry reports ($3.3B, about 11% 4-year CAGR), BAPI (about 213 working manufacturers, 98% of demand met locally), DGDA via Financial Express (1.83%+ of GDP) and Innovision (173,525 licensed pharmacies, up to 100,000 unlicensed), a Springer study (10–50 suppliers, 10–15% margins) and UNB (the commission demand). Slide 6 uses Bangladesh Bank's 27%-by-2029 CMSME target and the 15.87% share at the end of March 2026 (The Daily Observer). The BCOLBD figures with no source (BDT 1–3 lakh inventory, 30–60 days of credit) were removed.

@@ -170,20 +170,20 @@ async function build() {
     T(s, "PHARMACEUTICAL MARKET", { x: lx, y: 1.48, w: lw, h: 0.34, fontSize: 10.5, fontFace: F.semi, color: K.white, align: "center", valign: "middle", charSpacing: 1 });
     s.addImage({ path: A("bc/greenbox.png"), x: lx, y: 1.82, w: lw, h: 1.75, sizing: { type: "cover", w: lw, h: 1.75 } });
     await fit(s, "bc/map-faint.png", lx + lw / 2 - 0.9, 1.86, 1.8, 1.65);
-    T(s, [{ text: "$ 3.29 Billion", options: { fontSize: 24, fontFace: F.semi, breakLine: true } }, { text: "market size, 2025–26", options: { fontSize: 11 } }], { x: lx + 0.3, y: 1.98, w: 2.9, h: 0.8 });
-    T(s, [{ text: ">10.8%", options: { fontSize: 24, fontFace: F.semi, breakLine: true } }, { text: "annual growth (CAGR)", options: { fontSize: 11 } }], { x: lx + 3.4, y: 1.98, w: 2.2, h: 0.8 });
-    T(s, [{ text: "1.83%  ", options: { fontSize: 18, fontFace: F.semi } }, { text: "of GDP", options: { fontSize: 13, fontFace: F.med } }], { x: lx + 0.3, y: 2.95, w: lw - 0.6, h: 0.45, align: "center" });
+    T(s, [{ text: "$ 3.3 Billion", options: { fontSize: 24, fontFace: F.semi, breakLine: true } }, { text: "market size, MAT Q1 2026", options: { fontSize: 11 } }], { x: lx + 0.3, y: 1.98, w: 2.9, h: 0.8 });
+    T(s, [{ text: "~11%", options: { fontSize: 24, fontFace: F.semi, breakLine: true } }, { text: "4-year growth (CAGR)", options: { fontSize: 11 } }], { x: lx + 3.4, y: 1.98, w: 2.2, h: 0.8 });
+    T(s, [{ text: "1.83%+  ", options: { fontSize: 18, fontFace: F.semi } }, { text: "of GDP", options: { fontSize: 13, fontFace: F.med } }], { x: lx + 0.3, y: 2.95, w: lw - 0.6, h: 0.45, align: "center" });
     await fit(s, "bc/donut.png", lx, 3.8, 1.05, 1.05);
     T(s, "98% of Demand Met Locally", { x: lx + 1.25, y: 3.78, w: lw - 1.25, h: 0.36, fontSize: 15, fontFace: F.semi });
-    T(s, "213 manufacturers make nearly all the medicine. Supply isn't the bottleneck; paying for it at the last mile is.", { x: lx + 1.25, y: 4.14, w: lw - 1.25, h: 0.8, fontSize: 11 });
+    T(s, "About 213 working manufacturers make nearly all the medicine. Supply isn't the bottleneck; paying for it at the last mile is.", { x: lx + 1.25, y: 4.14, w: lw - 1.25, h: 0.8, fontSize: 11 });
     barRow(s, lx, 5.1, lw, 0.95, "Credit flows informally and invisibly between makers and shops, at a cost no one measures.", { size: 12.5 });
     // right: last-mile reality
     const rx = 6.75, rw = W - M - rx;
     T(s, "The Last-Mile Retail Reality:", { x: rx, y: 1.05, w: rw, h: 0.35, fontSize: 15, fontFace: F.med });
     const rows = [
       ["bc/shop.png", "173,500+ Licensed Pharmacies", "Plus up to 100,000 unlicensed shops, mostly small and owner-run."],
-      ["bc/handcash.png", "BDT 1–3 Lakh of Inventory", "Revenue trickles in tablet by tablet, on 10–15% margins."],
-      ["bc/credit.png", "Forced Credit Dependency", "30–60 days of informal credit from 10–50 suppliers each."],
+      ["bc/handcash.png", "Thin 10–15% Margins", "Chemists are publicly demanding a higher commission from drug makers."],
+      ["bc/credit.png", "Forced Credit Dependency", "Paper invoices and supplier credit from 10–50 drug companies each."],
       ["bc/warnsearch.png", "Expiry and Patient Credit", "Unsold stock expires as pure loss; patients buy on credit too."],
     ];
     for (let i = 0; i < rows.length; i++) {
@@ -197,7 +197,7 @@ async function build() {
     T(s, "THE LAST MILE RUNS A MULTI-SUPPLIER CREDIT BUSINESS ON PAPER, WITH NO VIEW OF CASH, EXPIRY OR BORROWING COST", {
       x: 1.5, y: 6.2, w: W - 3.0, h: 0.62, fontSize: 11, fontFace: F.med, color: K.white, align: "center", valign: "middle",
     });
-    T(s, "Sources: BCOLBD market study (BIDA; IFC; BBS Economic Census 2024); DGDA licence data; Springer; UNB.", {
+    T(s, "Sources: IQVIA MAT Q1 2026 (via industry reports); BAPI; DGDA (via Financial Express, Innovision); Springer; UNB.", {
       x: M, y: 6.9, w: 11.9, h: 0.3, fontSize: 7.5, color: K.mute,
     });
   }
@@ -292,7 +292,7 @@ async function build() {
       ["bc/cash.png", "NO AUDITED ACCOUNTS, TAX RETURNS OR DIGITAL RECORDS TO ASSESS"],
       ["bc/scam.png", "CAN'T TELL IF A PAPER INVOICE IS REAL OR ALREADY FINANCED"],
       ["bc/gears.png", "NO PRODUCT FOR A BDT 8,000–60,000 SUPPLIER GAP"],
-      ["bc/coins.png", "PUSHED TO GROW CMSME LENDING TO 27% BY 2029, BUT CAN'T REACH THE LAST MILE"],
+      ["bc/coins.png", "MUST LEND 27% TO CMSMES BY 2029, BUT THE SHARE FELL TO 15.9% IN MARCH 2026"],
       ["bc/noentry.png", "FINANCIAL DATA NEEDS EXPLICIT CONSENT UNDER THE PDPO 2025"],
     ]);
 
