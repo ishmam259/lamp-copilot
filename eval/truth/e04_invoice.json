@@ -1,0 +1,75 @@
+{
+  "id": "e04_invoice",
+  "kind": "invoice",
+  "invoice": {
+    "supplier_name": "Supplier V",
+    "invoice_no": "V-1550",
+    "invoice_date": "2026-09-16",
+    "due_date": "2026-10-07",
+    "total": 23390,
+    "lines": [
+      {
+        "product": "Losartan 50 mg, box of 30",
+        "strength": null,
+        "pack": null,
+        "batch_no": "LO2538",
+        "expiry_date": "2027-10-31",
+        "qty": 10,
+        "unit_cost": 290,
+        "line_total": 2900
+      },
+      {
+        "product": "Antacid suspension, 200 ml",
+        "strength": null,
+        "pack": null,
+        "batch_no": "AN2520",
+        "expiry_date": "2027-05-31",
+        "qty": 6,
+        "unit_cost": 85,
+        "line_total": 510
+      },
+      {
+        "product": "Calcium 500 mg, box of 60",
+        "strength": null,
+        "pack": null,
+        "batch_no": "CA2603",
+        "expiry_date": "2028-07-31",
+        "qty": 24,
+        "unit_cost": 320,
+        "line_total": 7680
+      },
+      {
+        "product": "Pantoprazole 40 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "PA2526",
+        "expiry_date": "2028-04-30",
+        "qty": 15,
+        "unit_cost": 540,
+        "line_total": 8100
+      },
+      {
+        "product": "Montelukast 10 mg, box of 30",
+        "strength": null,
+        "pack": null,
+        "batch_no": "MO2566",
+        "expiry_date": "2028-07-31",
+        "qty": 6,
+        "unit_cost": 470,
+        "line_total": 2820
+      },
+      {
+        "product": "Cough syrup, 100 ml",
+        "strength": null,
+        "pack": null,
+        "batch_no": "CO2585",
+        "expiry_date": "2028-10-31",
+        "qty": 12,
+        "unit_cost": 115,
+        "line_total": 1380
+      }
+    ]
+  },
+  "injection": false,
+  "hard": null
+}

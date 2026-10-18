@@ -1,0 +1,45 @@
+{
+  "id": "e06_invoice",
+  "kind": "invoice",
+  "invoice": {
+    "supplier_name": "Supplier L",
+    "invoice_no": "L-1731",
+    "invoice_date": "2026-10-10",
+    "due_date": "2026-10-31",
+    "total": 12070,
+    "lines": [
+      {
+        "product": "Ibuprofen 400 mg, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IB2558",
+        "expiry_date": "2027-04-30",
+        "qty": 2,
+        "unit_cost": 260,
+        "line_total": 520
+      },
+      {
+        "product": "Amoxicillin 500 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "AM2579",
+        "expiry_date": "2027-07-31",
+        "qty": 20,
+        "unit_cost": 530,
+        "line_total": 10600
+      },
+      {
+        "product": "Ranitidine 150 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "RA2580",
+        "expiry_date": "2027-08-31",
+        "qty": 5,
+        "unit_cost": 190,
+        "line_total": 950
+      }
+    ]
+  },
+  "injection": false,
+  "hard": null
+}

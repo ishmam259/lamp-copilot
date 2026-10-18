@@ -1,0 +1,75 @@
+{
+  "id": "e02_invoice",
+  "kind": "invoice",
+  "invoice": {
+    "supplier_name": "Supplier C",
+    "invoice_no": "C-1415",
+    "invoice_date": "2026-09-11",
+    "due_date": "2026-09-25",
+    "total": 43555,
+    "lines": [
+      {
+        "product": "Pantoprazole 40 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "PA2560",
+        "expiry_date": "2028-04-30",
+        "qty": 30,
+        "unit_cost": 530,
+        "line_total": 15900
+      },
+      {
+        "product": "Insulin pen, 3 ml",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IN2575",
+        "expiry_date": "2028-05-31",
+        "qty": 10,
+        "unit_cost": 1150,
+        "line_total": 11500
+      },
+      {
+        "product": "Ranitidine 150 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "RA2555",
+        "expiry_date": "2027-07-31",
+        "qty": 15,
+        "unit_cost": 210,
+        "line_total": 3150
+      },
+      {
+        "product": "Amoxicillin 500 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "AM2551",
+        "expiry_date": "2028-08-31",
+        "qty": 15,
+        "unit_cost": 530,
+        "line_total": 7950
+      },
+      {
+        "product": "Cough syrup, 100 ml",
+        "strength": null,
+        "pack": null,
+        "batch_no": "CO2573",
+        "expiry_date": "2028-06-30",
+        "qty": 15,
+        "unit_cost": 105,
+        "line_total": 1575
+      },
+      {
+        "product": "Paracetamol 500 mg, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "PA2604",
+        "expiry_date": "2028-09-30",
+        "qty": 12,
+        "unit_cost": 290,
+        "line_total": 3480
+      }
+    ]
+  },
+  "injection": false,
+  "hard": null
+}

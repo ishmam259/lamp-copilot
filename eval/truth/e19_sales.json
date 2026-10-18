@@ -1,0 +1,45 @@
+{
+  "id": "e19_sales",
+  "kind": "sales_page",
+  "sales_page": {
+    "days": [
+      {
+        "date": "2026-09-26",
+        "cash_sales": 15500,
+        "credit_sales": 400,
+        "dues_collected": 100,
+        "expenses": 3000
+      },
+      {
+        "date": "2026-09-27",
+        "cash_sales": 15000,
+        "credit_sales": 500,
+        "dues_collected": 0,
+        "expenses": 1200
+      },
+      {
+        "date": "2026-09-28",
+        "cash_sales": 11300,
+        "credit_sales": 1600,
+        "dues_collected": 500,
+        "expenses": 1200
+      },
+      {
+        "date": "2026-09-29",
+        "cash_sales": 12000,
+        "credit_sales": 1600,
+        "dues_collected": 0,
+        "expenses": 1200
+      },
+      {
+        "date": "2026-09-30",
+        "cash_sales": 11100,
+        "credit_sales": 0,
+        "dues_collected": 700,
+        "expenses": 0
+      }
+    ]
+  },
+  "injection": false,
+  "hard": null
+}

@@ -1,0 +1,75 @@
+{
+  "id": "e01_invoice",
+  "kind": "invoice",
+  "invoice": {
+    "supplier_name": "Supplier D",
+    "invoice_no": "D-2250",
+    "invoice_date": "2026-09-26",
+    "due_date": "2026-10-17",
+    "total": 21760,
+    "lines": [
+      {
+        "product": "Iron + folic acid, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IR2501",
+        "expiry_date": "2027-12-31",
+        "qty": 20,
+        "unit_cost": 160,
+        "line_total": 3200
+      },
+      {
+        "product": "Oral saline, box of 25",
+        "strength": null,
+        "pack": null,
+        "batch_no": "OR2537",
+        "expiry_date": "2027-08-31",
+        "qty": 20,
+        "unit_cost": 300,
+        "line_total": 6000
+      },
+      {
+        "product": "Azithromycin 500 mg, box of 6",
+        "strength": null,
+        "pack": null,
+        "batch_no": "AZ2605",
+        "expiry_date": "2027-04-30",
+        "qty": 3,
+        "unit_cost": 230,
+        "line_total": 690
+      },
+      {
+        "product": "Ibuprofen 400 mg, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IB2541",
+        "expiry_date": "2029-03-31",
+        "qty": 24,
+        "unit_cost": 280,
+        "line_total": 6720
+      },
+      {
+        "product": "Montelukast 10 mg, box of 30",
+        "strength": null,
+        "pack": null,
+        "batch_no": "MO2545",
+        "expiry_date": "2027-12-31",
+        "qty": 5,
+        "unit_cost": 470,
+        "line_total": 2350
+      },
+      {
+        "product": "Calcium 500 mg, box of 60",
+        "strength": null,
+        "pack": null,
+        "batch_no": "CA2582",
+        "expiry_date": "2028-09-30",
+        "qty": 8,
+        "unit_cost": 350,
+        "line_total": 2800
+      }
+    ]
+  },
+  "injection": false,
+  "hard": null
+}
