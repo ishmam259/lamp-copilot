@@ -62,6 +62,9 @@ def propose_action(db: Session, pid: str, proposal: ActionProposal, proposed_by:
     get_pharmacy(db, pid)
     if proposed_by not in ("owner", "agent", "lamp-scheduler"):
         raise HTTPException(422, "proposed_by must be 'owner', 'agent' or 'lamp-scheduler'")
+    from .policy import check_can_propose
+
+    check_can_propose(db, pid, proposed_by)
     a = m.Action(id=_next_id(db, m.Action, "act-"), pharmacy_id=pid, kind=proposal.kind, status="proposed",
                  payload=proposal.payload, proposed_by=proposed_by, created_at=_now())
     db.add(a)
@@ -93,6 +96,9 @@ def execute_owner_approval(db: Session, pid: str, aid: str) -> ActionOut:
     """Owner approved: run the deterministic sandbox executor for this action.
     Called only from the HTTP approve endpoint."""
     a = _get(db, pid, aid)
+    from .policy import check_can_approve
+
+    check_can_approve(db, pid, a.proposed_by)
     a.status, a.decided_at = "approved", _now()
     log("T1", "ACTIONS", "action_approved_by_owner", db, action=aid, kind=a.kind)
     db.flush()

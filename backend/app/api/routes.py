@@ -16,7 +16,7 @@ from app.db import models as m
 from app.db.seed import apply_extraction, load_seed
 from app.db.session import get_db
 from app.engines import actions as action_engine
-from app.engines import auth
+from app.engines import auth, policy
 from app.engines.common import as_of
 from app.engines import logbus
 from app.schemas import (
@@ -41,11 +41,14 @@ from app.schemas import (
     LogEvent,
     OrderOut,
     PassportOut,
+    PauseIn,
+    PauseOut,
     PharmacyOut,
     SessionIn,
     SessionOut,
     SupplierReply,
     TrimOut,
+    VerifyOut,
 )
 
 from . import examples as ex
@@ -270,6 +273,18 @@ def reject_action(pid: str, aid: str, db: Session = Depends(get_db)):
     return engines.reject_action(db, pid, aid)
 
 
+@owner.get("/pharmacies/{pid}/pause", response_model=PauseOut)
+def get_pause(pid: str, db: Session = Depends(get_db)):
+    return policy.get_pause(db, pid)
+
+
+@owner.post("/pharmacies/{pid}/pause", response_model=PauseOut)
+def set_pause(pid: str, body: PauseIn, db: Session = Depends(get_db)):
+    """Pause LaMP: the copilot and the scheduler can't propose, and their proposals can't
+    be approved, until the owner resumes it."""
+    return policy.set_pause(db, pid, body.paused)
+
+
 # --- Consents and lenders ---------------------------------------------------------------
 
 @owner.get("/pharmacies/{pid}/consents", response_model=list[ConsentOut])
@@ -311,9 +326,20 @@ def get_logs(since: str | None = None, db: Session = Depends(get_db)):
 
 
 @logs.get("/logs/export", response_class=PlainTextResponse)
-def export_logs(db: Session = Depends(get_db)) -> str:
-    """The audit log as text, one line per event (the sandbox execution trace)."""
-    return "\n".join(logbus.as_text(e) for e in logbus.events(db)) + "\n"
+def export_logs(format: Literal["text", "jsonl"] = "text", db: Session = Depends(get_db)) -> str:
+    """The audit log, one event per line: readable text (the sandbox execution trace), or
+    JSONL with every field and both hashes, which scripts/verify_trace.py can re-check."""
+    evs = logbus.events(db)
+    if format == "jsonl":
+        prevs = [logbus.GENESIS] + [e.hash for e in evs[:-1]]
+        return "".join(json.dumps(logbus.as_record(e, p), ensure_ascii=False) + "\n" for e, p in zip(evs, prevs))
+    return "\n".join(logbus.as_text(e) for e in evs) + "\n"
+
+
+@logs.get("/logs/verify", response_model=VerifyOut)
+def verify_logs(db: Session = Depends(get_db)):
+    """Recompute the hash chain: intact, number of events, and the head hash."""
+    return logbus.verify(db)
 
 
 @logs.get("/logs/stream")

@@ -2,7 +2,7 @@
 
 import re
 
-from conftest import PIN, lender_headers
+from api_support import PIN, lender_headers
 
 P = "/api/v1/pharmacies/green-life"
 W = "/api/v1/lenders/wallet-lender"

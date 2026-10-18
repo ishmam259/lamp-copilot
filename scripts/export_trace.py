@@ -14,6 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "logs" / "sandbox_execution_trace.log"
+OUT_JSONL = OUT.with_suffix(".jsonl")  # verifiable copy: python scripts/verify_trace.py
 
 
 PIN = "2468"  # demo owner PIN (only its hash is in the seed)
@@ -32,8 +33,11 @@ def export(base: str = "http://127.0.0.1:8000/api/v1", opener: urllib.request.Op
     opener = opener or signed_in_opener(base)
     with opener.open(base.rstrip("/") + "/logs/export", timeout=30) as r:
         text = r.read().decode("utf-8")
+    with opener.open(base.rstrip("/") + "/logs/export?format=jsonl", timeout=30) as r:
+        jsonl = r.read().decode("utf-8")
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(text, encoding="utf-8", newline="\n")
+    OUT_JSONL.write_text(jsonl, encoding="utf-8", newline="\n")
     return OUT
 
 

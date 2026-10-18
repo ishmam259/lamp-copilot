@@ -266,3 +266,6 @@ class AuditLog(Base):
     component: Mapped[str]
     event: Mapped[str]
     data: Mapped[dict] = mapped_column(JSON)
+    # Hash chain: hash = sha256(prev_hash + canonical event). Editing any row breaks it.
+    prev_hash: Mapped[str] = mapped_column(String, default="")
+    hash: Mapped[str] = mapped_column(String, default="")

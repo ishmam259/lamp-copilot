@@ -3,7 +3,7 @@
 import pytest
 
 from app.config import settings
-from conftest import PIN, lender_headers
+from api_support import PIN, lender_headers
 
 P = "/api/v1/pharmacies/green-life"
 W = "/api/v1/lenders/wallet-lender"
@@ -115,3 +115,29 @@ def test_pin_hash_is_not_exposed(client):
 def test_reset_keeps_the_owner_signed_in(client):
     assert client.post("/api/v1/dev/reset").status_code == 200
     assert client.get(f"{P}/accounts").status_code == 200
+
+
+# --- Pause (CORE-08) -------------------------------------------------------------------------
+
+def test_pause_blocks_the_copilot_but_not_the_owner(client, api_db):
+    from fastapi import HTTPException
+
+    from app.engines import actions as action_engine
+    from app.schemas import ActionProposal
+
+    # the copilot proposes before the pause (in-process, as the chat does)
+    early = action_engine.propose_action(api_db, "green-life", ActionProposal(kind="set_aside", payload={}), "agent")
+    api_db.commit()
+    assert client.post(f"{P}/pause", json={"paused": True}).json()["paused"] is True
+    assert client.get(f"{P}/pause").json()["paused"] is True
+    api_db.expire_all()
+    with pytest.raises(HTTPException) as e:
+        action_engine.propose_action(api_db, "green-life", ActionProposal(kind="set_aside", payload={}), "agent")
+    assert e.value.status_code == 409
+    assert client.post(f"{P}/actions/{early.id}/approve").status_code == 409
+    owner_own = client.post(f"{P}/actions", json={"kind": "set_aside", "payload": {}}).json()
+    assert client.post(f"{P}/actions/{owner_own['id']}/approve").json()["status"] == "executed"
+    events = [e["event"] for e in client.get("/api/v1/logs").json()]
+    assert {"agent_paused", "proposal_refused_paused", "approval_refused_paused"} <= set(events)
+    client.post(f"{P}/pause", json={"paused": False})
+    assert client.post(f"{P}/actions/{early.id}/approve").json()["status"] == "executed"

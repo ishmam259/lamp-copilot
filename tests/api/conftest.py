@@ -31,8 +31,7 @@ def _get_db():
 app.dependency_overrides[get_db] = _get_db
 
 
-PIN = "2468"  # demo owner PIN; only its hash is in the seed
-LENDER_KEYS = {"wallet-lender": "wallet-lender-demo-key", "partner-bank": "partner-bank-demo-key"}
+from api_support import PIN  # noqa: E402
 
 
 @pytest.fixture
@@ -51,5 +50,8 @@ def client(anon):
     return anon
 
 
-def lender_headers(lid: str = "wallet-lender") -> dict:
-    return {"X-Lender-Key": LENDER_KEYS[lid]}
+@pytest.fixture
+def api_db():
+    """A session on the API tests' database."""
+    with TestSession() as s:
+        yield s
