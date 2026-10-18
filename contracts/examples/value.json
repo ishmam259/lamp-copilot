@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "action_id": "act-1",
+      "kind": "return_claim",
+      "label": "Return claim CLM-0001",
+      "amount": 9200.0,
+      "basis": "Expected supplier credit for the return-eligible expiring batches.",
+      "counterfactual": "The stock expires on the shelf and is written off."
+    }
+  ],
+  "total": 9200.0
+}

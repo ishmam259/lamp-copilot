@@ -1,6 +1,6 @@
 """Shared API contract (docs/PLAN.md section 4.3). Field names are binding."""
 
-from .accounts import AccountOut, AccountsOut, DueItem, DuesOut, SlowMover, StatementMatch, SupplierShare, WalletTxnOut
+from .accounts import AccountOut, AccountsOut, DueItem, DuesOut, SlowMover, StatementMatch, SupplierShare, ValueItem, ValueOut, WalletTxnOut
 from .actions import ActionKind, ActionOut, ActionProposal, ActionStatus, SupplierReply
 from .captures import CaptureConfirm, CaptureOut, ExtractionResult
 from .cash import Alert, ForecastDay, ForecastOut, Shortfall

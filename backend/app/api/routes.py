@@ -17,7 +17,7 @@ from app.db import models as m
 from app.db.seed import apply_extraction, load_seed
 from app.db.session import get_db
 from app.engines import actions as action_engine
-from app.engines import auth, catalogue, followups, policy, wallet
+from app.engines import auth, catalogue, followups, policy, value, wallet
 from app.engines.common import as_of
 from app.engines import logbus
 from app.schemas import (
@@ -53,6 +53,7 @@ from app.schemas import (
     ShelfLifeCreditOut,
     SupplierReply,
     TrimOut,
+    ValueOut,
     VerifyOut,
 )
 
@@ -214,6 +215,12 @@ def get_accounts(pid: str, period_days: int = 30, db: Session = Depends(get_db))
 def get_account(pid: str, db: Session = Depends(get_db)):
     """Sandbox wallet balance and transactions, and the statement matched to the books."""
     return wallet.get_account(db, pid)
+
+
+@owner.get("/pharmacies/{pid}/value", response_model=ValueOut)
+def get_value(pid: str, db: Session = Depends(get_db)):
+    """What the approved actions saved or recovered, each with its basis and counterfactual."""
+    return value.get_value(db, pid)
 
 
 @owner.get("/pharmacies/{pid}/dues", response_model=DuesOut)

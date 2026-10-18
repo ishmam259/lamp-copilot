@@ -76,3 +76,19 @@ class AccountOut(Model):
     matches: list[StatementMatch]
     counts: dict[str, int]
     recommendations: list[str]
+
+
+class ValueItem(Model):
+    action_id: str
+    kind: str
+    label: str
+    amount: float
+    basis: str           # how the amount is computed
+    counterfactual: str  # what would have happened without LaMP
+
+
+class ValueOut(Model):
+    """Value ledger (win plan CORE-10): money LaMP's executed actions saved or recovered."""
+
+    items: list[ValueItem]
+    total: float

@@ -381,6 +381,46 @@
         }
       }
     },
+    "/api/v1/pharmacies/{pid}/value": {
+      "get": {
+        "summary": "Get Value",
+        "description": "What the approved actions saved or recovered, each with its basis and counterfactual.",
+        "operationId": "get_value_api_v1_pharmacies__pid__value_get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValueOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/pharmacies/{pid}/dues": {
       "get": {
         "summary": "Get Dues",
@@ -4174,6 +4214,68 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "ValueItem": {
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "title": "Action Id"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "basis": {
+            "type": "string",
+            "title": "Basis"
+          },
+          "counterfactual": {
+            "type": "string",
+            "title": "Counterfactual"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action_id",
+          "kind",
+          "label",
+          "amount",
+          "basis",
+          "counterfactual"
+        ],
+        "title": "ValueItem"
+      },
+      "ValueOut": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ValueItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "number",
+            "title": "Total"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "ValueOut",
+        "description": "Value ledger (win plan CORE-10): money LaMP's executed actions saved or recovered."
       },
       "VerifyOut": {
         "properties": {
