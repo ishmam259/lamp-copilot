@@ -1,0 +1,71 @@
+{
+  "key": "3c412abd7f6d718414c08dcdf6116d3e4de526fbd7583898d74e556df860a172",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "supplier_name": "Supplier C",
+    "invoice_no": "C-8236",
+    "invoice_date": "2026-08-26",
+    "due_date": "2026-09-09",
+    "total": 28560,
+    "lines": [
+      {
+        "product": "Pantoprazole 40 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "PA2543",
+        "expiry_date": "2028-10-31",
+        "qty": 10,
+        "unit_cost": 510,
+        "line_total": 5100
+      },
+      {
+        "product": "Losartan 50 mg, box of 30",
+        "strength": null,
+        "pack": null,
+        "batch_no": "LO2541",
+        "expiry_date": "2028-04-30",
+        "qty": 8,
+        "unit_cost": 290,
+        "line_total": 2320
+      },
+      {
+        "product": "Azithromycin 500 mg, box of 6",
+        "strength": null,
+        "pack": null,
+        "batch_no": "AZ2529",
+        "expiry_date": "2028-06-30",
+        "qty": 4,
+        "unit_cost": 210,
+        "line_total": 840
+      },
+      {
+        "product": "Metformin 500 mg, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "ME2553",
+        "expiry_date": "2028-03-31",
+        "qty": 30,
+        "unit_cost": 430,
+        "line_total": 12900
+      },
+      {
+        "product": "Salbutamol inhaler, 200 doses",
+        "strength": null,
+        "pack": null,
+        "batch_no": "SA2520",
+        "expiry_date": "2027-10-31",
+        "qty": 20,
+        "unit_cost": 370,
+        "line_total": 7400
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2667,
+    "output_tokens": 545,
+    "usd": 0.000539
+  }
+}

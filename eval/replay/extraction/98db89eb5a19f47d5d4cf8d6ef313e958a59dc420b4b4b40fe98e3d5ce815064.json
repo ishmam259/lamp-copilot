@@ -1,0 +1,41 @@
+{
+  "key": "98db89eb5a19f47d5d4cf8d6ef313e958a59dc420b4b4b40fe98e3d5ce815064",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "supplier_name": "Supplier K",
+    "invoice_no": "K-5365",
+    "invoice_date": "2026-09-17",
+    "due_date": "2026-10-17",
+    "total": 6060,
+    "lines": [
+      {
+        "product": "Ranitidine 150 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "RA2555",
+        "expiry_date": "2027-10-31",
+        "qty": 6,
+        "unit_cost": 210,
+        "line_total": 1260
+      },
+      {
+        "product": "Iron + folic acid, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IR2584",
+        "expiry_date": "2027-06-30",
+        "qty": 30,
+        "unit_cost": 160,
+        "line_total": 4800
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2611,
+    "output_tokens": 324,
+    "usd": 0.000423
+  }
+}

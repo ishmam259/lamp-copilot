@@ -1,0 +1,41 @@
+{
+  "key": "f3d542699da98279dced6bb112d3ae74ab412e8bd99ffefbb7e37b8f23ad721f",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "supplier_name": "Supplier E",
+    "invoice_no": "E-2999",
+    "invoice_date": "2026-08-25",
+    "due_date": "2026-09-24",
+    "total": 5180,
+    "lines": [
+      {
+        "product": "Iron + folic acid, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "IR2561",
+        "expiry_date": "2028-05-31",
+        "qty": 30,
+        "unit_cost": 130,
+        "line_total": 3900
+      },
+      {
+        "product": "Oral saline, box of 25",
+        "strength": null,
+        "pack": null,
+        "batch_no": "OR2609",
+        "expiry_date": "2027-11-30",
+        "qty": 4,
+        "unit_cost": 320,
+        "line_total": 1280
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2611,
+    "output_tokens": 231,
+    "usd": 0.000377
+  }
+}

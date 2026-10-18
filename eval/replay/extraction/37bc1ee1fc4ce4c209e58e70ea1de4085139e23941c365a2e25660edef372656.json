@@ -1,0 +1,61 @@
+{
+  "key": "37bc1ee1fc4ce4c209e58e70ea1de4085139e23941c365a2e25660edef372656",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "supplier_name": "Supplier N",
+    "invoice_no": "N-7544",
+    "invoice_date": "2026-09-29",
+    "due_date": "2026-10-06",
+    "total": 12150,
+    "lines": [
+      {
+        "product": "Oral saline, box of 25",
+        "strength": null,
+        "pack": null,
+        "batch_no": "OR2581",
+        "expiry_date": "2028-10-31",
+        "qty": 6,
+        "unit_cost": 300,
+        "line_total": 1800
+      },
+      {
+        "product": "Salbutamol inhaler, 200 doses",
+        "strength": null,
+        "pack": null,
+        "batch_no": "SA2519",
+        "expiry_date": "2028-03-31",
+        "qty": 6,
+        "unit_cost": 350,
+        "line_total": 2100
+      },
+      {
+        "product": "Losartan 50 mg, box of 30",
+        "strength": null,
+        "pack": null,
+        "batch_no": "LO2538",
+        "expiry_date": "2028-01-31",
+        "qty": 15,
+        "unit_cost": 270,
+        "line_total": 4050
+      },
+      {
+        "product": "Ranitidine 150 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "RA2552",
+        "expiry_date": "2029-01-31",
+        "qty": 20,
+        "unit_cost": 210,
+        "line_total": 4200
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2611,
+    "output_tokens": 563,
+    "usd": 0.000543
+  }
+}

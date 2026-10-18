@@ -1,0 +1,41 @@
+{
+  "key": "587be60c73e8bdd8a043273f578c7552791acd6c5b206eec9cf263037c6e6b73",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "supplier_name": "Supplier A",
+    "invoice_no": "A-1622",
+    "invoice_date": "2026-09-27",
+    "due_date": "2026-10-27",
+    "total": 7100,
+    "lines": [
+      {
+        "product": "Oral saline, box of 25",
+        "strength": null,
+        "pack": null,
+        "batch_no": "OR2600",
+        "expiry_date": "2028-03-31",
+        "qty": 20,
+        "unit_cost": 310,
+        "line_total": 6200
+      },
+      {
+        "product": "Antacid suspension, 200 ml",
+        "strength": null,
+        "pack": null,
+        "batch_no": "AN2584",
+        "expiry_date": "2029-01-31",
+        "qty": 12,
+        "unit_cost": 75,
+        "line_total": 900
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2667,
+    "output_tokens": 298,
+    "usd": 0.000416
+  }
+}

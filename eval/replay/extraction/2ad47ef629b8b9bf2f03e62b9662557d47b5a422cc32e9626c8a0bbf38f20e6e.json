@@ -1,0 +1,61 @@
+{
+  "key": "2ad47ef629b8b9bf2f03e62b9662557d47b5a422cc32e9626c8a0bbf38f20e6e",
+  "model": "gpt-6-luna",
+  "prompt_version": "extraction_v1",
+  "output": {
+    "supplier_name": "Supplier V",
+    "invoice_no": "V-6013",
+    "invoice_date": "2026-08-29",
+    "due_date": "2026-09-28",
+    "total": 34380,
+    "lines": [
+      {
+        "product": "Amoxicillin 500 mg, box of 50",
+        "strength": null,
+        "pack": null,
+        "batch_no": "AM2529",
+        "expiry_date": "2028-09-30",
+        "qty": 30,
+        "unit_cost": 540,
+        "line_total": 16200
+      },
+      {
+        "product": "Paracetamol 500 mg, box of 100",
+        "strength": null,
+        "pack": null,
+        "batch_no": "PA2577",
+        "expiry_date": "2027-07-31",
+        "qty": 12,
+        "unit_cost": 290,
+        "line_total": 3480
+      },
+      {
+        "product": "Salbutamol inhaler, 200 doses",
+        "strength": null,
+        "pack": null,
+        "batch_no": "SA2511",
+        "expiry_date": "2028-01-31",
+        "qty": 30,
+        "unit_cost": 340,
+        "line_total": 10200
+      },
+      {
+        "product": "Montelukast 10 mg, box of 30",
+        "strength": null,
+        "pack": null,
+        "batch_no": "MO2601",
+        "expiry_date": "2027-08-31",
+        "qty": 10,
+        "unit_cost": 450,
+        "line_total": 4500
+      }
+    ],
+    "uncertain_fields": [],
+    "instruction_like_text": []
+  },
+  "usage": {
+    "input_tokens": 2667,
+    "output_tokens": 471,
+    "usd": 0.000502
+  }
+}
