@@ -94,3 +94,15 @@ def test_funding_plan(db):
     ]
     assert f.plan.total_cost_bdt == 0
     assert f.naive_cost_bdt == 421.64
+
+
+def test_cost_disclosure(db):
+    """Win plan CORE-15: APR on the amount financed, tenor, and the cost of this gap."""
+    o = {x.key: x for x in get_funding_plan(db, PID).options}
+    w, b = o["wallet_loan"], o["bank_supplier_credit"]
+    assert (w.apr_pct, w.amount_financed, w.tenor_days, w.cost_of_gap_bdt, w.cost_of_gap_pct_of_need) ==         (9, 8_200, 90, 181.97, 2.22)
+    assert (b.apr_pct, b.amount_financed, b.tenor_days, b.cost_of_gap_bdt, b.cost_of_gap_pct_of_need) ==         (12.2, 49_200, 30, 492.00, 6.0)
+    ext = o["supplier_extension"]
+    assert (ext.amount_financed, ext.tenor_days, ext.cost_of_gap_bdt) == (8_200, 20, 0)
+    assert o["trim_order"].amount_financed is None and o["return_claims"].cost_of_gap_bdt is None
+    assert o["bank_sme_loan"].cost_of_gap_bdt is None  # ineligible: no cost to disclose

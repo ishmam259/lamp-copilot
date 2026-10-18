@@ -32,7 +32,7 @@ POST /api/v1/pharmacies/green-life/actions/act-7/approve   {"pin": "2468"}
 ```json
 {"key": "wallet_loan", "amount": 8200, "cost_bdt": 181.97, "apr_pct": 9.0,
  "amount_financed": 8200, "tenor_days": 90, "cost_of_gap_bdt": 181.97, "cost_of_gap_pct_of_need": 2.22}
-{"key": "bank_supplier_credit", "amount": 49200, "cost_bdt": 492.0, "apr_pct": 12.17,
+{"key": "bank_supplier_credit", "amount": 49200, "cost_bdt": 492.0, "apr_pct": 12.2,
  "amount_financed": 49200, "tenor_days": 30, "cost_of_gap_bdt": 492.0, "cost_of_gap_pct_of_need": 6.0}
 ```
 
