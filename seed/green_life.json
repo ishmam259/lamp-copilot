@@ -8,7 +8,8 @@
       "gross_margin_pct": 12,
       "cash_buffer": 0,
       "expiry_buffer_days": 30,
-      "as_of_date": "2026-10-16"
+      "as_of_date": "2026-10-16",
+      "owner_pin": "scrypt$green-life-demo$ec589c7c3d2fd882d4eae0cb07bcc57a110c7d914d86c1e502c0226f8fa44808"
     }
   },
   "suppliers": [
@@ -1878,6 +1879,7 @@
       "id": "wallet-lender",
       "name": "Wallet Lender",
       "kind": "mobile_wallet",
+      "api_key_sha256": "05e5b0c0a660b0ed350cd8dac8a543df3ea6e2c9c5669df142d77f8af53c2bdb",
       "products": [
         {
           "key": "wallet_loan",
@@ -1897,6 +1899,7 @@
       "id": "partner-bank",
       "name": "Partner Bank",
       "kind": "bank",
+      "api_key_sha256": "ed2a70eaafe3262676c73f510a3425a5cf07f5a9bf69e9b8fd15f499608aa20e",
       "products": [
         {
           "key": "bank_supplier_credit",

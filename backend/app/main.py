@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import inspect
 
 from app.api.routes import router
-from app.config import settings
+from app.config import registry_secret, settings
 from app.db.models import Base
 from app.db.seed import load_seed
 from app.db.session import SessionLocal, engine
@@ -29,6 +29,7 @@ def _schema_is_current() -> bool:
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
+    registry_secret()  # refuse to start without a real REGISTRY_KEY (unless DEV_MODE)
     # Empty database, or one left by an older version of the app: (re)load the seed pharmacy.
     if not _schema_is_current():
         with SessionLocal() as db:

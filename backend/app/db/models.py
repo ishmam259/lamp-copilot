@@ -152,6 +152,7 @@ class Lender(Base):
     id: Mapped[str] = mapped_column(String, primary_key=True)
     name: Mapped[str]
     kind: Mapped[str]
+    api_key_sha256: Mapped[str | None] = mapped_column(String, nullable=True)
     products: Mapped[list["LenderProduct"]] = relationship(back_populates="lender", cascade="all, delete-orphan")
 
 
@@ -247,6 +248,14 @@ class Action(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime)
     decided_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     result: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+
+
+class OwnerSession(Base):
+    __tablename__ = "owner_session"
+    token: Mapped[str] = mapped_column(String, primary_key=True)
+    pharmacy_id: Mapped[str] = mapped_column(ForeignKey("pharmacy.id"))
+    created_at: Mapped[datetime] = mapped_column(DateTime)
+    expires_at: Mapped[datetime] = mapped_column(DateTime)
 
 
 class AuditLog(Base):

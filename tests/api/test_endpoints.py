@@ -56,7 +56,8 @@ def test_reset_without_captures(client):
 
 
 def test_unknown_pharmacy(client):
-    assert client.get("/api/v1/pharmacies/nope/accounts").status_code == 404
+    # A signed-in owner can't reach another pharmacy's data.
+    assert client.get("/api/v1/pharmacies/nope/accounts").status_code == 403
 
 
 @pytest.mark.parametrize("body", [None, {}, {"amount": None}])

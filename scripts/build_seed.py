@@ -24,8 +24,13 @@ Layout of the numbers:
 import json
 from datetime import date, timedelta
 from pathlib import Path
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "backend"))
+
+from app.engines.auth import hash_key, hash_pin  # noqa: E402
+
 AS_OF = date(2026, 10, 16)
 
 
@@ -176,13 +181,18 @@ PLANNED_ORDER = {
     ],
 }
 
+# Demo credentials: only their hashes go into the seed. PIN and keys are in contracts/plan_v3.md.
+DEMO_PIN = "2468"
+
 LENDERS = [
-    {"id": "wallet-lender", "name": "Wallet Lender", "kind": "mobile_wallet", "products": [
+    {"id": "wallet-lender", "name": "Wallet Lender", "kind": "mobile_wallet",
+     "api_key_sha256": hash_key("wallet-lender-demo-key"), "products": [
         {"key": "wallet_loan", "label": "Mobile-wallet loan", "apr_pct": 9, "fee_pct": None,
          "min_amount": 500, "max_amount": 30_000, "tenor_days": 90, "min_history_invoices": 0,
          "min_history_months": 0, "cost_bearer": "pharmacy"},
     ]},
-    {"id": "partner-bank", "name": "Partner Bank", "kind": "bank", "products": [
+    {"id": "partner-bank", "name": "Partner Bank", "kind": "bank",
+     "api_key_sha256": hash_key("partner-bank-demo-key"), "products": [
         {"key": "bank_supplier_credit", "label": "Supplier credit", "apr_pct": None, "fee_pct": 1,
          "min_amount": 10_000, "max_amount": 500_000, "tenor_days": 30, "min_history_invoices": 10,
          "min_history_months": 0, "cost_bearer": "pharmacy"},
@@ -219,7 +229,8 @@ def main() -> None:
     seed = {
         "pharmacy": {
             "id": "green-life", "name": "Green Life Pharmacy", "city": "Bogura", "cash_on_hand": 39_150,
-            "settings": {"gross_margin_pct": 12, "cash_buffer": 0, "expiry_buffer_days": 30, "as_of_date": d(0)},
+            "settings": {"gross_margin_pct": 12, "cash_buffer": 0, "expiry_buffer_days": 30, "as_of_date": d(0),
+                         "owner_pin": hash_pin(DEMO_PIN, "green-life-demo")},
         },
         "suppliers": [{"name": f"Supplier {s}", "verified": True, "return_cutoff_days": RETURN_CUTOFF.get(s, 30)}
                       for s in SUPPLIERS + ["X"]],

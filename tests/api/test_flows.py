@@ -2,8 +2,11 @@
 
 import re
 
+from conftest import PIN, lender_headers
+
 P = "/api/v1/pharmacies/green-life"
 W = "/api/v1/lenders/wallet-lender"
+LH = lender_headers("wallet-lender")
 
 
 def propose(client, kind, by="owner", **payload):
@@ -13,7 +16,7 @@ def propose(client, kind, by="owner", **payload):
 
 
 def approve(client, aid):
-    r = client.post(f"{P}/actions/{aid}/approve")
+    r = client.post(f"{P}/actions/{aid}/approve", json={"pin": PIN})
     assert r.status_code == 200, r.text
     return r.json()
 
@@ -29,10 +32,11 @@ def test_reset_starts_log_with_detections(client):
     assert short["tier"] == "T2" and short["data"]["amount"] == 19000
 
 
-def test_proposed_by_body_or_query_and_agent(client):
-    assert propose(client, "set_aside", by="agent", amount=500)["proposed_by"] == "agent"
+def test_proposed_by_comes_from_the_caller_not_the_request(client):
+    # Over HTTP the caller is the signed-in owner, whatever the request claims.
+    assert propose(client, "set_aside", by="agent", amount=500)["proposed_by"] == "owner"
     r = client.post(f"{P}/actions?proposed_by=agent", json={"kind": "set_aside", "payload": {}})
-    assert r.json()["proposed_by"] == "agent"
+    assert r.json()["proposed_by"] == "owner"
     assert client.post(f"{P}/actions", json={"kind": "set_aside"}).json()["proposed_by"] == "owner"
     assert client.post(f"{P}/actions", json={"kind": "set_aside", "proposed_by": "bank"}).status_code == 422
     assert client.post(f"{P}/actions", json={"kind": "transfer_money"}).status_code == 422
@@ -94,7 +98,7 @@ def test_loan_needs_consent_then_registry_then_lender(client):
     blocked = approve(client, propose(client, "loan_application", **loan)["id"])
     assert blocked["status"] == "failed" and blocked["result"]["reason"] == "no_consent"
     assert "application_blocked_no_consent" in events(client)
-    assert client.get(f"{W}/applications").json() == []
+    assert client.get(f"{W}/applications", headers=LH).json() == []
 
     cons = client.post(f"{P}/consents", json={"lender_id": "wallet-lender", "scopes": ["passport"]}).json()
     ok = approve(client, propose(client, "loan_application", **loan)["id"])
@@ -105,18 +109,18 @@ def test_loan_needs_consent_then_registry_then_lender(client):
     assert dup["status"] == "failed" and dup["result"]["reason"] == "duplicate_financing"
     assert "lock_rejected" in events(client)
 
-    inbox = client.get(f"{W}/applications").json()
+    inbox = client.get(f"{W}/applications", headers=LH).json()
     assert [a["id"] for a in inbox] == ["APP-0001"]
     assert inbox[0]["passport"]["score"] == 0.507 and inbox[0]["pharmacy_name"] == "Green Life Pharmacy"
 
-    d = client.post(f"{W}/applications/APP-0001/decide").json()
+    d = client.post(f"{W}/applications/APP-0001/decide", headers=LH).json()
     assert d["status"] == "approved" and d["decision"]["payout_ref"] == "SANDBOX-WALLET-LENDER-20261016-0001"
-    assert client.post(f"{W}/applications/APP-0001/decide").status_code == 409
+    assert client.post(f"{W}/applications/APP-0001/decide", headers=LH).status_code == 409
     # the payout reaches the pharmacy's cash: the 26 Oct shortfall shrinks by 8,200
     assert client.get(f"{P}/forecast").json()["shortfalls"][0]["amount"] == 10800
 
     assert client.delete(f"{P}/consents/{cons['id']}").json()["status"] == "revoked"
-    assert client.get(f"{W}/applications").json() == []
+    assert client.get(f"{W}/applications", headers=LH).json() == []
     assert client.get(f"{P}/consents").json() == []
     assert client.delete(f"{P}/consents/{cons['id']}").status_code == 404
 
@@ -135,14 +139,14 @@ def test_failed_loan_leaves_no_application_or_lock(client):
     client.post(f"{P}/consents", json={"lender_id": "wallet-lender"})
     approve(client, propose(client, "loan_application", amount=8200, lender_id="wallet-lender")["id"])
     approve(client, propose(client, "loan_application", amount=8200, lender_id="wallet-lender")["id"])
-    assert len(client.get(f"{W}/applications").json()) == 1  # the duplicate's application was rolled back
+    assert len(client.get(f"{W}/applications", headers=LH).json()) == 1  # the duplicate's application was rolled back
 
 
 def test_decide_after_consent_revoked_is_refused(client):
     cons = client.post(f"{P}/consents", json={"lender_id": "wallet-lender"}).json()
     approve(client, propose(client, "loan_application", amount=8200, lender_id="wallet-lender")["id"])
     client.delete(f"{P}/consents/{cons['id']}")
-    assert client.post(f"{W}/applications/APP-0001/decide").status_code == 403
+    assert client.post(f"{W}/applications/APP-0001/decide", headers=LH).status_code == 403
 
 
 def test_regrant_consent_replaces(client):
@@ -156,7 +160,8 @@ def test_regrant_consent_replaces(client):
 def test_lenders(client):
     ls = client.get("/api/v1/lenders").json()
     assert [l["id"] for l in ls] == ["wallet-lender", "partner-bank"]
-    assert client.get("/api/v1/lenders/nobody/applications").status_code == 404
+    assert client.get("/api/v1/lenders/nobody/applications").status_code == 401
+    assert client.get("/api/v1/lenders/nobody/applications", headers=LH).status_code == 403
 
 
 def test_log_export_and_stream(client):

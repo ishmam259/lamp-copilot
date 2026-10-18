@@ -32,7 +32,16 @@ def _now() -> datetime:
 def to_out(a: m.Action) -> ActionOut:
     """DB row to API shape. No calculation."""
     return ActionOut(id=a.id, kind=a.kind, status=a.status, payload=a.payload, proposed_by=a.proposed_by,
-                     created_at=a.created_at, decided_at=a.decided_at, result=a.result)
+                     created_at=a.created_at, decided_at=a.decided_at, result=a.result,
+                     requires_pin=requires_pin(a.kind))
+
+
+PIN_KINDS = {"loan_application"}  # Tier 3: money from a lender
+
+
+def requires_pin(kind: str) -> bool:
+    """True if approving this kind of action must re-enter the owner PIN."""
+    return kind in PIN_KINDS
 
 
 def list_actions(db: Session, pid: str) -> list[ActionOut]:
@@ -51,8 +60,8 @@ def _next_id(db: Session, model, prefix: str, width: int = 0) -> str:
 def propose_action(db: Session, pid: str, proposal: ActionProposal, proposed_by: str) -> ActionOut:
     """Store a proposal. It does nothing until the owner approves it."""
     get_pharmacy(db, pid)
-    if proposed_by not in ("owner", "agent"):
-        raise HTTPException(422, "proposed_by must be 'owner' or 'agent'")
+    if proposed_by not in ("owner", "agent", "lamp-scheduler"):
+        raise HTTPException(422, "proposed_by must be 'owner', 'agent' or 'lamp-scheduler'")
     a = m.Action(id=_next_id(db, m.Action, "act-"), pharmacy_id=pid, kind=proposal.kind, status="proposed",
                  payload=proposal.payload, proposed_by=proposed_by, created_at=_now())
     db.add(a)
@@ -247,3 +256,8 @@ EXECUTORS = {
     "loan_application": _loan_application,
     "set_aside": _set_aside,
 }
+
+
+def get_action(db: Session, pid: str, aid: str) -> m.Action:
+    """The action, or HTTP 404."""
+    return _get(db, pid, aid)

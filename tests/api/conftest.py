@@ -31,8 +31,25 @@ def _get_db():
 app.dependency_overrides[get_db] = _get_db
 
 
+PIN = "2468"  # demo owner PIN; only its hash is in the seed
+LENDER_KEYS = {"wallet-lender": "wallet-lender-demo-key", "partner-bank": "partner-bank-demo-key"}
+
+
 @pytest.fixture
-def client():
+def anon():
+    """A fresh seed and a client that hasn't signed in."""
     with TestSession() as s:
         load_seed(s, with_demo_captures=True)
     return TestClient(app)
+
+
+@pytest.fixture
+def client(anon):
+    """Signed in as the owner of green-life. Lender calls pass headers=lender_headers(...)."""
+    r = anon.post("/api/v1/pharmacies/green-life/session", json={"pin": PIN})
+    assert r.status_code == 200, r.text
+    return anon
+
+
+def lender_headers(lid: str = "wallet-lender") -> dict:
+    return {"X-Lender-Key": LENDER_KEYS[lid]}

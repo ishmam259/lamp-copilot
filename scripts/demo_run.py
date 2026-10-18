@@ -4,8 +4,10 @@
 
 Deterministic: it resets to the seed, enters the three demo captures from
 seed/demo_captures/ as the owner's corrected drafts (replay mode: no OpenAI
-calls), and checks every golden number on the way. Steps the copilot would
-suggest in chat are proposed with proposed_by=agent; only the owner approves.
+calls), and checks every golden number on the way. It unlocks with the owner PIN
+first; the API records every proposal it makes as the owner's (the copilot proposes
+only from the chat). Loan approvals re-enter the PIN. Lender calls use the demo key.
+The server must run with DEV_MODE=true (reset and the supplier-reply simulator).
 Uses only the Python standard library.
 """
 
@@ -20,7 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from export_trace import export  # noqa: E402
+from export_trace import PIN, export, signed_in_opener  # noqa: E402
 
 BASE = "http://127.0.0.1:8000/api/v1"
 
@@ -28,9 +30,12 @@ BASE = "http://127.0.0.1:8000/api/v1"
 class Api:
     def __init__(self, base: str):
         self.base = base.rstrip("/")
+        self.opener = signed_in_opener(self.base)
 
     def call(self, method: str, path: str, body=None, form: dict | None = None):
         headers, data = {}, None
+        if path.startswith("/lenders/wallet-lender/"):
+            headers["X-Lender-Key"] = "wallet-lender-demo-key"
         if form is not None:
             boundary = uuid.uuid4().hex
             parts = [f'--{boundary}\r\nContent-Disposition: form-data; name="kind"\r\n\r\n{form["kind"]}\r\n'.encode(),
@@ -42,7 +47,7 @@ class Api:
             data, headers["Content-Type"] = json.dumps(body).encode(), "application/json"
         req = urllib.request.Request(self.base + path, data=data, method=method, headers=headers)
         try:
-            with urllib.request.urlopen(req, timeout=30) as r:
+            with self.opener.open(req, timeout=30) as r:
                 raw = r.read()
                 return json.loads(raw) if r.headers.get_content_type() == "application/json" else raw.decode()
         except urllib.error.HTTPError as e:
@@ -98,9 +103,9 @@ def main() -> None:
     check("return-eligible", e["return_eligible_value"], 9200)
 
     print("5. Copilot proposes return claims; owner approves")
-    act = api.post(f"{P}/actions", {"kind": "return_claim", "proposed_by": "agent",
+    act = api.post(f"{P}/actions", {"kind": "return_claim",
                                     "payload": {"summary": "Return Omeprazole and Cetirizine", "amount": 9200}})
-    r = api.post(f"{P}/actions/{act['id']}/approve")
+    r = api.post(f"{P}/actions/{act['id']}/approve", {"pin": PIN})
     check("return claim", (r["status"], r["result"]["expected_credit"]), ("executed", 9200))
 
     print("6. Trim the slow mover")
@@ -121,11 +126,11 @@ def main() -> None:
         payload = {"summary": s["label"], "amount": s["amount"], "when": s["when"]}
         if s["action_kind"] == "loan_application":
             payload |= {"lender_id": "wallet-lender", "product_key": "wallet_loan", "fallback": True}
-        ids[s["action_kind"]] = api.post(f"{P}/actions", {"kind": s["action_kind"], "proposed_by": "agent",
+        ids[s["action_kind"]] = api.post(f"{P}/actions", {"kind": s["action_kind"],
                                                           "payload": payload})["id"]
-    check("trim executed", api.post(f"{P}/actions/{ids['trim_order']}/approve")["status"], "executed")
+    check("trim executed", api.post(f"{P}/actions/{ids['trim_order']}/approve", {"pin": PIN})["status"], "executed")
     check("order total", api.get(f"{P}/orders")[0]["total"], 49200)
-    ext = api.post(f"{P}/actions/{ids['extension_request']}/approve")
+    ext = api.post(f"{P}/actions/{ids['extension_request']}/approve", {"pin": PIN})
     check("extension sent", ext["result"]["status"], "awaiting_supplier")
     reply = api.post("/dev/simulate/supplier-reply", {"action_id": ext["id"], "accepted": False})
     check("Supplier A reply", reply["result"]["status"], "declined")
@@ -134,13 +139,13 @@ def main() -> None:
     pp = api.get(f"{P}/passport")
     check("passport", (pp["theta_low_5pct"], pp["default_probability"], pp["score"]), (0.826, 0.03, 0.507))
     api.post(f"{P}/consents", {"lender_id": "wallet-lender", "scopes": ["passport", "accounts"]})
-    loan = api.post(f"{P}/actions/{ids['loan_application']}/approve")
+    loan = api.post(f"{P}/actions/{ids['loan_application']}/approve", {"pin": PIN})
     check("loan application", loan["status"], "executed")
     app_id = loan["result"]["application_id"]
     dup = api.post(f"{P}/actions", {"kind": "loan_application",
                                     "payload": {"summary": "Same order again", "amount": 8200,
                                                 "lender_id": "wallet-lender", "product_key": "wallet_loan"}})
-    dup = api.post(f"{P}/actions/{dup['id']}/approve")
+    dup = api.post(f"{P}/actions/{dup['id']}/approve", {"pin": PIN})
     check("second loan on the same order", (dup["status"], dup["result"]["reason"]), ("failed", "duplicate_financing"))
 
     print("9. Lender decides")
@@ -152,7 +157,7 @@ def main() -> None:
     check("26 Oct after trim and loan", [s for s in left if s["date"] == "2026-10-26"], [])
 
     print("10. Export the audit log")
-    path = export(api.base)
+    path = export(api.base, api.opener)
     print(f"  wrote {path.relative_to(ROOT)} ({len(path.read_text(encoding='utf-8').splitlines())} events)")
     print("Demo run complete.")
 
