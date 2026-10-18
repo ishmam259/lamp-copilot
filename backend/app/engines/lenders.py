@@ -20,6 +20,7 @@ def _now() -> datetime:
 
 
 def list_lenders(db: Session) -> list[LenderOut]:
+    """All simulated lenders with their products (APR, fee, min and max amount)."""
     out = []
     for l in db.scalars(select(m.Lender).order_by(m.Lender.id.desc())):
         out.append(LenderOut(id=l.id, name=l.name, kind=l.kind, products=[
@@ -29,6 +30,7 @@ def list_lenders(db: Session) -> list[LenderOut]:
 
 
 def active_consent(db: Session, pid: str, lender_id: str) -> m.Consent | None:
+    """The pharmacy's unrevoked consent for this lender, or None."""
     return db.scalar(select(m.Consent).where(m.Consent.pharmacy_id == pid, m.Consent.lender_id == lender_id,
                                              m.Consent.revoked_at.is_(None)))
 
@@ -62,6 +64,7 @@ def grant_consent(db: Session, pid: str, body: ConsentIn) -> ConsentOut:
 
 
 def revoke_consent(db: Session, pid: str, consent_id: str) -> dict:
+    """Revoke an active consent (sets revoked_at) and log it. 404 if not active."""
     c = db.get(m.Consent, consent_id)
     if c is None or c.pharmacy_id != pid or c.revoked_at is not None:
         raise HTTPException(404, f"Unknown consent '{consent_id}'")
