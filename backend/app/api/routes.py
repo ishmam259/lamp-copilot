@@ -83,8 +83,10 @@ def dev_reset(with_demo_captures: bool = False, db: Session = Depends(get_db)) -
     try:
         sessions = [(s.token, s.pharmacy_id, s.created_at, s.expires_at) for s in db.scalars(select(m.OwnerSession))]
     except (OperationalError, ProgrammingError):  # brand-new database: no tables yet
-        db.rollback()
         sessions = []
+    # End this read transaction: on PostgreSQL its lock on owner_session would block the
+    # DROP TABLE that load_seed runs on another connection.
+    db.rollback()
     pid = load_seed(db, with_demo_captures=with_demo_captures)
     for token, sp, created, expires in sessions:
         if db.get(m.Pharmacy, sp) is not None:
