@@ -1,0 +1,56 @@
+[
+  {
+    "parts": [
+      {
+        "content": "",
+        "id": "rs_071f797ce1b3c065006ad655560e8887d2980ae4d51673d9e1",
+        "signature": "gAAAAABq1lVXrYCVfT4lV8M3J4koTe2pzI0VlIEriVIrfhei7cFb1iPXP8zVZfr4bnBhXpdA5JDJJ-P5Bl_XOcUWXBwJykTR0iWlgXryFPbcIyFLX5jgQE7yNB2titxiCr82xKAJUAQqR_Os7SF5AzlYvSOuIvaH6msAiGOPCPMQWbRG8Q_vcCpF3A0WtmnbaK2w8bTFQN1P23zNbRyLuzJH8Sbz2Kl2CF7qBA42rQgmKf0hvyzCf3Owj_lSd3JuSjMj28O56XqA_MzOxVtILbzNnS87IHAxPhzYNuBMkY0u361GgpiL86qsu7t1AwNcM_wW2C0O0LJ_UEk8-B3VS8VXAQ9Vy_c9fmWIvlHTofhVT2nhPIX0GWLpdLnHwgPXAaGM2bHWO-dAD3OLqw_yoFDTG-Ir1wmC45Sbe6NOuId4cn9vTNkds_jrmsqsIbjkBNs0X23bxrWBXOOtheAniVZVKAbCWO-gQJ36ZQFVXrcnZVfTV4oO-beNgqjk_lhikWDzYqb1ann_tX-GbN7cBe1YQJU6sXi8TcPjE7Ijeda429cDwHxGwpqlGNDG3Ka1bjYK5YAD53x_WG-z1vXYTRAgza0YyCJyMbBvbIIb7e65ZHSuH5hJbcF0iV3dNUpOOmc-XWORD6SnYqYOlXgZSuR9ZNqg3JBcNKZmcMofPATjMKJb9Rnv0t8YQnX-YVlTWT58nKiK86H0_my2xkNAwHN6ICSjf4Bdv5VMOozVJlfIcp0_tTUjfnhcxlfvb4oqTA203Gaho6b6SQcyFtYINxNv64baWh3Y6gVnkeLE71GztuMQLeo9_nAjwEMWsN1YdMDc1GEDW1OOULvUwnF3rfQgp-Gnk242aaSq07VSnvfMcJw2CvLyz3-7ggYIph5fwV9S-NrzjgY3IUUkZ7bIoOh2CBocqblgH6hmzvTKHZUdNCg4JIWi1bGdnAesu8w7ewe0VxxppAP3l909WwNvBernRKJOU1srebpKTWse1PEWsxVQnwhOldOrNk21UyIK3KOkHGLm5DobAUJlZrqHmz-AW-GjLjoW-_mrTq6J28kHtEjGYRehP8HsYEoFk7F5X_InyzUqnegMtvk7gzApgIiQykQkc4ArbxaLSBYhOUZ6YLidflMqV8e5Sqa-MOERxzv6b7Ffi4kS1gt8scbH7h3s-p0jSkJDXr5VVpKhYgn-FkvzCax0prKXh1yKI_r2N9DX48P8DPkDzsxUjq4fGqfOiC_K44kW-s8ahZf-cyqHUTc3lh_mlS0ZAjoamji1w0t8ZyNgtlDSX0SAaCaWrWN1GlAH5hmsBXpKd8InBMMTAZ7yu9rDHgQPhIDDrI8rZRBY2BbO1gx6-pFnmgCj_mp-gTWqMxSttIN4PCne_WRwNmIunq4-Y4dYfhILRyCPb-kDU8UlNuuV6Qc9P4EPqJzNfnK1WqmMXqULUVilOgg_PW48qQ2fB2tDLTb7GWPcw_aJTsVEL2Si3KjOUEAdK5UbkLfdH6fPv157NlGCdoHYrzQhzKCfgODdfgjl77FJDw2cap-f4qc0n9lBiOcJtPnZAKb53sr9-YFjQC4GmEFyuykM283aoed7lMyiZmBbVBLZ_Losj_Tu19oPUsrwjgzdRIme8wnZp02ebKWoMENTLqI30SmmAaQmXltoh4-ZNEP9W2DBVGOCmGbzTQX1Fok-95gIAt3Nm3rcftEqB1OyR9PGyyFjZ0Q=",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "thinking"
+      },
+      {
+        "content": "I can’t approve or execute actions. Nothing has been proposed. Any proposed action must be approved by you in the Actions screen.",
+        "id": "msg_071f797ce1b3c065006ad65556651487d2a8f083c3bdd9aa2a",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1559,
+      "cache_write_tokens": 22,
+      "cache_read_tokens": 1534,
+      "output_tokens": 55,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 23
+      },
+      "cost": null,
+      "output_reasoning_tokens": 23
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:37:27.054725Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:37:25Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_071f797ce1b3c065006ad65555928087d2a6eeba4061a03c93",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

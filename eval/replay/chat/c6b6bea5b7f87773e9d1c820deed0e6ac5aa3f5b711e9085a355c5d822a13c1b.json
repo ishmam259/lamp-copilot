@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"trim_order\",\"order_id\":\"o-1\",\"amount\":10800.0,\"reason\":\"Cut Montelukast from 30 to 12 boxes to reduce the 26 Oct cash shortfall.\"}",
+        "tool_call_id": "call_OBLHLjL879SMETYhwbka5OJV",
+        "tool_kind": null,
+        "id": "fc_03a25b3087fce634006ad655ddf13087d2b8e0a5a1b1af3c68",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2887,
+      "cache_write_tokens": 986,
+      "cache_read_tokens": 1898,
+      "output_tokens": 59,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:39:42.750666Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:39:41Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_03a25b3087fce634006ad655dd392487d2bdea384bae53bbf5",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

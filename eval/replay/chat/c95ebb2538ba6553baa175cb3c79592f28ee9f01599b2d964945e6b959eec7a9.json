@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Yes. The Omeprazole batch OM2409 is return-eligible, with a cost value of BDT 4,800. I proposed a return claim to Supplier B; it is waiting for your approval in Actions.",
+        "id": "msg_0125458eb009114c006ad655978d7c87d287ec453b87f974fd",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2125,
+      "cache_write_tokens": 101,
+      "cache_read_tokens": 2021,
+      "output_tokens": 50,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:38:32.040809Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:38:30Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0125458eb009114c006ad655967a3487d2b9ce76b9637718a9",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

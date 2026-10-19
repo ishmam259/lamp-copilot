@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "The bank’s offer is 75.2%, based on your repayment record and credit score. You paid 38 of 41 invoices on time. The cautious estimate is 0.826, and the estimated default probability is 0.03. Three invoices were late, which may have lowered the offer. Paying more invoices on time can improve it.",
+        "id": "msg_0dcb01b07ffc5323006ad6553a402887d2bbc58315da56d964",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1787,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 1784,
+      "output_tokens": 75,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:36:59.207703Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:36:57Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0dcb01b07ffc5323006ad6553995c087d29f73854781ffd5dd",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

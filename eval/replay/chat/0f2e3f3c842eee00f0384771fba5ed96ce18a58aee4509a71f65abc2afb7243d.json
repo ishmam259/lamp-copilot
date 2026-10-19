@@ -1,0 +1,77 @@
+[
+  {
+    "parts": [
+      {
+        "content": "",
+        "id": "rs_0fc557aba2a4ab06006ad65503d6b487d2b8857eb3067e148c",
+        "signature": "gAAAAABq1lUT3TqQ5fQSMLnncjYoDEkCH7IZZiljWy2CWRzdBp6b7RpQ1ukkXC9ZE3uDimM4rBlraToai0XbI2xrfB_6uuSqVJMncIPjJIgHpGYz68omE42D74d3ELOFu96-eXrzE1GXU-sMdvP-PN0JkO3x7X_Zh6JgM1EB09r_KeRAr0kz9LCzAm1aKtK5Y5hI6RFxiODdR_qbjp6TLr4KQxtN4YuAHUw2Ss7eXSKVWFfnh7ZqhaxIGI4D7TX7mn4A4GS_6X5a8x1uVE7op0g6lO0569yGT6NdklGWCrtXvhO0XT0TFztevMcLD2K1sLehcPpI0Eb3RaFFL2KRVElGUFi1gpQbsDdelT1lOvO2wGV3hbj4flbWaOGd_BXpJnYUr7kB75cUbPNzKkLhhl7mOpSUF9zR0_9aFfSexp_waRHq72Ls_L1T8gEW2C4f9-hu9hErYJK1WfHyFbtcqMCCMwNj45tTZvZxaFOHrttY7v2P9VadKGAB_-pIBl7Xpv3tWvTzOcDX_16w5UA_616RBV6WVd7oTTY7m3bfChgaaD9ARqiH4grnkIDhzftu-Wcvwai2Mk1N-RFnEgL8tcgKwFwUsywTstPGi3tZrH8IIKbn3A2yGpEC3FBG6ykeyPlzcQOp2d1lwWSlmYva6SKLfCYhVfxutxO4sV8QzVaHfLUeoib-zxZaSEOsI7oSuYrSkmU1T2SznBf-Dv3blEbxNteGJ9QM6vzAyvb1EuP2pOhw5xJX_13BeAf8wYHTux2HTNySqeT5k5YyFpSQhenTv_gp56xULwXTLJ9nHQudD45DyvYTuQCKUUN3qD6KCmJ2U5DuAUCliddhfpvahBxpe0hKpsmZCVctEyDSvls0sLPBk1czccOZAc_dtTq55GtTjSgEwbzHpmPq9eUuQR2053R0PI0oQ26-xtVFUzuffZUcEFakCayfSFHvGsR4ycdGbcPkAIcGKtmqpSIQ0nPyoZb-0q_tvsawYFwK1UphMjm2dMVPHDplK_fTNawhDVoFIBPWtf1vaAoDmrOAI4qazuwNKBTD9eNdX2kdeBvaHOhUmAGVYANdgpjkUw_iZJjC0sDD3XiGNu2VMhMF7iph1mqmSjs8pdO2A1abjWFn1CTE8JvUWPEgqUW5l1RCvdkW55snJxKbP6ILrpNk69QGh4XtUiBdVtXTQgZyw-C97kFhamTOWRS1Y_LVtbC9xHDTZ5TKP31C3kUzmrFlSzSjE86X_rGcORKrpJL2a4AsdZB3-kbCdEo_RG3PBhVb-ArnwI-ExrL9CN7KnWyxj1L47YkhxLSYOfTDzHIH0ObXU1vDdDmA6cFpSUYg2Cfjctm4JXNUKBH44jGDclMiGqv1_6495f8rW9KOrVAbXk3DSqgfhDJbCoDxoXbb6o2oPaSDQugxRzGzBkjpNunQpOZiO8-nmlmbzNm_akRG3knIjJDFFKu8yg8ABEsWA3fkJBUKKaQo5nFDYNVenKg0cSkPLt156HrzCapqjf6xgszjtrRIn9Qito87Q-KMtuq8vVp-fmxnrSEs5hBCRPoZErSTa3HovmaWReBSGj-4Jhc9dFrmV4meI_giuKUx4kTEzg6si13SAxHGlzV2djNvT2lbJCoGHkSqIN2t_JXGvQ_QCB1iKyklES5-OtFn845mJU5OuaQotoNAMLIbrMc_7VmmJyeIQIqBJA==",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "thinking"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"trim_order\",\"amount\":10800,\"order_id\":\"o-1\",\"reason\":\"Cut Montelukast from 30 to 12 boxes as suggested.\"}",
+        "tool_call_id": "call_wteBkQVoiXtAua6Qxri1MgON",
+        "tool_kind": null,
+        "id": "fc_0fc557aba2a4ab06006ad65505356487d29cdc07eba40dd12d",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"extension_request\",\"amount\":8200,\"reason\":\"Ask Supplier A for 20 more days on the amount due.\"}",
+        "tool_call_id": "call_uwjKaVgrcpF6DG84sxTpXAkI",
+        "tool_kind": null,
+        "id": "fc_0fc557aba2a4ab06006ad65505358087d2bb4566e0123202a1",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"loan_application\",\"amount\":8200,\"reason\":\"Fallback only if Supplier A does not agree to the extension; mobile-wallet loan.\"}",
+        "tool_call_id": "call_PkLN2Tez4AuF0TSpdz7iwsFz",
+        "tool_kind": null,
+        "id": "fc_0fc557aba2a4ab06006ad65505358887d2b6ff297f88a8713c",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2582,
+      "cache_write_tokens": 977,
+      "cache_read_tokens": 1602,
+      "output_tokens": 166,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 21
+      },
+      "cost": null,
+      "output_reasoning_tokens": 21
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:36:19.501417Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:36:03Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0fc557aba2a4ab06006ad65502fbcc87d2aa3b1c368540a2a7",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

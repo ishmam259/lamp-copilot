@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "I can’t approve or execute a loan. If you want to apply, I can check the pharmacy’s financing options and propose an application for your approval in Actions.",
+        "id": "msg_003e965e764795cf006ad655541d5887d2a33a6d0986341b28",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1558,
+      "cache_write_tokens": 21,
+      "cache_read_tokens": 1534,
+      "output_tokens": 37,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:37:24.639932Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:37:23Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_003e965e764795cf006ad655536fd487d28a96cc69469bed73",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

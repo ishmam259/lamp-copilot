@@ -1,0 +1,77 @@
+[
+  {
+    "parts": [
+      {
+        "content": "",
+        "id": "rs_08e58f4cb1e91c72006ad654bccd1487d2bb39126a547b2bc5",
+        "signature": "gAAAAABq1lS-gy5DsHQ4MTOl4ZJRNGM2Kkrt9EJWsXeeNeHptX_DL3wr9RRrt9_qNoGux1n7Kvo-p3fozffk5DWJCLaJ3-_blrTgMjbv9N5bRebwExRvDb36_kXhMbJcN1Dmy8VZdLFQlV_5tJ_v_ydhgk4MQ88_5qISPDeDZKehBFleHPXwePb0H1UzXewHBuCmoVTVjFfRbXg8WI9fFbG52-i8RYRJMjLd3pubv12qffW8gg1itfUL9H-T5yrhad1rJ5w6cJfwxRs08WQxBZApR5nstld_gIdFJvMURw4kAydcu9KtxtTgwX6-e2umgCPZ51cAMOH8Rr3C5LpTQR6o0pd70lDjS6lXxDCaeaVuCMzlLAZNBrKGXhx0uyDnuGYy-b7HiPQ2DYmsGd-eGFfvy-0Ih8SCMKhd5YNGbG64YwEVVHJ5OV3ku9shfeUyQNOht9XlmYkNFJdSzNpRZsvho3iVJgdfeYPc9vOPwh3oy1XFJPt_fsNucH5rnhvmSv884xdMqgyAmvNKErEPdhArnvMSk3oMcUjoa9kiljSdOwL03luYY9dXzWAfpuM9ZVYlsnLm4bIticZ9d2-KVRuUMz0WPLOUdZmayz6ZwQOJ5S1AIwrK_YyMoNAl4sQ5ukTKN2hQAF3r1Es-35Wcz5n_gEZdGTvpJaYaKIoCEUGj3pavnET3rr14qGFeQZ6AUvBANtws0ohNB9_rkZSS3oa4FQRiBcH2ej-WzbXIVN1By7tNjpdTgEbtFQFCq0-dQIFOV2ZY_PJ-QISTEuAy9Zv9WBqEcHxt5hGjv3W9hPmZ10ClgrcYNruscHOZqyeiJLnDwo1b8i5ZxT-eX1t4HgGB4F_zdP7GKRbnepv-3kZ7fxcTCvh8pkUXfVfvQyGV41ncuCWNAzMIpBySpLYw7Nfgm9nv6RhJ6klmVa0HgM5nDtsx5dJm5KHqc1FZU2I96-LM8mjZiQHFS09IG9rOVZC9MIhlwzz0I5bCjVY_KP0Gv24qSpSmfJdASaxVv1fWWLfCU2_1wCGhIKP0dcm84lJQlm2wLFZlN9VMkKYH1QwTCROywt7XIJHqQFw6CqPwzi_bZvo5wDrwNGARtXqZBUmbYHiKZ9eDioOUN5f0A2i0Cl9GURG-PVk8XTnczArw2huWguDzLZzrK6hgiqdTkbSSTgqvovMdTjDnsy-E-7n8JjwH9IEEb2u97NxRHdLvnRNWGVy_atcX4AZ4lzZgwF2S--LghrCaiLUjJMMRSN109EtCEwpQO-M6cKBJmhTsy80_v3iaKoQnbH4EZJKg3zmabHxelWrEo1h5uHhsCaiBCqg-r_yf9GS3jy5xvAqJsqbjcN0JUmH6xoOiAIuuuw5wN7T8zFoetIXfMFLfMD0W_n-zOCYnWKAgXfHnj5uOhDX3mHNFMnXziEDTi9YKTMLiDv6iSSMjiWtbcFEY9mSN2k3jVDbIrw-xAnYhXuPmuvZTkCwTZevAnOIG8n3tyc5yx3T-2_JlwfLmP6Ww6yP8L2iBQ9vWKZ4wwyORX_hXcxW2ExQPDto_Kw-JtWA-Ecb6pDgIuCFCAjk81Tfjxoeb8mcmQLo1oC3IqgMdBJDSkHqfaCJuKtC6M1VeJaHpbkV6kBnkh5rK2OfuQoHqBae__6VACEd1wAbkTVIS5UAvU-yIeimp6cdn",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "thinking"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"trim_order\",\"order_id\":\"o-1\",\"amount\":10800,\"reason\":\"Cut Montelukast from 30 to 12 boxes to reduce Supplier A order.\"}",
+        "tool_call_id": "call_A9svdnyzDZvio6oVY6WQlf9u",
+        "tool_kind": null,
+        "id": "fc_08e58f4cb1e91c72006ad654be28a087d282c54a42678d51e5",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"extension_request\",\"amount\":8200,\"reason\":\"Ask Supplier A for 20 more days on the remaining shortfall.\"}",
+        "tool_call_id": "call_gNSDbVFyWNHqs1Ctg6plrYaT",
+        "tool_kind": null,
+        "id": "fc_08e58f4cb1e91c72006ad654be28b487d2aee0ad6928a31e96",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"loan_application\",\"amount\":8200,\"reason\":\"Fallback only if Supplier A does not agree to the extension.\"}",
+        "tool_call_id": "call_3InKfMJrzjchYuUO7ZL4YJQs",
+        "tool_kind": null,
+        "id": "fc_08e58f4cb1e91c72006ad654be28c087d2bf652620f8471f6c",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2587,
+      "cache_write_tokens": 977,
+      "cache_read_tokens": 1607,
+      "output_tokens": 166,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 21
+      },
+      "cost": null,
+      "output_reasoning_tokens": 21
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:34:54.461265Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:34:52Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_08e58f4cb1e91c72006ad654bc047087d29aa881378c6c32c3",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]
