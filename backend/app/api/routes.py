@@ -420,7 +420,8 @@ def verify_logs(db: Session = Depends(get_db)):
 @logs.get("/logs/stream")
 async def stream_logs(once: bool = False, db: Session = Depends(get_db)):
     """Server-Sent Events: every past event, then new ones as they happen.
-    `once=true` sends the backlog and closes (for tests)."""
+    `once=true` sends the backlog and closes (for tests). After /dev/reset the log ids restart
+    at lg-1, so the stream closes; the browser's EventSource reconnects and gets the new log."""
     factory = sessionmaker(bind=db.get_bind())
 
     async def gen():
@@ -428,6 +429,9 @@ async def stream_logs(once: bool = False, db: Session = Depends(get_db)):
         while True:
             with factory() as s:
                 batch = logbus.events(s, after_id=last)
+                reset = not batch and last and s.get(m.AuditLog, last) is None
+            if reset:
+                return
             for e in batch:
                 last = int(e.id[3:])
                 yield f"id: {e.id}\ndata: {json.dumps(e.model_dump(mode='json'))}\n\n"
