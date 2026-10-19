@@ -433,16 +433,16 @@ async function build() {
     "30 boxes of a slow mover sell 0.2 a day with 60 sellable days left, so only 12 will sell before expiry.",
     [
       "Trim to 12 boxes: BDT 10,800 saved, gap down from BDT 19,000 to BDT 8,200.",
-      "Options in taka: supplier extension free, wallet loan BDT 182, bank supplier credit BDT 492.",
-      "Plan: ask for 20 more days, with the wallet loan as the day-7 fallback. The owner approves each step.",
+      "Options in taka: supplier extension free, wallet loan BDT 182 (2.2% of the gap), supplier credit BDT 492 (6.0%).",
+      "Plan: ask for 20 more days; no reply by Fri 23 Oct and LaMP proposes the loan. The owner approves with a PIN.",
     ],
     "BDT 0–182 instead of BDT 422, and no stock left to expire.", "step-cash.png", { x: 9.75, y: 3.1, w: 3.4 });
   await step(5, "Prove (Credit Passport and Consent)", "Lender View · Sandbox Partners",
     "38 of 41 supplier-confirmed invoices paid on time become a credit passport: on-time estimate 0.826, default risk 3%.",
     [
-      "A lender's rule turns that into a 75.2% advance; the lender decides in its own view.",
-      "Shared only with lenders the owner switches on; withdrawable any time (PDPO 2025).",
-      "A registry locks each invoice so it can't be financed twice.",
+      "Shelf-life credit: a purpose-blind lender funds BDT 19,000; LaMP funds BDT 8,200, the stock that sells.",
+      "A 75.2% advance offer; a 35% repayment ceiling refuses loans the shop can't carry.",
+      "Shared per lender and scope, withdrawable (PDPO 2025); a registry stops double financing.",
     ],
     "A verifiable, consented path to fair finance.", "step-shield.png", { x: 9.7, y: 3.7, w: 3.6 });
 
@@ -470,7 +470,7 @@ async function build() {
     rrect(s, rx, 5.25, rw, 1.45, K.deep, { r: 0.05 });
     T(s, [
       { text: "Built and running", options: { fontFace: F.semi, color: K.lime, breakLine: true } },
-      { text: "Next.js · FastAPI · PostgreSQL · OpenAI Responses API · live audit log · 73 automated tests", options: { color: K.white } },
+      { text: "Next.js · FastAPI · PostgreSQL · OpenAI Responses API · hash-chained audit log · 249 automated tests", options: { color: K.white } },
     ], { x: rx + 0.2, y: 5.25, w: rw - 0.4, h: 1.45, fontSize: 11.5, valign: "middle" });
     strip(s);
   }
@@ -560,7 +560,7 @@ async function build() {
         T(s, items[i][2], { x: x + 1.0, y: y + 0.4, w: cw - 1.15, h: 0.55, fontSize: 11.5, color: K.grey });
       }
     }
-    banner(s, M, 5.95, W - 2 * M, 0.75, "The guarantee is structural: the tools the AI would need don't exist, and every decision is logged.", "1F7A47", { size: 12, align: "left" });
+    banner(s, M, 5.95, W - 2 * M, 0.75, "The guarantee is structural: the tools the AI would need don't exist, and every decision is logged in a hash chain anyone can verify.", "1F7A47", { size: 12, align: "left" });
     strip(s);
   }
 
@@ -584,9 +584,9 @@ async function build() {
       [cell("Photo reading (OpenAI vision)"), cell("Lenders, decisions, payouts")],
       [cell("All money maths"), cell("Supplier replies")],
       [cell("Copilot chat, read-only tools"), cell("Supplier invoice confirmation (seeded)")],
-      [cell("Approvals, consent, duplicate guard, audit log"), cell("Federated learning (roadmap)")],
+      [cell("Approvals with PIN, Pause, consent, duplicate guard, hash-chained log"), cell("Federated learning (roadmap)")],
     ], { x: rx, y: 1.33, w: rw, colW: [rw / 2, rw / 2], rowH: 0.42, border: { type: "solid", pt: 0.5, color: K.line }, margin: [0, 0.08, 0, 0.08] });
-    const tiles = [["73 / 73", "tests pass, no AI calls"], ["0", "money figures computed by the AI"], ["Every", "state change logged and streamed"], ["Per lender", "consent, withdrawable"]];
+    const tiles = [["249 / 249", "tests pass, no AI calls"], ["26 / 26", "red-team attacks held"], ["0", "money figures computed by the AI"], ["Every", "event hash-chained and verifiable"]];
     const tw = (W - 2 * M - 0.6) / 4;
     tiles.forEach(([b, t], i) => {
       const x = M + i * (tw + 0.2);
@@ -594,7 +594,7 @@ async function build() {
       T(s, b, { x, y: 3.85, w: tw, h: 0.55, fontSize: 24, fontFace: F.semi, color: K.mid, align: "center" });
       T(s, t, { x: x + 0.15, y: 4.42, w: tw - 0.3, h: 0.6, fontSize: 10, align: "center" });
     });
-    barRow(s, M, 5.35, 6.0, 1.0, "Execution evidence: every event is exported with its tier to logs/sandbox_execution_trace.log.", { size: 12 });
+    barRow(s, M, 5.35, 6.0, 1.0, "Execution evidence: every event, with its tier and chain hash, is exported to logs/sandbox_execution_trace.log.", { size: 12 });
     rrect(s, M + 6.3, 5.35, W - 2 * M - 6.3, 1.0, K.redTint, { line: { color: K.red2, width: 1 }, r: 0.05 });
     T(s, "Lenders, payouts and supplier replies are sandbox partners. No real money moves.", { x: M + 6.5, y: 5.35, w: W - 2 * M - 6.7, h: 1.0, fontSize: 12.5, fontFace: F.semi, color: K.red, valign: "middle" });
     strip(s);
@@ -611,7 +611,7 @@ async function build() {
     ], { x: M + 0.2, y: 0.95, w: W - 2 * M - 0.4, h: 0.5, fontSize: 11, valign: "middle" });
     const cards = [
       ["bc/alarm.png", "WORKING CAPITAL · EXPIRY-AWARE", "Orders and credit sized on what will actually sell", "BDT 10,800", "of stock avoided on one order",
-        "Sales rate and days to expiry decide how much will sell; orders and credit are sized on that."],
+        "Shelf-life credit: lend and order only what sells before expiry, so BDT 19,000 of need becomes BDT 8,200."],
       ["bc/shop.png", "NEUTRAL · MULTI-SUPPLIER", "Works across every supplier, not one distributor", "10–50", "suppliers per pharmacy",
         "Dues, returns and financing across all suppliers, not one distributor's orders."],
       ["bc/credit.png", "CREDIT · CONSENTED PASSPORT", "Supplier payments become lender evidence", "75.2%", "advance on 38 of 41 on time",
@@ -727,7 +727,7 @@ async function build() {
       ["A", "Owners skip invoices", "Capture takes a minute and pays off at once", "Distributors upload e-invoices", "Medium", K.blue, K.blueTint],
       ["B", "AI misreads a figure", "Owner confirms every field; code checks totals", "Manual entry fallback", "Medium", K.bright, K.mint],
       ["C", "Lenders distrust the record", "Supplier-confirmed invoices, cautious score", "Shadow mode with one lender first", "High", K.red2, K.redTint],
-      ["D", "Privacy breach or AI misuse", "Consent per lender, no patient data, no money tools", "Legal review and red-team tests", "High", K.red2, K.redTint],
+      ["D", "Privacy breach or AI misuse", "Consent per lender, no patient data, no money tools", "Legal review; all 26 attacks in our red-team run held", "High", K.red2, K.redTint],
     ];
     rows.forEach(([id, r, m, c, lvl, col, tint], i) => {
       const y = 1.6 + i * 1.3, h = 1.15;
