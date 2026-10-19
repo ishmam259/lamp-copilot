@@ -128,8 +128,8 @@ export default function TodayPage() {
             <ul className="space-y-2">
               {pending.slice(0, 3).map((a) => (
                 <li key={a.id} className="text-ink">
-                  <span className="font-semibold">{a.payload.summary ?? a.kind.replaceAll("_", " ")}</span>
-                  <span className="text-sm text-ink-2"> · suggested by {a.proposed_by === "agent" ? "LaMP" : "you"}</span>
+                  <span className="font-semibold">{String(a.payload.summary ?? (a.payload as Record<string, unknown>).reason ?? a.kind.replaceAll("_", " "))}</span>
+                  <span className="text-sm text-ink-2"> · {a.proposed_by === "owner" ? "suggested by you" : a.proposed_by === "lamp-scheduler" ? "LaMP follow-up" : "suggested by LaMP"}</span>
                 </li>
               ))}
             </ul>

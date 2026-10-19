@@ -10,7 +10,7 @@ def ask(client, text: str, history: list | None = None) -> dict:
     r = client.post("/api/v1/chat", json={"trigger": "submit-message", "id": "c1", "messages": messages,
                                           "pharmacy_id": "green-life"})
     assert r.status_code == 200, r.text
-    text, calls, results = "", [], {}
+    text, calls, results, trace = "", [], {}, None
     for line in r.text.splitlines():
         if not line.startswith("data: ") or line == "data: [DONE]":
             continue
@@ -23,4 +23,6 @@ def ask(client, text: str, history: list | None = None) -> dict:
             calls.append((ev["toolName"], ev["input"]))
         elif ev["type"] == "tool-output-available":
             results[ev["toolCallId"]] = ev["output"]
-    return {"text": text, "calls": calls, "results": results}
+        elif ev["type"] == "data-trace":
+            trace = ev["data"]
+    return {"text": text, "calls": calls, "results": results, "trace": trace}

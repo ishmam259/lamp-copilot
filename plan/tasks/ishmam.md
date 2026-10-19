@@ -135,15 +135,15 @@ Order: I1 → I10, then B, then C. All of Level A must land; B and C follow in o
 ---
 
 ## Done means
-- [ ] PIN unlock works; every screen and the log stream work with the session; chat without a session → 401
-- [ ] Loan approval asks the PIN again
+- [x] PIN unlock works; every screen and the log stream work with the session; chat without a session → 401
+- [x] Loan approval asks the PIN again
 - [x] Sales-book review renders and confirms
 - [x] Demo chats come from real recordings; an unrecorded question gets the honest message
 - [ ] Funding page shows APR, tenor and cost of the gap from the API; no hard-coded figures
 - [ ] Pause toggle works; agent proposals can't be approved while paused
 - [ ] Chain status shown on the log panel
-- [ ] "N of N money figures traced" badge; an untraced answer is blocked
+- [x] "N of N money figures traced" badge; an untraced answer is blocked
 - [ ] Shelf-life credit card in the lender view
 - [ ] A follow-up firing produces a desktop notification that opens the approval
 - [ ] Level B: catalogue, wallet and reconciliation, value ledger, plan checklist
-- [ ] Chat and security tests pass
+- [x] Chat and security tests pass

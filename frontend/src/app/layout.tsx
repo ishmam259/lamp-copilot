@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Barlow, Barlow_Semi_Condensed } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/app-shell";
+import { PinGate } from "@/components/pin-gate";
 import { ThemeProvider } from "@/components/theme";
 
 const barlow = Barlow({
@@ -36,7 +37,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${barlow.variable} ${board.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full">
         <ThemeProvider>
-          <AppShell>{children}</AppShell>
+          <PinGate>
+            <AppShell>{children}</AppShell>
+          </PinGate>
         </ThemeProvider>
       </body>
     </html>

@@ -75,3 +75,36 @@ def test_share_plan_reads_nothing_and_changes_nothing():
     source = inspect.getsource(tools.share_plan)
     assert "ctx.deps" not in source and "engines." not in source
     assert permissions.CHAT_TOOLS["share_plan"] == ("T2", permissions.PLAN)
+
+
+def test_chat_needs_the_owner_session(client, monkeypatch):
+    """Without the session cookie the chat answers 401; nothing reaches the model."""
+    from app.api import deps
+    from app.main import app
+
+    # tests/conftest.py lifts the owner check for chat tests until it is removed; not here.
+    monkeypatch.delitem(app.dependency_overrides, deps.require_any_owner, raising=False)
+    client.cookies.clear()
+    r = client.post("/api/v1/chat", json={"trigger": "submit-message", "id": "c1", "messages": [],
+                                          "pharmacy_id": "green-life"})
+    assert r.status_code == 401
+
+
+def test_untraced_money_figure_is_blocked(client, monkeypatch):
+    """An answer with a money figure no tool returned is replaced by the safe reply."""
+    from pydantic_ai.models.function import FunctionModel
+
+    async def invents(messages, info):
+        yield "Your profit this month was BDT 99,999."
+
+    monkeypatch.setattr(chat, "model_for_mode", lambda mode=None: FunctionModel(stream_function=invents, model_name="test"))
+    r = ask(client, "How did we do this month?")
+    assert "99,999" not in r["text"] and r["text"] == chat.SAFE_REPLY
+    assert r["trace"] == {"traced": 0, "total": 1, "blocked": True}
+    events = client.get("/api/v1/logs").json()
+    assert any(e["event"] == "answer_blocked_untraced" for e in events)
+
+
+def test_traced_answer_carries_the_badge(client):
+    r = ask(client, "How did we do this month?")
+    assert r["trace"]["blocked"] is False and r["trace"]["traced"] == r["trace"]["total"] > 0

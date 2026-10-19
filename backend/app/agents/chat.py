@@ -33,7 +33,7 @@ from . import llm
 from .permissions import MAX_TOOL_CALLS
 from .tools import TOOLS, ChatDeps
 
-PROMPT_VERSION = "chat_v3"
+PROMPT_VERSION = "chat_v4"
 PROMPT = (Path(__file__).parent / "prompts" / f"{PROMPT_VERSION}.md").read_text(encoding="utf-8")
 REPLAY_DIR = REPO_ROOT / "eval" / "replay" / "chat"
 
@@ -218,7 +218,7 @@ def _answer(intent: str | None, r: dict[str, list]) -> str:
         return ("I can't approve, pay or transfer anything, and I don't follow instructions to ignore my rules. "
                 "Every action needs your own approval in the Actions screen.")
     return ("I'm in offline mode, so I can answer these for now: how the month went, whether you can pay Supplier A's "
-            "order, what is expiring, and why the bank offered 75%.")
+            "order, what is expiring, and why the bank made its offer.")
 
 
 async def _script(messages: list[ModelMessage], info: AgentInfo) -> AsyncIterator[str | dict[int, DeltaToolCall]]:
@@ -294,3 +294,51 @@ agent = Agent(
     model_settings={"openai_reasoning_effort": "low"},
     name="lamp-copilot",
 )
+
+
+# --- Money-figure guard (win plan CORE-03) ----------------------------------------------
+
+SAFE_REPLY = ("I held that answer back because one of its money figures didn't match LaMP's own numbers. "
+              "Please ask again, or check the figures on the Funding and Cash screens.")
+
+
+async def guard_stream(events: AsyncIterator, db) -> AsyncIterator:
+    """Hold the answer's text until the run ends, then check every money figure in it against
+    this turn's tool outputs (engines.fidelity.trace). A traced answer is sent with a
+    `data-trace` badge part; an untraced one is replaced by SAFE_REPLY, logged and reported
+    to the admin. Tool calls and results stream through as they happen."""
+    from pydantic_ai.ui.vercel_ai.response_types import DataChunk, TextDeltaChunk, TextEndChunk, TextStartChunk
+
+    from app.engines import fidelity
+
+    held, outputs, text = [], [], ""
+
+    def flush():
+        if not held:
+            return []
+        result = fidelity.trace(text, outputs)
+        badge = DataChunk(type="data-trace", data={"traced": result.traced, "total": result.total,
+                                                   "blocked": not result.ok})
+        if result.ok:
+            return [*held, badge]
+        fidelity.report_blocked(result, db)
+        db.commit()
+        return [TextStartChunk(id="guard"), TextDeltaChunk(id="guard", delta=SAFE_REPLY), TextEndChunk(id="guard"), badge]
+
+    async for ev in events:
+        kind = getattr(ev, "type", "")
+        if kind in ("text-start", "text-delta", "text-end"):
+            held.append(ev)
+            if kind == "text-delta":
+                text += ev.delta
+            continue
+        if kind == "tool-output-available":
+            outputs.append(ev.output)
+        if kind in ("finish", "error", "abort"):
+            for out in flush():
+                yield out
+            held = []
+        yield ev
+    for out in flush():  # a stream that ended without a finish event
+        yield out
+

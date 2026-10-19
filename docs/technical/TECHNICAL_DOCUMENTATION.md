@@ -607,7 +607,7 @@ The scripted demo (`scripts/demo_run.py`) is an end-to-end test of the whole sto
 | Sales rate | Inferred from purchases over 90 days, assuming roughly stable stock. A shop that is building or running down stock will see biased rates. |
 | Margin | One gross margin for the whole shop (12%), set by the owner, rather than per product. |
 | Language | English only for now; most owners write in Bangla. |
-| Access control | The prototype has no user login; the owner and lender views are separated by screen, not by authentication. |
+| Access control | A 4-digit owner PIN opens a session cookie, and lenders use keys; there is no limit on PIN attempts and no multi-user accounts yet. |
 
 **Roadmap:**
 

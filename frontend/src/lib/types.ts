@@ -170,10 +170,12 @@ export interface ActionOut {
   kind: ActionKind;
   status: ActionStatus;
   payload: Record<string, unknown> & { summary?: string; amount?: number };
-  proposed_by: "owner" | "agent";
+  proposed_by: "owner" | "agent" | "lamp-scheduler";
   created_at: string;
   decided_at?: string;
   result?: Record<string, unknown> & { summary?: string };
+  /** Approving needs the owner PIN again (loan applications). */
+  requires_pin?: boolean;
 }
 
 export interface Lender {

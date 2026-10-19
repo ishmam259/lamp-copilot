@@ -102,7 +102,7 @@ Severity is the harm if the risk happens; likelihood is for the prototype as bui
 
 | # | Risk | Severity | Likelihood | Mitigation | Residual risk |
 |---|---|---|---|---|---|
-| 12 | **No user authentication** in the prototype: anyone who reaches the API can act as the owner or a lender | High | Low in a local demo; High if deployed publicly | Runs locally with Docker; CORS restricted to the app's origin; every action is logged | Must be fixed before any deployment: owner and lender accounts, role-based access per endpoint, and per-pharmacy authorisation. **High** for production |
+| 12 | **Unauthorised use of the API**: someone who reaches the API acts as the owner or a lender | High | Low | Every owner route, the chat and the audit log need the owner's session, set as an HttpOnly cookie after the PIN (only a salted scrypt hash of the PIN is stored); lender routes need that lender's key; a loan approval asks for the PIN again; demo controls exist only with `DEV_MODE=true`; 10 direct-HTTP tests (401 without a session, 403 with the wrong role) | A 4-digit PIN has no attempt limit yet, so it could be guessed; production needs attempt limits, real user accounts and key rotation. **Medium** |
 
 ---
 
@@ -209,7 +209,7 @@ It shows:
 
 The prototype's design already removes the most serious class of risk for an AI financial agent: **the model cannot move money or change state, whatever it is told.** What remains, in priority order for production:
 
-1. **Authentication and role-based access** for owners and lenders, with per-pharmacy authorisation on every endpoint (risk 12).
+1. **PIN attempt limits, real user accounts and lender key rotation** on top of the session and lender-key checks now in place (risk 12).
 2. **Scope-filtered lender views**, so a lender sees only the consented fields (risk 6).
 3. **Independent invoice verification**: supplier-side confirmation and cross-checks with bank statements (risks 2 and 9).
 4. **A shared duplicate-financing registry** across lenders (risk 1).

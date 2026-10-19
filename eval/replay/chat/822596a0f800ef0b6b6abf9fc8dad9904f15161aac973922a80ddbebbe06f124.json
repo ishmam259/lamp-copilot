@@ -2,21 +2,21 @@
   {
     "parts": [
       {
-        "tool_name": "propose_action",
-        "args": "{\"kind\":\"return_claim\",\"amount\":9200,\"reason\":\"Claim eligible returns for stock expiring within 60 days.\"}",
-        "tool_call_id": "call_vamSOWVaPxgaVpUqaVVTdBL4",
+        "tool_name": "get_expiry",
+        "args": "{\"horizon_days\":60}",
+        "tool_call_id": "call_2GjdLi9kBs7r9lbHxa7zWJjm",
         "tool_kind": null,
-        "id": "fc_0b154bae391fd400006ad503c2386c87d2b85ece7befd5394f",
+        "id": "fc_05fc776215cd6667006ad55f64cbe887d2833075b3bb1db1ab",
         "provider_name": "openai",
         "provider_details": null,
         "part_kind": "tool-call"
       }
     ],
     "usage": {
-      "input_tokens": 1854,
-      "cache_write_tokens": 414,
-      "cache_read_tokens": 1437,
-      "output_tokens": 40,
+      "input_tokens": 1500,
+      "cache_write_tokens": 9,
+      "cache_read_tokens": 1488,
+      "output_tokens": 21,
       "input_audio_tokens": 0,
       "cache_audio_read_tokens": 0,
       "output_audio_tokens": 0,
@@ -28,16 +28,16 @@
       "output_reasoning_tokens": 0
     },
     "model_name": "gpt-6-luna",
-    "timestamp": "2026-10-18T17:37:06.719694Z",
+    "timestamp": "2026-10-19T00:08:05.807012Z",
     "kind": "response",
     "provider_name": "openai",
     "provider_url": "https://api.openai.com/v1/",
     "provider_details": {
       "finish_reason": "completed",
-      "timestamp": "2026-10-18T17:37:05Z",
+      "timestamp": "2026-10-19T00:08:01Z",
       "service_tier": "default"
     },
-    "provider_response_id": "resp_0b154bae391fd400006ad503c1385487d2946aa5ff147d398c",
+    "provider_response_id": "resp_05fc776215cd6667006ad55f617f6087d2bfdfc1215c9ce261",
     "finish_reason": "stop",
     "run_id": null,
     "conversation_id": null,

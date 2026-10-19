@@ -24,27 +24,65 @@ import type {
 export const PID = "green-life";
 const BASE = "/api/v1";
 
+// ---------- session ----------
+
+/** Fired on any 401 from an owner route: the PIN gate shows the PIN screen. */
+export const LOCKED_EVENT = "lamp:locked";
+/** Fired after a correct PIN: screens and the log stream reconnect. */
+export const UNLOCKED_EVENT = "lamp:unlocked";
+
+export class ApiError extends Error {
+  constructor(public status: number, message: string) {
+    super(message);
+  }
+}
+
+/** Sandbox lender keys, published in contracts/plan_v3.md; the lender view sends them as X-Lender-Key. */
+const LENDER_KEYS: Record<string, string> = {
+  "wallet-lender": "wallet-lender-demo-key",
+  "partner-bank": "partner-bank-demo-key",
+};
+const lenderHeaders = (lenderId: string) => ({ "X-Lender-Key": LENDER_KEYS[lenderId] ?? "" });
+
 // ---------- transport ----------
 
-async function liveFetch(method: string, path: string, body?: unknown): Promise<unknown> {
+async function liveFetch(method: string, path: string, body?: unknown, headers?: Record<string, string>): Promise<unknown> {
   const res = await fetch(`${BASE}${path}`, {
     method,
-    headers: body ? { "Content-Type": "application/json" } : undefined,
+    credentials: "include",
+    headers: { ...(body ? { "Content-Type": "application/json" } : {}), ...headers },
     body: body ? JSON.stringify(body) : undefined,
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(text || `${method} ${path} failed (${res.status})`);
+    // Lock only when the session is missing or expired; a wrong PIN at approval is answered in its dialog.
+    if (res.status === 401 && !path.startsWith("/lenders") && !text.includes("needs the owner PIN") && typeof window !== "undefined") {
+      window.dispatchEvent(new Event(LOCKED_EVENT));
+    }
+    throw new ApiError(res.status, text || `${method} ${path} failed (${res.status})`);
   }
   return res.status === 204 ? null : res.json();
 }
 
-export async function apiGet<T>(path: string): Promise<T> {
-  return liveFetch("GET", path) as Promise<T>;
+export async function apiGet<T>(path: string, headers?: Record<string, string>): Promise<T> {
+  return liveFetch("GET", path, undefined, headers) as Promise<T>;
 }
 
-export async function apiPost<T>(path: string, body?: unknown): Promise<T> {
-  return liveFetch("POST", path, body) as Promise<T>;
+export async function apiPost<T>(path: string, body?: unknown, headers?: Record<string, string>): Promise<T> {
+  return liveFetch("POST", path, body, headers) as Promise<T>;
+}
+
+/** Unlock with the owner PIN. The API sets an HttpOnly session cookie. Throws ApiError(401) on a wrong PIN. */
+export async function unlock(pin: string) {
+  const res = await fetch(`${BASE}/pharmacies/${PID}/session`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ pin }),
+  });
+  if (!res.ok) throw new ApiError(res.status, res.status === 401 ? "Wrong PIN" : `Unlock failed (${res.status})`);
+  window.dispatchEvent(new Event(UNLOCKED_EVENT));
+  await refreshAll();
 }
 
 export async function apiDelete<T>(path: string): Promise<T> {
@@ -55,21 +93,32 @@ export async function uploadCapture(kind: "invoice" | "sales_page", file: File):
   const form = new FormData();
   form.append("file", file);
   form.append("kind", kind);
-  const res = await fetch(`${BASE}/pharmacies/${PID}/captures`, { method: "POST", body: form });
-  if (!res.ok) throw new Error(`Upload failed (${res.status})`);
+  const res = await fetch(`${BASE}/pharmacies/${PID}/captures`, { method: "POST", body: form, credentials: "include" });
+  if (res.status === 401) window.dispatchEvent(new Event(LOCKED_EVENT));
+  if (!res.ok) throw new ApiError(res.status, `Upload failed (${res.status})`);
   return res.json();
 }
 
+/** Live audit log over SSE. Reconnects after the owner unlocks (the stream needs the session). */
 export function subscribeLogs(onEvent: (e: LogEvent) => void): () => void {
-  const es = new EventSource(`${BASE}/logs/stream`);
-  es.onmessage = (msg) => {
-    try {
-      onEvent(JSON.parse(msg.data) as LogEvent);
-    } catch {
-      /* ignore malformed events */
-    }
+  let es: EventSource | null = null;
+  const open = () => {
+    es?.close();
+    es = new EventSource(`${BASE}/logs/stream`, { withCredentials: true });
+    es.onmessage = (msg) => {
+      try {
+        onEvent(JSON.parse(msg.data) as LogEvent);
+      } catch {
+        /* ignore malformed events */
+      }
+    };
   };
-  return () => es.close();
+  open();
+  window.addEventListener(UNLOCKED_EVENT, open);
+  return () => {
+    window.removeEventListener(UNLOCKED_EVENT, open);
+    es?.close();
+  };
 }
 
 /** Re-fetch everything after a state change (approve, confirm, consent). */
@@ -95,7 +144,8 @@ export const usePassport = () => useSWR<PassportOut>(ph("/passport"), get);
 export const useActions = () => useSWR<ActionOut[]>(ph("/actions"), get);
 export const useConsents = () => useSWR<Consent[]>(ph("/consents"), get);
 export const useLenders = () => useSWR<Lender[]>("/lenders", get);
-export const useApplications = (lenderId: string) => useSWR<Application[]>(`/lenders/${lenderId}/applications`, get);
+export const useApplications = (lenderId: string) =>
+  useSWR<Application[]>(`/lenders/${lenderId}/applications`, (k: string) => apiGet<Application[]>(k, lenderHeaders(lenderId)));
 export const useLogs = () => useSWR<LogEvent[]>("/logs", get);
 
 // ---------- mutations ----------
@@ -106,8 +156,9 @@ export async function proposeAction(kind: ActionKind, payload: ActionOut["payloa
   return a;
 }
 
-export async function decideAction(id: string, decision: "approve" | "reject") {
-  const a = await apiPost<ActionOut>(ph(`/actions/${id}/${decision}`));
+/** Approve or reject. Loan applications (requires_pin) need the owner PIN again. */
+export async function decideAction(id: string, decision: "approve" | "reject", pin?: string) {
+  const a = await apiPost<ActionOut>(ph(`/actions/${id}/${decision}`), pin ? { pin } : undefined);
   await refreshAll();
   return a;
 }
@@ -118,7 +169,7 @@ export async function grantConsent(lenderId: string, scopes: string[]) {
 }
 
 export async function withdrawConsent(consentId: string) {
-  await apiDelete(`/consents/${consentId}`);
+  await apiDelete(ph(`/consents/${consentId}`));
   await refreshAll();
 }
 
@@ -130,6 +181,6 @@ export async function confirmCapture(id: string, extraction: CaptureOut["extract
 }
 
 export async function lenderDecide(lenderId: string, appId: string) {
-  await apiPost(`/lenders/${lenderId}/applications/${appId}/decide`);
+  await apiPost(`/lenders/${lenderId}/applications/${appId}/decide`, undefined, lenderHeaders(lenderId));
   await refreshAll();
 }

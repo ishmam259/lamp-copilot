@@ -248,6 +248,14 @@ Farhan designs `seed/green_life.json` so the engines output these. Tests assert 
 | Default probability (lender model) | 0.030 |
 | Score S | 0.507 |
 | Advance rate / partner share | 75.2% / 54.4% |
+| Shelf-life credit: purpose-blind lender / not financed / financeable | 19,000 / 10,800 / 8,200 |
+| Cost disclosure: wallet loan | APR 9% on 8,200 for 90 days; cost of the gap 181.97 = 2.22% of the need |
+| Cost disclosure: bank-funded supplier credit | APR 12.2% on 49,200 for 30 days; 492.00 = 6.0% of the need |
+| Borrowing ceiling (DBR cap 35% of monthly net cash flow 13,500) | 8,200 loan → 2,793.99/month = 20.7% (allowed); 19,000 → 6,473.88/month = 48.0% (refused) |
+| Value ledger total after the demo story | 9,200 + 10,800 + 239.67 = 20,239.67 |
+| Statement reconciliation | 11 matched, 1 duplicate (Q-3130, 8,600), 1 unmatched (4,500), 1 missing (T-3134) |
+| Fallback deadline if Supplier A doesn't reply | Fri 23 Oct |
+| Demo owner PIN (sandbox) | 2468 |
 
 ---
 

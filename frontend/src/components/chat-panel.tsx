@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { ArrowUp, Check, ListChecks, Wrench } from "lucide-react";
+import { ArrowUp, Check, ListChecks, ShieldAlert, ShieldCheck, Wrench } from "lucide-react";
 import { cn } from "cn";
 import { PID } from "@/lib/api";
 
@@ -14,7 +14,8 @@ const SUGGESTIONS = [
   "Why did the bank offer 75%?",
 ];
 
-type Turn = { id: string; role: "user" | "assistant"; text: string; tools?: string[]; plan?: string[] };
+type Trace = { traced: number; total: number; blocked: boolean };
+type Turn = { id: string; role: "user" | "assistant"; text: string; tools?: string[]; plan?: string[]; trace?: Trace };
 
 /** LaMP chat: POST /api/v1/chat (backend/app/agents/router.py), streamed with the AI SDK UI message protocol. */
 export function ChatPanel() {
@@ -40,6 +41,7 @@ function LiveChat() {
     plan: m.parts
       .filter((p) => p.type === "tool-share_plan" || ("toolName" in p && (p as { toolName: string }).toolName === "share_plan"))
       .flatMap((p) => ((p as { input?: { steps?: unknown } }).input?.steps as string[] | undefined) ?? []),
+    trace: (m.parts.find((p) => p.type === "data-trace") as { data?: Trace } | undefined)?.data,
   }));
   return (
     <ChatFrame
@@ -136,6 +138,16 @@ function ChatFrame({
             >
               {t.text}
             </div>
+            {t.trace && t.trace.blocked && (
+              <p className="flex items-center gap-1.5 text-xs font-semibold text-alert">
+                <ShieldAlert className="size-3.5" aria-hidden /> Held back: a money figure didn&apos;t match LaMP&apos;s engines
+              </p>
+            )}
+            {t.trace && !t.trace.blocked && t.trace.total > 0 && (
+              <p className="flex items-center gap-1.5 text-xs font-semibold text-stock">
+                <ShieldCheck className="size-3.5" aria-hidden /> {t.trace.traced} of {t.trace.total} money figures traced to LaMP&apos;s engines
+              </p>
+            )}
           </div>
         ))}
         {busy && <p className="text-sm font-semibold text-ink-2">LaMP is checking your figures…</p>}

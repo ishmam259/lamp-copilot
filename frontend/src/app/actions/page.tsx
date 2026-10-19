@@ -4,7 +4,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
-import { decideAction, useActions } from "@/lib/api";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { PinPrompt } from "@/components/pin-gate";
+import { ApiError, decideAction, useActions } from "@/lib/api";
 import { bdt, stampDate } from "@/lib/format";
 import type { ActionOut } from "@/lib/types";
 
@@ -16,21 +18,54 @@ const KIND_LABEL: Record<ActionOut["kind"], string> = {
   trim_order: "Trim an order",
 };
 
+const PROPOSER: Record<ActionOut["proposed_by"], string> = {
+  owner: "suggested by you",
+  agent: "suggested by LaMP",
+  "lamp-scheduler": "LaMP follow-up",
+};
+
+/** The action's own description: owner proposals carry `summary`, the copilot's carry `reason`. */
+function title(a: ActionOut): string {
+  const p = a.payload as Record<string, unknown>;
+  return String(p.summary ?? p.reason ?? KIND_LABEL[a.kind]);
+}
+
+/** The API's {"detail": "..."} message, for refusals such as Pause or the borrowing ceiling. */
+function apiDetail(e: ApiError): string {
+  try {
+    const d = JSON.parse(e.message).detail;
+    return typeof d === "string" ? d : "LaMP refused this action.";
+  } catch {
+    return e.message || "LaMP refused this action.";
+  }
+}
+
 export default function ActionsPage() {
   const { data: actions, error } = useActions();
   const [busy, setBusy] = useState<string | null>(null);
+  const [pinFor, setPinFor] = useState<ActionOut | null>(null);
   const waiting = actions?.filter((a) => a.status === "proposed") ?? [];
   const done = actions?.filter((a) => a.status !== "proposed") ?? [];
 
-  async function decide(a: ActionOut, decision: "approve" | "reject") {
+  /** Returns false only for a wrong PIN, so the PIN prompt can ask again. */
+  async function decide(a: ActionOut, decision: "approve" | "reject", pin?: string): Promise<boolean> {
+    if (decision === "approve" && a.requires_pin && !pin) {
+      setPinFor(a);
+      return true;
+    }
     setBusy(a.id);
     try {
-      const res = await decideAction(a.id, decision);
+      const res = await decideAction(a.id, decision, pin);
+      setPinFor(null);
       if (res.status === "failed") toast.error(String(res.result?.summary ?? "It didn't go through."));
       else if (decision === "approve") toast.success(String(res.result?.summary ?? "Approved."));
       else toast("Declined. Nothing was done.");
-    } catch {
-      toast.error("Couldn't reach LaMP. Try again.");
+      return true;
+    } catch (e) {
+      if (pin && e instanceof ApiError && e.status === 401) return false;
+      setPinFor(null);
+      toast.error(e instanceof ApiError && e.status === 409 ? apiDetail(e) : "Couldn't reach LaMP. Try again.");
+      return true;
     } finally {
       setBusy(null);
     }
@@ -51,9 +86,10 @@ export default function ActionsPage() {
                 {waiting.map((a) => (
                   <li key={a.id} className="py-3 first:pt-0 last:pb-0">
                     <p className="text-sm font-semibold text-ink-2">
-                      {KIND_LABEL[a.kind]} · suggested by {a.proposed_by === "agent" ? "LaMP" : "you"}
+                      {KIND_LABEL[a.kind]} · {PROPOSER[a.proposed_by]}
+                      {a.requires_pin && " · needs your PIN"}
                     </p>
-                    <p className="mt-0.5 text-lg font-semibold text-ink">{a.payload.summary}</p>
+                    <p className="mt-0.5 text-lg font-semibold text-ink">{title(a)}</p>
                     {(a.payload.amount !== undefined || typeof a.payload.when === "string") && (
                       <div className="mt-1 flex flex-wrap items-center gap-2">
                         {a.payload.amount !== undefined && <span className="num font-bold text-ink">{bdt(Number(a.payload.amount))}</span>}
@@ -74,6 +110,21 @@ export default function ActionsPage() {
             )}
           </Carton>
 
+          <Dialog open={!!pinFor} onOpenChange={(open) => !open && setPinFor(null)}>
+            <DialogContent showCloseButton={false} className="max-w-sm">
+              <DialogHeader>
+                <DialogTitle>Approve with your PIN</DialogTitle>
+              </DialogHeader>
+              {pinFor && (
+                <PinPrompt
+                  title={`${title(pinFor)}${pinFor.payload.amount !== undefined ? ` · ${bdt(Number(pinFor.payload.amount))}` : ""}. Loan applications need your PIN again.`}
+                  onSubmit={(pin) => decide(pinFor, "approve", pin)}
+                  onCancel={() => setPinFor(null)}
+                />
+              )}
+            </DialogContent>
+          </Dialog>
+
           <Carton tone="ink" title="Done" aside={`${done.length}`}>
             {done.length === 0 ? (
               <p className="text-ink-2">Approved and declined actions are kept here with their results.</p>
@@ -82,7 +133,7 @@ export default function ActionsPage() {
                 {done.map((a) => (
                   <li key={a.id} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
                     <div className="min-w-0 flex-1">
-                      <p className="font-semibold text-ink">{a.payload.summary}</p>
+                      <p className="font-semibold text-ink">{title(a)}</p>
                       {a.result?.summary && <p className="text-sm text-ink-2">{String(a.result.summary)}</p>}
                     </div>
                     {a.status === "executed" && <Stamp approved>Approved</Stamp>}
