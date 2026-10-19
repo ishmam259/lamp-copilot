@@ -196,3 +196,20 @@ def test_timestamps_carry_utc(client):
     log = client.get("/api/v1/logs").json()[-1]
     for ts in (a["created_at"], c["granted_at"], log["ts"]):
         assert ts.endswith("Z") or ts.endswith("+00:00"), ts
+
+
+def test_claimed_returns_are_not_offered_again(client):
+    approve(client, propose(client, "return_claim", amount=9200)["id"])
+    assert "return_window" not in [a["kind"] for a in client.get(f"{P}/alerts").json()]
+    plan = client.post(f"{P}/funding-plan", json={}).json()
+    opt = next(o for o in plan["options"] if o["key"] == "return_claims")
+    assert (opt["amount"], opt["eligible"]) == (0, False)
+
+
+def test_a_declined_extension_is_not_offered_again(client):
+    ext = approve(client, propose(client, "extension_request", amount=8200)["id"])
+    client.post("/api/v1/dev/simulate/supplier-reply", json={"action_id": ext["id"], "accepted": False})
+    plan = client.post(f"{P}/funding-plan", json={}).json()
+    opt = next(o for o in plan["options"] if o["key"] == "supplier_extension")
+    assert not opt["eligible"] and "declined" in opt["reason"]
+    assert "extension_request" not in [s["action_kind"] for s in plan["plan"]["steps"]]
