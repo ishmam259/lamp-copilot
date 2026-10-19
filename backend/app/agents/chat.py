@@ -33,20 +33,23 @@ from . import llm
 from .permissions import MAX_TOOL_CALLS
 from .tools import TOOLS, ChatDeps
 
-PROMPT_VERSION = "chat_v4"
-PROMPT = (Path(__file__).parent / "prompts" / f"{PROMPT_VERSION}.md").read_text(encoding="utf-8")
 REPLAY_DIR = REPO_ROOT / "eval" / "replay" / "chat"
 
 
 class ChatSettings(BaseSettings):
-    """The chat's model name. LLM_MODE, the API key and the daily budget come from app.config."""
+    """The chat's model name and prompt. LLM_MODE, the API key and the daily budget come from app.config."""
 
     model_config = SettingsConfigDict(env_file=REPO_ROOT / ".env", extra="ignore")
 
     openai_chat_model: str = "gpt-6-luna"
+    # chat_v5 adds the set-aside routing line. It stays opt-in (CHAT_PROMPT_VERSION=chat_v5)
+    # until the demo chats are re-recorded with it, since replay keys include the version.
+    chat_prompt_version: str = "chat_v4"
 
 
 CHAT_MODEL = ChatSettings().openai_chat_model
+PROMPT_VERSION = ChatSettings().chat_prompt_version
+PROMPT = (Path(__file__).parent / "prompts" / f"{PROMPT_VERSION}.md").read_text(encoding="utf-8")
 USAGE_LIMITS = UsageLimits(tool_calls_limit=MAX_TOOL_CALLS + 1, request_limit=MAX_TOOL_CALLS + 3)  # + share_plan
 
 
