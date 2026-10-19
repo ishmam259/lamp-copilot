@@ -1,0 +1,57 @@
+[
+  {
+    "parts": [
+      {
+        "content": "",
+        "id": "rs_0da9e7b006b2e4fd006ad5b81bb25487d298978e0e4f59f6c2",
+        "signature": "gAAAAABq1bgdrZOWUAn-lgtV4R8JHEwbKOFCS9QXWlYJnUKAuqiiAsSrkB3l95maBrToEo0DnaUROIyes-Vyw8ZsXvEPIltpzLdIv2EBg6xdXlSM6wDXRM9zoLetz5Wv5zLHDAyL2RVu0eO7MkzboVZYxXnXmvrUXEvRSjgjNC2o4Kk96SzvPaVMdNO0gZpexrkZ9NxMqtJmSpYIBk-G_AYlc14o09oEmTwym4oh69frAlT_qX8U2D6iFQrFysLYpBYMPpDoh1Q5nuy6Ai-cIVyuODk5weTxFhdsaAF6U7WG1yRHtjbUDNkbvnA5JqH-r6xHPEdVJN5ytShL6b429ozmaMrf0cn-A_Vq9PPZNozfIxiaU_O9WDj2QHon9NF5NgJ2UWj2sjNz8ab3LI3c_jkNlYwWbKa4NMnX-SZ8lNpqKvCthBlsHTGIXCsCOKAfMnAZmnL9CWtIcE-Xsr2EQ9PPHa5mctPzZ2vymglPnY8rCInFtNCswvyqd64cyqpvVn78w8ssrSuHJaDoNDbViCIQ8lN840-zUhcJ10HhghU4AwMri4koTsvESxcWbNhKTgl1A43NrF0UNgFSQpwPeiDeuLg8p_5w1hnFih2tz9plxiEmEX8f4-ZsaDv254dkXd4ok4J3FrRi_cZUKU3kDHTH-NRL94ZnCr-li12syJi0syv1EyGdG252a0QbdtImwkx2Xv7LSUQ1BiZuuwt1Iwtj4KIFTG0J09_mYPVOhJb2Cm8qtME7Jw-wcL6TAR46JOnghOUvKU3igjrX5-vbXplBdQEvOrBlFzT_LY-QG-X7n6m9Gox__va0PEpwvwcBT22jHi7JvTGZzyQraYbjM8MkVgOZs5kNkqdsU5ZS--M14sqAcR8IHmMabU2iQ4kPeZfLyPYViEp-L2wwbRoc9hFdI7Hb0vijiK97DydMDO587wSX8Kk5Nnm3lCoa79kgIc1mZyzie28imRoq6R_Lw4tbj62Ckp83BdG9J94Xwwg7KglpYV6xD5zr7S54B5BRy90x8WRICDR9QJ0A7I3ii0yWk2XWRAGb9X3gRQ1lzEovteirliAbfapAa9P-X9RI9awxCFTH0vu9dQJhk7ypMIBFPtMj2phwqhg-NShTaoBcCrf32AZQ6pqcDzUum-FKr9jNqlQk2-Ez2nT58jGdhVlm6KHJXoettz6u5LFN5BIuIb3dq18D5vg55bJPWTn5Kc_zxu05k_CqqzGyLolngH16kVWTU1cnpF-RJAub0a2Niy3T9XWvvzUnHmok3vIGTvLozBoj13pbrZWmX5t1TJtG1DcjuHSju6mX9T2ssC9T3FXiyNr1wxKW9F_zp5geMxrNQMLubnHypSYDbaYksulRz0sJ5ovy-xdpb6H-lHHRCRdy9F_NlQbQQRnrTUsp-u_7_mWNl2YWt1oz4jtXQoja39Jrk1Vjv5TM15UU6-dHuAfhnk2qjKDsBZAz0P6j7-pgd46nj-9tYs2TBMS-OFOI5iUbiPrUEKIVZ1AJoMyAwLVsrUQAHblLejoNq0u0V8QB7sz96bJt3wQSTGD2_BKyQFQG_eY913vjkE6134hzIFE2fo_H5r2ljQ-AHU9T0QZP9AQSdrWneVFgopsHNLQ7NoL2VuS39ga7lH-ZJ-PPvcZ8uuLfuMd1EVfO91PgVucAg4oCwp29",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "thinking"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"return_claim\",\"amount\":4800,\"reason\":\"Claim return for eligible expiring Omeprazole 20 mg, box of 50, batch OM2409, to Supplier B.\"}",
+        "tool_call_id": "call_XFyFlZEHboPI1TzpjaxPDw9O",
+        "tool_kind": null,
+        "id": "fc_0da9e7b006b2e4fd006ad5b81c276c87d2a90d4716cfa43e16",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1978,
+      "cache_write_tokens": 414,
+      "cache_read_tokens": 1561,
+      "output_tokens": 79,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 21
+      },
+      "cost": null,
+      "output_reasoning_tokens": 21
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T06:26:37.618404Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T06:26:35Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0da9e7b006b2e4fd006ad5b81b161887d2ae1fa4b5929bb69c",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

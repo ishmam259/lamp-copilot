@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "These batches are due to expire within the next 60 days:\n\n- Vitamin B complex: 8 boxes, expires 2026-10-25.\n- Oral saline: 6 boxes, expires 2026-10-28.\n- Metformin 500 mg: 13 boxes, expires 2026-11-05.\n- Amoxicillin 500 mg: 6 boxes, expires 2026-11-10.\n- Cetirizine 10 mg: 22 boxes, expires 2026-12-03.\n- Omeprazole 20 mg: 10 boxes, expires 2026-12-10.\n\nThe eligible returns are worth BDT 9,200. I proposed a return claim; it is waiting for your approval in Actions.",
+        "id": "msg_0b03a13d4e222a6a006ad5b7f98c5887d29206ed8b1bd5c5b9",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1997,
+      "cache_write_tokens": 81,
+      "cache_read_tokens": 1913,
+      "output_tokens": 164,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T06:26:03.817734Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T06:26:01Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0b03a13d4e222a6a006ad5b7f8f7e087d2a2fafbe534414c9f",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

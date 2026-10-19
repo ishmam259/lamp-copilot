@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "You paid 38 of 41 supplier invoices on time. Your cautious on-time estimate is 0.826, and your default probability is 0.03. Your lender score is 0.507, with a possible advance rate of 75.2%.\n\nThat suggests a fairly solid payment record, though some invoices were late. Paying more invoices on time can improve your record.",
+        "id": "msg_0b19cc68df3f143c006ad5b877dd8487d2a3b6418cb30daafc",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1749,
+      "cache_write_tokens": 237,
+      "cache_read_tokens": 1509,
+      "output_tokens": 81,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T06:28:09.572266Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T06:28:06Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0b19cc68df3f143c006ad5b8768e9487d2a07d50c687844b26",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]
