@@ -1,7 +1,24 @@
 {
   "need": {
     "amount": 8100.0,
-    "needed_by": "2026-11-01"
+    "needed_by": "2026-11-01",
+    "explain": [
+      {
+        "label": "Shop rent due 01 Nov",
+        "amount": 18000.0,
+        "op": "start"
+      },
+      {
+        "label": "Cash at the start of 01 Nov",
+        "amount": 9900.0,
+        "op": "-"
+      },
+      {
+        "label": "To cover",
+        "amount": 8100.0,
+        "op": "="
+      }
+    ]
   },
   "horizon_days": 90,
   "matched": 6,

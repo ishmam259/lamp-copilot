@@ -1,7 +1,7 @@
 [
   {
     "id": "lg-1",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T0",
     "component": "DEV",
     "event": "reset",
@@ -9,11 +9,11 @@
       "pharmacy": "green-life",
       "with_demo_captures": true
     },
-    "hash": "a02355ce993042d5f5a930be9a2b0e3feed0d0377b28b4d63b81ced52fa5da93"
+    "hash": "2ca089cf0eb352bcdd78d7d3b8d8df4d3b751fc64e946c400721af100d6bcc8d"
   },
   {
     "id": "lg-2",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T1",
     "component": "CAPTURE",
     "event": "capture_confirmed",
@@ -21,11 +21,11 @@
       "capture": "demo-invoice_supplier_f",
       "kind": "invoice"
     },
-    "hash": "c6d5b55a06f13c0597393c8e8b3c164bc375e9dec6f5f943e07e5fc4f81517a3"
+    "hash": "45fcd8e7425c8c380e68216337cdbfa32e91bd145abfaa56100ee94ac84087d0"
   },
   {
     "id": "lg-3",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T1",
     "component": "CAPTURE",
     "event": "capture_confirmed",
@@ -33,11 +33,11 @@
       "capture": "demo-invoice_supplier_h",
       "kind": "invoice"
     },
-    "hash": "49aadc67f3d8655f54a756654fca84175454a9e3a4c249559c89559fc8da7be8"
+    "hash": "c03d0ea00ed7af3a4166180daa82e260d9dddb7d69feab63e8d3c6004d454e06"
   },
   {
     "id": "lg-4",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T1",
     "component": "CAPTURE",
     "event": "capture_confirmed",
@@ -45,11 +45,11 @@
       "capture": "demo-sales_page",
       "kind": "sales_page"
     },
-    "hash": "ae4c219ca87621a20b34dac728869b5e3d0807bfc66f4159b572acbe4f615c53"
+    "hash": "83d907d4dcecdf34576edcb7a56c13daae9d7681d387233477af7e4bab5ff3b2"
   },
   {
     "id": "lg-5",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T2",
     "component": "FORECAST",
     "event": "shortfall_detected",
@@ -58,11 +58,11 @@
       "amount": 19000.0,
       "cause": "Supplier A order BDT 60,000"
     },
-    "hash": "17a0a83d3d56f1d64bf6a67a2b6193826f1d527b2fb50d32d6663646cdea5c30"
+    "hash": "83fa128a62ae3b634ed0e85c17cc3111eecf070422eca579c26c8a21b62eff01"
   },
   {
     "id": "lg-6",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T2",
     "component": "EXPIRY",
     "event": "batches_at_risk",
@@ -71,22 +71,22 @@
       "value": 18400.0,
       "return_eligible": 9200.0
     },
-    "hash": "1aa9c836b17b1addfe44af109b2124e68930b0ff6766cc8244a923d53bcda7d8"
+    "hash": "ebad6948964ab2e9c2bc38d9500c74e9b3cc76e473ecfff44f24bc4c50f52bf0"
   },
   {
     "id": "lg-7",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T1",
     "component": "AUTH",
     "event": "owner_unlocked",
     "data": {
       "pharmacy": "green-life"
     },
-    "hash": "5beec88720d7469d743482950262118d530f55b134d632914d0d3801846ee4d5"
+    "hash": "94eb33713f3cb822ee43ecf9659d653e9348112cbe9646a26b834f20077fbbb0"
   },
   {
     "id": "lg-8",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T1",
     "component": "ACTIONS",
     "event": "action_proposed",
@@ -96,11 +96,11 @@
       "by": "owner",
       "amount": 9200
     },
-    "hash": "fe11ffa246081a8305b2a2fcc6be868c9d3efd1f659886b8d5de3bb4afbac8fa"
+    "hash": "a103fcd32b12f279e3020399fed821c3ba22d7fabde7fb6b95cc05ddd4fe57c0"
   },
   {
     "id": "lg-9",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T1",
     "component": "ACTIONS",
     "event": "action_approved_by_owner",
@@ -108,11 +108,11 @@
       "action": "act-1",
       "kind": "return_claim"
     },
-    "hash": "ad672dbe0fc0cc0e4d13f3012e70c4f512209cddc9fba2581699fa4600d7cc67"
+    "hash": "ced2873081588cab70f7e1d6f396b9db3061649189e42736c341ad5065c56924"
   },
   {
     "id": "lg-10",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T2",
     "component": "EXPIRY",
     "event": "return_claim_sent",
@@ -124,11 +124,11 @@
       ],
       "amount": 9200.0
     },
-    "hash": "13f44c45c0b1d4ade3689d3dd1aff082e97f28d4adff2397e3545d8e344f535b"
+    "hash": "2ece952e48b0d56f1fca96822f3a5a16f40054e3a9f39b2f8f32b90596c0e612"
   },
   {
     "id": "lg-11",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T2",
     "component": "EXECUTOR",
     "event": "action_executed",
@@ -136,11 +136,11 @@
       "action": "act-1",
       "kind": "return_claim"
     },
-    "hash": "02483154b85743d7bd4fa5af97a38bdc2176beb8e3f983480eafea02140c74d1"
+    "hash": "a133d5914ef724159f3d463fd2dc097c3eda9ed1aeaabc5f0fc93fe378ec8e6f"
   },
   {
     "id": "lg-12",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T1",
     "component": "CONSENT",
     "event": "consent_granted",
@@ -152,11 +152,11 @@
         "accounts"
       ]
     },
-    "hash": "fad0de2d105eb17b4269826a7e0fb52e62d24cbcd8654fddaee3f3aed00974d9"
+    "hash": "5be11444711cacb43ecfc27ae8819cae7401390024ecd8855d967c6af4396e9b"
   },
   {
     "id": "lg-13",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:22Z",
     "tier": "T1",
     "component": "ACTIONS",
     "event": "action_proposed",
@@ -166,11 +166,11 @@
       "by": "owner",
       "amount": 8200
     },
-    "hash": "437580807065b10c13a6d73a31c70cb81be9d66c5e2d0c722f86ba4eb3b43bdd"
+    "hash": "dece2dc203e54117dc7eb40e1c6d7317d18dbbf7aab2c493089b76c3147404b5"
   },
   {
     "id": "lg-14",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T1",
     "component": "ACTIONS",
     "event": "action_approved_by_owner",
@@ -178,11 +178,11 @@
       "action": "act-2",
       "kind": "loan_application"
     },
-    "hash": "2851af6197fef736a64d3714fc00713b02fbe33bf7837c8f4dbcd7ad69df56a5"
+    "hash": "7c82352fde11a2884c095cc94552b2ba8948c0636d351cdfe6c8daacf8273279"
   },
   {
     "id": "lg-15",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T3",
     "component": "REGISTRY",
     "event": "lock_acquired",
@@ -191,11 +191,11 @@
       "invoice": "PO-A-1026",
       "application": "APP-0001"
     },
-    "hash": "57be914ca299d50fc7136620b987509be24ba64ef9fa6d5c9b4805fcf4a53bed"
+    "hash": "dde61e08b9a013e2db962df476e8369e14ba970676cc3db95c08a9e21a872a32"
   },
   {
     "id": "lg-16",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T3",
     "component": "LENDER",
     "event": "application_submitted",
@@ -204,11 +204,11 @@
       "lender": "wallet-lender",
       "amount": 8200.0
     },
-    "hash": "34f4c79407f505373b64144c8170d024ef029d03d0dd42701a08d975224c14a1"
+    "hash": "57f4ceca60ac6746f759c77120dc9f99ed6b3469c319799d0a628713f49b8e4b"
   },
   {
     "id": "lg-17",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T3",
     "component": "EXECUTOR",
     "event": "action_executed",
@@ -216,11 +216,11 @@
       "action": "act-2",
       "kind": "loan_application"
     },
-    "hash": "6e0650a3e07c66351a75add125a8fb1ff4739d141f7ee0c9a7cde06e084aad75"
+    "hash": "45eef2afc65a82c337058b071ae0bc815bc68fc8612781daccf1a2abd295d800"
   },
   {
     "id": "lg-18",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T0",
     "component": "LENDER",
     "event": "inbox_viewed",
@@ -228,11 +228,11 @@
       "lender": "wallet-lender",
       "applications": 1
     },
-    "hash": "b7a89e2145e2b332c5e9ba7242ca53db8ec4069ac96bbc6a6030afe6fe811c03"
+    "hash": "7dea26cce1d5acf0065b3fbb11e2d4469679da391c8a4dc293e6ac23fb45441d"
   },
   {
     "id": "lg-19",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T3",
     "component": "WALLET",
     "event": "wallet_credited",
@@ -240,11 +240,11 @@
       "amount": 8200.0,
       "ref": "SANDBOX-WALLET-LENDER-20261016-0001"
     },
-    "hash": "7d478a2e4cf7a6b7088c3dc1f5a8d083ca174ffc1549148760cd69507000f8fd"
+    "hash": "324971270c25f8436699e65fdf2461b83f1762f9c820e32f1d69aaa9a90818c7"
   },
   {
     "id": "lg-20",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T3",
     "component": "LENDER",
     "event": "application_approved",
@@ -253,11 +253,11 @@
       "payout": "SANDBOX-WALLET-LENDER-20261016-0001",
       "amount": 8200.0
     },
-    "hash": "64177f0a2accf9087591cb900da83db376487f5867e7ff71273721ef33a720af"
+    "hash": "6cf2e96c40d5ef0c686001bd44c9eeec9864d8711076dddda466a1fc22780ce6"
   },
   {
     "id": "lg-21",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T3",
     "component": "PAYOUT",
     "event": "sandbox_payout",
@@ -266,11 +266,11 @@
       "payout": "SANDBOX-WALLET-LENDER-20261016-0001",
       "amount": 8200.0
     },
-    "hash": "b37aea1e4567fa0c9d8797d11d67a9e12cf8bec2d1462c3c12d4d8cef6924e50"
+    "hash": "4edb997ca5677ff16a3514acfad54aaf0ac04973f5c6fcd288117b0de2346de9"
   },
   {
     "id": "lg-22",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T1",
     "component": "ACTIONS",
     "event": "action_proposed",
@@ -280,11 +280,11 @@
       "by": "owner",
       "amount": 8200
     },
-    "hash": "f17fe379a8d4d9247319c1a3d18368a51c42b7347e93d8a3ad1386cb7d9c7e1e"
+    "hash": "03fb8c75fc0353e507a668778ea4e6dc76b31b53606d5e5e2c5545a24b59efc3"
   },
   {
     "id": "lg-23",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T1",
     "component": "ACTIONS",
     "event": "action_approved_by_owner",
@@ -292,11 +292,11 @@
       "action": "act-3",
       "kind": "extension_request"
     },
-    "hash": "6136447780b2f110eb511bd9781fc85204ec9fd0fe70ca41a3c639de9d3cc384"
+    "hash": "4a0324ffb6ef4fb0f858063a4032fdc37be90f9ad3d3b3cc02c9a1bf474f7260"
   },
   {
     "id": "lg-24",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T2",
     "component": "SUPPLIERS",
     "event": "extension_requested",
@@ -306,26 +306,11 @@
       "days": 20,
       "amount": 8200
     },
-    "hash": "213a13622e62676a37e834da8a5e31eaf153de45ce7de35eda2e33f37094a591"
+    "hash": "b5eddc4a42d0e3ca56c507ebbf1d0b3c65db6856e809ff9e7042e94ac0922f35"
   },
   {
     "id": "lg-25",
-    "ts": "2026-10-19T03:42:42Z",
-    "tier": "T2",
-    "component": "FOLLOWUP",
-    "event": "followup_scheduled",
-    "data": {
-      "followup": "fu-1",
-      "watches": "act-3",
-      "amount": 8100.0,
-      "deadline": "2026-10-29",
-      "fallback": "loan_application"
-    },
-    "hash": "6aca5cce76a4cf360d539bae08209f39053faff79777de6889b43a010c7d4fb2"
-  },
-  {
-    "id": "lg-26",
-    "ts": "2026-10-19T03:42:42Z",
+    "ts": "2026-10-19T11:04:23Z",
     "tier": "T2",
     "component": "EXECUTOR",
     "event": "action_executed",
@@ -333,6 +318,6 @@
       "action": "act-3",
       "kind": "extension_request"
     },
-    "hash": "9ecfe743e4324277866422907c6f34ba48e4c3ccb9457bb443b9ac3b7dd51bd7"
+    "hash": "d7e350a7f27629ee0e07b4bcc1812730a00bb7f8f2b8bf4e75d6949f7adf1884"
   }
 ]

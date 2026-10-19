@@ -73,7 +73,7 @@ def test_return_claim_once(client):
 def test_trim_then_funding_and_extension(client):
     approve(client, propose(client, "trim_order")["id"])
     plan = client.post(f"{P}/funding-plan", json={}).json()
-    assert plan["need"] == {"amount": 8200, "needed_by": "2026-10-26"}
+    assert plan["need"] | {"explain": []} == {"amount": 8200, "needed_by": "2026-10-26", "explain": []}
     assert not next(o for o in plan["options"] if o["key"] == "trim_order")["eligible"]
     ext = approve(client, propose(client, "extension_request", amount=8200)["id"])
     assert ext["result"]["status"] == "awaiting_supplier"

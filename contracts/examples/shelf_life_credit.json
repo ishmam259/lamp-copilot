@@ -36,5 +36,22 @@
       "sellable_qty": 40,
       "unsellable_value": 0.0
     }
+  ],
+  "explain": [
+    {
+      "label": "Shortfall on 26 Oct a purpose-blind lender would finance",
+      "amount": 10800.0,
+      "op": "start"
+    },
+    {
+      "label": "Order stock that won't sell before expiry",
+      "amount": 10800.0,
+      "op": "-"
+    },
+    {
+      "label": "Financeable",
+      "amount": 0.0,
+      "op": "="
+    }
   ]
 }

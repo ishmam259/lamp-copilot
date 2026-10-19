@@ -15,7 +15,7 @@ event "notify" and data NotifyData.
 
 from typing import Literal
 
-from .common import ISODate, Model, Timestamp
+from .common import ExplainRow, ISODate, Model, Timestamp
 
 
 class SessionIn(Model):
@@ -75,6 +75,7 @@ class ShelfLifeCreditOut(Model):
     financeable: float
     reason: str
     batches: list[ShelfLifeBatch]
+    explain: list[ExplainRow] = []  # purpose-blind − not financed = financeable
 
 
 class DbrCheck(Model):
