@@ -1,6 +1,6 @@
 # Extraction evaluation
 
-27 synthetic photos (15 invoices, 6 handwritten sales pages, 2 injection invoices, 4 hard cases), model `gpt-6-luna`, prompt `extraction_v1`. Regenerate with `python eval/run_eval.py` (replay, free).
+27 synthetic photos (15 invoices, 6 handwritten sales pages, 2 injection invoices, 4 hard cases). Model `gpt-6-luna`, prompt `extraction_v1`. Regenerate with `python eval/run_eval.py` (replay, free).
 
 | Metric | Result |
 |---|---|
