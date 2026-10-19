@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:16
+    restart: unless-stopped
     environment:
       POSTGRES_USER: lamp
       POSTGRES_PASSWORD: lamp
@@ -16,6 +17,8 @@ services:
       retries: 10
 
   backend:
+    # Comes back on its own after a crash; scripts/watchdog.py emails when it stays down.
+    restart: unless-stopped
     build:
       context: ./backend
       additional_contexts:
