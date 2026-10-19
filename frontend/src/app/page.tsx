@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, CreditCard, Landmark, ScrollText, ShieldCheck } from "lucide-react";
+import { ArrowRight, BadgeCheck, Check, CreditCard, Landmark, ScrollText, ShieldCheck } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Carton, LoadError, Skel, Stamp } from "@/components/carton";
 import { CashLine } from "@/components/cash-line";
 import { dayAmount, dayLabel, isNamedMove } from "@/lib/forecast";
-import { useAccounts, useActions, useAlerts, useDues, useExpiry, useForecast, usePharmacy } from "@/lib/api";
+import { useAccount, useAccounts, useActions, useAlerts, useDues, useExpiry, useForecast, usePharmacy } from "@/lib/api";
 import { bdt, dayDate, daysBetween, inDays, num, shortDate, signed, stampDate, weekday } from "@/lib/format";
+import { waitingOn } from "@/lib/waiting";
 
 export default function TodayPage() {
   const { data: pharmacy } = usePharmacy();
@@ -17,6 +18,8 @@ export default function TodayPage() {
   const { data: accounts } = useAccounts();
   const { data: actions } = useActions();
   const { data: alerts } = useAlerts();
+  const { data: account } = useAccount();
+  const waiting = waitingOn(actions, account);
 
   const asOf = pharmacy?.settings.as_of_date;
   const short = forecast?.shortfalls[0];
@@ -47,6 +50,11 @@ export default function TodayPage() {
             <section aria-labelledby="board-head" className="station-board">
               {short ? (
                 <>
+                  {waiting.covered && (
+                    <p className="sb-sub mb-1.5 flex items-center gap-1.5 text-sm font-semibold">
+                      <Check className="size-4" aria-hidden /> First shortfall covered. Next one:
+                    </p>
+                  )}
                   <h2 id="board-head" className="sb-head">
                     <span className="num">Short {bdt(short.amount)}</span>
                     <span className="sb-time">
@@ -69,6 +77,11 @@ export default function TodayPage() {
               {short && (
                 <Link href="/funding" className={buttonVariants({ size: "lg", className: "w-full sm:w-auto" })}>
                   See the fix <ArrowRight className="size-5" aria-hidden />
+                </Link>
+              )}
+              {waiting.loan && (
+                <Link href="/funding" className="text-sm font-semibold text-warn hover:underline sm:px-2">
+                  Loan applied, waiting for the lender
                 </Link>
               )}
               <Link href="/cash" className="inline-flex h-11 items-center justify-center gap-1 font-semibold text-cash hover:underline sm:px-2">

@@ -6,9 +6,10 @@ import { toast } from "sonner";
 import { ArrowRight, Check, ExternalLink, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
-import { proposeAction, useActions, useCatalogue, useForecast, useFundingPlan } from "@/lib/api";
+import { proposeAction, useAccount, useActions, useCatalogue, useForecast, useFundingPlan } from "@/lib/api";
 import { bdt, dayDate, num, shortDate, stampDate } from "@/lib/format";
 import type { ActionKind, CatalogueOut, FundingOption } from "@/lib/types";
+import { resultSummary, waitingOn } from "@/lib/waiting";
 
 /** 9 -> "9", 12.2 -> "12.2", 13.75 -> "13.75" */
 const pct = (n: number) => String(Math.round(n * 100) / 100);
@@ -31,6 +32,7 @@ export default function FundingPage() {
   const { data: actions } = useActions();
   const { data: forecast } = useForecast();
   const { data: catalogue } = useCatalogue();
+  const { data: account } = useAccount();
   const [busy, setBusy] = useState(false);
 
   // Every figure below comes from the API: the plan, its options, and the untrimmed forecast shortfall.
@@ -45,7 +47,12 @@ export default function FundingPage() {
   const untrimmed = forecast?.shortfalls[0]?.amount;
 
   const planKinds = new Set(plan?.plan.steps.map((s) => s.action_kind));
-  const alreadyProposed = actions?.some((a) => planKinds.has(a.kind) && a.kind !== "return_claim" && a.status !== "rejected");
+  // A step is taken while it waits in Actions, or while the lender or supplier hasn't answered yet.
+  const waiting = waitingOn(actions, account);
+  const waitingFor = (k: ActionKind) => (k === "loan_application" ? waiting.loan : k === "extension_request" ? waiting.extension : undefined);
+  const inActions = actions?.some((a) => planKinds.has(a.kind) && a.kind !== "return_claim" && (a.status === "proposed" || a.status === "approved"));
+  const waitingStep = plan?.plan.steps.find((s) => waitingFor(s.action_kind));
+  const alreadyProposed = inActions || !!waitingStep;
 
   async function proposePlan() {
     if (!plan) return;
@@ -85,6 +92,26 @@ export default function FundingPage() {
               </p>
             )}
           </section>
+          {(waiting.loan || waiting.extension) && (
+            <div className="space-y-4 lg:col-span-12">
+              {waiting.loan && (
+                <Carton tone="warn" title="Loan applied, waiting for the lender" aside={bdt(Number(waiting.loan.payload.amount ?? 0))}>
+                  <p className="text-ink">
+                    {resultSummary(waiting.loan) ?? "Your application is with the lender."} Your cash forecast counts the money once the lender pays it
+                    into your wallet, so the shortfall below stays until then. There&apos;s no need to apply again.
+                  </p>
+                </Carton>
+              )}
+              {waiting.extension && (
+                <Carton tone="warn" title="Asked for more days, waiting for the supplier">
+                  <p className="text-ink">
+                    {resultSummary(waiting.extension) ?? "Your request is with the supplier."} If they don&apos;t agree in time, LaMP suggests the fallback
+                    in Actions.
+                  </p>
+                </Carton>
+              )}
+            </div>
+          )}
           <div className="lg:col-span-12">
             <Carton tone="ink" title="Recommended plan" aside={primaryOption ? `Costs ${bdt(plan.plan.total_cost_bdt)} if ${primaryOption.provider} agrees` : `Costs ${bdt(plan.plan.total_cost_bdt)}`}>
               <ol className="space-y-3 lg:grid lg:grid-cols-3 lg:gap-4 lg:space-y-0">
@@ -94,7 +121,15 @@ export default function FundingPage() {
                     <div className="min-w-0">
                       <p className="font-semibold text-ink">{s.label}</p>
                       <div className="mt-1 flex flex-wrap items-center gap-2">
-                        <Stamp>{s.fallback_for ? `If needed ${stampDate(s.when)}` : `Now ${stampDate(s.when)}`}</Stamp>
+                        <Stamp tone={waitingFor(s.action_kind) ? "warn" : undefined}>
+                          {s.action_kind === "loan_application" && waiting.loan
+                            ? "Applied, waiting for the lender"
+                            : s.action_kind === "extension_request" && waiting.extension
+                              ? "Asked, waiting for the supplier"
+                              : s.fallback_for
+                                ? `If needed ${stampDate(s.when)}`
+                                : `Now ${stampDate(s.when)}`}
+                        </Stamp>
                         <span className="num text-sm text-ink-2">{bdt(s.amount)}</span>
                       </div>
                     </div>
@@ -115,9 +150,9 @@ export default function FundingPage() {
                 </div>
               )}
               <Button size="lg" className="mt-4 w-full sm:w-auto" disabled={busy || !!alreadyProposed} onClick={proposePlan}>
-                {alreadyProposed ? "Plan is in Actions" : "Add this plan to Actions"}
+                {inActions ? "Plan is in Actions" : waitingStep ? "Waiting for an answer" : "Add this plan to Actions"}
               </Button>
-              {alreadyProposed && (
+              {inActions && (
                 <Link href="/actions" className="mt-2 inline-flex items-center gap-1 font-semibold text-cash hover:underline sm:ml-3">
                   Go to Actions <ArrowRight className="size-4" aria-hidden />
                 </Link>
