@@ -60,3 +60,17 @@ def test_credit_and_examples_keep_the_pre_trim_order_after_the_trim(client):
     assert (c["counterfactual_purpose_blind"], c["not_financed"], c["financeable"]) == (19000, 10800, 8200)
     plan, naive = client.get(f"{P}/policy").json()["examples"]
     assert (plan["amount"], plan["ok"], naive["amount"], naive["dbr_pct"], naive["ok"]) == (8200, True, 19000, 48.0, False)
+
+
+def test_a_second_loan_counts_the_first_against_the_ceiling(client):
+    from api_support import PIN, lender_headers
+
+    client.post(f"{P}/consents", json={"lender_id": "wallet-lender", "scopes": ["passport.summary"]})
+    first = _loan(client, 8200).json()
+    assert client.post(f"{P}/actions/{first['id']}/approve", json={"pin": PIN}).json()["status"] == "executed"
+    [app] = client.get("/api/v1/lenders/wallet-lender/applications", headers=lender_headers()).json()
+    W = "/api/v1/lenders/wallet-lender/applications"
+    assert client.post(f"{W}/{app['id']}/decide", headers=lender_headers()).json()["status"] == "approved"
+    # 2,793.99 + 2,760 a month on 13,500 is 41.1%: alone the second loan would pass (20.4%)
+    r = _loan(client, 8100)
+    assert r.status_code == 409 and "already taken" in r.json()["detail"]
