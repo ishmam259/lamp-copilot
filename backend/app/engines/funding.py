@@ -102,15 +102,21 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
     opt("return_claims", "Claim returns for expiring stock",
         "Suppliers " + " and ".join(s.removeprefix("Supplier ") for s in exp_suppliers) if exp_suppliers else "Suppliers",
         returns, 0, None, returns > 0,
-        f"Arrives as supplier credit, not cash, so it doesn't count before {need.needed_by:%d %b}.",
+        f"Arrives as supplier credit, not cash, so it doesn't count before {need.needed_by:%d %b}." if returns
+        else "Already claimed: the return claim is with the suppliers." if claimed
+        else "No expiring stock can go back to a supplier.",
         "1–2 weeks", "uncertain")
     if supplier:
-        declined = any((a.result or {}).get("order_id") == order.id and (a.result or {}).get("status") == "declined"
+        declined = any((a.result or {}).get("order_id") == order.id and (a.result or {}).get("status") in ("declined", "no_reply")
                        for a in db.scalars(select(m.Action).where(m.Action.pharmacy_id == pid,
                                                                   m.Action.kind == "extension_request")))
-        ok = supplier.verified and on_time_share >= EXTENSION_MIN_ON_TIME and not declined
+        # An extension only moves a supplier payment: offer it when that order is what falls due
+        from_order = order.due_date == need.needed_by
+        ok = supplier.verified and on_time_share >= EXTENSION_MIN_ON_TIME and not declined and from_order
         opt("supplier_extension", f"Ask {supplier.name} for {EXTENSION_DAYS} more days", supplier.name, amount, 0,
-            None, ok, f"{supplier.name} already declined an extension on this order." if declined
+            None, ok, f"The shortfall on {need.needed_by:%d %b} isn't a supplier payment, so an extension doesn't "
+            "cover it." if not from_order
+            else f"{supplier.name} already declined or didn't answer an extension request on this order." if declined
             else f"You paid {passport.paid_on_time} of {passport.invoices_total} invoices on time." if ok
             else f"Needs a verified supplier and at least {EXTENSION_MIN_ON_TIME:.0%} of invoices paid on time.",
             "1–3 days", "uncertain", financed=amount, tenor=EXTENSION_DAYS)

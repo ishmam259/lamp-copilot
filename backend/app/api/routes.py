@@ -3,6 +3,7 @@
 import asyncio
 import importlib
 import json
+import math
 from datetime import datetime, timezone
 from typing import Literal
 
@@ -116,7 +117,8 @@ def end_session(pid: str, request: Request, response: Response, db: Session = De
 def _refuse_if_locked(ph) -> None:
     until = auth.locked_until(ph)
     if until:
-        raise HTTPException(429, f"Too many wrong PINs. Try again after {until:%H:%M} UTC.")
+        minutes = max(1, math.ceil((until - auth._now()).total_seconds() / 60))
+        raise HTTPException(429, f"Too many wrong PINs. Try again in {minutes} minute{'s' if minutes > 1 else ''}.")
 
 
 @router.post("/pharmacies/{pid}/session", response_model=SessionOut)
