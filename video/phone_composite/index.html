@@ -1,0 +1,20 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>LaMP phone</title>
+<style>
+  html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#134a3a;font-family:"Segoe UI",system-ui,sans-serif;color:#fff}
+  .label{position:absolute;left:60px;top:470px;font-size:40px;font-weight:700;line-height:50px}
+  .phone{position:absolute;left:346px;top:26px;width:490px;height:1028px;border-radius:64px;background:#0c0c0c}
+  .screen{position:absolute;left:14px;top:14px;width:462px;height:1000px;border-radius:48px;overflow:hidden;background:#fff}
+  .screen iframe{border:0;width:462px;height:1000px;display:block}
+  .logtitle{position:absolute;left:930px;top:52px;font-size:40px;font-weight:700}
+  .logsub{position:absolute;left:930px;top:110px;font-size:26px;color:#c8e1d7}
+  .logclip{position:absolute;left:930px;top:160px;width:760px;height:855px;border-radius:14px;overflow:hidden;background:#fff}
+  .logclip iframe{border:0;width:760px;height:1000px;position:absolute;top:-60px;left:0}
+</style></head>
+<body>
+  <div class="label">The owner's<br>phone</div>
+  <div class="phone"><div class="screen"><iframe id="phone" name="phone" src="http://localhost:3000/"></iframe></div></div>
+  <div class="logtitle">Audit log, live</div>
+  <div class="logsub">Every capture is recorded as it happens.</div>
+  <div class="logclip"><iframe id="log" name="log" src="about:blank"></iframe></div>
+</body></html>
