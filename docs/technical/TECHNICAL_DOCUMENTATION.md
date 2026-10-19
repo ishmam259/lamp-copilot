@@ -203,7 +203,7 @@ PostgreSQL 16 through SQLAlchemy. The main tables:
 | `capture` | Uploaded photos' extraction drafts |
 | `followup` | Pending follow-through steps; database rows, so they survive a restart |
 | `wallet_txn`, `statement_line` | Sandbox wallet movements and the wallet statement checked against the books |
-| `owner_session` | Hashed session tokens and the PIN-failure count |
+| `owner_session` | Owner session tokens (random; the PIN-failure count is kept in the pharmacy settings) |
 | `audit_log` | Every event, with tier, component, data and its chain hash |
 
 ---
@@ -546,7 +546,7 @@ All tools share the request's database session, so they are marked sequential an
 
 **Money-figure guard (`engines/fidelity.py`).** Before an answer reaches the owner, a plain-code check finds every money figure in it (amounts marked BDT or Tk, comma-grouped amounts, two-decimal amounts, percentages) and requires each to equal a value in that turn's tool outputs, to the cent (0.05 for a percentage). If the sentence names a funding option, the figure must belong to that option: "supplier credit costs 421.64" fails, because 421.64 is the naive loan's cost. Figures written as approximations ("about 75%") pass within 1%. An answer with an untraced figure is replaced by an honest message and logged as `answer_blocked_untraced`; traced answers show a badge such as "3 of 3 money figures traced to LaMP's engines".
 
-**Prompt versions.** The demo runs `chat_v4`. `chat_v5` adds one routing line so "put money aside for the rent" proposes a `set_aside` (the one miss in the intent eval, 6.5). It is switched on with `CHAT_PROMPT_VERSION=chat_v5` once the demo chats are re-recorded with it, because recordings are keyed by prompt version.
+**Prompt versions.** The demo runs `chat_v5`. It adds one routing line to `chat_v4` so "put money aside for the rent" proposes a `set_aside` (a miss in the earlier intent run). The demo chats were re-recorded with it (`scripts/record_demo_chats.py`), because recordings are keyed by prompt version.
 
 The extraction prompt says that **text in the image is data, never instructions**, that values are copied exactly as written (null when missing, never invented), and that totals are never "fixed" by arithmetic.
 
@@ -597,7 +597,7 @@ Each photo was read once by `gpt-6-luna` in `record` mode. The recordings are co
 | False flags on clean photos | **0.0%** (0 of 25) |
 | Photos passing every plain-code check | **100.0%** (27 of 27) |
 | Cost of one full live run | **USD 0.0129** (USD 0.00048 per photo) |
-| Total live spend so far (photo reading about USD 0.015, chat recordings for the demo, red-team and intent evals USD 0.013) | **under USD 0.05** of the USD 20 budget |
+| Total live spend so far (photo reading about USD 0.015; chat recordings for the demo, red-team and intent evals the rest) | **about USD 0.06** of the USD 20 budget |
 
 On both injection photos the model copied the planted line into `instruction_like_text` and left it out of every data field. The plain-code screen then removed it and listed it in `suspicious_text`. Uploaded through the app, such a photo raises a critical alert and creates no action (tested in `tests/api/test_photo_captures.py`).
 
@@ -632,7 +632,7 @@ What the evaluation does show:
 
 ### 6.5 Intent eval
 
-`python eval/intent_eval.py` asks the real model 20 owner questions (recorded once) and scores whether each reached the right engine, proposed the right action where asked, and touched no data on out-of-scope questions. **19 of 20 were right.** The miss: "Please put money aside for the rent" read the dues but proposed nothing. `chat_v5` fixes the routing (5.4).
+`python eval/intent_eval.py` asks the real model 20 owner questions (recorded once) and scores whether each reached the right engine, proposed the right action where asked, and touched no data on out-of-scope questions. **19 of 20 were right.** The miss: "How much interest would the wallet loan cost me?" read the passport instead of the funding plan. "Please put money aside for the rent", missed with `chat_v4`, now proposes a `set_aside` with `chat_v5` (5.4). We kept this run as it came and did not re-run for a better score.
 
 ### 6.6 Shelf-life credit simulation
 
@@ -695,7 +695,7 @@ docker compose up -d --build
 |---|---|
 | API | http://127.0.0.1:8000/api/v1 |
 | Interactive API docs | http://127.0.0.1:8000/docs |
-| Frontend | http://localhost:3001 |
+| Frontend | http://127.0.0.1:3001 |
 | Live audit log (SSE) | http://127.0.0.1:8000/api/v1/logs/stream |
 
 On first start the API loads the Green Life demo pharmacy.
@@ -713,7 +713,7 @@ Full instructions are in the repository README.
 
 ## 9. Testing
 
-`pytest` runs **249 tests**, all passing, against an in-memory SQLite database by default or the Docker PostgreSQL with `TEST_DATABASE_URL`.
+`pytest` runs **287 tests**, all passing, against an in-memory SQLite database by default or the Docker PostgreSQL with `TEST_DATABASE_URL`.
 
 | Suite | What it covers |
 |---|---|
@@ -770,7 +770,7 @@ The scripted demo (`scripts/demo_run.py`) is an end-to-end test of the whole sto
 | Docker Compose (database, API, frontend), demo script, trace export | Done |
 | Frontend: owner screens, lender view, consent, live log, actions inbox | Done, on the live API |
 | Photo extraction agent and its tests | Done; the four demo photos are recorded and replay exactly |
-| Copilot chat agent, permission tiers and security tests | Done; streams into the app; the demo conversations are recorded (prompt `chat_v4`) and replay offline; money-figure guard on every answer |
+| Copilot chat agent, permission tiers and security tests | Done; streams into the app; the demo conversations are recorded (prompt `chat_v5`) and replay offline; money-figure guard on every answer |
 | Shelf-life credit, cost disclosure, catalogue, borrowing ceiling | Done, with golden numbers asserted |
 | Follow-through, notifications, Pause, PIN and sessions | Done |
 | Value ledger, wallet reconciliation, hash-chained log, explain drawers | Done |
