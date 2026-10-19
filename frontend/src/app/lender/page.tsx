@@ -99,7 +99,7 @@ export default function LenderPage() {
                       </div>
                     </dl>
                     <div>
-                      <h3 className="text-sm font-semibold text-ink-2">Evidence (latest invoices)</h3>
+                      <h3 className="text-sm font-semibold text-ink-2">Latest invoices</h3>
                       <table className="num mt-1 w-full text-sm">
                         <thead className="text-left text-ink-2">
                           <tr>
@@ -158,7 +158,7 @@ function ShelfLifeBody({ s }: { s: ShelfLifeCreditOut }) {
     <>
       <dl className="num grid grid-cols-3 divide-x divide-rule">
         <div className="pr-3">
-          <dt className="text-sm text-ink-2">Purpose-blind lender</dt>
+          <dt className="text-sm text-ink-2">A usual lender would lend</dt>
           <dd className={`text-xl font-bold text-ink-2 ${s.not_financed > 0 ? "line-through decoration-1" : ""}`}>{bdt(s.counterfactual_purpose_blind)}</dd>
         </div>
         <div className="px-3">
@@ -166,7 +166,7 @@ function ShelfLifeBody({ s }: { s: ShelfLifeCreditOut }) {
           <dd className={`text-xl font-bold ${s.not_financed > 0 ? "text-alert" : "text-ink"}`}>{bdt(s.not_financed)}</dd>
         </div>
         <div className="pl-3">
-          <dt className="text-sm text-ink-2">LaMP finances at most</dt>
+          <dt className="text-sm text-ink-2">LaMP lends at most</dt>
           <dd className="text-xl font-bold text-stock">{bdt(s.financeable)}</dd>
           <Explain rows={s.explain} title={`How ${bdt(s.financeable)} was worked out`} />
         </div>
@@ -174,12 +174,12 @@ function ShelfLifeBody({ s }: { s: ShelfLifeCreditOut }) {
       <p className="mt-3 text-ink">
         {s.not_financed > 0 ? (
           <>
-            A lender that ignores the shelf would lend {bdt(s.counterfactual_purpose_blind)} (a computed comparison). {bdt(s.not_financed)} of this order
-            won&apos;t sell before it expires, so LaMP finances at most {bdt(s.financeable)}
-            {fewer > 0 && <>, and the owner orders {fewer} fewer boxes</>}. One number, two decisions.
+            A lender that ignores the shelf would lend {bdt(s.counterfactual_purpose_blind)}. {bdt(s.not_financed)} of this order
+            won&apos;t sell before it expires, so LaMP lends at most {bdt(s.financeable)}
+            {fewer > 0 && <>, and the owner orders {fewer} fewer boxes</>}. One number decides both.
           </>
         ) : (
-          <>{s.reason} LaMP finances only stock that sells before it expires.</>
+          <>{s.reason} LaMP lends only for stock that sells before it expires.</>
         )}
       </p>
       {cut.length > 0 && (

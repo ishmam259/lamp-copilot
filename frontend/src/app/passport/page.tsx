@@ -82,13 +82,12 @@ export default function PassportPage() {
               <details className="mt-3 text-sm text-ink">
                 <summary className="cursor-pointer font-semibold text-cash">How this is worked out</summary>
                 <p className="mt-2">
-                  LaMP takes a cautious view of your on-time record: with {passport.paid_on_time} of {passport.invoices_total} on time, it&apos;s at least{" "}
-                  <span className="num font-semibold">{num(passport.theta_low_5pct, 3)}</span> on a 0 to 1 scale (95% sure). Combined with a{" "}
-                  {num(passport.default_probability * 100, 1)}% default risk, that gives a score of <span className="num font-semibold">{num(passport.score, 3)}</span>.
+                  You paid {passport.paid_on_time} of {passport.invoices_total} supplier invoices on time. LaMP counts this carefully, so a few good
+                  weeks can&apos;t make it look better than it is.
                 </p>
                 <p className="mt-2">
-                  Advance = 60% + 30% × score. The supplier or a guarantee scheme covers {num(passport.partner_share_pct, 1)}% of any loss; that share shrinks
-                  as your record grows. Every on-time payment raises your terms.
+                  The better your record, the more of an order a lender will pay and the lower the chance of not repaying. Every on-time payment
+                  improves both.
                 </p>
               </details>
             </Carton>
