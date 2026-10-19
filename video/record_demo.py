@@ -7,7 +7,7 @@ from playwright.sync_api import sync_playwright
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
 APP, API = "http://localhost:3000", "http://127.0.0.1:8000/api/v1"
-IMG = r"D:\Downloads\shenzhen\seed\images"
+IMG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "seed", "images")
 
 CURSOR = r"""
 (() => {
