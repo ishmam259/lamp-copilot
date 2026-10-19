@@ -120,7 +120,8 @@ def test_loan_needs_consent_then_registry_then_lender(client):
     assert client.get(f"{P}/forecast").json()["shortfalls"][0]["amount"] == 10800
 
     assert client.delete(f"{P}/consents/{cons['id']}").json()["status"] == "revoked"
-    assert client.get(f"{W}/applications", headers=LH).json() == []
+    [kept] = client.get(f"{W}/applications", headers=LH).json()  # the row stays, the passport doesn't
+    assert (kept["status"], kept["consent"], kept["passport"]) == ("approved", "withdrawn", None)
     assert client.get(f"{P}/consents").json() == []
     assert client.delete(f"{P}/consents/{cons['id']}").status_code == 404
 

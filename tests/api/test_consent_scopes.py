@@ -41,3 +41,12 @@ def test_preview_shows_what_the_lender_would_see(client):
     full = client.get(f"{P}/consents/preview?lender_id=wallet-lender&scopes=passport.summary,passport.evidence").json()
     assert len(full["passport"]["evidence"]) == 41 and full["withholds"] == []
     assert client.get(f"{P}/consents").json() == []  # a preview shares nothing
+
+
+def test_withdrawn_consent_keeps_the_row_but_hides_the_passport(client):
+    _apply(client, ["passport.summary", "passport.evidence"])
+    [c] = client.get(f"{P}/consents").json()
+    assert client.delete(f"{P}/consents/{c['id']}").status_code == 200
+    [app] = client.get(f"{W}/applications", headers=lender_headers()).json()
+    assert (app["status"], app["consent"], app["amount"], app["passport"]) == ("pending", "withdrawn", 8200, None)
+    assert client.post(f"{W}/applications/{app['id']}/decide", headers=lender_headers()).status_code == 403

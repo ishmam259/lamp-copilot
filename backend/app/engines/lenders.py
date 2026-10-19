@@ -119,19 +119,20 @@ def _app_out(db: Session, a: m.Application) -> ApplicationOut:
 
     ph = get_pharmacy(db, a.pharmacy_id)
     consent = active_consent(db, a.pharmacy_id, a.lender_id)
-    passport = lender_view(get_passport(db, a.pharmacy_id), consent.scopes if consent else [])
+    passport = lender_view(get_passport(db, a.pharmacy_id), consent.scopes) if consent else None
     return ApplicationOut(id=a.id, pharmacy_id=a.pharmacy_id, pharmacy_name=ph.name, lender_id=a.lender_id,
                           product_key=a.product_key, amount=a.amount, status=a.status,
+                          consent="active" if consent else "withdrawn",
                           passport=passport, decision=a.decision, created_at=a.created_at)
 
 
 def inbox(db: Session, lender_id: str) -> list[ApplicationOut]:
-    """Applications from pharmacies that currently consent to this lender."""
+    """Every application sent to this lender. Where the owner has withdrawn consent the row
+    keeps its status and amount, with consent "withdrawn" and no passport."""
     if db.get(m.Lender, lender_id) is None:
         raise HTTPException(404, f"Unknown lender '{lender_id}'")
-    apps = [a for a in db.scalars(select(m.Application).where(m.Application.lender_id == lender_id)
-                                  .order_by(m.Application.created_at.desc()))
-            if active_consent(db, a.pharmacy_id, lender_id)]
+    apps = list(db.scalars(select(m.Application).where(m.Application.lender_id == lender_id)
+                           .order_by(m.Application.created_at.desc())))
     log("T0", "LENDER", "inbox_viewed", db, lender=lender_id, applications=len(apps))
     db.commit()
     return [_app_out(db, a) for a in apps]
