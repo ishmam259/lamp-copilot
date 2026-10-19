@@ -6,7 +6,7 @@ import json
 from datetime import datetime, timezone
 from typing import Literal
 
-from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, Response, UploadFile
+from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, Request, Response, UploadFile
 from fastapi.responses import PlainTextResponse, StreamingResponse
 from sqlalchemy import func, select
 from sqlalchemy.exc import OperationalError, ProgrammingError
@@ -102,6 +102,16 @@ def simulate_supplier_reply(body: SupplierReply, db: Session = Depends(get_db)):
 
 
 # --- Owner unlock -------------------------------------------------------------------------
+
+@router.delete("/pharmacies/{pid}/session", status_code=204)
+def end_session(pid: str, request: Request, response: Response, db: Session = Depends(get_db)):
+    """Lock the app: ends this session and clears the cookie. Safe to call when signed out."""
+    s = auth.session_for(db, request.cookies.get(auth.SESSION_COOKIE))
+    if s is not None and s.pharmacy_id == pid:
+        auth.end_session(db, s.token)
+        engines.log("T1", "AUTH", "owner_locked", db, pharmacy=pid)
+        db.commit()
+    response.delete_cookie(auth.SESSION_COOKIE, path="/")
 
 def _refuse_if_locked(ph) -> None:
     until = auth.locked_until(ph)

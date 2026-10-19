@@ -156,3 +156,9 @@ def test_a_right_pin_resets_the_count(anon):
     for _ in range(4):
         assert anon.post(f"{P}/session", json={"pin": "0000"}).status_code == 401
     assert anon.post(f"{P}/session", json={"pin": PIN}).status_code == 200
+
+
+def test_lock_ends_the_session(client):
+    assert client.delete(f"{P}/session").status_code == 204
+    assert client.get(f"{P}/passport").status_code == 401
+    assert client.delete(f"{P}/session").status_code == 204  # already locked: still fine

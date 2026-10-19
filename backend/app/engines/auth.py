@@ -97,6 +97,14 @@ def session_for(db: Session, token: str | None) -> m.OwnerSession | None:
     return row
 
 
+def end_session(db: Session, token: str | None) -> None:
+    """Sign out: the cookie value stops working at once."""
+    row = db.get(m.OwnerSession, token) if token else None
+    if row is not None:
+        db.delete(row)
+        db.flush()
+
+
 def lender_for_key(db: Session, key: str | None) -> m.Lender | None:
     """The lender whose key this is, or None."""
     if not key:
