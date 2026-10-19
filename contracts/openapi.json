@@ -1753,7 +1753,7 @@
     "/api/v1/dev/reset": {
       "post": {
         "summary": "Dev Reset",
-        "description": "Wipe everything and reload the seed (plus the three demo captures if asked).",
+        "description": "Wipe everything and reload the seed (plus the three demo captures if asked; when not\ngiven, DEMO_RESET_WITH_CAPTURES decides).",
         "operationId": "dev_reset_api_v1_dev_reset_post",
         "parameters": [
           {
@@ -1761,8 +1761,14 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "boolean",
-              "default": false,
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
               "title": "With Demo Captures"
             }
           }
