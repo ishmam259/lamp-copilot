@@ -3,7 +3,16 @@
     python eval/run_eval.py            # replay (free, the default)
     python eval/run_eval.py --record   # once: call OpenAI and save recordings
 
-Writes eval/results.md (the table for the technical doc) and eval/results.json.
+    python eval/run_eval.py --real            # real phone photos in eval/real/ (PROOF-03)
+    python eval/run_eval.py --real --record   # once, after adding new photos
+
+Writes eval/results.md (the table for the technical doc) and eval/results.json; with --real,
+eval/results_real.md and eval/results_real.json.
+
+Real photos: print the eval invoices (eval/images/e*_invoice.jpg), and hand-copy sales pages
+from eval/truth/e*_sales.json, then photograph them. Save each photo as
+eval/real/<truth id>__<label>.jpg, e.g. eval/real/e01_invoice__phoneA_shoplight.jpg; it is
+scored against eval/truth/<truth id>.json. Images are resized to 1,600 px before any call.
 Metrics:
 - text fields: exact match of supplier, invoice no, dates, product, batch, expiry
 - numbers: exact match of totals, qty, unit cost, line totals and sales-page amounts
@@ -66,16 +75,32 @@ def _pct(a: int, b: int) -> str:
     return f"{100 * a / b:.1f}% ({a}/{b})" if b else "n/a"
 
 
-async def run(record: bool) -> None:
+def _cases(real: bool):
+    """(row id, truth, image bytes) for the synthetic set, or for the real photos."""
+    if not real:
+        for tpath in sorted((ROOT / "truth").glob("*.json")):
+            truth = json.loads(tpath.read_text(encoding="utf-8"))
+            yield truth["id"], truth, (ROOT / "images" / f"{truth['id']}.jpg").read_bytes()
+        return
+    photos = sorted(p for p in (ROOT / "real").glob("*.jp*g") if "__" in p.stem)
+    if not photos:
+        raise SystemExit("No photos in eval/real/. Name them <truth id>__<label>.jpg, e.g. e01_invoice__phoneA.jpg.")
+    for p in photos:
+        tid = p.stem.split("__")[0]
+        tpath = ROOT / "truth" / f"{tid}.json"
+        if not tpath.exists():
+            raise SystemExit(f"{p.name}: no truth file eval/truth/{tid}.json")
+        yield p.stem, json.loads(tpath.read_text(encoding="utf-8")), p.read_bytes()
+
+
+async def run(record: bool, real: bool = False) -> None:
     llm.settings.llm_mode = "record" if record else "replay"
     rows, totals = [], {"text": [0, 0], "num": [0, 0], "lines": [0, 0]}
     inj, false_flags, checks_ok, cost, n_cost = [0, 0], [0, 0], 0, 0.0, 0
-    for tpath in sorted((ROOT / "truth").glob("*.json")):
-        truth = json.loads(tpath.read_text(encoding="utf-8"))
-        image = (ROOT / "images" / f"{truth['id']}.jpg").read_bytes()
+    for rid, truth, image in _cases(real):
         r = await extraction.extract(image, truth["kind"])
         if r.prompt_version == "fallback":
-            raise SystemExit(f"No recording for {truth['id']}. Run once with --record.")
+            raise SystemExit(f"No recording for {rid}. Run once with --record.")
         got = r.model_dump(mode="json")
         s = score(truth, got)
         for k in totals:
@@ -94,7 +119,7 @@ async def run(record: bool) -> None:
         usd = rec.get("usage", {}).get("usd", 0.0)
         cost += usd
         n_cost += 1
-        rows.append({"id": truth["id"], "kind": truth["kind"], "hard": truth["hard"], "injection": truth["injection"],
+        rows.append({"id": rid, "kind": truth["kind"], "hard": truth["hard"], "injection": truth["injection"],
                      "text": s["text"], "num": s["num"], "lines": s["lines"], "flagged": flagged,
                      "checks_passed": passed, "usd": usd})
 
@@ -105,14 +130,18 @@ async def run(record: bool) -> None:
         "injection_flagged": inj, "false_flags_on_clean": false_flags, "checks_all_passed": [checks_ok, n],
         "total_usd": round(cost, 6), "usd_per_image": round(cost / max(n_cost, 1), 6),
     }
-    (ROOT / "results.json").write_text(json.dumps({"summary": summary, "rows": rows}, indent=2) + "\n",
+    name = "results_real" if real else "results"
+    (ROOT / f"{name}.json").write_text(json.dumps({"summary": summary, "rows": rows}, indent=2) + "\n",
                                        encoding="utf-8")
 
     md = [
-        "# Extraction evaluation", "",
-        f"{n} synthetic photos (15 invoices, 6 handwritten sales pages, 2 injection invoices, 4 hard cases), "
-        f"model `{summary['model']}`, prompt `{summary['prompt_version']}`. Regenerate with "
-        "`python eval/run_eval.py` (replay, free).", "",
+        "# Extraction evaluation" + (" on real photos" if real else ""), "",
+        (f"{n} real phone photos of the printed eval invoices and of sales pages handwritten by the team "
+         "(copied from the truth files), scored against the same truth as the synthetic set. "
+         if real else
+         f"{n} synthetic photos (15 invoices, 6 handwritten sales pages, 2 injection invoices, 4 hard cases). ")
+        + f"Model `{summary['model']}`, prompt `{summary['prompt_version']}`. Regenerate with "
+        f"`python eval/run_eval.py{' --real' if real else ''}` (replay, free).", "",
         "| Metric | Result |", "|---|---|",
         f"| Text fields, exact match | {_pct(*totals['text'])} |",
         f"| Numbers, exact match | {_pct(*totals['num'])} |",
@@ -128,11 +157,13 @@ async def run(record: bool) -> None:
         md.append(f"| {r['id']} | {r['text'][0]}/{r['text'][1]} | {r['num'][0]}/{r['num'][1]} | "
                   f"{r['lines'][0]}/{r['lines'][1]} | {'yes' if r['flagged'] else 'no'} | "
                   f"{'pass' if r['checks_passed'] else 'fail'} |")
-    (ROOT / "results.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    (ROOT / f"{name}.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md[:13]))
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--record", action="store_true", help="call OpenAI once and save recordings")
-    asyncio.run(run(ap.parse_args().record))
+    ap.add_argument("--real", action="store_true", help="score the real phone photos in eval/real/")
+    a = ap.parse_args()
+    asyncio.run(run(a.record, a.real))
