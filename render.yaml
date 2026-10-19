@@ -1,0 +1,52 @@
+# Live judge link (P3): one PostgreSQL database, the API and the frontend on Render.
+# Chat runs in replay only (no OpenAI key on the server, so no spend). Demo controls are on,
+# reset loads the demo captures, and the demo puts itself back every 60 minutes.
+databases:
+  - name: lamp-db
+    plan: free
+    databaseName: lamp
+    user: lamp
+
+services:
+  - type: web
+    name: lamp-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile.render
+    dockerContext: .
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: lamp-db
+          property: connectionString
+      - key: REGISTRY_KEY
+        generateValue: true
+      - key: DEV_MODE
+        value: "true"
+      - key: DEMO_RESET_WITH_CAPTURES
+        value: "true"
+      - key: DEMO_AUTO_RESET_MINUTES
+        value: "60"
+      - key: LLM_MODE
+        value: replay
+      - key: CORS_ORIGINS
+        sync: false   # e.g. ["https://lamp-web.onrender.com"]
+      - key: BREVO_API_KEY
+        sync: false   # optional crash alerts
+      - key: ALERT_EMAIL_TO
+        sync: false
+      - key: ALERT_EMAIL_FROM
+        sync: false
+
+  - type: web
+    name: lamp-web
+    runtime: docker
+    plan: free
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    envVars:
+      # Baked in at build time (Next.js rewrites). Render passes env vars to the Docker build as
+      # build args. Set it to the API's URL once lamp-api exists, e.g. https://lamp-api.onrender.com
+      - key: BACKEND_URL
+        sync: false

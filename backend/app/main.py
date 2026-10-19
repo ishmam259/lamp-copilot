@@ -1,5 +1,6 @@
 """FastAPI entry point. All routes live under /api/v1."""
 
+import asyncio
 import importlib
 import threading
 import traceback
@@ -41,13 +42,34 @@ async def lifespan(_: FastAPI):
         # Empty database, or one left by an older version of the app: (re)load the seed pharmacy.
         if not _schema_is_current():
             with SessionLocal() as db:
-                load_seed(db)
+                load_seed(db, with_demo_captures=settings.demo_reset_with_captures)
     except Exception as exc:
         mailer.alert("startup", "[LaMP] API failed to start",
                      f"The API stopped during startup at {_now()}.\n\n{type(exc).__name__}: {exc}\n\n"
                      "Check the backend logs (docker compose logs backend) and restart it.", background=False)
         raise
+    auto = asyncio.create_task(_auto_reset()) if settings.dev_mode and settings.demo_auto_reset_minutes > 0 else None
     yield
+    if auto:
+        auto.cancel()
+
+
+async def _auto_reset() -> None:
+    """Shared demo: judges use one database, so put the story back every N minutes."""
+    from app.api.routes import reset_demo
+
+    def once():
+        with SessionLocal() as db:
+            reset_demo(db, settings.demo_reset_with_captures)
+            logbus.log("T0", "SYSTEM", "demo_auto_reset", db, minutes=settings.demo_auto_reset_minutes)
+            db.commit()
+
+    while True:
+        await asyncio.sleep(settings.demo_auto_reset_minutes * 60)
+        try:
+            await asyncio.to_thread(once)
+        except Exception as exc:  # keep the loop alive; the crash handler only sees requests
+            mailer.alert("auto_reset", "[LaMP] Demo auto-reset failed", f"{type(exc).__name__} at {_now()}.")
 
 
 def _now() -> str:

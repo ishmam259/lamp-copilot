@@ -15,6 +15,10 @@ class Settings(BaseSettings):
     registry_key: str = ""
     # Demo controls (/dev/reset, the supplier-reply simulator) exist only when this is true.
     dev_mode: bool = False
+    # Shared demo (judge link): reset loads the three confirmed demo captures too, and with
+    # DEMO_AUTO_RESET_MINUTES > 0 (and DEV_MODE) the demo resets itself on that interval.
+    demo_reset_with_captures: bool = False
+    demo_auto_reset_minutes: int = 0
     llm_mode: str = "replay"
     openai_api_key: str = ""
     openai_extract_model: str = "gpt-6-luna"

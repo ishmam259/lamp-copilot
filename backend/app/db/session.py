@@ -10,8 +10,9 @@ from app.config import settings
 
 def _url(raw: str) -> str:
     # Use the psycopg 3 driver for plain postgresql:// URLs.
-    if raw.startswith("postgresql://"):
-        return "postgresql+psycopg://" + raw.removeprefix("postgresql://")
+    for prefix in ("postgresql://", "postgres://"):  # some hosts (Render, Heroku) hand out postgres://
+        if raw.startswith(prefix):
+            return "postgresql+psycopg://" + raw.removeprefix(prefix)
     return raw
 
 

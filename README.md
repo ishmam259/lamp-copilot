@@ -74,6 +74,8 @@ python scripts/demo_run.py
 ```
 It runs the whole story against the API, checking each golden number: reset, captures, accounts, expiry, return claim, order trim, funding plan, supplier extension, consent, loan application, a refused duplicate application, and the lender's decision. Then it writes `logs/sandbox_execution_trace.log`. `python scripts/export_trace.py` exports the log on its own at any time.
 
+**Live judge link (Render).** `render.yaml` sets up a free PostgreSQL database, the API (`backend/Dockerfile.render`) and the frontend. In Render: New → Blueprint → this repo. Then set `BACKEND_URL` on `lamp-web` to the API's URL (for example `https://lamp-api.onrender.com`) and redeploy it. Chat stays in replay (no OpenAI key on the server), reset loads the demo captures, and the demo resets itself every 60 minutes because judges share one database. Free services sleep when idle, so the first request can take about a minute.
+
 **5. Run the tests**
 ```bash
 cd backend
