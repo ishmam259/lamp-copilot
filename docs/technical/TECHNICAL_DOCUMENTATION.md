@@ -453,7 +453,7 @@ The plan's 8,200 loan costs 2,793.99 a month = **20.7%** (allowed); the naive 19
 
 ### 4.16 Follow-through (`followups.py`)
 
-When an extension request is executed, LaMP stores a follow-up for the plan's fallback loan, due by that step's date (needed_by − 3 days: Fri 23 Oct). When the supplier declines or doesn't reply by then, the runner (deterministic code, not the model) proposes the fallback with `proposed_by = "lamp-scheduler"` and sends the owner a notification, which the app shows as a desktop alert. The proposal still needs the owner's approval and PIN. An open proposal for the same loan is reused, not duplicated. Follow-ups are database rows, so they survive a restart.
+When an extension request is executed, LaMP stores a follow-up for the plan's fallback loan, due by that step's date (needed_by − 3 days, moved to Thursday when that is a Friday, the weekly holiday: Thu 22 Oct). When the supplier declines or doesn't reply by then, the runner (deterministic code, not the model) proposes the fallback with `proposed_by = "lamp-scheduler"` and sends the owner a notification, which the app shows as a desktop alert. The proposal still needs the owner's approval and PIN. An open proposal for the same loan is reused, not duplicated. Follow-ups are database rows, so they survive a restart.
 
 ### 4.17 Owner control: PIN, sessions and Pause (`auth.py`, `policy.py`)
 
@@ -713,7 +713,7 @@ Full instructions are in the repository README.
 
 ## 9. Testing
 
-`pytest` runs **287 tests**, all passing, against an in-memory SQLite database by default or the Docker PostgreSQL with `TEST_DATABASE_URL`.
+`pytest` runs **301 tests**, all passing, against an in-memory SQLite database by default or the Docker PostgreSQL with `TEST_DATABASE_URL`.
 
 | Suite | What it covers |
 |---|---|

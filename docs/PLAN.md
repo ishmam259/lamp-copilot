@@ -254,7 +254,7 @@ Farhan designs `seed/green_life.json` so the engines output these. Tests assert 
 | Borrowing ceiling (DBR cap 35% of monthly net cash flow 13,500) | 8,200 loan → 2,793.99/month = 20.7% (allowed); 19,000 → 6,473.88/month = 48.0% (refused) |
 | Value ledger total after the demo story | 9,200 + 10,800 + 239.67 = 20,239.67 |
 | Statement reconciliation | 11 matched, 1 duplicate (Q-3130, 8,600), 1 unmatched (4,500), 1 missing (T-3134) |
-| Fallback deadline if Supplier A doesn't reply | Fri 23 Oct |
+| Fallback deadline if Supplier A doesn't reply | Thu 22 Oct (Fri 23 is the weekly holiday) |
 | Demo owner PIN (sandbox) | 2468 |
 
 ---

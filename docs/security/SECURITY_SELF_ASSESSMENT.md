@@ -160,12 +160,13 @@ The log is:
 `python scripts/demo_run.py` runs the full demo story and writes **`logs/sandbox_execution_trace.log`**, which we submit as execution evidence. An excerpt showing the security-relevant events:
 
 ```
-[T1:ACTIONS]   action_proposed action=act-4 kind=loan_application by=agent amount=8200.0
+[T1:ACTIONS]   action_proposed action=act-4 kind=loan_application by=owner amount=8200.0
+[T2:FOLLOWUP]  followup_fired followup=fu-1 trigger=declined action=act-4
 [T1:CONSENT]   consent_granted consent=cns-1 lender=wallet-lender scopes=passport,accounts
 [T1:ACTIONS]   action_approved_by_owner action=act-4 kind=loan_application
-[T3:REGISTRY]  lock_acquired commitment=48590d0fa014… invoice=PO-A-1026 application=APP-0001
+[T3:REGISTRY]  lock_acquired commitment=670c60d6efe2… invoice=PO-A-1026 application=APP-0001
 [T3:LENDER]    application_submitted application=APP-0001 lender=wallet-lender amount=8200.0
-[T3:REGISTRY]  lock_rejected action=act-5 commitment=48590d0fa014… invoice=PO-A-1026
+[T3:REGISTRY]  lock_rejected action=act-5 commitment=670c60d6efe2… invoice=PO-A-1026
 [T3:EXECUTOR]  action_failed action=act-5 kind=loan_application reason=duplicate_financing
 [T0:LENDER]    inbox_viewed lender=wallet-lender applications=1
 [T3:PAYOUT]    sandbox_payout application=APP-0001 payout=SANDBOX-WALLET-LENDER-20261016-0001 amount=8200.0
@@ -173,7 +174,7 @@ The log is:
 
 It shows:
 
-- the agent proposing and the owner approving
+- the backup loan raised by itself when the supplier declines, and the owner approving it
 - consent before the application
 - the registry lock
 - a duplicate application refused
@@ -183,7 +184,7 @@ It shows:
 
 ## 6. Security tests and results
 
-`pytest` runs 287 tests; all pass. The security-relevant ones:
+`pytest` runs 301 tests; all pass. The security-relevant ones:
 
 | Test | What it proves | Result |
 |---|---|---|

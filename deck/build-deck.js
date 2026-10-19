@@ -434,7 +434,7 @@ async function build() {
     [
       "Trim to 12 boxes: BDT 10,800 saved, gap down from BDT 19,000 to BDT 8,200.",
       "Options in taka: supplier extension free, wallet loan BDT 182 (2.2% of the gap), supplier credit BDT 492 (6.0%).",
-      "Plan: ask for 20 more days; no reply by Fri 23 Oct and LaMP proposes the loan. The owner approves with a PIN.",
+      "Plan: ask for 20 more days; no reply by Thu 22 Oct and LaMP proposes the loan. The owner approves with a PIN.",
     ],
     "BDT 0–182 instead of BDT 422, and no stock left to expire.", "step-cash.png", { x: 9.75, y: 3.1, w: 3.4 });
   await step(5, "Prove (Credit Passport and Consent)", "Lender View · Sandbox Partners",
@@ -470,7 +470,7 @@ async function build() {
     rrect(s, rx, 5.25, rw, 1.45, K.deep, { r: 0.05 });
     T(s, [
       { text: "Built and running", options: { fontFace: F.semi, color: K.lime, breakLine: true } },
-      { text: "Next.js · FastAPI · PostgreSQL · OpenAI Responses API · hash-chained audit log · 287 automated tests", options: { color: K.white } },
+      { text: "Next.js · FastAPI · PostgreSQL · OpenAI Responses API · hash-chained audit log · 301 automated tests", options: { color: K.white } },
     ], { x: rx + 0.2, y: 5.25, w: rw - 0.4, h: 1.45, fontSize: 11.5, valign: "middle" });
     strip(s);
   }
@@ -586,7 +586,7 @@ async function build() {
       [cell("Copilot chat, read-only tools"), cell("Supplier invoice confirmation (seeded)")],
       [cell("Approvals with PIN, Pause, consent, duplicate guard, hash-chained log"), cell("Federated learning (roadmap)")],
     ], { x: rx, y: 1.33, w: rw, colW: [rw / 2, rw / 2], rowH: 0.42, border: { type: "solid", pt: 0.5, color: K.line }, margin: [0, 0.08, 0, 0.08] });
-    const tiles = [["287 / 287", "tests pass, no AI calls"], ["26 / 26", "red-team attacks held"], ["0", "money figures computed by the AI"], ["Every", "event hash-chained and verifiable"]];
+    const tiles = [["301 / 301", "tests pass, no AI calls"], ["26 / 26", "red-team attacks held"], ["0", "money figures computed by the AI"], ["Every", "event hash-chained and verifiable"]];
     const tw = (W - 2 * M - 0.6) / 4;
     tiles.forEach(([b, t], i) => {
       const x = M + i * (tw + 0.2);

@@ -70,13 +70,13 @@ Step two: from confirmed records, LaMP's engines build real accounts, including 
 Step three: a 30-day forecast across all 23 suppliers. It sees that on Monday 26 October the 60,000 taka order meets only 41,000 of cash. That's a 19,000 shortfall, flagged ten days ahead.
 
 ## 14. Step 4, fund (0:28)
-Step four: cheapest money first. One order line is 30 boxes of a slow mover, but only 12 will sell before expiry. Trimming it saves 10,800, and the gap falls to 8,200. For the rest, LaMP prices every option. Asking the supplier for 20 more days is free, a wallet loan costs 182, and bank supplier credit costs 492, which is 6% of the gap against 2.2%. The plan: ask for the extension. If the supplier hasn't answered by Friday the 23rd, LaMP proposes the wallet loan by itself. The owner approves each step, with a PIN for the loan.
+Step four: cheapest money first. One order line is 30 boxes of a slow mover, but only 12 will sell before expiry. Trimming it saves 10,800, and the gap falls to 8,200. For the rest, LaMP prices every option. Asking the supplier for 20 more days is free, a wallet loan costs 182, and bank supplier credit costs 492, which is 6% of the gap against 2.2%. The plan: ask for the extension. If the supplier hasn't answered by Thursday the 22nd, LaMP proposes the wallet loan by itself. The owner approves each step, with a PIN for the loan.
 
 ## 15. Step 5, prove (0:28)
 Step five: 38 of 41 invoices paid on time become a credit passport, and a 75.2% advance offer. A lender that ignores the shelf would fund 19,000; LaMP funds 8,200, only stock that will sell. A repayment ceiling refuses loans the shop can't carry. It is shared only with lenders the owner switches on, and a registry stops any invoice being financed twice.
 
 ## 16. The copilot, live (0:25)
-This is the real app, running on Green Life's data, not mock-ups. Today shows the shortfall like a departures board. Funding shows the plan and every cost. Passport shows the record and the sharing switches. It's built on Next.js, FastAPI, PostgreSQL and the OpenAI Responses API, with 287 automated tests and a hash-chained audit log.
+This is the real app, running on Green Life's data, not mock-ups. Today shows the shortfall like a departures board. Funding shows the plan and every cost. Passport shows the record and the sharing switches. It's built on Next.js, FastAPI, PostgreSQL and the OpenAI Responses API, with 301 automated tests and a hash-chained audit log.
 
 ## 17. System flow (0:30)
 One rule runs through the design: AI reads and proposes, code calculates, and only the owner approves. The AI touches two steps, reading photos and the chat, and its tools are read-only. Every money figure comes from deterministic engines. An approved step runs in a sandbox, and every event goes to a live audit log.
