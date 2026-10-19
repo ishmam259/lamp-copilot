@@ -20,6 +20,11 @@ class Settings(BaseSettings):
     openai_extract_model: str = "gpt-6-luna"
     llm_daily_budget_usd: float = 1.00
     cors_origins: list[str] = ["http://localhost:3000"]
+    # Crash alerts by email (engines/mailer.py). Any of the first three empty: no email is sent.
+    brevo_api_key: str = ""
+    alert_email_to: str = ""       # comma-separated
+    alert_email_from: str = ""     # a verified sender in the Brevo account
+    alert_cooldown_minutes: int = 10
 
 
 DEV_REGISTRY_KEY = "dev-only-registry-key"
