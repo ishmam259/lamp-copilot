@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"extension_request\",\"amount\":60000,\"reason\":\"Request 20 more days to pay Supplier A invoice PO-A-1026.\"}",
+        "tool_call_id": "call_Qu4BHvuhojwQpZIxSzMt3Wed",
+        "tool_kind": null,
+        "id": "fc_0b0b6711aa012b85006ad65b989f3487d2a7ff515287cdd4ba",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1811,
+      "cache_write_tokens": 203,
+      "cache_read_tokens": 1605,
+      "output_tokens": 44,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:04:09.011025Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:04:08Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0b0b6711aa012b85006ad65b98060487d28a1d1e332501ccde",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

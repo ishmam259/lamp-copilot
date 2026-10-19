@@ -1,0 +1,69 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"trim_order\",\"order_id\":\"o-1\",\"amount\":10800,\"reason\":\"Cut Montelukast from 30 to 12 boxes to reduce the order.\"}",
+        "tool_call_id": "call_bFlUSxXcd68gelbCGn1UKPG4",
+        "tool_kind": null,
+        "id": "fc_0d0b6d403b09af6b006ad65b027ef887d28d1c437dae268e86",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"extension_request\",\"amount\":8200,\"reason\":\"Ask Supplier A for 20 more days on BDT 8,200 of the order.\"}",
+        "tool_call_id": "call_9ZYLVzjaUUpU1Pd4pLolJasW",
+        "tool_kind": null,
+        "id": "fc_0d0b6d403b09af6b006ad65b027f0c87d281a128ff0645de45",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"loan_application\",\"amount\":8200,\"reason\":\"Fallback only if Supplier A does not agree to the extension; mobile-wallet loan.\"}",
+        "tool_call_id": "call_nkb5tSoCrO1hOVv4rFYaNudH",
+        "tool_kind": null,
+        "id": "fc_0d0b6d403b09af6b006ad65b027f1887d292bc3010adb886f8",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2581,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 2578,
+      "output_tokens": 151,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:01:38.881728Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:01:36Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0d0b6d403b09af6b006ad65b00ebe887d288dfa81d716ba0d8",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

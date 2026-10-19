@@ -23,7 +23,7 @@ def test_approving_the_extension_schedules_the_fallback(client):
     ext = _approved_extension(client)
     [f] = client.get(f"{P}/followups").json()
     assert (f["plan_action_id"], f["status"], f["amount"]) == (ext["id"], "waiting", 8200)
-    assert date.fromisoformat(f["deadline"]) == date(2026, 10, 23)  # needed_by 26 Oct − 3 days
+    assert date.fromisoformat(f["deadline"]) == date(2026, 10, 22)  # needed_by 26 Oct − 3 days = Fri, moved to Thu
     assert f["fallback_payload"] == {"lender_id": "wallet-lender", "product_key": "wallet_loan", "amount": 8200}
 
 

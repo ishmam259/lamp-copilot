@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"loan_application\",\"amount\":8200.0,\"reason\":\"Fallback if Supplier A does not agree to the 20-day extension for the 26 October shortfall.\"}",
+        "tool_call_id": "call_9lfmhEj8voYbn4V3eGIKxJAp",
+        "tool_kind": null,
+        "id": "fc_05d62d5a3073a51f006ad65b64f63487d2a222e13a2e5a9c6e",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2786,
+      "cache_write_tokens": 99,
+      "cache_read_tokens": 2684,
+      "output_tokens": 51,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:03:17.429611Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:03:16Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_05d62d5a3073a51f006ad65b64587c87d2932b5ee996d3f3dc",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

@@ -2,7 +2,8 @@
 
 When an extension request is executed, LaMP stores a follow-up for the plan's fallback:
 the loan_application step the funding planner put after it (or `payload.fallback`), due
-by that step's date (needed_by - 3 days: Fri 23 Oct in the demo). When the supplier
+by that step's date (needed_by - 3 days, moved to Thursday if that is a Friday:
+Thu 22 Oct in the demo). When the supplier
 declines or doesn't reply by then, the runner, which is deterministic code and not the
 LLM, proposes the fallback with proposed_by="lamp-scheduler" and notifies the owner. The
 proposal still needs the owner's approval and PIN. If an open proposal for the same loan

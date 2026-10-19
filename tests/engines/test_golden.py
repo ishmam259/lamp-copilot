@@ -90,7 +90,7 @@ def test_funding_plan(db):
     assert steps == [
         ("trim_order", 10_800, AS_OF, None),
         ("extension_request", 8_200, AS_OF, None),
-        ("loan_application", 8_200, date(2026, 10, 23), "extension_request"),
+        ("loan_application", 8_200, date(2026, 10, 22), "extension_request"),
     ]
     assert f.plan.total_cost_bdt == 0
     assert f.naive_cost_bdt == 421.64

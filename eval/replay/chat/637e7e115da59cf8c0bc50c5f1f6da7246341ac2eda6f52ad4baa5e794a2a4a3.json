@@ -1,0 +1,57 @@
+[
+  {
+    "parts": [
+      {
+        "content": "",
+        "id": "rs_0e047dc5b53727b0006ad65b88b61487d2bc5ec1dd2497d311",
+        "signature": "gAAAAABq1luJ5ylKYOgCjGkWknb0xFdWUsF-wVVugHvKtcxPtpeW7zeyPVfALLw1S0ukmVEE_mFMRqocWPwdFOrHtxEIiA3h6wzSWG_y6nijmb6tY-Sn0qBX7k2tGhNbA1kO4OlSd-132LbKTy4646o67DRmjMr_23mE96ZAxrl1meT8fnFu-Sp9s9wLAOPnhEBedInq-1cXqcUA0-sL1i-rXLwA91LmWTSDmivSnuZ7YP8EKQjZ6de4gGxYiCqL2-8FNmAar7g0pqvKsrmkZTdgIT91MRQB6eGqP35gjCgrv8dcBbP_4WWZsoAqAkffUKsS_ztvgQH48UcHDxyZzFYa28QAiZlRfZBkKjKvvaa5A7XvInF9jHB8SnNzsjLBDox-wqnZ4sLlFq2_eIzVDhfGU9C1Uv-fDg21HoLYoyLkGaw_jP5g7qCryK69kONfbsvRpDcgfGzJ-fsj4mPoXURxCVd43eVxYA6BOE7X08AdA5_9HW63L79h2XGe26wEeGGbedVSLwVG0n_o6rkDztYBhrLjeQNLZijasxt2j8DPSXQfgFzpSX8D8NZB2lbzqFajKDkMQm0HX4_cjhiNYWBENFrJ6X3Dwubw216uQ8x7Nfl3-feaKy0dv8fAqMFE7DnF9F_6s0MHfIoRr-IJq1ks-WRFmxz8kHOfZDWkKuo3zIGXXtB7w7p_EU5pUI2Mgd86i34Rvm0KScihCN7qHUgARhgN5a5skbUCR089_vdumxtRLBWajKmTHhZfSdcFAJf41dA-uy8zfvzWfEAuLPgnryYbl4qWRtZsxbA-lDd2NARSX1Pj7XnSEciU_5Cv6kFY8W7FpiXKU3m6Xojxqio8H3dlCS4bCqKj9wg67d50IrT4RgiJiZDsy8iQVayfp9h6-yN1grShe0wipMdqp63fjMaVqdzCFDV_VIW5phw6wS9CbwmVldlP78uiU-G_7gypYV7RcLuqV5YrmN2gqFUUzJVS7280eB6i_J4ZjzV4RHf7Ft00pmE5hBkCn7Ja25k1TqtdNcOzdADJfsYdVw2Pqalkz2yO-XlOJd0l7p4XTTpO-4qij4Nleh9L0QTEglhcwyiHt2MogFzeiUVuLsMd1hWs0Hu2rl2sGH74wIkFC-b9ZsDLcSC9u9x76d4TOMOiAQMQLyx-YeIwB0MzgrrIH5cuAsUM8lGmWJuhQ4G3HX-0MGoL7Io3-gp6Ul9nXdNXGIXiG_Fx-N-YQWQObuYd_fj7_-xxlnKKvABjwUtmIiHHd3Cmq5UCA9nJ2hhlw49XKP7SgemeRxM63NwQHildQG096K2sUrMEfOLYWRLem0zGutYjpXEXeuG-d7ynG0g_8SLMT19-L3VRp0BjlQG0g2TvUUiQBV_mnSUD6YndBvBr6_-M9BuL0l5te7WW4wcYmo8OaAbxLxIa0PfUHhWDrMRDilv5-GiuSopn_x1kmzTlW7-1KhXRBmSPsMg61L4-TSjveudoww6_DlKjLiGCrUvMwup9VL2l9sfcgbU2UY3yI1OsYr2KP7xEwzBsPhKw2lZScS2wjsIfAOtD5Og_8vH2kPxws5PtggHBlxApoR42xZ2dPhYa-fpNEHJ5yUFTSknwZ9xx07BR9kMRbcMQL0ZuUjQyIYuShglC4BpTMjCmC6ELzNVU2QjOhRAWJYCHxj91dPYH",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "thinking"
+      },
+      {
+        "tool_name": "share_plan",
+        "args": "{\"steps\":[\"Review today’s cash risk and return window\",\"Propose the cheapest steps to cover the supplier payment\"]}",
+        "tool_call_id": "call_cKowqhz7wUiHpVmqXf2DKTGV",
+        "tool_kind": null,
+        "id": "fc_0e047dc5b53727b0006ad65b89001887d2a67c9f52564c9a0f",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2825,
+      "cache_write_tokens": 986,
+      "cache_read_tokens": 1836,
+      "output_tokens": 60,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 21
+      },
+      "cost": null,
+      "output_reasoning_tokens": 21
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:03:53.649326Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:03:52Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0e047dc5b53727b0006ad65b87f24c87d2949060d817977201",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

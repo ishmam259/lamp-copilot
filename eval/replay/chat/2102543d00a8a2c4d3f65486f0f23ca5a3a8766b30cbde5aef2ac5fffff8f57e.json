@@ -3,7 +3,7 @@
     "parts": [
       {
         "content": "Your sales in the last 30 days were BDT 412,500.",
-        "id": "msg_08877c7e39a68a32006ad6558c43d887d2a15e023253e016e5",
+        "id": "msg_03c9832638cd89c1006ad65b40b95c87d2bffe0c2715cbd97f",
         "provider_name": "openai",
         "provider_details": {
           "phase": "final_answer"
@@ -13,8 +13,8 @@
     ],
     "usage": {
       "input_tokens": 1913,
-      "cache_write_tokens": 361,
-      "cache_read_tokens": 1549,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 1910,
       "output_tokens": 20,
       "input_audio_tokens": 0,
       "cache_audio_read_tokens": 0,
@@ -27,16 +27,16 @@
       "output_reasoning_tokens": 0
     },
     "model_name": "gpt-6-luna",
-    "timestamp": "2026-10-19T17:38:20.485939Z",
+    "timestamp": "2026-10-19T18:02:41.062226Z",
     "kind": "response",
     "provider_name": "openai",
     "provider_url": "https://api.openai.com/v1/",
     "provider_details": {
       "finish_reason": "completed",
-      "timestamp": "2026-10-19T17:38:19Z",
+      "timestamp": "2026-10-19T18:02:40Z",
       "service_tier": "default"
     },
-    "provider_response_id": "resp_08877c7e39a68a32006ad6558b78d487d28f9e61c93c686d52",
+    "provider_response_id": "resp_03c9832638cd89c1006ad65b4007e487d2aed5b43b2c2aad59",
     "finish_reason": "stop",
     "run_id": null,
     "conversation_id": null,

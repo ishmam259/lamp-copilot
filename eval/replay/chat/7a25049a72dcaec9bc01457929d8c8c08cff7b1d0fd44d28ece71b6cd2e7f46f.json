@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Not as currently scheduled: Supplier A’s order is BDT 49,200, and available cash on 26 Oct is BDT 41,000, leaving a BDT 8,200 shortfall.\n\nThe suggested plan is to trim the order by BDT 10,800, then ask Supplier A for 20 more days on BDT 8,200. If they do not agree, a mobile-wallet loan of BDT 8,200 is the fallback, with a cost of BDT 181.97.\n\nThese actions are proposed and waiting for your approval in Actions. The extension and fallback are not guaranteed, so payment still carries a risk of a shortfall if neither covers it.",
+        "id": "msg_00f38d6f01b6a32e006ad65b04220c87d2a6f13f2d0077fdbc",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2863,
+      "cache_write_tokens": 282,
+      "cache_read_tokens": 2578,
+      "output_tokens": 147,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:01:41.986778Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:01:39Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_00f38d6f01b6a32e006ad65b0385b887d28b7ecbd6f87441f0",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]
