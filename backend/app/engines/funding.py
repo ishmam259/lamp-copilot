@@ -17,6 +17,7 @@ from .passport import get_passport
 EXTENSION_DAYS = 20
 EXTENSION_MIN_ON_TIME = 0.85
 FALLBACK_LEAD_DAYS = 3
+WEEKLY_HOLIDAY = 4  # Friday (date.weekday()); suppliers don't answer, so no deadline falls on it
 
 
 def _bdt(x: float) -> str:
@@ -69,7 +70,8 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
     % of the need. Supplier credit finances the whole trimmed order (49,200) for 30
     days: APR 12.2%, cost 492 = 6.0% of the 8,200 gap. Different tenors stay visible.
     Plan: trims first. Then the cheapest eligible option that covers the need; if it
-    is uncertain, add the cheapest certain one as a fallback at needed_by - 3 days.
+    is uncertain, add the cheapest certain one as a fallback at needed_by - 3 days
+    (a day earlier if that is a Friday, the weekly holiday).
     total_cost_bdt assumes the primary option works. naive_cost_bdt = a wallet loan
     for the untrimmed first shortfall.
     """
@@ -190,7 +192,10 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
             if primary["certainty"] == "uncertain":
                 sure = next((o for o in cover if o["certainty"] == "certain"), None)
                 if sure:
-                    when = max(today, need.needed_by - timedelta(days=FALLBACK_LEAD_DAYS))
+                    when = need.needed_by - timedelta(days=FALLBACK_LEAD_DAYS)
+                    if when.weekday() == WEEKLY_HOLIDAY:
+                        when -= timedelta(days=1)  # Friday -> Thursday
+                    when = max(today, when)
                     step = _step(sure, "loan_application", amount, when)
                     step["label"] = f"If {primary['provider']} hasn't agreed, {step['label'][0].lower()}{step['label'][1:]}"
                     steps.append({**step, "fallback_for": kinds.get(primary["key"], "loan_application")})

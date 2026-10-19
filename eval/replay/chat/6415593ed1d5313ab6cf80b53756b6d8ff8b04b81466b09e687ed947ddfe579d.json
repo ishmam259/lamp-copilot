@@ -4,9 +4,9 @@
       {
         "tool_name": "get_forecast",
         "args": "{\"days\":30}",
-        "tool_call_id": "call_CdePNH9UMfplFk60Hzmig1zW",
+        "tool_call_id": "call_5H06J9zCtBOl2ELcp7sHulXh",
         "tool_kind": null,
-        "id": "fc_0124648329d2a2ac006ad655f1928887d291ad917f74714153",
+        "id": "fc_0ceae76652bbb7e7006ad65ba5c53487d2a07a5030a7b91af9",
         "provider_name": "openai",
         "provider_details": null,
         "part_kind": "tool-call"
@@ -14,8 +14,8 @@
     ],
     "usage": {
       "input_tokens": 1604,
-      "cache_write_tokens": 55,
-      "cache_read_tokens": 1546,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 1601,
       "output_tokens": 19,
       "input_audio_tokens": 0,
       "cache_audio_read_tokens": 0,
@@ -28,16 +28,16 @@
       "output_reasoning_tokens": 0
     },
     "model_name": "gpt-6-luna",
-    "timestamp": "2026-10-19T17:40:01.636313Z",
+    "timestamp": "2026-10-19T18:04:21.867115Z",
     "kind": "response",
     "provider_name": "openai",
     "provider_url": "https://api.openai.com/v1/",
     "provider_details": {
       "finish_reason": "completed",
-      "timestamp": "2026-10-19T17:40:00Z",
+      "timestamp": "2026-10-19T18:04:21Z",
       "service_tier": "default"
     },
-    "provider_response_id": "resp_0124648329d2a2ac006ad655f05cf487d2b83ffd6718443a43",
+    "provider_response_id": "resp_0ceae76652bbb7e7006ad65ba53e7c87d2983d3880e2696886",
     "finish_reason": "stop",
     "run_id": null,
     "conversation_id": null,

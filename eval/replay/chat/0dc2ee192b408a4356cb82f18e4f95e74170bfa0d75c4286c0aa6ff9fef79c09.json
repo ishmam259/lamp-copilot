@@ -1,0 +1,69 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"trim_order\",\"amount\":10800,\"order_id\":\"o-1\",\"reason\":\"Cut the slow mover as recommended to reduce the cash gap.\"}",
+        "tool_call_id": "call_TAVDHnXZDRSC32088XBhdc0x",
+        "tool_kind": null,
+        "id": "fc_055820cb24f014eb006ad65b6dc0f887d2b64656bc42f31def",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"extension_request\",\"amount\":8200,\"reason\":\"Ask Supplier A for 20 more days to cover the remaining gap.\"}",
+        "tool_call_id": "call_KVxIbYkGnVbZRapufTmUrIeP",
+        "tool_kind": null,
+        "id": "fc_055820cb24f014eb006ad65b6dc11487d2a29ded80c89cbff7",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"loan_application\",\"amount\":8200,\"reason\":\"Fallback if Supplier A does not agree to the extension; mobile-wallet loan.\"}",
+        "tool_call_id": "call_V9EhxdXl2fSqUQrgKKD0smBD",
+        "tool_kind": null,
+        "id": "fc_055820cb24f014eb006ad65b6dc12487d29e43c493254204ff",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2581,
+      "cache_write_tokens": 977,
+      "cache_read_tokens": 1601,
+      "output_tokens": 140,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:03:26.094996Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:03:24Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_055820cb24f014eb006ad65b6c248487d2ba6291b31df15fe2",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

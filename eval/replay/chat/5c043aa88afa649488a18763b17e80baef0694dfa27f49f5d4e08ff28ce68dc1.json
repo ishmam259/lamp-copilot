@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Yes. Omeprazole 20 mg, box of 50, batch OM2409, is return-eligible to Supplier B. Its cost value is BDT 4,800.\n\nI proposed a return claim for BDT 9,200, covering all return-eligible expiring stock, including the Omeprazole. It is waiting for your approval in Actions.",
+        "id": "msg_04ac499c85759bd2006ad65b4c2b1c87d2bb97bb0abd487b17",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2127,
+      "cache_write_tokens": 104,
+      "cache_read_tokens": 2020,
+      "output_tokens": 81,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:02:52.993762Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:02:51Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_04ac499c85759bd2006ad65b4b620487d28efff43dc438cf56",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

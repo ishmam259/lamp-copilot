@@ -2,8 +2,8 @@
   {
     "parts": [
       {
-        "content": "I can only help with your pharmacy’s finances, so I can’t write a poem. I can help check sales, costs, cash flow, or supplier payments.",
-        "id": "msg_0d9010996e55dc39006ad65602553c87d2bcbf3996c0a70a49",
+        "content": "I can help with pharmacy finances, but not write a poem.",
+        "id": "msg_087263bac200ad27006ad65bb414cc87d288556a530c8400fe",
         "provider_name": "openai",
         "provider_details": {
           "phase": "final_answer"
@@ -13,9 +13,9 @@
     ],
     "usage": {
       "input_tokens": 1550,
-      "cache_write_tokens": 13,
-      "cache_read_tokens": 1534,
-      "output_tokens": 37,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 1547,
+      "output_tokens": 17,
       "input_audio_tokens": 0,
       "cache_audio_read_tokens": 0,
       "output_audio_tokens": 0,
@@ -27,16 +27,16 @@
       "output_reasoning_tokens": 0
     },
     "model_name": "gpt-6-luna",
-    "timestamp": "2026-10-19T17:40:18.923508Z",
+    "timestamp": "2026-10-19T18:04:36.338763Z",
     "kind": "response",
     "provider_name": "openai",
     "provider_url": "https://api.openai.com/v1/",
     "provider_details": {
       "finish_reason": "completed",
-      "timestamp": "2026-10-19T17:40:17Z",
+      "timestamp": "2026-10-19T18:04:34Z",
       "service_tier": "default"
     },
-    "provider_response_id": "resp_0d9010996e55dc39006ad656011fdc87d296ff07620bf05d16",
+    "provider_response_id": "resp_087263bac200ad27006ad65bb2e49087d2b9a5d196232e88ca",
     "finish_reason": "stop",
     "run_id": null,
     "conversation_id": null,

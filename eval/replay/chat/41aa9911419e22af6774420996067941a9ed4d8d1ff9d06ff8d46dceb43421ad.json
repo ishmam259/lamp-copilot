@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"return_claim\",\"amount\":9200,\"reason\":\"Claim eligible returns for expiring stock, including Omeprazole 20 mg, box of 50 (batch OM2409), from Supplier B.\"}",
+        "tool_call_id": "call_k6LCIzTBgrMUx1kHXjgU3s4Z",
+        "tool_kind": null,
+        "id": "fc_0977917f68d4096c006ad65b4a1ec487d2bafc3367973a349e",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2023,
+      "cache_write_tokens": 414,
+      "cache_read_tokens": 1606,
+      "output_tokens": 59,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:02:50.749783Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:02:49Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0977917f68d4096c006ad65b499c6087d2b8d6795d2876bea7",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

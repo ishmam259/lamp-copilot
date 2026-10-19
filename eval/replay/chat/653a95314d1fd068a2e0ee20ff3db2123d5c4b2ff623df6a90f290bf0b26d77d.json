@@ -3,7 +3,7 @@
     "parts": [
       {
         "content": "I can only help with this pharmacy’s finances, so I can’t provide a weather forecast.",
-        "id": "msg_09996a1531521e89006ad655ff874887d282a5bcd5bfd7bf33",
+        "id": "msg_096e72cc181b8346006ad65bb1b50887d2b48d320b76049ffa",
         "provider_name": "openai",
         "provider_details": {
           "phase": "final_answer"
@@ -13,8 +13,8 @@
     ],
     "usage": {
       "input_tokens": 1549,
-      "cache_write_tokens": 12,
-      "cache_read_tokens": 1534,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 1546,
       "output_tokens": 23,
       "input_audio_tokens": 0,
       "cache_audio_read_tokens": 0,
@@ -27,16 +27,16 @@
       "output_reasoning_tokens": 0
     },
     "model_name": "gpt-6-luna",
-    "timestamp": "2026-10-19T17:40:16.266969Z",
+    "timestamp": "2026-10-19T18:04:34.051029Z",
     "kind": "response",
     "provider_name": "openai",
     "provider_url": "https://api.openai.com/v1/",
     "provider_details": {
       "finish_reason": "completed",
-      "timestamp": "2026-10-19T17:40:14Z",
+      "timestamp": "2026-10-19T18:04:33Z",
       "service_tier": "default"
     },
-    "provider_response_id": "resp_09996a1531521e89006ad655feb25c87d28b9f5d62649738d6",
+    "provider_response_id": "resp_096e72cc181b8346006ad65bb12e0487d287d5b51c49e60d03",
     "finish_reason": "stop",
     "run_id": null,
     "conversation_id": null,

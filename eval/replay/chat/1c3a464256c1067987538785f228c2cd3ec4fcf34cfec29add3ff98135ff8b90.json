@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "I don’t have the wallet loan’s interest rate or fee, so I can’t tell you its cost. The passport shows an advance rate of 75.2%, but that is not the interest rate. Check the loan offer in the Actions screen for the cost before applying.",
+        "id": "msg_0f2edbd6481062fa006ad65b73cfb087d281a23839f88e12f8",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1788,
+      "cache_write_tokens": 237,
+      "cache_read_tokens": 1548,
+      "output_tokens": 60,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:03:32.626600Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:03:31Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0f2edbd6481062fa006ad65b734a5087d2aed8faf1df02759b",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]
