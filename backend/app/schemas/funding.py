@@ -1,10 +1,11 @@
 from .actions import ActionKind
-from .common import Certainty, ISODate, Model
+from .common import Certainty, ExplainRow, ISODate, Model
 
 
 class FundingNeed(Model):
     amount: float
     needed_by: ISODate
+    explain: list[ExplainRow] = []  # how `amount` was worked out (the Funding "to cover" figure)
 
 
 class FundingRequest(Model):

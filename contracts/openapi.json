@@ -1753,7 +1753,7 @@
     "/api/v1/dev/reset": {
       "post": {
         "summary": "Dev Reset",
-        "description": "Wipe everything and reload the seed (plus the three demo captures if asked).",
+        "description": "Wipe everything and reload the seed (plus the three demo captures if asked; when not\ngiven, DEMO_RESET_WITH_CAPTURES decides).",
         "operationId": "dev_reset_api_v1_dev_reset_post",
         "parameters": [
           {
@@ -1761,8 +1761,14 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "boolean",
-              "default": false,
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
               "title": "With Demo Captures"
             }
           }
@@ -2208,8 +2214,24 @@
             ],
             "title": "Status"
           },
+          "consent": {
+            "type": "string",
+            "enum": [
+              "active",
+              "withdrawn"
+            ],
+            "title": "Consent",
+            "default": "active"
+          },
           "passport": {
-            "$ref": "#/components/schemas/PassportOut"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PassportOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "decision": {
             "anyOf": [
@@ -2940,6 +2962,37 @@
         ],
         "title": "ExpiryOut"
       },
+      "ExplainRow": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "op": {
+            "type": "string",
+            "enum": [
+              "start",
+              "+",
+              "-",
+              "="
+            ],
+            "title": "Op"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "label",
+          "amount",
+          "op"
+        ],
+        "title": "ExplainRow",
+        "description": "One line of an \"explain this number\" breakdown: start, then + / − rows, then = the figure.\nThe drawer renders the rows as they come; the = row equals the figure being explained."
+      },
       "ExtractedInvoice": {
         "properties": {
           "supplier_name": {
@@ -3310,6 +3363,14 @@
             "type": "string",
             "format": "date",
             "title": "Needed By"
+          },
+          "explain": {
+            "items": {
+              "$ref": "#/components/schemas/ExplainRow"
+            },
+            "type": "array",
+            "title": "Explain",
+            "default": []
           }
         },
         "additionalProperties": false,
@@ -4188,6 +4249,14 @@
             },
             "type": "array",
             "title": "Batches"
+          },
+          "explain": {
+            "items": {
+              "$ref": "#/components/schemas/ExplainRow"
+            },
+            "type": "array",
+            "title": "Explain",
+            "default": []
           }
         },
         "additionalProperties": false,

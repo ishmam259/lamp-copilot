@@ -162,3 +162,9 @@ def test_lock_ends_the_session(client):
     assert client.delete(f"{P}/session").status_code == 204
     assert client.get(f"{P}/passport").status_code == 401
     assert client.delete(f"{P}/session").status_code == 204  # already locked: still fine
+
+
+def test_reset_can_default_to_the_demo_captures(client, monkeypatch):
+    monkeypatch.setattr(settings, "demo_reset_with_captures", True)
+    assert client.post("/api/v1/dev/reset").json()["with_demo_captures"] is True
+    assert client.post("/api/v1/dev/reset?with_demo_captures=false").json()["with_demo_captures"] is False

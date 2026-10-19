@@ -32,6 +32,24 @@ def _product(db: Session, key: str) -> m.LenderProduct:
     return db.scalar(select(m.LenderProduct).where(m.LenderProduct.key == key))
 
 
+def _explain_need(fc, shortfall, buffer: float) -> list[dict]:
+    """Rows for the "to cover" figure, from the forecast after the suggested trims:
+    payments due that day + the cash buffer to keep − cash at the start of the day = to cover.
+    Falls back to the shortfall itself when the day's payments don't explain it on their own."""
+    i = next(n for n, d in enumerate(fc.days) if d.date == shortfall.date)
+    before = fc.days[i - 1].balance if i else fc.start_cash
+    due = [it for it in fc.days[i].items if it.amount < 0]
+    rows = [{"label": f"{it.label} due {shortfall.date:%d %b}", "amount": r2(-it.amount), "op": "+" if n else "start"}
+            for n, it in enumerate(due)]
+    rows += [{"label": "Cash buffer to keep", "amount": r2(buffer), "op": "+"}] if buffer else []
+    rows += [{"label": f"Cash at the start of {shortfall.date:%d %b}", "amount": r2(before), "op": "-"},
+             {"label": "To cover", "amount": r2(shortfall.amount), "op": "="}]
+    if not due or abs(sum(-it.amount for it in due) + buffer - before - shortfall.amount) > 0.01:
+        return [{"label": f"{shortfall.cause} on {shortfall.date:%d %b}", "amount": r2(shortfall.amount), "op": "start"},
+                {"label": "To cover", "amount": r2(shortfall.amount), "op": "="}]
+    return rows
+
+
 def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> FundingPlanOut:
     """Options and a recommended plan for a need {amount, needed_by}.
 
@@ -65,9 +83,14 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
     saving = sum(t.saving for t in trims.values())
 
     if need is None:
-        after = get_forecast(db, pid, order_totals=trimmed_totals).shortfalls
-        need = (FundingNeed(amount=after[0].amount, needed_by=after[0].date) if after
+        fc_after = get_forecast(db, pid, order_totals=trimmed_totals)
+        after = fc_after.shortfalls
+        need = (FundingNeed(amount=after[0].amount, needed_by=after[0].date,
+                            explain=_explain_need(fc_after, after[0], ph.settings["cash_buffer"])) if after
                 else FundingNeed(amount=0, needed_by=today))
+    elif not need.explain:
+        need = FundingNeed(amount=need.amount, needed_by=need.needed_by,
+                           explain=[{"label": "Amount to cover", "amount": need.amount, "op": "="}])
     amount = need.amount
     passport = get_passport(db, pid)
     on_time_share = passport.paid_on_time / passport.invoices_total if passport.invoices_total else 0

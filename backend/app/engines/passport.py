@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 from app.db import models as m
 
 from app.schemas import PassportOut, ShelfLifeBatch, ShelfLifeCreditOut
+from app.schemas.common import ExplainRow
 
 from .common import as_of, get_pharmacy, invoices_since, r2
 
@@ -64,6 +65,17 @@ def get_passport(db: Session, pid: str) -> PassportOut:
     )
 
 
+def _with_explain(c: ShelfLifeCreditOut) -> ShelfLifeCreditOut:
+    """The lender card's breakdown: purpose-blind need − stock that won't sell = financeable."""
+    c.explain = [ExplainRow(**r) for r in [
+        {"label": f"Shortfall on {c.needed_by:%d %b} a purpose-blind lender would finance",
+         "amount": c.counterfactual_purpose_blind, "op": "start"},
+        {"label": "Order stock that won't sell before expiry", "amount": c.not_financed, "op": "-"},
+        {"label": "Financeable", "amount": c.financeable, "op": "="},
+    ]]
+    return c
+
+
 def get_shelf_life_credit(db: Session, pid: str) -> ShelfLifeCreditOut:
     """Shelf-life credit: the ineligible-inventory rule asset-based lenders use, computed per
     batch from the photographed invoices before the purchase.
@@ -89,7 +101,7 @@ def get_shelf_life_credit(db: Session, pid: str) -> ShelfLifeCreditOut:
         saved = (t.result or {}).get("shelf_life_credit")
         order = db.get(m.PlannedOrder, saved["order_id"]) if saved and saved["order_id"] else None
         if order is not None and order.status == "planned":
-            return ShelfLifeCreditOut(**saved)
+            return _with_explain(ShelfLifeCreditOut(**saved))
 
     shortfalls = get_forecast(db, pid).shortfalls
     orders = list(db.scalars(select(m.PlannedOrder).where(m.PlannedOrder.pharmacy_id == pid,
@@ -111,5 +123,5 @@ def get_shelf_life_credit(db: Session, pid: str) -> ShelfLifeCreditOut:
     financeable = r2(max(0.0, need - not_financed))
     reason = (f"{not_financed:,.0f} of this order won't sell before expiry, so it isn't financed."
               if not_financed else "Every line of this order will sell before expiry.")
-    return ShelfLifeCreditOut(order_id=order.id, needed_by=needed_by, counterfactual_purpose_blind=r2(need),
-                              not_financed=not_financed, financeable=financeable, reason=reason, batches=batches)
+    return _with_explain(ShelfLifeCreditOut(order_id=order.id, needed_by=needed_by, counterfactual_purpose_blind=r2(need),
+                              not_financed=not_financed, financeable=financeable, reason=reason, batches=batches))

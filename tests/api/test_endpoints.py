@@ -63,12 +63,12 @@ def test_unknown_pharmacy(client):
 @pytest.mark.parametrize("body", [None, {}, {"amount": None}])
 def test_funding_plan_empty_body_is_default(client, body):
     r = client.post(f"{P}/funding-plan", json=body) if body is not None else client.post(f"{P}/funding-plan")
-    assert r.status_code == 200 and r.json()["need"] == {"amount": 8200, "needed_by": "2026-10-26"}
+    assert r.status_code == 200 and r.json()["need"] | {"explain": []} == {"amount": 8200, "needed_by": "2026-10-26"} | {"explain": []}
 
 
 def test_funding_plan_partial_body(client):
-    assert client.post(f"{P}/funding-plan", json={"amount": 5000}).json()["need"] == {"amount": 5000, "needed_by": "2026-10-26"}
-    assert client.post(f"{P}/funding-plan", json={"needed_by": "2026-10-20"}).json()["need"] == {"amount": 8200, "needed_by": "2026-10-20"}
+    assert client.post(f"{P}/funding-plan", json={"amount": 5000}).json()["need"] | {"explain": []} == {"amount": 5000, "needed_by": "2026-10-26"} | {"explain": []}
+    assert client.post(f"{P}/funding-plan", json={"needed_by": "2026-10-20"}).json()["need"] | {"explain": []} == {"amount": 8200, "needed_by": "2026-10-20"} | {"explain": []}
     assert client.post(f"{P}/funding-plan", json={"amount": "lots"}).status_code == 422
 
 

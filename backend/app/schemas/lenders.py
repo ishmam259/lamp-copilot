@@ -56,6 +56,9 @@ class ApplicationOut(Model):
     product_key: str
     amount: float
     status: Literal["pending", "approved", "declined"]
-    passport: PassportOut
+    # "withdrawn": the owner revoked consent. The row stays (status, amount) but the passport
+    # is hidden and the lender can't decide it.
+    consent: Literal["active", "withdrawn"] = "active"
+    passport: PassportOut | None
     decision: Decision | None = None
     created_at: Timestamp

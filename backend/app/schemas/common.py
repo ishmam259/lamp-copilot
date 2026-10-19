@@ -16,3 +16,12 @@ Certainty = Literal["certain", "uncertain"]
 
 class Model(BaseModel):
     model_config = ConfigDict(extra="forbid")
+
+
+class ExplainRow(Model):
+    """One line of an "explain this number" breakdown: start, then + / − rows, then = the figure.
+    The drawer renders the rows as they come; the = row equals the figure being explained."""
+
+    label: str
+    amount: float
+    op: Literal["start", "+", "-", "="]

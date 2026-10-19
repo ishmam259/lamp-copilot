@@ -14,6 +14,7 @@ from sqlalchemy.exc import OperationalError, ProgrammingError
 from sqlalchemy.orm import Session, sessionmaker
 
 from app import engines
+from app.config import settings
 from app.db import models as m
 from app.db.seed import apply_extraction, load_seed
 from app.db.session import get_db
@@ -78,9 +79,17 @@ def health() -> dict:
 # --- Demo controls ------------------------------------------------------------------
 
 @dev.post("/dev/reset")
-def dev_reset(with_demo_captures: bool = False, db: Session = Depends(get_db)) -> dict:
-    """Wipe everything and reload the seed (plus the three demo captures if asked)."""
-    # Keep owners signed in across the reset.
+def dev_reset(with_demo_captures: bool | None = None, db: Session = Depends(get_db)) -> dict:
+    """Wipe everything and reload the seed (plus the three demo captures if asked; when not
+    given, DEMO_RESET_WITH_CAPTURES decides)."""
+    if with_demo_captures is None:
+        with_demo_captures = settings.demo_reset_with_captures
+    pid = reset_demo(db, with_demo_captures)
+    return {"status": "ok", "pharmacy_id": pid, "with_demo_captures": with_demo_captures}
+
+
+def reset_demo(db: Session, with_demo_captures: bool) -> str:
+    """Reload the seed, keeping owners signed in. Used by /dev/reset and the auto-reset."""
     try:
         sessions = [(s.token, s.pharmacy_id, s.created_at, s.expires_at) for s in db.scalars(select(m.OwnerSession))]
     except (OperationalError, ProgrammingError):  # brand-new database: no tables yet
@@ -93,7 +102,7 @@ def dev_reset(with_demo_captures: bool = False, db: Session = Depends(get_db)) -
         if db.get(m.Pharmacy, sp) is not None:
             db.add(m.OwnerSession(token=token, pharmacy_id=sp, created_at=created, expires_at=expires))
     db.commit()
-    return {"status": "ok", "pharmacy_id": pid, "with_demo_captures": with_demo_captures}
+    return pid
 
 
 @dev.post("/dev/simulate/supplier-reply", response_model=ActionOut)

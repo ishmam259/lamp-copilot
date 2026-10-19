@@ -1,7 +1,24 @@
 {
   "need": {
     "amount": 8200.0,
-    "needed_by": "2026-10-26"
+    "needed_by": "2026-10-26",
+    "explain": [
+      {
+        "label": "Supplier A order due 26 Oct",
+        "amount": 49200.0,
+        "op": "start"
+      },
+      {
+        "label": "Cash at the start of 26 Oct",
+        "amount": 41000.0,
+        "op": "-"
+      },
+      {
+        "label": "To cover",
+        "amount": 8200.0,
+        "op": "="
+      }
+    ]
   },
   "options": [
     {
