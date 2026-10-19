@@ -76,7 +76,7 @@ Step four: cheapest money first. One order line is 30 boxes of a slow mover, but
 Step five: 38 of 41 invoices paid on time become a credit passport, and a 75.2% advance offer. A lender that ignores the shelf would fund 19,000; LaMP funds 8,200, only stock that will sell. A repayment ceiling refuses loans the shop can't carry. It is shared only with lenders the owner switches on, and a registry stops any invoice being financed twice.
 
 ## 16. The copilot, live (0:25)
-This is the real app, running on Green Life's data, not mock-ups. Today shows the shortfall like a departures board. Funding shows the plan and every cost. Passport shows the record and the sharing switches. It's built on Next.js, FastAPI, PostgreSQL and the OpenAI Responses API, with 301 automated tests and a hash-chained audit log.
+This is the real app, running on Green Life's data, not mock-ups. Today shows the shortfall like a departures board. Funding shows the plan and every cost. Passport shows the record and the sharing switches. It's built on Next.js, FastAPI, PostgreSQL and the OpenAI Responses API, with 322 automated tests and a hash-chained audit log.
 
 ## 17. System flow (0:30)
 One rule runs through the design: AI reads and proposes, code calculates, and only the owner approves. The AI touches two steps, reading photos and the chat, and its tools are read-only. Every money figure comes from deterministic engines. An approved step runs in a sandbox, and every event goes to a live audit log.
