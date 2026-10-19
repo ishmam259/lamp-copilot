@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Supplier A’s invoice PO-A-1026 is BDT 60,000, due 2026-10-26. I proposed asking for 20 more days to pay. It is waiting for your approval in Actions.",
+        "id": "msg_0537959f5a93c63c006ad65f420fdc87d296411d021cfc87e6",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1901,
+      "cache_write_tokens": 92,
+      "cache_read_tokens": 1806,
+      "output_tokens": 50,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:19:46.711446Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:19:45Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0537959f5a93c63c006ad65f41895887d2b7517a70a5ae9db4",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

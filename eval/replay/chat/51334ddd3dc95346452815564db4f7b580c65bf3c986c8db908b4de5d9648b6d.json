@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "The order is due on 26 Oct. After trimming it, the amount due is BDT 49,200; available cash is BDT 41,000, leaving BDT 8,200 to cover.\n\nThe cheapest plan is to trim the order, then ask Supplier A for 20 more days. If they do not agree, a mobile-wallet loan costs BDT 181.97. The trim, extension request, and fallback loan application are proposed and waiting for your approval in Actions. The extension is uncertain, so the loan is not guaranteed until arranged.",
+        "id": "msg_01bcbfcae765dc28006ad65dfcc0e087d282921e5c6155f91d",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2856,
+      "cache_write_tokens": 86,
+      "cache_read_tokens": 2767,
+      "output_tokens": 119,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:14:22.265316Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:14:20Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_01bcbfcae765dc28006ad65dfc3cd487d29cc564f4ab87b5a2",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Supplier A’s order is due on 26 Oct. Cash is short by BDT 8,200 before changes. Trimming the suggested order saves BDT 10,800; then asking Supplier A for 20 more days covers the remaining shortfall at no stated cost. The extension is uncertain, so the fallback is a mobile-wallet loan costing BDT 181.97.\n\nThe trim, extension request, and fallback loan are proposed and waiting for your approval in Actions. The loan is only a fallback if Supplier A does not agree.",
+        "id": "msg_090ba2a6ee920d39006ad65d88bf6087d2a9a3608861fcd6b0",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2879,
+      "cache_write_tokens": 96,
+      "cache_read_tokens": 2780,
+      "output_tokens": 113,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:12:26.102196Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:12:24Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_090ba2a6ee920d39006ad65d88196887d28583d60127a6de23",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]
