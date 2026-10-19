@@ -51,3 +51,12 @@ def test_policy_endpoint_shows_the_rule_and_its_source(client):
 def test_out_of_limit_amounts_are_left_to_the_executor(client):
     # 50,000 is above the wallet loan's limit: proposed, then fails at execution as before
     assert _loan(client, 50000).status_code == 200
+
+
+def test_credit_and_examples_keep_the_pre_trim_order_after_the_trim(client):
+    trim = client.post(f"{P}/actions", json={"kind": "trim_order", "payload": {}}).json()
+    assert client.post(f"{P}/actions/{trim['id']}/approve", json={}).json()["status"] == "executed"
+    c = client.get(f"{P}/shelf-life-credit").json()
+    assert (c["counterfactual_purpose_blind"], c["not_financed"], c["financeable"]) == (19000, 10800, 8200)
+    plan, naive = client.get(f"{P}/policy").json()["examples"]
+    assert (plan["amount"], plan["ok"], naive["amount"], naive["dbr_pct"], naive["ok"]) == (8200, True, 19000, 48.0, False)

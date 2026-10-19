@@ -134,11 +134,11 @@ def get_policy(db: Session, pid: str):
     """The rules LaMP enforces, for the owner's read-only rules view."""
     from app.schemas import PolicyOut
 
-    from .funding import get_funding_plan
+    from .passport import get_shelf_life_credit
 
-    plan = get_funding_plan(db, pid)
-    first = plan.need.amount
-    naive = first + next((o.amount for o in plan.options if o.key == "trim_order" and o.eligible), 0)
+    # From the shelf-life credit, which keeps the pre-trim order, so the examples hold after the trim
+    credit = get_shelf_life_credit(db, pid)
+    first, naive = credit.financeable, credit.counterfactual_purpose_blind
     checks = []
     for label, amount in (("The plan's fallback loan", first), ("A loan for the untrimmed shortfall", naive)):
         r = loan_dbr(db, pid, "wallet-lender", "wallet_loan", amount)

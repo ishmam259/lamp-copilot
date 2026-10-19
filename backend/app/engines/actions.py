@@ -139,14 +139,19 @@ def _order(db: Session, pid: str, payload: dict) -> m.PlannedOrder:
 
 def _trim_order(db: Session, pid: str, a: m.Action) -> dict:
     """Set every line of the order to its suggested quantity."""
+    from .passport import get_shelf_life_credit
+
     order = _order(db, pid, a.payload)
     trim = get_trim(db, pid, order.id)
+    # The shelf-life credit is defined on the order as photographed; keep it before the trim changes it.
+    credit = get_shelf_life_credit(db, pid).model_dump(mode="json")
     before = order.total
     for line, t in zip(order.lines, trim.lines):
         line.qty = t.suggested_qty
     db.flush()
     log("T2", "ORDERS", "order_trimmed", db, order=order.id, **{"from": before, "to": order.total})
     return {"order_id": order.id, "old_total": r2(before), "new_total": r2(order.total),
+            "shelf_life_credit": credit,
             "summary": f"{order.supplier.name} order is now BDT {order.total:,.0f}."}
 
 
