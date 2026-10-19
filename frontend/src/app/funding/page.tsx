@@ -139,7 +139,7 @@ export default function FundingPage() {
                 ))}
               </ol>
               {untrimmed != null && untrimmed > plan.need.amount && (
-                <div className="mt-4 rounded-[var(--radius)] bg-stock-tint p-3 text-ink">
+                <div className="mt-4 border-t border-rule pt-3 text-ink">
                   Borrowing the full <span className="num">{bdt(untrimmed)}</span> straight away would cost{" "}
                   <span className="num font-bold">{bdt(plan.naive_cost_bdt)}</span> in interest, and you&apos;d still hold stock that expires. This plan costs{" "}
                   <span className="num font-bold">{bdt(plan.plan.total_cost_bdt)}</span>
@@ -197,7 +197,7 @@ export default function FundingPage() {
                 ))}
               </ul>
             </Carton>
-            <p className="mt-2 text-sm text-ink-2">Rates are a year&apos;s interest on the amount financed. Tenors differ, so compare the cost of covering this gap, not the APR alone.</p>
+            <p className="mt-2 text-sm text-ink-2">Rates are per year. Each option lasts a different length of time, so compare what covering this gap costs, not the yearly rate.</p>
             {catalogue && <Catalogue c={catalogue} />}
             <p className="mt-3 text-sm text-ink-2">
               Lenders see your record only if you share it.{" "}

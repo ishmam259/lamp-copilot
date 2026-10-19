@@ -21,7 +21,7 @@ export default function RulesPage() {
   const { data: p, error } = usePolicy();
   return (
     <div className="mx-auto max-w-3xl">
-      <PageTitle title="Rules" sub="What LaMP will and won't do. Pause is yours to switch; the other rules are enforced by the server and shown here as they are." />
+      <PageTitle title="Rules" sub="What LaMP will and won't do. You can switch Pause on and off; the other rules are fixed and always apply." />
       {error && <LoadError what="the rules" />}
       {!p && !error && <Skel className="h-96" />}
       {p && (

@@ -88,23 +88,29 @@ function Wallet({ a }: { a: AccountOut }) {
             <table className="num w-full text-sm">
               <thead className="text-left text-ink-2">
                 <tr className="border-b border-rule">
-                  <th className="px-4 py-2 font-semibold">Date</th>
-                  <th className="px-2 py-2 font-semibold">Paid to</th>
+                  <th className="hidden px-4 py-2 font-semibold sm:table-cell">Date</th>
+                  <th className="py-2 pr-2 pl-4 font-semibold sm:pl-2">Paid to</th>
                   <th className="px-2 py-2 text-right font-semibold">Amount</th>
-                  <th className="px-4 py-2 font-semibold">Check</th>
+                  <th className="hidden px-4 py-2 font-semibold sm:table-cell">Check</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-rule">
                 {rows.map((m) => (
                   <tr key={m.ref} className={m.status === "matched" ? "" : "bg-warn-tint/40"}>
-                    <td className="px-4 py-2 whitespace-nowrap text-ink">{stampDate(m.date)}</td>
-                    <td className="px-2 py-2 text-ink">
+                    <td className="hidden px-4 py-2 whitespace-nowrap text-ink sm:table-cell">{stampDate(m.date)}</td>
+                    <td className="py-2 pr-2 pl-4 text-ink sm:pl-2">
+                      <span className="block text-xs text-ink-2 sm:hidden">{stampDate(m.date)}</span>
                       {m.supplier ?? m.payee}
-                      {m.invoice_no && <span className="text-ink-2"> · {m.invoice_no}</span>}
+                      {m.invoice_no && <span className="whitespace-nowrap text-ink-2"> · {m.invoice_no}</span>}
                       {m.status !== "matched" && <p className="text-xs text-ink-2">{m.note}</p>}
                     </td>
-                    <td className="px-2 py-2 text-right font-semibold whitespace-nowrap text-ink">{signed(m.amount)}</td>
-                    <td className="px-4 py-2">
+                    <td className="py-2 pr-4 pl-2 text-right align-top font-semibold sm:pr-2 whitespace-nowrap text-ink sm:align-middle">
+                      {signed(m.amount)}
+                      <span className="mt-1 block sm:hidden">
+                        <Stamp tone={STATUS[m.status].tone}>{STATUS[m.status].label}</Stamp>
+                      </span>
+                    </td>
+                    <td className="hidden px-4 py-2 sm:table-cell">
                       <Stamp tone={STATUS[m.status].tone}>{STATUS[m.status].label}</Stamp>
                     </td>
                   </tr>

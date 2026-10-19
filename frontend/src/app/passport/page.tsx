@@ -99,7 +99,7 @@ export default function PassportPage() {
 
           <div className="lg:col-span-5">
             <Carton tone="warn" title="Who can see it">
-              <p className="text-sm text-ink-2">Nobody sees your passport unless you switch them on. You can stop sharing at any time.</p>
+              <p className="text-sm text-ink-2">Nobody sees your passport until you switch a lender on below. You can stop sharing at any time.</p>
               <ul className="mt-3 divide-y divide-rule">
                 {lenders?.map((l) => {
                   const on = !!consents?.some((c) => c.lender_id === l.id);
@@ -121,8 +121,8 @@ export default function PassportPage() {
                 })}
               </ul>
               <fieldset className="mt-3 border-t border-rule pt-3">
-                <legend className="text-sm font-semibold text-ink">What to share when you switch one on</legend>
-                <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                <legend className="float-left w-full text-sm font-semibold text-ink">What to share when you switch one on</legend>
+                <div className="clear-left grid gap-2 pt-2 sm:grid-cols-2">
                   {[
                     { v: false, label: "Summary only", sub: "Score, terms, on-time count" },
                     { v: true, label: "Summary and evidence", sub: "Plus the invoice-by-invoice record" },
@@ -172,8 +172,9 @@ export default function PassportPage() {
               </ul>
               {preview && (
                 <p className="mt-2 text-xs text-ink-2">
-                  Preview from the same rule the lender&apos;s inbox uses
-                  {preview.passport.evidence.length > 0 ? `: ${preview.passport.evidence.length} invoices would be visible.` : "."}
+                  {preview.passport.evidence.length > 0
+                    ? `This lender would see ${preview.passport.evidence.length} invoices.`
+                    : "This lender would see the summary only."}
                 </p>
               )}
             </Carton>

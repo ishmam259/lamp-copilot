@@ -55,10 +55,12 @@ export default function CashPage() {
                       <tr key={d.date} className={neg ? "bg-alert-tint" : "even:bg-shelf/40"}>
                         <th scope="row" className="px-4 py-2.5 font-semibold whitespace-nowrap text-ink">
                           {dayDate(d.date)}
-                          <span className="block text-sm font-normal text-ink-2">{dayLabel(d, dues?.items.find((x) => x.due_date === d.date)?.supplier)}</span>
+                          <span className="block text-sm font-normal whitespace-normal text-ink-2">
+                            <KeepCode text={dayLabel(d, dues?.items.find((x) => x.due_date === d.date)?.supplier)} />
+                          </span>
                         </th>
-                        <td className={`px-2 py-2.5 text-right font-semibold ${net < 0 ? "text-ink" : "text-stock"}`}>{signed(net)}</td>
-                        <td className={`px-4 py-2.5 text-right font-bold ${neg ? "text-alert" : "text-ink"}`}>{num(d.balance)}</td>
+                        <td className={`px-2 py-2.5 text-right font-semibold whitespace-nowrap ${net < 0 ? "text-ink" : "text-stock"}`}>{signed(net)}</td>
+                        <td className={`px-4 py-2.5 text-right font-bold whitespace-nowrap ${neg ? "text-alert" : "text-ink"}`}>{num(d.balance)}</td>
                       </tr>
                     );
                   })}
@@ -150,5 +152,17 @@ export default function CashPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+/** Keeps the last word (an invoice code such as "D-20931") on one line instead of breaking at its hyphen. */
+function KeepCode({ text }: { text: string }) {
+  const cut = text.lastIndexOf(" ");
+  if (cut < 0) return <span className="whitespace-nowrap">{text}</span>;
+  return (
+    <>
+      {text.slice(0, cut + 1)}
+      <span className="whitespace-nowrap">{text.slice(cut + 1)}</span>
+    </>
   );
 }

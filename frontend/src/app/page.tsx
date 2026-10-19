@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, Check, CreditCard, Landmark, ScrollText, ShieldCheck } from "lucide-react";
+import { ArrowRight, BadgeCheck, Check, ChevronRight, CreditCard, Landmark, ScrollText, ShieldCheck } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Carton, LoadError, Skel, Stamp } from "@/components/carton";
 import { CashLine } from "@/components/cash-line";
@@ -163,7 +163,7 @@ export default function TodayPage() {
                 {expiry.batches.length} batches. <span className="num font-bold text-stock">{bdt(expiry.return_eligible_value)}</span> can still go back to suppliers.
               </p>
               <div className="mt-2">
-                <Stamp>EXP ≤ {stampDate(expiry.batches.reduce((m, b) => (b.expiry_date > m ? b.expiry_date : m), expiry.batches[0].expiry_date))}</Stamp>
+                <Stamp>All by {stampDate(expiry.batches.reduce((m, b) => (b.expiry_date > m ? b.expiry_date : m), expiry.batches[0].expiry_date))}</Stamp>
               </div>
               <Link href="/stock" className={buttonVariants({ variant: "outline", className: "mt-3 w-full" })}>
                 Recover {bdt(expiry.return_eligible_value)}
@@ -201,19 +201,27 @@ export default function TodayPage() {
       </div>
 
       {/* Phone: the screens that aren't in the tab bar */}
-      <nav aria-label="More" className="grid grid-cols-3 gap-2 lg:hidden">
-        {[
-          { href: "/passport", label: "Passport", icon: BadgeCheck },
-          { href: "/wallet", label: "Wallet", icon: CreditCard },
-          { href: "/rules", label: "Rules", icon: ShieldCheck },
-          { href: "/lender", label: "Lender view", icon: Landmark },
-          { href: "/log", label: "Audit log", icon: ScrollText },
-        ].map(({ href, label, icon: Icon }) => (
-          <Link key={href} href={href} className="flex h-16 flex-col items-center justify-center gap-1 rounded-[var(--radius)] border border-rule bg-board text-sm font-semibold text-ink">
-            <Icon className="size-5 text-ink-2" aria-hidden />
-            {label}
-          </Link>
-        ))}
+      <nav aria-label="More" className="carton lg:hidden">
+        <ul className="divide-y divide-rule">
+          {[
+          { href: "/passport", label: "Credit passport", hint: "Who can see your record", icon: BadgeCheck },
+          { href: "/wallet", label: "Wallet", hint: "Balance and statement check", icon: CreditCard },
+          { href: "/rules", label: "Rules", hint: "What LaMP will and won't do", icon: ShieldCheck },
+          { href: "/lender", label: "Lender view", hint: "What a lender sees", icon: Landmark },
+          { href: "/log", label: "Audit log", hint: "Every event, as it happens", icon: ScrollText },
+          ].map(({ href, label, hint, icon: Icon }) => (
+            <li key={href}>
+              <Link href={href} className="flex min-h-14 items-center gap-3 px-4 py-2 text-ink hover:bg-muted">
+                <Icon className="size-5 shrink-0 text-ink-2" aria-hidden />
+                <span className="min-w-0 flex-1">
+                  <span className="block font-semibold">{label}</span>
+                  <span className="block text-sm text-ink-2">{hint}</span>
+                </span>
+                <ChevronRight className="size-5 shrink-0 text-ink-2" aria-hidden />
+              </Link>
+            </li>
+          ))}
+        </ul>
       </nav>
       {asOf && <p className="text-center text-xs text-ink-2 lg:col-span-12">Figures as of {shortDate(asOf)} 2026</p>}
     </div>

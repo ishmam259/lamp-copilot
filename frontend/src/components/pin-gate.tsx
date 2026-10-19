@@ -69,7 +69,7 @@ function PinScreen() {
         <p className="font-board text-[2.5rem] leading-none font-extrabold tracking-tight">
           La<span className="text-signal">M</span>P
         </p>
-        <div className="mt-8 rounded-[8px] bg-shelf p-6 text-ink shadow-lg">
+        <div className="mt-8 rounded-[8px] bg-shelf p-6 text-ink">
           <LockKeyhole className="mx-auto size-7 text-cash" aria-hidden />
           <h1 className="mt-3 text-xl font-bold">Enter your PIN</h1>
           <p className="mt-1 text-sm text-ink-2">Your books and approvals stay locked until you do.</p>

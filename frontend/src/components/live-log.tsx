@@ -20,6 +20,17 @@ const isProblem = (e: LogEvent) => /blocked|failed|declined|rejected|refused|sus
 
 const money = (v: unknown) => `BDT ${Number(v).toLocaleString("en-US")}`;
 const words = (v: unknown) => String(v ?? "").replaceAll("_", " ");
+const capital = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/** Action kinds with their article, as the owner would say them. */
+const KIND: Record<string, string> = {
+  return_claim: "a return claim",
+  trim_order: "an order trim",
+  extension_request: "a request for more days",
+  loan_application: "a loan application",
+  set_aside: "a set-aside",
+};
+const kind = (v: unknown) => KIND[String(v)] ?? `a ${words(v)}`;
 
 /** Known events in the owner's words; anything else falls back to the event name. */
 function sentence(e: LogEvent): string {
@@ -30,9 +41,29 @@ function sentence(e: LogEvent): string {
     case "batches_at_risk":
       return `${d.batches} batches worth ${money(d.value)} expire soon`;
     case "action_proposed":
-      return `Suggested a ${words(d.kind)}`;
+      return `Suggested ${kind(d.kind)}`;
     case "action_approved_by_owner":
-      return `Owner approved a ${words(d.kind)}`;
+      return `Owner approved ${kind(d.kind)}`;
+    case "action_executed":
+      return `Carried out ${kind(d.kind)}`;
+    case "action_failed":
+      return `Couldn't carry out ${kind(d.kind)}: ${words(d.reason)}`;
+    case "lock_rejected":
+      return `Refused: invoice ${d.invoice} is already financed`;
+    case "extension_declined":
+      return `${d.supplier} said no to more days`;
+    case "extension_accepted":
+      return `${d.supplier} agreed to more days`;
+    case "capture_created":
+      return "Photo read; waiting for the owner to check it";
+    case "forecast_updated":
+      return "Cash forecast updated";
+    case "inbox_viewed":
+      return "A lender opened its inbox";
+    case "chat_message":
+      return "Owner asked LaMP a question";
+    case "owner_locked":
+      return "Owner locked the app";
     case "action_rejected":
       return "Owner declined a suggestion";
     case "order_trimmed":
@@ -98,7 +129,7 @@ function sentence(e: LogEvent): string {
     case "wallet_credited":
       return `Wallet credited ${money(d.amount)}`;
     default:
-      return words(e.event);
+      return capital(words(e.event));
   }
 }
 

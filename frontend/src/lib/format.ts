@@ -5,9 +5,10 @@ function parse(iso: string): Date {
   return new Date(iso.length === 10 ? `${iso}T00:00:00Z` : iso);
 }
 
-/** 412500 -> "412,500" */
+/** 412500 -> "412,500"; -17350 -> "−17,350" with a true minus sign. */
 export function num(n: number, decimals = 0): string {
-  return n.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  const s = Math.abs(n).toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  return n < 0 && s.replace(/[0.,]/g, "") !== "" ? `−${s}` : s;
 }
 
 /** 412500 -> "BDT 412,500"; keeps paisa only when present. */
@@ -16,10 +17,10 @@ export function bdt(n: number): string {
   return `BDT ${num(Math.abs(n), hasFraction ? 2 : 0)}`;
 }
 
-/** Signed money for timetable rows: "+ 4,200" / "– 8,450". */
+/** Signed money for timetable rows: "+ 4,200" / "− 8,450". */
 export function signed(n: number): string {
   if (n === 0) return "0";
-  return `${n > 0 ? "+" : "–"} ${num(Math.abs(n))}`;
+  return `${n > 0 ? "+" : "−"} ${num(Math.abs(n))}`;
 }
 
 /** "2026-10-26" -> "26 Oct" */

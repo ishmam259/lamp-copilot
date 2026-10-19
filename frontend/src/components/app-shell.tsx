@@ -68,9 +68,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [chatOpen, setChatOpen] = useState(false);
   const pending = actions?.filter((a) => a.status === "proposed").length ?? 0;
   const isLender = pathname.startsWith("/lender");
+  const onLog = pathname.startsWith("/log");
 
   return (
-    <div className="min-h-dvh lg:grid lg:grid-cols-[232px_1fr] xl:grid-cols-[232px_1fr_340px]">
+    <div className={cn("min-h-dvh lg:grid lg:grid-cols-[232px_1fr]", !onLog && "xl:grid-cols-[232px_1fr_340px]")}>
       {/* Desktop rail */}
       <aside className="sticky top-0 hidden h-dvh flex-col bg-rail text-rail-ink lg:flex">
         <div className="print-strip" />
@@ -196,10 +197,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
       </div>
 
-      {/* Desktop live log column */}
-      <aside className="sticky top-0 hidden h-dvh flex-col border-l border-rule bg-board xl:flex">
-        <LiveLog compact />
-      </aside>
+      {/* Desktop live log column (the Audit log page shows it full width instead) */}
+      {!onLog && (
+        <aside className="sticky top-0 hidden h-dvh flex-col border-l border-rule bg-board xl:flex">
+          <LiveLog compact />
+        </aside>
+      )}
 
       <Sheet open={chatOpen} onOpenChange={setChatOpen}>
         <SheetContent side="right" className="gap-0 p-0 data-[side=right]:w-full data-[side=right]:sm:max-w-md">
