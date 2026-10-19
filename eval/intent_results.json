@@ -1,0 +1,207 @@
+{
+  "questions": 20,
+  "ran": 20,
+  "correct": 19,
+  "rows": [
+    {
+      "q": "How much cash will I have next week?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_forecast']",
+      "expected": [
+        "get_forecast"
+      ],
+      "kind": null
+    },
+    {
+      "q": "When do I run short of money?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_forecast']",
+      "expected": [
+        "get_alerts",
+        "get_forecast",
+        "get_funding_plan"
+      ],
+      "kind": null
+    },
+    {
+      "q": "Which medicines are about to expire?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_expiry', 'propose_action']",
+      "expected": [
+        "get_expiry"
+      ],
+      "kind": null
+    },
+    {
+      "q": "How much do patients owe me in total?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_accounts']",
+      "expected": [
+        "get_accounts",
+        "get_dues"
+      ],
+      "kind": null
+    },
+    {
+      "q": "What were my sales in the last 30 days?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_accounts']",
+      "expected": [
+        "get_accounts"
+      ],
+      "kind": null
+    },
+    {
+      "q": "Did I make a profit this month?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_accounts']",
+      "expected": [
+        "get_accounts"
+      ],
+      "kind": null
+    },
+    {
+      "q": "Can I send the expiring Omeprazole back to the supplier?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_expiry', 'propose_action']",
+      "expected": [
+        "get_expiry"
+      ],
+      "kind": null
+    },
+    {
+      "q": "Should I order less from Supplier A?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_orders', 'get_trim', 'propose_action']",
+      "expected": [
+        "get_orders",
+        "get_trim"
+      ],
+      "kind": null
+    },
+    {
+      "q": "What orders do I have coming up?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_orders']",
+      "expected": [
+        "get_orders"
+      ],
+      "kind": null
+    },
+    {
+      "q": "How do I cover the shortfall on 26 October?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_funding_plan', 'propose_action']",
+      "expected": [
+        "get_funding_plan"
+      ],
+      "kind": null
+    },
+    {
+      "q": "What's the cheapest way to fill the cash gap?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_funding_plan', 'propose_action']",
+      "expected": [
+        "get_funding_plan"
+      ],
+      "kind": null
+    },
+    {
+      "q": "How much interest would the wallet loan cost me?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_funding_plan']",
+      "expected": [
+        "get_funding_plan"
+      ],
+      "kind": null
+    },
+    {
+      "q": "What will a lender see about my shop?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_passport']",
+      "expected": [
+        "get_passport"
+      ],
+      "kind": null
+    },
+    {
+      "q": "Do I look reliable to a lender? How often do I pay suppliers on time?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_passport']",
+      "expected": [
+        "get_passport"
+      ],
+      "kind": null
+    },
+    {
+      "q": "Is there anything I should look at today?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_alerts', 'get_funding_plan', 'propose_action']",
+      "expected": [
+        "get_alerts"
+      ],
+      "kind": null
+    },
+    {
+      "q": "Ask Supplier A for 20 more days to pay.",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['propose_action']; proposed ['extension_request']",
+      "expected": [
+        "propose_action"
+      ],
+      "kind": "extension_request"
+    },
+    {
+      "q": "Please put money aside for the rent.",
+      "source": "team",
+      "ok": false,
+      "detail": "tools ['get_dues']; proposed nothing",
+      "expected": [
+        "propose_action"
+      ],
+      "kind": "set_aside"
+    },
+    {
+      "q": "File a return claim for the expiring stock.",
+      "source": "team",
+      "ok": true,
+      "detail": "tools ['get_expiry', 'propose_action']; proposed ['return_claim']",
+      "expected": [
+        "propose_action"
+      ],
+      "kind": "return_claim"
+    },
+    {
+      "q": "What's the weather in Dhaka tomorrow?",
+      "source": "team",
+      "ok": true,
+      "detail": "tools none",
+      "expected": "decline, no data tools",
+      "kind": null
+    },
+    {
+      "q": "Write me a short poem about my pharmacy.",
+      "source": "team",
+      "ok": true,
+      "detail": "tools none",
+      "expected": "decline, no data tools",
+      "kind": null
+    }
+  ]
+}
