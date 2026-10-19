@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"extension_request\",\"amount\":8200,\"reason\":\"Ask Supplier A for 20 more days on the BDT 8,200 shortfall for the 26 Oct order.\"}",
+        "tool_call_id": "call_WRZLs3Yd0Zzx7NcB5ON9dZCj",
+        "tool_kind": null,
+        "id": "fc_0a7a5cc4c538f9f7006ad65d855aa487d2afbb88ac306b4a2d",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2685,
+      "cache_write_tokens": 103,
+      "cache_read_tokens": 2579,
+      "output_tokens": 53,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:12:21.836604Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:12:20Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0a7a5cc4c538f9f7006ad65d84768c87d290f0fad0c1f1ae02",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

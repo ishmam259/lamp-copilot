@@ -151,7 +151,7 @@
       "q": "Is there anything I should look at today?",
       "source": "team",
       "ok": true,
-      "detail": "tools ['get_alerts', 'get_funding_plan', 'propose_action']",
+      "detail": "tools ['get_alerts', 'propose_action']",
       "expected": [
         "get_alerts"
       ],

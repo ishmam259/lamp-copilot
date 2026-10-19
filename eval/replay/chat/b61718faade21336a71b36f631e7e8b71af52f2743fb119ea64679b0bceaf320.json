@@ -1,0 +1,77 @@
+[
+  {
+    "parts": [
+      {
+        "content": "",
+        "id": "rs_04f0218c126a8e48006ad65d46442c87d289fcd897ac4dde62",
+        "signature": "gAAAAABq1l1IZjxiEsBHad3SeRUU0RLol8w-ML3VzJKcP322pKzNFRSB7_ynYgMIwP1_CEdw5-oejBOyIUdgLxoWzcyKjoeytnBEFy0y8dwCZeKIorl2nkH8Saa5waiVa1sFO9akE78S5263iWIWIDlZ-MHm3tBLviQf-tMwW2yD8zTHhznivOQXCpGjRsmNYNbW2UqToPQ4hZ4U-MA22dI3fcAwg8mZZB9Q_VpEO0ENeTSzFMhjGwIvEGdWkiMK5OUHdRYUkjvwMb0vpsSsucUPFzRs_h7NyHJxUNzPvRh_YBblsWr1Yd980Fw-4oPplEnXCAtW91VVnvBE6Zt7THg95-9WMnpOQnKgeBI3OxMr8I3rzV0-ku_ncRnpljv4MYG9aXTpCPEBuoQgz8Y0e3HRL88HeuUlfhkeFc86ksNOx-RbrTQh-KPrV-ycpH69caR-86JbZ5tDXPXy2y0eC24UDCMhm5FeyLxTxmgjK9uFEhCz9s9qwszX1ZAFXwa7mzz1BUZgmbC723TERhh41xbmR9KVQGAsYdV4iMzBzoffzDdidUqDIbTvbpMdJlQesiPhuhIXxXw8eHCJshfWxKTT5viLLN9xjyXkK8fxd0lWKAkJwJ0ek3xlzWUGhvJYMLO4ghGSskkR0i2ZFXcnDFAO5y0_pEHfWillo7v9q_ISh33l_intpWRglRWgAPq-FpMKVoKs4Yvgb7Ml6v_zgr6Fb-x1Rw_88uWfmYpw_1hmsXg8AgUfbeNUPccNXa5HZ5_EV_4fYu_gh_xrO3yMJzqEPgacaS0OCwX-ZHs0zQxezsMuKvFMH5q6znaN75-920HlDwcSgkvpCJntntwOc-5O1TeXm7MIgUeBx7Xqk_a1yLdesnZJdwHXEaVyoUwRhiP35SLt_s_9rySJVtmnn05PjaXZPASAUjxGkYIAANSe9ZKZQ5yPd0NWb74DTfsQL8kHbBXHAFADoReeiory6JSECgYcapXkOhELD1KdJ0-G8xyV5ToESFlzuShwPK06PN2B1NDs-PjpiQVigxNPRFkLAOPObh3ydW3WH9uxDTd0J1s6xrxLhNlU5OdiJBbpvG-CnTv6G80PXCp2A2hqMavrIRSU-z4UL248xSQIwTCgr9UyRXfU81mQamLiAw-Q6wAQ-gTuukzvh6cB6MD6VkQVs_eQja1sLh9ojFXA6almbPCoK1PrtMZFQtrGPP5Z3Z0wnQf6ErcRU4bcz381d0T07SIYBSqRJ2hQHaEKJHV5SpEAVunJcltDhBPbSs6ORKQWl-_eLLyPayz9x8LD1cw9_NAQu7-cWtb3dSlVJniksZBQ5-fkks_7beMhevZxkF4f1zwVAxpw4SWI9uJz9k3frJQo0idvrJ5XJPrRu-wxqSzLQNTLxs493kCFylu8HnrU6hYG9iLsFD7uHCwww0y4wW0jA8RWiX6GaH6FSPWB2cPxzefxAvDkAIiYMfm6qnnmSXbx0vhkW6FL-bPPW2yTV5K_d72sDTVE2iWUdYvTfukmWellDKnIpplWckKrK_DtvK3eIPQCOK_BKMFeVdXjU6f6sasGR2fgrF4UlU05qmWPCY4TqIg_-7vQgc5gcUFN3n0qOP_d",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "thinking"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"trim_order\",\"amount\":10800.0,\"order_id\":\"o-1\",\"reason\":\"Cut Montelukast from 30 to 12 boxes, as suggested in the funding plan.\"}",
+        "tool_call_id": "call_rDd30PgN1HvNpRqJQCGLh973",
+        "tool_kind": null,
+        "id": "fc_04f0218c126a8e48006ad65d47eafc87d29746594377d53dce",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"extension_request\",\"amount\":8200.0,\"reason\":\"Ask Supplier A for 20 more days on the remaining shortfall.\"}",
+        "tool_call_id": "call_DFNs4mwpMqX0sjjHf4gQ8CfW",
+        "tool_kind": null,
+        "id": "fc_04f0218c126a8e48006ad65d47eb1087d286715fd619279d21",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"loan_application\",\"amount\":8200.0,\"reason\":\"Fallback only if Supplier A does not agree to the extension.\"}",
+        "tool_call_id": "call_jqVSTRqyFPTDZ8X9w6w5z7ii",
+        "tool_kind": null,
+        "id": "fc_04f0218c126a8e48006ad65d47eb1887d29e90af481d82577b",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2581,
+      "cache_write_tokens": 977,
+      "cache_read_tokens": 1601,
+      "output_tokens": 170,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 17
+      },
+      "cost": null,
+      "output_reasoning_tokens": 17
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:11:20.368393Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:11:17Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_04f0218c126a8e48006ad65d45ce2087d2bcdbc75d26c230c2",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]
