@@ -2,8 +2,8 @@
   {
     "parts": [
       {
-        "content": "The bank’s offer is based on your payment record: 38 of 41 invoices were paid on time. Your cautious on-time estimate is 0.826, and your default probability is 0.03. That supports an advance rate of 75.2%.\n\nThe 3 late invoices lower the estimate. Paying more invoices on time can raise the advance rate.",
-        "id": "msg_00bc69fbb2a217eb006ad65b0fc4cc87d2875b8a5c5ab4e821",
+        "content": "The bank’s offer is 75.2%. It is based on 38 of 41 invoices paid on time, a cautious on-time estimate of 0.826, and a default probability of 0.03. Paying more invoices on time can raise the advance rate.",
+        "id": "msg_03f94ac8e972e777006ad65e084fd487d29d0b2721cbe34667",
         "provider_name": "openai",
         "provider_details": {
           "phase": "final_answer"
@@ -15,7 +15,7 @@
       "input_tokens": 1787,
       "cache_write_tokens": 0,
       "cache_read_tokens": 1784,
-      "output_tokens": 78,
+      "output_tokens": 60,
       "input_audio_tokens": 0,
       "cache_audio_read_tokens": 0,
       "output_audio_tokens": 0,
@@ -27,16 +27,16 @@
       "output_reasoning_tokens": 0
     },
     "model_name": "gpt-6-luna",
-    "timestamp": "2026-10-19T18:01:52.809804Z",
+    "timestamp": "2026-10-19T18:14:32.945045Z",
     "kind": "response",
     "provider_name": "openai",
     "provider_url": "https://api.openai.com/v1/",
     "provider_details": {
       "finish_reason": "completed",
-      "timestamp": "2026-10-19T18:01:51Z",
+      "timestamp": "2026-10-19T18:14:31Z",
       "service_tier": "default"
     },
-    "provider_response_id": "resp_00bc69fbb2a217eb006ad65b0f5a0487d2a353e3ec477b07b3",
+    "provider_response_id": "resp_03f94ac8e972e777006ad65e07675887d294ff217b0a409b94",
     "finish_reason": "stop",
     "run_id": null,
     "conversation_id": null,

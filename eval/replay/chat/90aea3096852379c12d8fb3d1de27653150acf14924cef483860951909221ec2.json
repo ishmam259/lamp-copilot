@@ -1,0 +1,69 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"trim_order\",\"amount\":10800,\"order_id\":\"o-1\",\"reason\":\"Reduce Montelukast to the suggested smaller order; only 12 of 30 boxes will sell before expiry.\"}",
+        "tool_call_id": "call_pZM6v4BIfjdyQpnpOGHStf4r",
+        "tool_kind": null,
+        "id": "fc_0a7adbeccbff2a04006ad65f090f3087d2ada0b6e2c29773aa",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"extension_request\",\"amount\":8200,\"reason\":\"Ask Supplier A for 20 more days on the remaining shortfall, due 26 October.\"}",
+        "tool_call_id": "call_O2VCWqLBGUCOOoqDv4ahISXh",
+        "tool_kind": null,
+        "id": "fc_0a7adbeccbff2a04006ad65f090f4487d28688f46500f71b58",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"loan_application\",\"amount\":8200,\"reason\":\"Fallback only if Supplier A does not agree to the extension; cover the 26 October shortfall.\"}",
+        "tool_call_id": "call_ESml1ycof4TOWbDAYRcafF9T",
+        "tool_kind": null,
+        "id": "fc_0a7adbeccbff2a04006ad65f090f5087d2860a59119636ebdc",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2582,
+      "cache_write_tokens": 977,
+      "cache_read_tokens": 1602,
+      "output_tokens": 161,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:18:56.516747Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:18:47Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0a7adbeccbff2a04006ad65f07696c87d2b0eb0ed115bfc860",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Shop rent is BDT 18,000, due 2026-11-01. The forecast shows a cash shortfall of BDT 18,000 that day, so setting this aside may leave less cash for other payments.\n\nI proposed setting aside BDT 18,000. It is waiting for your approval in Actions.",
+        "id": "msg_0d6981c3f2297f7b006ad65f493cb087d2b0753bd9da019993",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2266,
+      "cache_write_tokens": 89,
+      "cache_read_tokens": 2174,
+      "output_tokens": 72,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:19:54.081193Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:19:52Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0d6981c3f2297f7b006ad65f48ce6487d283ffe0f0d6ef1f10",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

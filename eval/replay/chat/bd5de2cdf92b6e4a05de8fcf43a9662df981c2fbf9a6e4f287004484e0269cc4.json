@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Yes. The suggested quantities reduce Supplier A’s order from BDT 60,000 to BDT 49,200, saving BDT 10,800. The risk is that 18 boxes of Montelukast may not sell before expiry; the other lines are within their estimated sellable quantities. I’ve proposed the trim. It is waiting for your approval in Actions.",
+        "id": "msg_092f6ee188de21ad006ad65efed90887d2b14b254081d85bc8",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2254,
+      "cache_write_tokens": 92,
+      "cache_read_tokens": 2159,
+      "output_tokens": 81,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T18:18:39.849184Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T18:18:38Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_092f6ee188de21ad006ad65efe147087d2b8d8fc1954de0e06",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]
