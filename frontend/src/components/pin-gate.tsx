@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { LockKeyhole } from "lucide-react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import { ApiError, LOCKED_EVENT, PID, UNLOCKED_EVENT, apiGet, unlock } from "@/lib/api";
+import { ApiError, LOCKED_EVENT, PID, UNLOCKED_EVENT, apiGet, errorDetail, unlock } from "@/lib/api";
 
 const PIN_LENGTH = 4;
 
@@ -50,7 +50,13 @@ function PinScreen() {
     try {
       await unlock(value);
     } catch (e) {
-      setError(e instanceof ApiError && e.status === 401 ? "That PIN isn't right. Try again." : "Couldn't reach LaMP. Try again.");
+      setError(
+        e instanceof ApiError && e.status === 401
+          ? "That PIN isn't right. Try again."
+          : e instanceof ApiError && e.status === 429
+            ? errorDetail(e, "Too many wrong PINs. Try again later.")
+            : "Couldn't reach LaMP. Try again."
+      );
       setPin("");
     } finally {
       setBusy(false);
@@ -113,7 +119,8 @@ export function PinPrompt({
   onCancel,
 }: {
   title: string;
-  onSubmit: (pin: string) => Promise<boolean>;
+  /** true when done; false for a wrong PIN; a string to show (for example the lockout). */
+  onSubmit: (pin: string) => Promise<boolean | string>;
   onCancel: () => void;
 }) {
   const [pin, setPin] = useState("");
@@ -126,8 +133,8 @@ export function PinPrompt({
     setError(null);
     const ok = await onSubmit(value);
     setBusy(false);
-    if (!ok) {
-      setError("That PIN isn't right. Try again.");
+    if (ok !== true) {
+      setError(ok === false ? "That PIN isn't right. Try again." : ok);
       setPin("");
     }
   }

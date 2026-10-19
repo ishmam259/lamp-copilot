@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PinPrompt } from "@/components/pin-gate";
-import { ApiError, decideAction, useActions, usePause, useValue } from "@/lib/api";
+import { ApiError, decideAction, errorDetail, useActions, usePause, useValue } from "@/lib/api";
 import { bdt, stampDate } from "@/lib/format";
 import type { ActionOut } from "@/lib/types";
 
@@ -30,16 +30,6 @@ function title(a: ActionOut): string {
   return String(p.summary ?? p.reason ?? KIND_LABEL[a.kind]);
 }
 
-/** The API's {"detail": "..."} message, for refusals such as Pause or the borrowing ceiling. */
-function apiDetail(e: ApiError): string {
-  try {
-    const d = JSON.parse(e.message).detail;
-    return typeof d === "string" ? d : "LaMP refused this action.";
-  } catch {
-    return e.message || "LaMP refused this action.";
-  }
-}
-
 export default function ActionsPage() {
   const { data: actions, error } = useActions();
   const [busy, setBusy] = useState<string | null>(null);
@@ -51,8 +41,8 @@ export default function ActionsPage() {
   const waiting = actions?.filter((a) => a.status === "proposed") ?? [];
   const done = actions?.filter((a) => a.status !== "proposed") ?? [];
 
-  /** Returns false only for a wrong PIN, so the PIN prompt can ask again. */
-  async function decide(a: ActionOut, decision: "approve" | "reject", pin?: string): Promise<boolean> {
+  /** Returns false for a wrong PIN and the message for a PIN lockout, so the PIN prompt can say so. */
+  async function decide(a: ActionOut, decision: "approve" | "reject", pin?: string): Promise<boolean | string> {
     if (decision === "approve" && a.requires_pin && !pin) {
       setPinFor(a);
       return true;
@@ -67,8 +57,9 @@ export default function ActionsPage() {
       return true;
     } catch (e) {
       if (pin && e instanceof ApiError && e.status === 401) return false;
+      if (pin && e instanceof ApiError && e.status === 429) return errorDetail(e, "Too many wrong PINs. Try again later.");
       setPinFor(null);
-      toast.error(e instanceof ApiError && e.status === 409 ? apiDetail(e) : "Couldn't reach LaMP. Try again.");
+      toast.error(e instanceof ApiError && e.status === 409 ? errorDetail(e, "LaMP refused this action.") : "Couldn't reach LaMP. Try again.");
       return true;
     } finally {
       setBusy(null);

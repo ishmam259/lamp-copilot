@@ -60,9 +60,11 @@ export function NotificationBridge() {
     const seen = new Set<string>();
     return subscribeLogs((e) => {
       // The stream replays the backlog first; only events from now on become notifications.
-      if (e.event !== "notify" || seen.has(e.id) || Date.parse(e.ts) < since.current - 5000) return;
+      // Ids restart after a reset, so the key includes the time.
+      const key = `${e.id}@${e.ts}`;
+      if (e.event !== "notify" || seen.has(key) || Date.parse(e.ts) < since.current - 5000) return;
       if (!AUDIENCES.has(String(e.data.audience))) return;
-      seen.add(e.id);
+      seen.add(key);
       if (Notification.permission === "granted") show(e).catch(() => {});
     });
   }, []);

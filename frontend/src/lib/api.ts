@@ -80,7 +80,24 @@ export async function apiPost<T>(path: string, body?: unknown, headers?: Record<
   return liveFetch("POST", path, body, headers) as Promise<T>;
 }
 
-/** Unlock with the owner PIN. The API sets an HttpOnly session cookie. Throws ApiError(401) on a wrong PIN. */
+/** Lock the app: the API ends the session and clears the cookie. */
+export async function lock() {
+  await fetch(`${BASE}/pharmacies/${PID}/session`, { method: "DELETE", credentials: "include" }).catch(() => null);
+  window.dispatchEvent(new Event(LOCKED_EVENT));
+}
+
+/** The API's {"detail": "..."} message, or the raw text. */
+export function errorDetail(e: unknown, fallback: string): string {
+  if (!(e instanceof ApiError)) return fallback;
+  try {
+    const d = JSON.parse(e.message).detail;
+    return typeof d === "string" ? d : fallback;
+  } catch {
+    return e.message || fallback;
+  }
+}
+
+/** Unlock with the owner PIN. The API sets an HttpOnly session cookie. Throws ApiError(401) on a wrong PIN, 429 while locked out. */
 export async function unlock(pin: string) {
   const res = await fetch(`${BASE}/pharmacies/${PID}/session`, {
     method: "POST",
@@ -88,7 +105,7 @@ export async function unlock(pin: string) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ pin }),
   });
-  if (!res.ok) throw new ApiError(res.status, res.status === 401 ? "Wrong PIN" : `Unlock failed (${res.status})`);
+  if (!res.ok) throw new ApiError(res.status, await res.text().catch(() => `Unlock failed (${res.status})`));
   window.dispatchEvent(new Event(UNLOCKED_EVENT));
   await refreshAll();
 }
@@ -107,12 +124,21 @@ export async function uploadCapture(kind: "invoice" | "sales_page", file: File):
   return res.json();
 }
 
-/** Live audit log over SSE. Reconnects after the owner unlocks (the stream needs the session). */
-export function subscribeLogs(onEvent: (e: LogEvent) => void): () => void {
+/**
+ * Live audit log over SSE. Reconnects after the owner unlocks (the stream needs the session).
+ * The stream replays the whole log on every (re)connect, and the API closes it after a reset,
+ * when log ids restart at lg-1, so `onReopen` tells the caller to drop what it holds.
+ */
+export function subscribeLogs(onEvent: (e: LogEvent) => void, onReopen?: () => void): () => void {
   let es: EventSource | null = null;
+  let opened = false;
   const open = () => {
     es?.close();
     es = new EventSource(`${BASE}/logs/stream`, { withCredentials: true });
+    es.onopen = () => {
+      if (opened) onReopen?.();
+      opened = true;
+    };
     es.onmessage = (msg) => {
       try {
         onEvent(JSON.parse(msg.data) as LogEvent);

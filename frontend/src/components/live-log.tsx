@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "cn";
 import { ShieldAlert, ShieldCheck } from "lucide-react";
-import { subscribeLogs, useLogs, useLogVerify } from "@/lib/api";
+import { subscribeLogs, useLogVerify } from "@/lib/api";
 import { shortDate, timeOfDay } from "@/lib/format";
 import type { LogEvent } from "@/lib/types";
 
@@ -109,13 +109,20 @@ function raw(data: Record<string, unknown>) {
 }
 
 export function LiveLog({ compact = false }: { compact?: boolean }) {
-  const { data } = useLogs();
   const { data: chain, mutate: recheck } = useLogVerify();
   const [live, setLive] = useState<LogEvent[]>([]);
   const [filter, setFilter] = useState<LogEvent["tier"] | "all">("all");
   const listRef = useRef<HTMLOListElement>(null);
 
-  useEffect(() => subscribeLogs((e) => setLive((prev) => (prev.some((p) => p.id === e.id) ? prev : [...prev, e]))), []);
+  useEffect(
+    () =>
+      subscribeLogs(
+        (e) => setLive((prev) => (prev.some((p) => p.id === e.id) ? prev : [...prev, e])),
+        // Every (re)connect replays the whole log, and after a reset the ids restart: start again.
+        () => setLive([])
+      ),
+    []
+  );
   // Re-verify the hash chain whenever a new event arrives.
   useEffect(() => {
     if (live.length) recheck();
@@ -123,9 +130,9 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
 
   const events = useMemo(() => {
     const seen = new Set<string>();
-    const all = [...(data ?? []), ...live].filter((e) => (seen.has(e.id) ? false : (seen.add(e.id), true)));
+    const all = live.filter((e) => (seen.has(e.id) ? false : (seen.add(e.id), true)));
     return all.filter((e) => filter === "all" || e.tier === filter);
-  }, [data, live, filter]);
+  }, [live, filter]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });

@@ -10,6 +10,7 @@ import {
   HandCoins,
   Inbox,
   Landmark,
+  LockKeyhole,
   MessageCircle,
   PackageOpen,
   ScrollText,
@@ -19,7 +20,7 @@ import {
 } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "cn";
-import { useActions, usePharmacy } from "@/lib/api";
+import { lock, useActions, usePharmacy } from "@/lib/api";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ChatPanel } from "@/components/chat-panel";
 import { LiveLog } from "@/components/live-log";
@@ -89,6 +90,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
         <div className="space-y-2 border-t border-white/15 p-4">
           <ThemeToggle withLabel onRail className="-ml-3" />
+          {!isLender && (
+            <button
+              type="button"
+              onClick={lock}
+              className="-ml-3 flex h-10 w-full items-center gap-3 rounded-[var(--radius)] px-3 font-semibold text-rail-2 hover:bg-white/10 hover:text-rail-ink"
+            >
+              <LockKeyhole className="size-5" aria-hidden /> Lock
+            </button>
+          )}
         </div>
       </aside>
 
