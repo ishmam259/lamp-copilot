@@ -5,22 +5,28 @@ import { toast } from "sonner";
 import { Check, X } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
-import { grantConsent, useConsents, useLenders, usePassport, withdrawConsent } from "@/lib/api";
+import { grantConsent, useConsentPreview, useConsents, useLenders, usePassport, withdrawConsent } from "@/lib/api";
 import { num, shortDate } from "@/lib/format";
 
-const SCOPES = ["passport.summary", "passport.evidence"];
+const SUMMARY = ["passport.summary"];
+const FULL = ["passport.summary", "passport.evidence"];
 
 export default function PassportPage() {
   const { data: passport, error } = usePassport();
   const { data: lenders } = useLenders();
   const { data: consents } = useConsents();
   const [busy, setBusy] = useState<string | null>(null);
+  const [withEvidence, setWithEvidence] = useState(true);
+  const [previewFor, setPreviewFor] = useState<string | null>(null);
+  const scopes = withEvidence ? FULL : SUMMARY;
+  const previewLender = previewFor ?? lenders?.[0]?.id ?? null;
+  const { data: preview } = useConsentPreview(previewLender, scopes);
 
   async function toggle(lenderId: string, on: boolean) {
     setBusy(lenderId);
     try {
       if (on) {
-        await grantConsent(lenderId, SCOPES);
+        await grantConsent(lenderId, scopes);
         toast.success("Shared. This lender can now see your passport.");
       } else {
         const c = consents?.find((x) => x.lender_id === lenderId);
@@ -114,18 +120,62 @@ export default function PassportPage() {
                   );
                 })}
               </ul>
-              <h3 className="mt-3 text-sm font-semibold text-ink">What they see</h3>
+              <fieldset className="mt-3 border-t border-rule pt-3">
+                <legend className="text-sm font-semibold text-ink">What to share when you switch one on</legend>
+                <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                  {[
+                    { v: false, label: "Summary only", sub: "Score, terms, on-time count" },
+                    { v: true, label: "Summary and evidence", sub: "Plus the invoice-by-invoice record" },
+                  ].map((o) => (
+                    <label
+                      key={o.label}
+                      className={`cursor-pointer rounded-[var(--radius)] border p-2.5 text-sm ${withEvidence === o.v ? "border-cash bg-muted" : "border-rule"}`}
+                    >
+                      <input type="radio" name="scope" className="sr-only" checked={withEvidence === o.v} onChange={() => setWithEvidence(o.v)} />
+                      <span className="block font-semibold text-ink">{o.label}</span>
+                      <span className="block text-ink-2">{o.sub}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+              <div className="mt-3 flex flex-wrap items-baseline gap-x-2">
+                <h3 className="text-sm font-semibold text-ink">What this lender will see</h3>
+                {lenders && lenders.length > 1 && (
+                  <select
+                    aria-label="Lender to preview"
+                    value={previewLender ?? ""}
+                    onChange={(e) => setPreviewFor(e.target.value)}
+                    className="h-8 rounded-[var(--radius)] border border-rule bg-board px-2 text-sm text-ink"
+                  >
+                    {lenders.map((l) => (
+                      <option key={l.id} value={l.id}>
+                        {l.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
               <ul className="mt-1 space-y-1 text-sm text-ink">
-                <li className="flex gap-2">
-                  <Check className="mt-0.5 size-4 shrink-0 text-stock" aria-hidden /> Your on-time record, score and terms
-                </li>
-                <li className="flex gap-2">
-                  <Check className="mt-0.5 size-4 shrink-0 text-stock" aria-hidden /> Invoice numbers, dates and suppliers behind it
-                </li>
-                <li className="flex gap-2">
-                  <X className="mt-0.5 size-4 shrink-0 text-ink-2" aria-hidden /> Never your patients, or what anyone bought
+                {preview?.shares.map((t) => (
+                  <li key={t} className="flex gap-2">
+                    <Check className="mt-0.5 size-4 shrink-0 text-stock" aria-hidden /> {t}
+                  </li>
+                ))}
+                {preview?.withholds.map((t) => (
+                  <li key={t} className="flex gap-2 text-ink-2">
+                    <X className="mt-0.5 size-4 shrink-0" aria-hidden /> Not shared: {t}
+                  </li>
+                ))}
+                <li className="flex gap-2 text-ink-2">
+                  <X className="mt-0.5 size-4 shrink-0" aria-hidden /> Never your patients, or what anyone bought
                 </li>
               </ul>
+              {preview && (
+                <p className="mt-2 text-xs text-ink-2">
+                  Preview from the same rule the lender&apos;s inbox uses
+                  {preview.passport.evidence.length > 0 ? `: ${preview.passport.evidence.length} invoices would be visible.` : "."}
+                </p>
+              )}
             </Carton>
           </div>
         </div>

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PinPrompt } from "@/components/pin-gate";
-import { ApiError, decideAction, useActions } from "@/lib/api";
+import { ApiError, decideAction, useActions, usePause, useValue } from "@/lib/api";
 import { bdt, stampDate } from "@/lib/format";
 import type { ActionOut } from "@/lib/types";
 
@@ -44,6 +44,10 @@ export default function ActionsPage() {
   const { data: actions, error } = useActions();
   const [busy, setBusy] = useState<string | null>(null);
   const [pinFor, setPinFor] = useState<ActionOut | null>(null);
+  const paused = !!usePause().data?.paused;
+  const { data: value } = useValue();
+  /** While paused, what LaMP proposed can't be approved (the API refuses it too). */
+  const held = (a: ActionOut) => paused && a.proposed_by !== "owner";
   const waiting = actions?.filter((a) => a.status === "proposed") ?? [];
   const done = actions?.filter((a) => a.status !== "proposed") ?? [];
 
@@ -97,13 +101,14 @@ export default function ActionsPage() {
                       </div>
                     )}
                     <div className="mt-3 flex gap-2">
-                      <Button className="flex-1 sm:flex-none" disabled={busy === a.id} onClick={() => decide(a, "approve")}>
+                      <Button className="flex-1 sm:flex-none" disabled={busy === a.id || held(a)} onClick={() => decide(a, "approve")}>
                         Approve
                       </Button>
                       <Button variant="outline" className="flex-1 sm:flex-none" disabled={busy === a.id} onClick={() => decide(a, "reject")}>
                         Decline
                       </Button>
                     </div>
+                    {held(a) && <p className="mt-2 text-sm text-ink-2">LaMP is paused. Resume it to approve this suggestion.</p>}
                   </li>
                 ))}
               </ul>
@@ -144,6 +149,26 @@ export default function ActionsPage() {
               </ul>
             )}
           </Carton>
+
+          {value && value.items.length > 0 && (
+            <Carton tone="stock" title="What your approvals saved" aside={bdt(value.total)}>
+              <ul className="divide-y divide-rule">
+                {value.items.map((v) => (
+                  <li key={`${v.action_id}-${v.kind}`} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-ink">{v.label}</p>
+                      <p className="text-sm text-ink-2">{v.basis}</p>
+                      <p className="text-sm text-ink-2">Without it: {v.counterfactual}</p>
+                    </div>
+                    <span className="num font-bold text-stock">{bdt(v.amount)}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 border-t border-rule pt-3 text-sm text-ink-2">
+                Total <span className="num font-bold text-ink">{bdt(value.total)}</span>, worked out by LaMP&apos;s engines from what was actually done.
+              </p>
+            </Carton>
+          )}
         </div>
       )}
     </div>

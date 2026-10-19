@@ -3,17 +3,34 @@
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowRight, Check, X } from "lucide-react";
+import { ArrowRight, Check, ExternalLink, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
-import { proposeAction, useActions, useForecast, useFundingPlan } from "@/lib/api";
-import { bdt, dayDate, num, stampDate } from "@/lib/format";
-import type { ActionKind } from "@/lib/types";
+import { proposeAction, useActions, useCatalogue, useForecast, useFundingPlan } from "@/lib/api";
+import { bdt, dayDate, num, shortDate, stampDate } from "@/lib/format";
+import type { ActionKind, CatalogueOut, FundingOption } from "@/lib/types";
+
+/** 9 -> "9", 12.2 -> "12.2", 13.75 -> "13.75" */
+const pct = (n: number) => String(Math.round(n * 100) / 100);
+
+/** "APR 12.2% on BDT 49,200 for 30 days": what the rate applies to, and for how long. */
+function terms(o: { apr_pct: number | null; amount_financed?: number | null; tenor_days?: number | null }): string | null {
+  if (o.apr_pct == null || o.amount_financed == null || o.tenor_days == null) return null;
+  return `APR ${pct(o.apr_pct)}% on ${bdt(o.amount_financed)} for ${num(o.tenor_days)} days`;
+}
+
+/** "Covering the BDT 8,200 gap costs BDT 492 = 6.0% of the gap." */
+function gapCost(o: Pick<FundingOption, "cost_of_gap_bdt" | "cost_of_gap_pct_of_need">, need: number): string | null {
+  if (o.cost_of_gap_bdt == null || o.cost_of_gap_pct_of_need == null) return null;
+  if (o.cost_of_gap_bdt === 0) return `Covering the ${bdt(need)} gap costs nothing.`;
+  return `Covering the ${bdt(need)} gap costs ${bdt(o.cost_of_gap_bdt)} = ${num(o.cost_of_gap_pct_of_need, 1)}% of the gap.`;
+}
 
 export default function FundingPage() {
   const { data: plan, error } = useFundingPlan();
   const { data: actions } = useActions();
   const { data: forecast } = useForecast();
+  const { data: catalogue } = useCatalogue();
   const [busy, setBusy] = useState(false);
 
   // Every figure below comes from the API: the plan, its options, and the untrimmed forecast shortfall.
@@ -128,16 +145,23 @@ export default function FundingPage() {
                           {o.certainty === "uncertain" ? " · not guaranteed" : ""}
                         </p>
                         <p className="mt-1 text-sm text-ink">{o.reason}</p>
+                        {(terms(o) || gapCost(o, plan.need.amount)) && (
+                          <p className="num mt-1 text-sm text-ink-2">
+                            {[terms(o), o.apr_pct == null ? null : gapCost(o, plan.need.amount)].filter(Boolean).join(". ")}
+                          </p>
+                        )}
                       </div>
                       <div className="text-right">
                         <p className="num font-bold text-ink">{o.cost_bdt === null ? "—" : o.cost_bdt === 0 ? "Free" : bdt(o.cost_bdt)}</p>
-                        {o.apr_pct !== null && <p className="num text-xs text-ink-2">{num(o.apr_pct, 1)}% a year</p>}
+                        {o.apr_pct !== null && <p className="num text-xs text-ink-2">{pct(o.apr_pct)}% a year</p>}
                       </div>
                     </div>
                   </li>
                 ))}
               </ul>
             </Carton>
+            <p className="mt-2 text-sm text-ink-2">Rates are a year&apos;s interest on the amount financed. Tenors differ, so compare the cost of covering this gap, not the APR alone.</p>
+            {catalogue && <Catalogue c={catalogue} />}
             <p className="mt-3 text-sm text-ink-2">
               Lenders see your record only if you share it.{" "}
               <Link href="/passport" className="font-semibold text-cash hover:underline">
@@ -148,5 +172,63 @@ export default function FundingPage() {
         </div>
       )}
     </div>
+  );
+}
+
+/** Sourced Bangladeshi financing products matched to the need (CORE-14). */
+function Catalogue({ c }: { c: CatalogueOut }) {
+  return (
+    <Carton
+      tone="ink"
+      title="What's on the market"
+      aside={`${c.matched} matched, ${c.eligible} eligible, cheapest first`}
+      className="mt-4"
+      bodyClassName="p-0"
+    >
+      <p className="px-4 pb-3 text-sm text-ink-2">
+        Real products from published sources, priced for your {bdt(c.need.amount)} gap by {shortDate(c.need.needed_by)} over {c.horizon_days} days.{" "}
+        {c.plan_holds && c.plan_fallback_cost_bdt != null
+          ? `None beats the plan's fallback at ${bdt(c.plan_fallback_cost_bdt)}.`
+          : c.cheapest_eligible_cost_bdt != null
+            ? `The cheapest eligible one costs ${bdt(c.cheapest_eligible_cost_bdt)}.`
+            : ""}
+      </p>
+      <ul className="divide-y divide-rule border-t border-rule">
+        {c.options.map((o) => (
+          <li key={o.key} className={`p-4 ${o.eligible ? "" : "opacity-75"}`}>
+            <div className="flex items-start gap-3">
+              <span
+                className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full ${o.eligible ? "bg-stock-tint text-stock" : "bg-muted text-ink-2"}`}
+                aria-label={o.eligible ? "Eligible" : "Not eligible"}
+              >
+                {o.eligible ? <Check className="size-4" aria-hidden /> : <X className="size-4" aria-hidden />}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold text-ink">{o.label}</p>
+                <p className="text-sm text-ink-2">
+                  {o.provider_type} · {o.speed_days === 0 ? "same day" : `about ${o.speed_days} day${o.speed_days === 1 ? "" : "s"}`}
+                </p>
+                {!o.eligible && o.ineligible_reason && <p className="mt-1 text-sm font-semibold text-ink">{o.ineligible_reason}</p>}
+                {terms(o) && <p className="num mt-1 text-sm text-ink-2">{terms(o)}</p>}
+                {o.to_confirm.length > 0 && <p className="mt-1 text-sm text-ink-2">To confirm: {o.to_confirm.join(", ")}.</p>}
+                <details className="mt-1 text-sm text-ink-2">
+                  <summary className="cursor-pointer font-semibold text-cash">Source</summary>
+                  <p className="mt-1">{o.note}</p>
+                  <a href={o.source} target="_blank" rel="noreferrer" className="mt-1 inline-flex items-center gap-1 font-semibold text-cash hover:underline">
+                    {o.anchored_on}
+                    {o.source_date ? `, ${shortDate(o.source_date)} ${o.source_date.slice(0, 4)}` : ""}
+                    <ExternalLink className="size-3.5" aria-hidden />
+                  </a>
+                </details>
+              </div>
+              <div className="text-right">
+                <p className="num font-bold text-ink">{o.cost_of_gap_bdt == null ? "—" : bdt(o.cost_of_gap_bdt)}</p>
+                {o.cost_of_gap_pct_of_need != null && <p className="num text-xs text-ink-2">{num(o.cost_of_gap_pct_of_need, 1)}% of the gap</p>}
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </Carton>
   );
 }

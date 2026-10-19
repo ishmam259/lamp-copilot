@@ -139,11 +139,12 @@ Order: I1 → I10, then B, then C. All of Level A must land; B and C follow in o
 - [x] Loan approval asks the PIN again
 - [x] Sales-book review renders and confirms
 - [x] Demo chats come from real recordings; an unrecorded question gets the honest message
-- [ ] Funding page shows APR, tenor and cost of the gap from the API; no hard-coded figures
-- [ ] Pause toggle works; agent proposals can't be approved while paused
-- [ ] Chain status shown on the log panel
+- [x] Funding page shows APR, tenor and cost of the gap from the API; no hard-coded figures
+- [x] Pause toggle works; agent proposals can't be approved while paused
+- [x] Chain status shown on the log panel
 - [x] "N of N money figures traced" badge; an untraced answer is blocked
-- [ ] Shelf-life credit card in the lender view
-- [ ] A follow-up firing produces a desktop notification that opens the approval
-- [ ] Level B: catalogue, wallet and reconciliation, value ledger, plan checklist
+- [x] Shelf-life credit card in the lender view
+- [x] A follow-up firing produces a desktop notification that opens the approval
+- [x] Level B: catalogue, wallet and reconciliation, value ledger, plan checklist
+- [x] Level C: consent preview, read-only rules view with the borrowing ceiling
 - [x] Chat and security tests pass

@@ -128,6 +128,11 @@ export interface FundingOption {
   reason: string;
   speed: string;
   certainty: "certain" | "uncertain";
+  /** Cost disclosure (CORE-15): APR is on amount_financed over tenor_days; the cost is for covering this gap. */
+  amount_financed?: number | null;
+  tenor_days?: number | null;
+  cost_of_gap_bdt?: number | null;
+  cost_of_gap_pct_of_need?: number | null;
 }
 
 export interface FundingPlanOut {
@@ -252,4 +257,111 @@ export interface CaptureOut {
   status: "needs_review" | "confirmed";
   image_url?: string;
   extraction: ExtractionResult;
+}
+
+// ---------- win plan v3 ----------
+
+export interface CatalogueOption {
+  key: string;
+  label: string;
+  provider_type: string;
+  anchored_on: string;
+  source: string;
+  source_date: ISODate | null;
+  permitted_purpose: string;
+  apr_pct: number | null;
+  amount_financed: number | null;
+  tenor_days: number | null;
+  horizon_days: number;
+  cost_of_gap_bdt: number | null;
+  cost_of_gap_pct_of_need: number | null;
+  speed_days: number;
+  eligible: boolean;
+  ineligible_reason: string | null;
+  to_confirm: string[];
+  note: string;
+}
+
+export interface CatalogueOut {
+  need: { amount: number; needed_by: ISODate };
+  horizon_days: number;
+  matched: number;
+  eligible: number;
+  options: CatalogueOption[];
+  cheapest_eligible_cost_bdt: number | null;
+  plan_fallback_cost_bdt: number | null;
+  plan_holds: boolean;
+}
+
+export interface ShelfLifeCreditOut {
+  order_id: string;
+  needed_by: ISODate;
+  counterfactual_purpose_blind: number;
+  not_financed: number;
+  financeable: number;
+  reason: string;
+  batches: { product: string; qty_ordered: number; sellable_qty: number; unsellable_value: number }[];
+}
+
+export interface PauseOut {
+  paused: boolean;
+  changed_at: string | null;
+}
+
+export interface PolicyOut {
+  paused: boolean;
+  pin_required_for: ActionKind[];
+  dbr_cap_pct: number;
+  monthly_net_cash_flow: number;
+  source: { title: string; issuer: string; edition: string; clause: string; page: number; principle: string; file: string; url: string };
+  examples: {
+    label: string;
+    amount: number;
+    months: number;
+    monthly_repayment: number;
+    monthly_net_cash_flow: number;
+    dbr_pct: number;
+    cap_pct: number;
+    ok: boolean;
+  }[];
+}
+
+export interface VerifyOut {
+  intact: boolean;
+  count: number;
+  head_hash: string;
+  first_bad_id: string | null;
+}
+
+export interface ConsentPreview {
+  lender_id: string;
+  scopes: string[];
+  shares: string[];
+  withholds: string[];
+  passport: PassportOut;
+}
+
+export type MatchStatus = "matched" | "duplicate" | "unmatched" | "missing_from_statement";
+
+export interface AccountOut {
+  opening_balance: number;
+  balance: number;
+  transactions: { date: ISODate; amount: number; kind: string; ref: string }[];
+  matches: {
+    ref: string;
+    date: ISODate;
+    amount: number;
+    payee: string;
+    status: MatchStatus;
+    invoice_no: string | null;
+    supplier: string | null;
+    note: string;
+  }[];
+  counts: Partial<Record<MatchStatus, number>>;
+  recommendations: string[];
+}
+
+export interface ValueOut {
+  items: { action_id: string; kind: string; label: string; amount: number; basis: string; counterfactual: string }[];
+  total: number;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, Landmark, ScrollText } from "lucide-react";
+import { ArrowRight, BadgeCheck, CreditCard, Landmark, ScrollText, ShieldCheck } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Carton, LoadError, Skel, Stamp } from "@/components/carton";
 import { CashLine } from "@/components/cash-line";
@@ -191,6 +191,8 @@ export default function TodayPage() {
       <nav aria-label="More" className="grid grid-cols-3 gap-2 lg:hidden">
         {[
           { href: "/passport", label: "Passport", icon: BadgeCheck },
+          { href: "/wallet", label: "Wallet", icon: CreditCard },
+          { href: "/rules", label: "Rules", icon: ShieldCheck },
           { href: "/lender", label: "Lender view", icon: Landmark },
           { href: "/log", label: "Audit log", icon: ScrollText },
         ].map(({ href, label, icon: Icon }) => (

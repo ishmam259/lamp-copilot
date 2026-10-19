@@ -6,12 +6,14 @@ import { useState } from "react";
 import {
   BadgeCheck,
   Camera,
+  CreditCard,
   HandCoins,
   Inbox,
   Landmark,
   MessageCircle,
   PackageOpen,
   ScrollText,
+  ShieldCheck,
   Sun,
   Wallet,
 } from "lucide-react";
@@ -22,6 +24,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { ChatPanel } from "@/components/chat-panel";
 import { LiveLog } from "@/components/live-log";
 import { ThemeToggle } from "@/components/theme";
+import { PausedBanner, PauseToggle } from "@/components/pause";
+import { NotificationBridge } from "@/components/notifications";
 
 const OWNER_NAV = [
   { href: "/", label: "Today", icon: Sun },
@@ -34,6 +38,8 @@ const OWNER_NAV = [
 const MORE_NAV = [
   { href: "/actions", label: "Actions", icon: Inbox },
   { href: "/passport", label: "Passport", icon: BadgeCheck },
+  { href: "/wallet", label: "Wallet", icon: CreditCard },
+  { href: "/rules", label: "Rules", icon: ShieldCheck },
 ];
 
 const OTHER_NAV = [
@@ -95,6 +101,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Wordmark onRail />
             </Link>
             <span className="flex-1" />
+            {!isLender && <PauseToggle onRail />}
             <ThemeToggle onRail />
             <Link
               href="/passport"
@@ -133,6 +140,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {isLender ? (
             <span className="text-sm font-semibold text-ink-2">Viewing as a lender. You only see pharmacies that shared their passport with you.</span>
           ) : (
+            <>
+            <PauseToggle />
             <button
               type="button"
               onClick={() => setChatOpen(true)}
@@ -140,10 +149,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             >
               <MessageCircle className="size-5" aria-hidden /> Ask LaMP
             </button>
+            </>
           )}
         </div>
 
-        <main className="mx-auto w-full max-w-[1080px] flex-1 px-4 pt-4 pb-28 lg:px-8 lg:pt-6 lg:pb-12">{children}</main>
+        <main className="mx-auto w-full max-w-[1080px] flex-1 px-4 pt-4 pb-28 lg:px-8 lg:pt-6 lg:pb-12">
+          {!isLender && <PausedBanner />}
+          {children}
+        </main>
 
         {/* Phone tab bar */}
         <nav
@@ -185,6 +198,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </SheetContent>
       </Sheet>
 
+      {!isLender && <NotificationBridge />}
       <Toaster position="top-center" richColors closeButton />
     </div>
   );

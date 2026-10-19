@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "cn";
-import { subscribeLogs, useLogs } from "@/lib/api";
+import { ShieldAlert, ShieldCheck } from "lucide-react";
+import { subscribeLogs, useLogs, useLogVerify } from "@/lib/api";
 import { shortDate, timeOfDay } from "@/lib/format";
 import type { LogEvent } from "@/lib/types";
 
@@ -15,7 +16,7 @@ const TIERS: { tier: LogEvent["tier"]; label: string }[] = [
   { tier: "T3", label: "Money" },
 ];
 
-const isProblem = (e: LogEvent) => /blocked|failed|declined|rejected|suspicious/.test(e.event);
+const isProblem = (e: LogEvent) => /blocked|failed|declined|rejected|refused|suspicious/.test(e.event);
 
 const money = (v: unknown) => `BDT ${Number(v).toLocaleString("en-US")}`;
 const words = (v: unknown) => String(v ?? "").replaceAll("_", " ");
@@ -64,6 +65,38 @@ function sentence(e: LogEvent): string {
       return "Owner confirmed a captured document";
     case "reset":
       return "Pharmacy data loaded";
+    case "notify":
+      return `Notified the ${d.audience}: ${d.title}`;
+    case "owner_unlocked":
+      return "Owner unlocked with the PIN";
+    case "approval_pin_rejected":
+      return "Wrong PIN at a loan approval";
+    case "agent_paused":
+      return "Owner paused LaMP";
+    case "agent_resumed":
+      return "Owner resumed LaMP";
+    case "unlock_failed":
+      return "Wrong PIN entered";
+    case "consent_revoked":
+      return `Stopped sharing with ${d.lender}`;
+    case "followup_scheduled":
+      return "Follow-up scheduled for the plan";
+    case "followup_fired":
+      return "Follow-up fired: the backup step is ready";
+    case "followup_cancelled":
+      return "Follow-up no longer needed";
+    case "followup_held_paused":
+      return "Follow-up held: LaMP is paused";
+    case "proposal_refused_paused":
+    case "approval_refused_paused":
+      return "Refused: LaMP is paused";
+    case "loan_refused_dbr":
+      return "Refused: the loan breaks the borrowing ceiling";
+    case "answer_blocked_untraced":
+      return "Blocked a chat answer with an untraced money figure";
+    case "sandbox_payout":
+    case "wallet_credited":
+      return `Wallet credited ${money(d.amount)}`;
     default:
       return words(e.event);
   }
@@ -77,11 +110,16 @@ function raw(data: Record<string, unknown>) {
 
 export function LiveLog({ compact = false }: { compact?: boolean }) {
   const { data } = useLogs();
+  const { data: chain, mutate: recheck } = useLogVerify();
   const [live, setLive] = useState<LogEvent[]>([]);
   const [filter, setFilter] = useState<LogEvent["tier"] | "all">("all");
   const listRef = useRef<HTMLOListElement>(null);
 
   useEffect(() => subscribeLogs((e) => setLive((prev) => (prev.some((p) => p.id === e.id) ? prev : [...prev, e]))), []);
+  // Re-verify the hash chain whenever a new event arrives.
+  useEffect(() => {
+    if (live.length) recheck();
+  }, [live.length, recheck]);
 
   const events = useMemo(() => {
     const seen = new Set<string>();
@@ -99,6 +137,25 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
         <span>Audit log</span>
         <span className="text-xs font-semibold tracking-normal normal-case">Updates as things happen</span>
       </div>
+      {chain && (
+        <p
+          role="status"
+          title={chain.intact ? `Head hash ${chain.head_hash}` : `Chain broken at ${chain.first_bad_id}`}
+          className={cn(
+            "flex items-center gap-1.5 border-b border-rule px-3 py-1.5 text-xs font-semibold",
+            chain.intact ? "text-stock" : "bg-alert-tint text-alert"
+          )}
+        >
+          {chain.intact ? <ShieldCheck className="size-4 shrink-0" aria-hidden /> : <ShieldAlert className="size-4 shrink-0" aria-hidden />}
+          {chain.intact ? (
+            <span>
+              Chain intact · <span className="num">{chain.count}</span> events · head <span className="font-board">{chain.head_hash.slice(0, 6)}…</span>
+            </span>
+          ) : (
+            <span>Chain broken at {chain.first_bad_id}: the log was changed after it was written</span>
+          )}
+        </p>
+      )}
       <div className="flex flex-wrap gap-1.5 border-b border-rule px-3 py-2">
         {(["all", "T0", "T1", "T2", "T3"] as const).map((t) => (
           <button

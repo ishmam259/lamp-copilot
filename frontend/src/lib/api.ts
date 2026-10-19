@@ -2,13 +2,16 @@
 
 import useSWR, { mutate as globalMutate } from "swr";
 import type {
+  AccountOut,
   AccountsOut,
   ActionKind,
   ActionOut,
   Alert,
   Application,
   CaptureOut,
+  CatalogueOut,
   Consent,
+  ConsentPreview,
   DuesOut,
   ExpiryOut,
   ForecastOut,
@@ -17,8 +20,13 @@ import type {
   LogEvent,
   OrderOut,
   PassportOut,
+  PauseOut,
   Pharmacy,
+  PolicyOut,
+  ShelfLifeCreditOut,
   TrimOut,
+  ValueOut,
+  VerifyOut,
 } from "@/lib/types";
 
 export const PID = "green-life";
@@ -147,6 +155,15 @@ export const useLenders = () => useSWR<Lender[]>("/lenders", get);
 export const useApplications = (lenderId: string) =>
   useSWR<Application[]>(`/lenders/${lenderId}/applications`, (k: string) => apiGet<Application[]>(k, lenderHeaders(lenderId)));
 export const useLogs = () => useSWR<LogEvent[]>("/logs", get);
+export const useLogVerify = () => useSWR<VerifyOut>("/logs/verify", get);
+export const useCatalogue = () => useSWR<CatalogueOut>(ph("/financing-catalogue"), get);
+export const useShelfLifeCredit = () => useSWR<ShelfLifeCreditOut>(ph("/shelf-life-credit"), get);
+export const usePause = () => useSWR<PauseOut>(ph("/pause"), get);
+export const usePolicy = () => useSWR<PolicyOut>(ph("/policy"), get);
+export const useAccount = () => useSWR<AccountOut>(ph("/account"), get);
+export const useValue = () => useSWR<ValueOut>(ph("/value"), get);
+export const useConsentPreview = (lenderId: string | null, scopes: string[]) =>
+  useSWR<ConsentPreview>(lenderId ? ph(`/consents/preview?lender_id=${lenderId}&scopes=${scopes.join(",")}`) : null, get);
 
 // ---------- mutations ----------
 
@@ -161,6 +178,14 @@ export async function decideAction(id: string, decision: "approve" | "reject", p
   const a = await apiPost<ActionOut>(ph(`/actions/${id}/${decision}`), pin ? { pin } : undefined);
   await refreshAll();
   return a;
+}
+
+/** Pause LaMP: the copilot and the scheduler can't propose, and their proposals can't be approved. */
+export async function setPaused(paused: boolean) {
+  const p = await apiPost<PauseOut>(ph("/pause"), { paused });
+  await globalMutate(ph("/pause"), p, { revalidate: false });
+  refreshAll();
+  return p;
 }
 
 export async function grantConsent(lenderId: string, scopes: string[]) {
