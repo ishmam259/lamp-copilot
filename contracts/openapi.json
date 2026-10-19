@@ -26,6 +26,37 @@
       }
     },
     "/api/v1/pharmacies/{pid}/session": {
+      "delete": {
+        "summary": "End Session",
+        "description": "Lock the app: ends this session and clears the cookie. Safe to call when signed out.",
+        "operationId": "end_session_api_v1_pharmacies__pid__session_delete",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "summary": "Create Session",
         "description": "The owner's PIN unlocks the app: sets the HttpOnly session cookie.",
@@ -1683,7 +1714,7 @@
     "/api/v1/logs/stream": {
       "get": {
         "summary": "Stream Logs",
-        "description": "Server-Sent Events: every past event, then new ones as they happen.\n`once=true` sends the backlog and closes (for tests).",
+        "description": "Server-Sent Events: every past event, then new ones as they happen.\n`once=true` sends the backlog and closes (for tests). After /dev/reset the log ids restart\nat lg-1, so the stream closes; the browser's EventSource reconnects and gets the new log.",
         "operationId": "stream_logs_api_v1_logs_stream_get",
         "parameters": [
           {
@@ -1804,7 +1835,7 @@
     "/api/v1/chat": {
       "post": {
         "summary": "Chat Endpoint",
-        "description": "Body: the AI SDK's chat request, plus `pharmacy_id` (default `green-life`).",
+        "description": "Body: the AI SDK's chat request, plus `pharmacy_id` (default `green-life`).\nNeeds the owner session (401 without it), and only for that owner's own pharmacy (403).",
         "operationId": "chat_endpoint_api_v1_chat_post",
         "responses": {
           "200": {
@@ -2686,6 +2717,11 @@
           "monthly_repayment": {
             "type": "number",
             "title": "Monthly Repayment"
+          },
+          "existing_monthly_repayment": {
+            "type": "number",
+            "title": "Existing Monthly Repayment",
+            "default": 0
           },
           "monthly_net_cash_flow": {
             "type": "number",
