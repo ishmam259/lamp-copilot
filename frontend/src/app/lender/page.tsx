@@ -31,7 +31,6 @@ export default function LenderPage() {
     <div>
       <PageTitle
         title="Lender view"
-        sub="The lender's inbox. A pharmacy appears here when it shares its passport. If it stops sharing, the application stays but the passport is hidden."
       />
       <div role="tablist" aria-label="Lender" className="mb-4 inline-flex rounded-[var(--radius)] border border-rule bg-board p-1">
         {lenders?.map((l) => (

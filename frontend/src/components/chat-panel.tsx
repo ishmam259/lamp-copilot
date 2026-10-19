@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { ArrowUp, Check, ListChecks, ShieldAlert, ShieldCheck, Wrench } from "lucide-react";
+import { ArrowUp, Check, ListChecks, ShieldAlert, Wrench } from "lucide-react";
 import { cn } from "cn";
 import { PID } from "@/lib/api";
 
@@ -85,7 +85,7 @@ function ChatFrame({
         {turns.length === 0 && (
           <div>
             <p className="text-ink-2">
-              Ask about your money in plain words. LaMP checks your real figures before answering, and anything it suggests waits for your approval.
+              Ask about your money.
             </p>
           </div>
         )}
@@ -140,12 +140,7 @@ function ChatFrame({
             </div>
             {t.trace && t.trace.blocked && (
               <p className="flex items-center gap-1.5 text-xs font-semibold text-alert">
-                <ShieldAlert className="size-3.5" aria-hidden /> Held back: a money figure didn&apos;t match LaMP&apos;s engines
-              </p>
-            )}
-            {t.trace && !t.trace.blocked && t.trace.total > 0 && (
-              <p className="flex items-center gap-1.5 text-xs font-semibold text-stock">
-                <ShieldCheck className="size-3.5" aria-hidden /> {t.trace.traced} of {t.trace.total} money figures traced to LaMP&apos;s engines
+                <ShieldAlert className="size-3.5" aria-hidden /> Held back: an amount didn&apos;t match your books
               </p>
             )}
           </div>

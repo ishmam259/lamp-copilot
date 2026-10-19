@@ -33,7 +33,7 @@ export default function StockPage() {
 
   return (
     <div>
-      <PageTitle title="Stock" sub="Stock that won't sell before it expires is money lost. Recover it, and don't over-order." />
+      <PageTitle title="Stock" />
       <div className="space-y-4 lg:grid lg:grid-cols-12 lg:gap-5 lg:space-y-0">
         <div className="lg:col-span-7">
           <Carton tone="warn" title="Expiring in 60 days" aside={expiry ? `${expiry.batches.length} batches` : undefined}>
@@ -102,10 +102,7 @@ export default function StockPage() {
               <Skel className="h-64" />
             ) : (
               <>
-                <p className="text-ink">
-                  LaMP checks how fast each item sells against its expiry date, keeping 30 days&apos; margin, and suggests ordering only what will sell.
-                </p>
-                <ul className="mt-3 divide-y divide-rule">
+                <ul className="divide-y divide-rule">
                   {trim.lines.map((l) => {
                     const cut = l.suggested_qty < l.qty && !trimDone;
                     return (

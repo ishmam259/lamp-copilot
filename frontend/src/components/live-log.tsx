@@ -12,9 +12,22 @@ import type { LogEvent } from "@/lib/types";
 const TIERS: { tier: LogEvent["tier"]; label: string }[] = [
   { tier: "T0", label: "Read-only" },
   { tier: "T1", label: "Owner & AI" },
-  { tier: "T2", label: "Engines" },
+  { tier: "T2", label: "Calculations" },
   { tier: "T3", label: "Money" },
 ];
+
+/** The part of LaMP that wrote the event, in the owner's words. */
+const PART: Record<string, string> = {
+  DEV: "Demo",
+  AUTH: "Sign-in",
+  EXECUTOR: "Actions",
+  REGISTRY: "Financing registry",
+  FOLLOWUP: "Follow-up",
+  NOTIFY: "Alert",
+  CONSENT: "Sharing",
+  EXPIRY: "Stock",
+};
+const part = (c: string) => PART[c] ?? c.charAt(0) + c.slice(1).toLowerCase();
 
 const isProblem = (e: LogEvent) => /blocked|failed|declined|rejected|refused|suspicious/.test(e.event);
 
@@ -173,7 +186,6 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
     <section aria-label="Audit log" className="flex h-full min-h-0 flex-col">
       <div className="band band-ink">
         <span>Audit log</span>
-        <span className="text-xs font-semibold tracking-normal normal-case">Updates as things happen</span>
       </div>
       {chain && (
         <p
@@ -187,10 +199,10 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
           {chain.intact ? <ShieldCheck className="size-4 shrink-0" aria-hidden /> : <ShieldAlert className="size-4 shrink-0" aria-hidden />}
           {chain.intact ? (
             <span>
-              Chain intact · <span className="num">{chain.count}</span> events · head <span className="font-board">{chain.head_hash.slice(0, 6)}…</span>
+              Verified · <span className="num">{chain.count}</span> events, none changed
             </span>
           ) : (
-            <span>Chain broken at {chain.first_bad_id}: the log was changed after it was written</span>
+            <span>The log was changed after it was written</span>
           )}
         </p>
       )}
@@ -217,7 +229,7 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
             <div className="flex items-center gap-2">
               <span className="num font-board text-ink-2">{timeOfDay(e.ts)}</span>
               <span className="rounded-[2px] bg-muted px-1.5 text-xs font-bold text-ink">{e.tier}</span>
-              <span className="text-xs font-bold text-ink-2">{e.component}</span>
+              <span className="text-xs font-bold text-ink-2">{part(e.component)}</span>
             </div>
             <p className={cn("mt-0.5 font-semibold break-words", isProblem(e) ? "text-alert" : "text-ink")}>{sentence(e)}</p>
             {Object.keys(e.data).length > 0 && (

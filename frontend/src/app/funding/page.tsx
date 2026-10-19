@@ -77,7 +77,7 @@ export default function FundingPage() {
 
   return (
     <div>
-      <PageTitle title="Funding" sub="Use money you already have first. Borrow only what's left, at the lowest cost." />
+      <PageTitle title="Funding" />
       {error && <LoadError what="your funding plan" />}
       {!plan && !error && <Skel className="h-96" />}
       {plan && (
@@ -159,7 +159,6 @@ export default function FundingPage() {
                   Go to Actions <ArrowRight className="size-4" aria-hidden />
                 </Link>
               )}
-              <p className="mt-2 text-sm text-ink-2">Nothing happens until you approve each step.</p>
             </Carton>
           </div>
 
@@ -197,7 +196,6 @@ export default function FundingPage() {
                 ))}
               </ul>
             </Carton>
-            <p className="mt-2 text-sm text-ink-2">Rates are per year. Each option lasts a different length of time, so compare what covering this gap costs, not the yearly rate.</p>
             {catalogue && <Catalogue c={catalogue} />}
             <p className="mt-3 text-sm text-ink-2">
               Lenders see your record only if you share it.{" "}

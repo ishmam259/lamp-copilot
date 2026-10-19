@@ -17,7 +17,7 @@ export default function CashPage() {
 
   return (
     <div>
-      <PageTitle title="Cash" sub="What comes in, what goes out, and where it runs short." />
+      <PageTitle title="Cash" />
       <div className="space-y-4 lg:grid lg:grid-cols-12 lg:gap-5 lg:space-y-0">
         <div className="space-y-4 lg:col-span-7">
           <Carton tone="cash" title="Next 30 days" aside={first && last ? `${shortDate(first)} – ${shortDate(last)}` : undefined}>
@@ -27,8 +27,7 @@ export default function CashPage() {
               <>
                 <CashLine forecast={forecast} />
                 <p className="mt-3 text-sm text-ink-2">
-                  Starts from <span className="num font-semibold text-ink">{bdt(forecast.start_cash)}</span> today. Below are the named payments and receipts. The balance
-                  after each one also includes that day&apos;s normal sales.
+                  Starts from <span className="num font-semibold text-ink">{bdt(forecast.start_cash)}</span> today.
                 </p>
               </>
             )}

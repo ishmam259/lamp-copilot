@@ -36,7 +36,7 @@ export function Explain({ rows, title, onBoard = false }: { rows?: ExplainRow[];
         <SheetContent side="right" className="data-[side=right]:w-full data-[side=right]:sm:max-w-md">
           <SheetHeader className="border-b border-rule">
             <SheetTitle className="text-lg">{title}</SheetTitle>
-            <SheetDescription>Worked out by LaMP&apos;s engines from your books. The chat never does this math.</SheetDescription>
+            <SheetDescription className="sr-only">How this figure is worked out, step by step.</SheetDescription>
           </SheetHeader>
           <ol className="num px-4">
             {rows.map((r, i) => (

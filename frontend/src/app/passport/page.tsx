@@ -42,7 +42,7 @@ export default function PassportPage() {
 
   return (
     <div>
-      <PageTitle title="Credit passport" sub="Your record of paying suppliers, turned into evidence a lender can trust. You decide who sees it." />
+      <PageTitle title="Credit passport" />
       {error && <LoadError what="your passport" />}
       {!passport && !error && <Skel className="h-80" />}
       {passport && (
@@ -65,10 +65,7 @@ export default function PassportPage() {
                   </li>
                 ))}
               </ol>
-              <p className="mt-2 text-sm text-ink-2">Each square is one invoice, oldest first.{" "}
-                {passport.confirmed_share >= 1
-                  ? "Every one was confirmed by its supplier."
-                  : `${num(passport.confirmed_share * 100)}% were confirmed by their supplier.`}</p>
+              <p className="mt-2 text-sm text-ink-2">Each square is one invoice, oldest first.</p>
             </Carton>
 
             <Carton tone="ink" title="What a lender would offer">

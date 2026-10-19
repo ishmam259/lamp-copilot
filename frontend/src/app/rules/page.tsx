@@ -21,7 +21,7 @@ export default function RulesPage() {
   const { data: p, error } = usePolicy();
   return (
     <div className="mx-auto max-w-3xl">
-      <PageTitle title="Rules" sub="What LaMP will and won't do. You can switch Pause on and off; the other rules are fixed and always apply." />
+      <PageTitle title="Rules" />
       {error && <LoadError what="the rules" />}
       {!p && !error && <Skel className="h-96" />}
       {p && (
@@ -37,9 +37,9 @@ export default function RulesPage() {
             </div>
           </Carton>
 
-          <Carton tone="ink" title="Sandbox demo">
+          <Carton tone="ink" title="Demo">
             <p className="text-ink">
-              Everything here is a sandbox: no real money moves and no one is contacted. Reset puts the story back to the start for the next person.
+              No real money moves and no one is contacted.
             </p>
             <ResetDemoButton className="mt-3 inline-flex h-10 items-center gap-2 rounded-[var(--radius)] border border-rule px-3 font-semibold text-ink hover:bg-muted disabled:opacity-60" />
           </Carton>

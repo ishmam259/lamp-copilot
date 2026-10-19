@@ -2,7 +2,7 @@
 
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
 import { useAccount } from "@/lib/api";
-import { bdt, num, signed, stampDate } from "@/lib/format";
+import { bdt, signed, stampDate } from "@/lib/format";
 import type { AccountOut, MatchStatus } from "@/lib/types";
 
 const STATUS: Record<MatchStatus, { label: string; tone?: "alert" | "warn" | "stock" }> = {
@@ -20,7 +20,7 @@ export default function WalletPage() {
   const { data: account, error } = useAccount();
   return (
     <div>
-      <PageTitle title="Wallet" sub="Your sandbox wallet, and its statement checked against your books." />
+      <PageTitle title="Wallet" />
       {error && <LoadError what="your wallet" />}
       {!account && !error && <Skel className="h-96" />}
       {account && <Wallet a={account} />}
@@ -119,7 +119,6 @@ function Wallet({ a }: { a: AccountOut }) {
             </table>
           </div>
         </Carton>
-        <p className="mt-2 text-sm text-ink-2">Sandbox statement: {num(a.matches.length)} lines. Money out has a minus sign.</p>
       </div>
     </div>
   );

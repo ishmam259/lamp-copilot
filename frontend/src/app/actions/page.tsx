@@ -68,7 +68,7 @@ export default function ActionsPage() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <PageTitle title="Actions" sub="Nothing that touches money or a supplier happens until you approve it here." />
+      <PageTitle title="Actions" />
       {error && <LoadError what="your actions" />}
       {!actions && !error && <Skel className="h-64" />}
       {actions && (
@@ -156,7 +156,7 @@ export default function ActionsPage() {
                 ))}
               </ul>
               <p className="mt-3 border-t border-rule pt-3 text-sm text-ink-2">
-                Total <span className="num font-bold text-ink">{bdt(value.total)}</span>, worked out by LaMP&apos;s engines from what was actually done.
+                Total <span className="num font-bold text-ink">{bdt(value.total)}</span>
               </p>
             </Carton>
           )}

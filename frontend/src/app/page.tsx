@@ -204,19 +204,16 @@ export default function TodayPage() {
       <nav aria-label="More" className="carton lg:hidden">
         <ul className="divide-y divide-rule">
           {[
-          { href: "/passport", label: "Credit passport", hint: "Who can see your record", icon: BadgeCheck },
-          { href: "/wallet", label: "Wallet", hint: "Balance and statement check", icon: CreditCard },
-          { href: "/rules", label: "Rules", hint: "What LaMP will and won't do", icon: ShieldCheck },
-          { href: "/lender", label: "Lender view", hint: "What a lender sees", icon: Landmark },
-          { href: "/log", label: "Audit log", hint: "Every event, as it happens", icon: ScrollText },
-          ].map(({ href, label, hint, icon: Icon }) => (
+          { href: "/passport", label: "Credit passport", icon: BadgeCheck },
+          { href: "/wallet", label: "Wallet", icon: CreditCard },
+          { href: "/rules", label: "Rules", icon: ShieldCheck },
+          { href: "/lender", label: "Lender view", icon: Landmark },
+          { href: "/log", label: "Audit log", icon: ScrollText },
+          ].map(({ href, label, icon: Icon }) => (
             <li key={href}>
-              <Link href={href} className="flex min-h-14 items-center gap-3 px-4 py-2 text-ink hover:bg-muted">
+              <Link href={href} className="flex min-h-12 items-center gap-3 px-4 py-2 text-ink hover:bg-muted">
                 <Icon className="size-5 shrink-0 text-ink-2" aria-hidden />
-                <span className="min-w-0 flex-1">
-                  <span className="block font-semibold">{label}</span>
-                  <span className="block text-sm text-ink-2">{hint}</span>
-                </span>
+                <span className="min-w-0 flex-1 font-semibold">{label}</span>
                 <ChevronRight className="size-5 shrink-0 text-ink-2" aria-hidden />
               </Link>
             </li>

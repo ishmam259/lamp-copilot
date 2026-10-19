@@ -37,7 +37,7 @@ export default function CapturePage() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <PageTitle title="Capture" sub="Photograph a supplier invoice or a page of your sales book. You check what LaMP read before anything is saved." />
+      <PageTitle title="Capture" />
 
       {!capture && (
         <Carton tone="ink" title="What are you photographing?">
@@ -161,18 +161,6 @@ function FailedChecks({ capture }: { capture: CaptureOut }) {
   );
 }
 
-function ReadBy({ capture }: { capture: CaptureOut }) {
-  const ex = capture.extraction;
-  return (
-    <p className="mt-3 text-xs text-ink-2">
-      {ex.prompt_version === "fallback"
-        ? "This photo has no saved reading in demo mode, so this is a sample draft for you to correct."
-        : `Read by ${ex.model}.`}{" "}
-      Money checks run in plain code, not by the AI.
-    </p>
-  );
-}
-
 function Review({
   capture,
   saved,
@@ -251,7 +239,6 @@ function Review({
             Capture another
           </Button>
         )}
-        <ReadBy capture={capture} />
       </Carton>
     </div>
   );
@@ -327,7 +314,6 @@ function SalesReview({
             Capture another
           </Button>
         )}
-        <ReadBy capture={capture} />
       </Carton>
     </div>
   );

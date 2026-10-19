@@ -72,7 +72,6 @@ function PinScreen() {
         <div className="mt-8 rounded-[8px] bg-shelf p-6 text-ink">
           <LockKeyhole className="mx-auto size-7 text-cash" aria-hidden />
           <h1 className="mt-3 text-xl font-bold">Enter your PIN</h1>
-          <p className="mt-1 text-sm text-ink-2">Your books and approvals stay locked until you do.</p>
           <form
             className="mt-5 flex justify-center"
             onSubmit={(e) => {
@@ -105,7 +104,7 @@ function PinScreen() {
           <p role="status" aria-live="polite" className="mt-3 min-h-5 text-sm font-semibold text-alert">
             {error ?? (busy ? <span className="text-ink-2">Checking…</span> : null)}
           </p>
-          <p className="mt-2 text-xs text-ink-2">Sandbox demo PIN: 2468</p>
+          <p className="mt-2 text-xs text-ink-2">Demo PIN: 2468</p>
         </div>
       </div>
     </main>
