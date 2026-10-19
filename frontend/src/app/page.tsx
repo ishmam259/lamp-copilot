@@ -175,7 +175,7 @@ export default function TodayPage() {
 
       {/* This month */}
       <div className="lg:col-span-12">
-        <Carton tone="ink" title="Last 30 days" aside={accounts ? `${num(accounts.gross_margin_pct)}% margin` : undefined}>
+        <Carton tone="ink" title="Last 30 days">
           {!accounts ? (
             <Skel className="h-16" />
           ) : (

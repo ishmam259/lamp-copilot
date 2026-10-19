@@ -12,7 +12,7 @@ const KIND: Record<ActionKind, string> = {
   return_claim: "Return claims",
   extension_request: "Asking a supplier for more days",
   loan_application: "Loan applications",
-  set_aside: "Daily set-asides",
+  set_aside: "Putting money aside each day",
   trim_order: "Trimming an order",
 };
 
@@ -57,12 +57,12 @@ export default function RulesPage() {
                 );
               })}
             </ul>
-            <p className="mt-3 text-sm text-ink-2">The copilot can only read and suggest. It can never approve, pay or contact anyone.</p>
+            <p className="mt-3 text-sm text-ink-2">LaMP&apos;s chat can only read and suggest. It can never approve, pay or contact anyone.</p>
           </Carton>
 
-          <Carton tone="ink" title="Borrowing ceiling" aside={`${num(p.dbr_cap_pct)}% of monthly net cash flow`}>
+          <Carton tone="ink" title="Borrowing limit" aside={`${num(p.dbr_cap_pct)}% of what you keep each month`}>
             <p className="text-ink">
-              LaMP won&apos;t apply for a loan whose monthly repayment is more than {num(p.dbr_cap_pct)}% of your monthly net cash flow, which is{" "}
+              LaMP won&apos;t apply for a loan if the monthly repayment is more than {num(p.dbr_cap_pct)}% of what you keep each month, which is{" "}
               <span className="num">{bdt(p.monthly_net_cash_flow)}</span>.
             </p>
             <ul className="mt-3 divide-y divide-rule border-t border-rule">

@@ -10,8 +10,8 @@ import type { LogEvent } from "@/lib/types";
 // Tiers say who acted, not whether it went well, so the chips stay neutral.
 // Only failed or blocked events use the alert colour.
 const TIERS: { tier: LogEvent["tier"]; label: string }[] = [
-  { tier: "T0", label: "Read-only" },
-  { tier: "T1", label: "Owner & AI" },
+  { tier: "T0", label: "Viewed" },
+  { tier: "T1", label: "You & AI" },
   { tier: "T2", label: "Calculations" },
   { tier: "T3", label: "Money" },
 ];
@@ -28,6 +28,8 @@ const PART: Record<string, string> = {
   EXPIRY: "Stock",
 };
 const part = (c: string) => PART[c] ?? c.charAt(0) + c.slice(1).toLowerCase();
+
+const tierWord = (t: LogEvent["tier"]) => TIERS.find((x) => x.tier === t)?.label ?? t;
 
 const isProblem = (e: LogEvent) => /blocked|failed|declined|rejected|refused|suspicious/.test(e.event);
 
@@ -152,7 +154,7 @@ function raw(data: Record<string, unknown>) {
     .join(" ");
 }
 
-export function LiveLog({ compact = false }: { compact?: boolean }) {
+export function LiveLog() {
   const { data: chain, mutate: recheck } = useLogVerify();
   const [live, setLive] = useState<LogEvent[]>([]);
   const [filter, setFilter] = useState<LogEvent["tier"] | "all">("all");
@@ -207,7 +209,7 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
         </p>
       )}
       <div className="flex flex-wrap gap-1.5 border-b border-rule px-3 py-2">
-        {(["all", "T0", "T1", "T2", "T3"] as const).map((t) => (
+        {(["all", ...TIERS.map((x) => x.tier)] as const).map((t) => (
           <button
             key={t}
             type="button"
@@ -218,7 +220,7 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
               filter === t ? "bg-ink text-board" : "bg-muted text-ink-2 hover:text-ink"
             )}
           >
-            {t === "all" ? "All" : t}
+            {t === "all" ? "All" : tierWord(t)}
           </button>
         ))}
       </div>
@@ -228,7 +230,7 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
           <li key={e.id} className="border-b border-rule px-3 py-2">
             <div className="flex items-center gap-2">
               <span className="num font-board text-ink-2">{timeOfDay(e.ts)}</span>
-              <span className="rounded-[2px] bg-muted px-1.5 text-xs font-bold text-ink">{e.tier}</span>
+              <span className="rounded-[2px] bg-muted px-1.5 text-xs font-bold text-ink" title={e.tier}>{tierWord(e.tier)}</span>
               <span className="text-xs font-bold text-ink-2">{part(e.component)}</span>
             </div>
             <p className={cn("mt-0.5 font-semibold break-words", isProblem(e) ? "text-alert" : "text-ink")}>{sentence(e)}</p>
@@ -241,16 +243,6 @@ export function LiveLog({ compact = false }: { compact?: boolean }) {
           </li>
         ))}
       </ol>
-      {!compact && (
-        <ul className="flex flex-wrap gap-3 border-t border-rule px-3 py-2 text-xs text-ink-2">
-          {TIERS.map((t) => (
-            <li key={t.tier} className="inline-flex items-center gap-1.5">
-              <span className="rounded-[2px] bg-muted px-1.5 font-bold text-ink">{t.tier}</span>
-              {t.label}
-            </li>
-          ))}
-        </ul>
-      )}
     </section>
   );
 }

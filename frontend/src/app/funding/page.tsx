@@ -15,17 +15,17 @@ import { resultSummary, waitingOn } from "@/lib/waiting";
 /** 9 -> "9", 12.2 -> "12.2", 13.75 -> "13.75" */
 const pct = (n: number) => String(Math.round(n * 100) / 100);
 
-/** "APR 12.2% on BDT 49,200 for 30 days": what the rate applies to, and for how long. */
+/** "12.2% a year on BDT 49,200 for 30 days": what the rate applies to, and for how long. */
 function terms(o: { apr_pct: number | null; amount_financed?: number | null; tenor_days?: number | null }): string | null {
   if (o.apr_pct == null || o.amount_financed == null || o.tenor_days == null) return null;
-  return `APR ${pct(o.apr_pct)}% on ${bdt(o.amount_financed)} for ${num(o.tenor_days)} days`;
+  return `${pct(o.apr_pct)}% a year on ${bdt(o.amount_financed)} for ${num(o.tenor_days)} days`;
 }
 
-/** "Covering the BDT 8,200 gap costs BDT 492 = 6.0% of the gap." */
+/** "To cover BDT 8,200 it costs BDT 492, 6.0% of the amount." */
 function gapCost(o: Pick<FundingOption, "cost_of_gap_bdt" | "cost_of_gap_pct_of_need">, need: number): string | null {
   if (o.cost_of_gap_bdt == null || o.cost_of_gap_pct_of_need == null) return null;
   if (o.cost_of_gap_bdt === 0) return `Covering the ${bdt(need)} gap costs nothing.`;
-  return `Covering the ${bdt(need)} gap costs ${bdt(o.cost_of_gap_bdt)} = ${num(o.cost_of_gap_pct_of_need, 1)}% of the gap.`;
+  return `To cover ${bdt(need)} it costs ${bdt(o.cost_of_gap_bdt)}, ${num(o.cost_of_gap_pct_of_need, 1)}% of the amount.`;
 }
 
 export default function FundingPage() {
@@ -145,7 +145,7 @@ export default function FundingPage() {
                   <span className="num font-bold">{bdt(plan.plan.total_cost_bdt)}</span>
                   {hasFallback && fallback && fallback.cost_bdt !== plan.plan.total_cost_bdt && (
                     <>
-                      , or <span className="num font-bold">{bdt(fallback.cost_bdt!)}</span> if the fallback is needed
+                      , or <span className="num font-bold">{bdt(fallback.cost_bdt!)}</span> if you need the loan
                     </>
                   )}
                   .
@@ -215,8 +215,8 @@ function Catalogue({ c }: { c: CatalogueOut }) {
   return (
     <Carton
       tone="ink"
-      title="What's on the market"
-      aside={`${c.matched} matched, ${c.eligible} eligible, cheapest first`}
+      title="Other loans you could get"
+      aside={`${c.matched} found, ${c.eligible} you qualify for`}
       className="mt-4"
       bodyClassName="p-0"
     >
@@ -258,7 +258,7 @@ function Catalogue({ c }: { c: CatalogueOut }) {
               </div>
               <div className="text-right">
                 <p className="num font-bold text-ink">{o.cost_of_gap_bdt == null ? "—" : bdt(o.cost_of_gap_bdt)}</p>
-                {o.cost_of_gap_pct_of_need != null && <p className="num text-xs text-ink-2">{num(o.cost_of_gap_pct_of_need, 1)}% of the gap</p>}
+                {o.cost_of_gap_pct_of_need != null && <p className="num text-xs text-ink-2">{num(o.cost_of_gap_pct_of_need, 1)}% of the amount</p>}
               </div>
             </div>
           </li>

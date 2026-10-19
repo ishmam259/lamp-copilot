@@ -15,7 +15,7 @@ const KIND_LABEL: Record<ActionOut["kind"], string> = {
   extension_request: "Ask supplier for more days",
   loan_application: "Loan application",
   set_aside: "Daily set-aside",
-  trim_order: "Trim an order",
+  trim_order: "Smaller order",
 };
 
 const PROPOSER: Record<ActionOut["proposed_by"], string> = {
@@ -123,7 +123,7 @@ export default function ActionsPage() {
 
           <Carton tone="ink" title="Done" aside={`${done.length}`}>
             {done.length === 0 ? (
-              <p className="text-ink-2">Approved and declined actions are kept here with their results.</p>
+              <p className="text-ink-2">Nothing approved or declined yet.</p>
             ) : (
               <ul className="divide-y divide-rule">
                 {done.map((a) => (

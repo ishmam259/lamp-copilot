@@ -200,7 +200,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Desktop live log column (the Audit log page shows it full width instead) */}
       {!onLog && (
         <aside className="sticky top-0 hidden h-dvh flex-col border-l border-rule bg-board xl:flex">
-          <LiveLog compact />
+          <LiveLog />
         </aside>
       )}
 

@@ -71,11 +71,11 @@ export default function PassportPage() {
             <Carton tone="ink" title="What a lender would offer">
               <dl className="grid grid-cols-2 divide-x divide-rule">
                 <div className="pr-4">
-                  <dt className="text-sm text-ink-2">Advance on an order</dt>
+                  <dt className="text-sm text-ink-2">A lender would pay</dt>
                   <dd className="num text-[1.75rem] font-bold text-ink">{num(passport.advance_rate_pct, 1)}%</dd>
                 </div>
                 <div className="pl-4">
-                  <dt className="text-sm text-ink-2">Default risk</dt>
+                  <dt className="text-sm text-ink-2">Chance of not repaying</dt>
                   <dd className="num text-[1.75rem] font-bold text-ink">{num(passport.default_probability * 100, 1)}%</dd>
                 </div>
               </dl>
@@ -118,11 +118,11 @@ export default function PassportPage() {
                 })}
               </ul>
               <fieldset className="mt-3 border-t border-rule pt-3">
-                <legend className="float-left w-full text-sm font-semibold text-ink">What to share when you switch one on</legend>
+                <legend className="float-left w-full text-sm font-semibold text-ink">What a lender sees</legend>
                 <div className="clear-left grid gap-2 pt-2 sm:grid-cols-2">
                   {[
-                    { v: false, label: "Summary only", sub: "Score, terms, on-time count" },
-                    { v: true, label: "Summary and evidence", sub: "Plus the invoice-by-invoice record" },
+                    { v: false, label: "Summary only", sub: "Your on-time count and the offer" },
+                    { v: true, label: "Summary and invoices", sub: "Plus each invoice and when you paid it" },
                   ].map((o) => (
                     <label
                       key={o.label}

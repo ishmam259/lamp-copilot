@@ -40,7 +40,7 @@ function Wallet({ a }: { a: AccountOut }) {
             Opening balance <span className="num">{bdt(a.opening_balance)}</span>
           </p>
           {a.transactions.length === 0 ? (
-            <p className="mt-3 text-sm text-ink-2">No wallet transactions yet. An approved loan pays out here.</p>
+            <p className="mt-3 text-sm text-ink-2">No money in or out yet. An approved loan arrives here.</p>
           ) : (
             <ul className="mt-3 divide-y divide-rule border-t border-rule">
               {a.transactions.map((t) => (
@@ -78,7 +78,7 @@ function Wallet({ a }: { a: AccountOut }) {
       <div className="lg:col-span-7">
         <Carton
           tone="ink"
-          title="Statement vs books"
+          title="Wallet statement vs your books"
           aside={ORDER.filter((s) => a.counts[s])
             .map((s) => `${a.counts[s]} ${STATUS[s].label.toLowerCase()}`)
             .join(" · ")}

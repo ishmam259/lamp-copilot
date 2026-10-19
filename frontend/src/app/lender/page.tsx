@@ -90,7 +90,7 @@ export default function LenderPage() {
                         </dd>
                       </div>
                       <div>
-                        <dt className="text-sm text-ink-2">Default risk</dt>
+                        <dt className="text-sm text-ink-2">Chance of not repaying</dt>
                         <dd className="text-xl font-bold text-ink">{num(a.passport.default_probability * 100, 1)}%</dd>
                       </div>
                       <div>

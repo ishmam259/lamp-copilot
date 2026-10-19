@@ -84,7 +84,7 @@ export default function StockPage() {
                     })
                   }
                 >
-                  {claimPending ? "Return claim is in Actions" : `Draft return claims for ${bdt(expiry.return_eligible_value)}`}
+                  {claimPending ? "Return is waiting in Actions" : `Return stock worth ${bdt(expiry.return_eligible_value)}`}
                 </Button>
                 <p className="mt-2 text-sm text-ink-2">Returns come back as supplier credit, usually within 1–2 weeks.</p>
               </>
@@ -155,7 +155,7 @@ export default function StockPage() {
                       })
                     }
                   >
-                    {trimPending ? "Trim is in Actions" : `Trim the order, save ${bdt(trim.saving)}`}
+                    {trimPending ? "Smaller order is waiting in Actions" : `Order less, save ${bdt(trim.saving)}`}
                   </Button>
                 )}
               </>

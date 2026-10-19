@@ -27,7 +27,7 @@ export default function CashPage() {
               <>
                 <CashLine forecast={forecast} />
                 <p className="mt-3 text-sm text-ink-2">
-                  Starts from <span className="num font-semibold text-ink">{bdt(forecast.start_cash)}</span> today.
+                  You have <span className="num font-semibold text-ink">{bdt(forecast.start_cash)}</span> today.
                 </p>
               </>
             )}
@@ -43,7 +43,7 @@ export default function CashPage() {
                   <tr className="border-b border-rule">
                     <th scope="col" className="px-4 py-2 font-semibold">Day</th>
                     <th scope="col" className="px-2 py-2 text-right font-semibold">Amount</th>
-                    <th scope="col" className="px-4 py-2 text-right font-semibold">Balance after</th>
+                    <th scope="col" className="px-4 py-2 text-right font-semibold">Cash left</th>
                   </tr>
                 </thead>
                 <tbody className="num">
@@ -70,7 +70,7 @@ export default function CashPage() {
         </div>
 
         <div className="space-y-4 lg:col-span-5">
-          <Carton tone="cash" title="Supplier dues" aside={dues ? `${dues.items.length} invoices` : undefined}>
+          <Carton tone="cash" title="Supplier bills" aside={dues ? `${dues.items.length} invoices` : undefined}>
             {!dues ? (
               <Skel className="h-40" />
             ) : (
@@ -106,7 +106,7 @@ export default function CashPage() {
                   <dl className="num divide-y divide-rule">
                     {[
                       ["Sales", accounts.sales, ""],
-                      [`Gross profit at ${accounts.gross_margin_pct}%`, accounts.gross_profit, ""],
+                      [`Profit on goods sold (${accounts.gross_margin_pct}%)`, accounts.gross_profit, ""],
                       ["Rent, salaries, utilities", -accounts.overheads, ""],
                     ].map(([label, value]) => (
                       <div key={String(label)} className="flex justify-between py-2">
@@ -123,7 +123,7 @@ export default function CashPage() {
                     <div className="pr-4">
                       <dt className="text-ink-2">Stock on shelves</dt>
                       <dd className="num font-bold text-ink">{bdt(accounts.stock_value)}</dd>
-                      <dd className="text-ink-2">{accounts.stock_days} days of buying</dd>
+                      <dd className="text-ink-2">{accounts.stock_days} days of stock</dd>
                     </div>
                     <div className="pl-4">
                       <dt className="text-ink-2">Patients owe you</dt>
@@ -131,8 +131,8 @@ export default function CashPage() {
                       <dd className="text-ink-2">{accounts.patient_due_days} days of sales</dd>
                     </div>
                   </dl>
-                  <h3 className="mt-4 font-semibold text-ink">Where your buying goes</h3>
-                  <p className="text-xs text-ink-2">{accounts.active_suppliers} active suppliers. Top five:</p>
+                  <h3 className="mt-4 font-semibold text-ink">Who you buy from</h3>
+                  <p className="text-xs text-ink-2">{accounts.active_suppliers} suppliers. The biggest five:</p>
                   <ul className="mt-2 space-y-1.5">
                     {accounts.top_suppliers.map((s) => (
                       <li key={s.name} className="grid grid-cols-[96px_1fr_44px] items-center gap-2 text-sm">
