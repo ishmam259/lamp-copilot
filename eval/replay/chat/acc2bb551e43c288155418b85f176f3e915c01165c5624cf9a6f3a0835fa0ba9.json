@@ -1,0 +1,56 @@
+[
+  {
+    "parts": [
+      {
+        "content": "",
+        "id": "rs_0811c79fa62b407f006ad5b8bfd01887d2bc9a73231f75b6f0",
+        "signature": "gAAAAABq1bjA0kG5Kowbrs4FIj9KG4hNXVgQuvy_YEWpE1vpAKNEZHyqMQL2KNJppzb3IXKmWD5517io8IS4kUNjVfioizMoYpcgzCrjGX1jGlIKqOoOG_9MJOyICEG5DjKetJkRT8CUgJpwpdcbgDO5j1Bji23G1Sr8CR91851G8QTvRIaU5bsWv6y3YhI1XScQO5ecr5ZU_DuzYokZ2QP25v7Hvs9WBIvNlMFMZLu2iFAxS0nsSEmUtqJqYS8T33ecGdseVipah-MsH7rENjyrxrTrOisVqxpLvxledp5nKQ2f2UJVJVS2z5Mrs8eLr47lCN5eHpFywG77PgZfG3LMEezfhhsbGE8mJgbsnGnC0Wq64eTTmz7VCP_GCV4FLzhJ_aZ0RIpuyPj80htwyw0D9Z2GhxRZ5KwjPFymjHaEBmhS7waur6qQC3_QKlK0v3i6xjjM2tUZcet9X-acI1VhBOQ9QhMLvETxtnCTuPO_3iO1tswf1pFSu8SVQq2l8Awe2feaLZO5lgQVvKY23ZM-SRpH70l_XWnAsqcvo07klHyNjgif6xSgbigj5RraB7l8rTCIw5cxBNDtyLaXQXe5Whl6vegKaeFXOa3d_k0YLgk3yJsDqnvLGJNLac-dyxAm15LTJJF8fOepYDAkzwj8vUnln3C5xaWBuzJjKPQSYu20HeeoFFbuJ0clYd8QnEyIAW4uBFrLfpMYeQs8e4V0idK-zGpFx6nnxePMqWYn6lQLwjFGvS3jVhvusDTnbg5MmL1ryd56UD9O8kKhI3PrVH08MJjurKX2mtegaIrtpSD3noZ-zg4rhFG0c2zThdfe3ZC4eUPJNbvSnneApoAUrdCqbouNH_88V3HsfLOSrIOc5SjTk-X-EhKp_tbKQLn0scmTbH60AFwheVtmEbjuTILB7t1aOE8gnrJZwTxBjA_jZZ8SLu6jBI4Oe4HiinuBjWUgenj0rZlGO5lhV2YYtdOev_z4-o3lLjzQM9lmWlnAZ9IkO4FFFuT2tRdNZAsAqQQ8oS219FhqJHZV6ojhBIFbXjHLJ2LtnxmTrm3GCn7Pkzd1R1dL_WhkJpZr_-AAASq3opnfOM20pIKKCQvkEw-FGCWKS7ezmUnzd4FEOAVQGjRUkAQ3a9zixGaPsnR1RaTRFwBTLIZjCmIkk23-vCKpSGqzun--KKbmEop8ZrDi1nsdSjCNarRK9fK3coGe-1N176Sgi9WYN8XfGVGeJPVfI9T_o_0HxFWACevPX4rj5rYLs7lTU9RmO5j5ZaF27Ase2VkBlM9U6qAug-s0NOcx5KlLiP9o_9XM1YTd0UMOZW2pXvLEYkEF8B-yitl5lqoaMlARH6v6xO0uxycCFobvZ40zAauIoT-ruFXYVo_jGCZhuGrBLcb2eB8hc60sM4V1qfPlcOPIDBYo3Bqfwo3up87qKz2PYbg_TLURAFONOTyiYlrpa574qr30SZdpTQIm9TZyiFuRJFeERMn77khPfa9bTjvlmOmkUyozxTg0UiiccIPV7kzeT2-74ui-oU7WjSzYOOzSDXKkaLq1cdjXEu3qPhkZ_6hAK2zIpSbG4sDUfK2u1n_z2SdAlcXh97znt3JgOYIEPeboJRoLkfdEoWG52rxYN29A-9_DPQdrjTXaNMFxqtZjidLJzNTGSz65zsP0Q8nJROTea_yl6FKc8XjPtfZ-c4gocW3YTBpwi4iRA9bqdcBI2yZPJkafcvpiI9EzlkTFqSmAyI9Ve9dY71ivreV42MKu0KUO7kIcknUtd1nb93jIDyfQHm9fX2UV5jItDZB8UShcPAZdD-e_GVPUq4Z73_lsrDBxE9y-8Oyp8_RlxtgbcYCXBeJf-r6Zvnu7",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "thinking"
+      },
+      {
+        "content": "I can’t see the rent amount in the payment records, so I can’t set aside a figure yet. What amount should I prepare for rent? I can only propose it for your approval in Actions.",
+        "id": "msg_0811c79fa62b407f006ad5b8c053cc87d2afe787ddef767f7f",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1758,
+      "cache_write_tokens": 203,
+      "cache_read_tokens": 1552,
+      "output_tokens": 81,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 34
+      },
+      "cost": null,
+      "output_reasoning_tokens": 34
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T06:29:21.504948Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T06:29:08Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0811c79fa62b407f006ad5b8b4f32487d2a6b4b24ed588e26d",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

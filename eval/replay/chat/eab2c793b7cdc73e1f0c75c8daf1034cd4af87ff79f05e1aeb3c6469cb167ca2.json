@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"trim_order\",\"order_id\":\"o-1\",\"amount\":10800,\"reason\":\"Trim Supplier A order to the suggested quantities; Montelukast demand supports 12 boxes before expiry versus 30 ordered.\"}",
+        "tool_call_id": "call_UZJZrN1U85CvWqr1Au6VkUiM",
+        "tool_kind": null,
+        "id": "fc_046875296c22b6bf006ad5b83485b487d2a25b11f1fadcf00f",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2124,
+      "cache_write_tokens": 374,
+      "cache_read_tokens": 1747,
+      "output_tokens": 60,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T06:27:05.189550Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T06:26:53Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_046875296c22b6bf006ad5b82d7f9487d28732ce855bb6b298",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

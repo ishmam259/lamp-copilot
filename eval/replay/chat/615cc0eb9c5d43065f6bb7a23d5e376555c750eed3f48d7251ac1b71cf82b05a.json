@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "You first run short on 2026-10-26, when the Supplier A order is due. The forecast shortfall is BDT 19,000. Further shortfalls are listed for 2026-11-01, 2026-11-04, 2026-11-05 and 2026-11-10.",
+        "id": "msg_0da69f2937eeeb5b006ad5b7eeadd487d2bf3d20b9be5c4350",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2130,
+      "cache_write_tokens": 574,
+      "cache_read_tokens": 1553,
+      "output_tokens": 75,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T06:25:51.940198Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T06:25:50Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0da69f2937eeeb5b006ad5b7ee2dbc87d2a7f718a6e9ae224b",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

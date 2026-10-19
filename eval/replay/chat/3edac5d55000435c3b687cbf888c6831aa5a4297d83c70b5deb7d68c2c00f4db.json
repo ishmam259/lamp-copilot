@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "share_plan",
+        "args": "{\"steps\":[\"Check Supplier A's planned order and sales before expiry\",\"Review the suggested smaller order\",\"Propose a trim for your approval\"]}",
+        "tool_call_id": "call_r2H1nCm9lX4yY4VjENeyVK1m",
+        "tool_kind": null,
+        "id": "fc_073517a2332edccf006ad5b82962b487d2855f080017bf49da",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1503,
+      "cache_write_tokens": 12,
+      "cache_read_tokens": 1488,
+      "output_tokens": 42,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T06:26:50.392396Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T06:26:48Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_073517a2332edccf006ad5b828b64087d284625d5e73e64c64",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

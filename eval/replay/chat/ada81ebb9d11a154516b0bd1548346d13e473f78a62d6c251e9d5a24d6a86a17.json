@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "I proposed a return claim for BDT 9,200 for the eligible expiring stock. It is waiting for your approval in Actions. The total at-risk stock value is BDT 18,400; the rest is not return-eligible.",
+        "id": "msg_0b747f1e79b5d6bf006ad5b8d86cc887d2ad58d000d2c1cd8f",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2054,
+      "cache_write_tokens": 82,
+      "cache_read_tokens": 1969,
+      "output_tokens": 54,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T06:29:49.308828Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T06:29:38Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0b747f1e79b5d6bf006ad5b8d2862487d29f29ab76476b1af6",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "The cheapest plan costs BDT 0: trim Supplier A’s order, then ask for 20 more days to pay the remaining BDT 8,200. The extension is uncertain, so the fallback is a mobile-wallet loan costing BDT 181.97 if Supplier A does not agree.\n\nThe trim, extension request, and fallback loan application are proposed and waiting for your approval in Actions. The loan is only a fallback; it would not be free.",
+        "id": "msg_0f3b2d6c39afa6e3006ad5b8589ec487d293e956c66f7bc2f1",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2761,
+      "cache_write_tokens": 289,
+      "cache_read_tokens": 2469,
+      "output_tokens": 97,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T06:27:38.519727Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T06:27:35Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0f3b2d6c39afa6e3006ad5b857ca9c87d2b4a22f760fa3460f",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

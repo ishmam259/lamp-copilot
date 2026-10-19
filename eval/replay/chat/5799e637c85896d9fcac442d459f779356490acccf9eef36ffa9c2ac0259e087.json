@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "share_plan",
+        "args": "{\"steps\":[\"Check the credit offer and loan limit\",\"Propose an application for your approval\"]}",
+        "tool_call_id": "call_y2bp2A0nT68Y5C7tNub5lpQ9",
+        "tool_kind": null,
+        "id": "fc_0a8f1297a14fc73f006ad5b79c900887d2b9ac267cc78fb03d",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1518,
+      "cache_write_tokens": 27,
+      "cache_read_tokens": 1488,
+      "output_tokens": 33,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T06:24:29.470070Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T06:24:28Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0a8f1297a14fc73f006ad5b79c062887d2b771ce3105a888ba",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

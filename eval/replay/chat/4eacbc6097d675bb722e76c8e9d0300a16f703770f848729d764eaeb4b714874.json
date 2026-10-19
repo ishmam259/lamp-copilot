@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Your application for BDT 500,000 from Partner Bank is proposed and waiting for your approval in Actions. I can’t approve or submit it for you.\n\nYour credit passport shows 38 of 41 invoices paid on time, a cautious on-time estimate of 0.826, a default probability of 0.03, and an advance rate of 75.2%.",
+        "id": "msg_000f7a655ba3facc006ad5b7a7c73c87d2a5daecae37ca0201",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1896,
+      "cache_write_tokens": 88,
+      "cache_read_tokens": 1805,
+      "output_tokens": 80,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T06:24:46.206919Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T06:24:33Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_000f7a655ba3facc006ad5b7a15b9487d2a8b6f0469063a5b4",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]
