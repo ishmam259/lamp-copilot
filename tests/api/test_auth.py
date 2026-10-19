@@ -146,7 +146,7 @@ def test_five_wrong_pins_lock_the_unlock(anon):
     for _ in range(5):
         assert anon.post(f"{P}/session", json={"pin": "0000"}).status_code == 401
     r = anon.post(f"{P}/session", json={"pin": PIN})  # even the right PIN waits out the lockout
-    assert r.status_code == 429 and "Too many wrong PINs" in r.json()["detail"]
+    assert r.status_code == 429 and r.json()["detail"] == "Too many wrong PINs. Try again in 15 minutes."
 
 
 def test_a_right_pin_resets_the_count(anon):

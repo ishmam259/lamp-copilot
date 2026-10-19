@@ -203,7 +203,7 @@ def test_claimed_returns_are_not_offered_again(client):
     assert "return_window" not in [a["kind"] for a in client.get(f"{P}/alerts").json()]
     plan = client.post(f"{P}/funding-plan", json={}).json()
     opt = next(o for o in plan["options"] if o["key"] == "return_claims")
-    assert (opt["amount"], opt["eligible"]) == (0, False)
+    assert (opt["amount"], opt["eligible"]) == (0, False) and "Already claimed" in opt["reason"]
 
 
 def test_a_declined_extension_is_not_offered_again(client):
@@ -226,3 +226,17 @@ def test_a_second_trim_fails_instead_of_recording_a_zero_saving(client):
     again = approve(client, propose(client, "trim_order")["id"])
     assert again["status"] == "failed"
     assert [i["kind"] for i in client.get(f"{P}/value").json()["items"]] == ["trim_order", "interest_avoided"]
+
+
+def test_no_reply_counts_as_declined(client):
+    ext = approve(client, propose(client, "extension_request", amount=8200)["id"])
+    client.post("/api/v1/dev/simulate/supplier-reply", json={"action_id": ext["id"], "outcome": "no_reply"})
+    plan = client.post(f"{P}/funding-plan", json={}).json()
+    assert not next(o for o in plan["options"] if o["key"] == "supplier_extension")["eligible"]
+
+
+def test_no_extension_is_offered_for_a_shortfall_that_isnt_a_supplier_order(client):
+    # once the order is covered, the next shortfall is the 1 Nov rent
+    plan = client.post(f"{P}/funding-plan", json={"amount": 8100, "needed_by": "2026-11-01"}).json()
+    opt = next(o for o in plan["options"] if o["key"] == "supplier_extension")
+    assert not opt["eligible"] and "isn't a supplier payment" in opt["reason"]
