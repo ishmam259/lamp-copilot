@@ -24,7 +24,7 @@ def test_matched_eligible_and_reasons(db):
     # ineligible, each with its reason
     assert "10" in o["cmsme_refinance_wc"].ineligible_reason       # takes 21 days; needed in 10
     assert "10" in o["bank_unsecured_cmsme"].ineligible_reason
-    assert "merchant" in o["wallet_pay_later"].ineligible_reason
+    assert "wallet payments" in o["wallet_pay_later"].ineligible_reason
     assert "isn't published" in o["retailer_platform_credit"].ineligible_reason
     assert c.eligible == sum(x.eligible for x in c.options)
     # eligible first, cheapest first

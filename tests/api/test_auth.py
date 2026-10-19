@@ -168,3 +168,14 @@ def test_reset_can_default_to_the_demo_captures(client, monkeypatch):
     monkeypatch.setattr(settings, "demo_reset_with_captures", True)
     assert client.post("/api/v1/dev/reset").json()["with_demo_captures"] is True
     assert client.post("/api/v1/dev/reset?with_demo_captures=false").json()["with_demo_captures"] is False
+
+
+def test_pharmacy_read_survives_pause_and_a_wrong_pin(client):
+    """Pause and the PIN lockout write extra keys into settings; the pharmacy read must still be 200
+    and show only the public settings."""
+    client.post(f"{P}/pause", json={"paused": True})
+    client.post(f"{P}/actions/act-x/approve", json={"pin": "0000"})  # a wrong PIN counts a failure
+    r = client.get(P)
+    client.post(f"{P}/pause", json={"paused": False})
+    assert r.status_code == 200, r.text
+    assert set(r.json()["settings"]) == {"gross_margin_pct", "cash_buffer", "expiry_buffer_days", "as_of_date"}

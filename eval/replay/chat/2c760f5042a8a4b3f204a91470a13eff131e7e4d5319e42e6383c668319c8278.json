@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "The forecast shows your first shortfall on 2026-10-26: BDT 19,000, when Supplier A’s BDT 60,000 order is due.\n\nFurther shortfalls are forecast on 2026-11-01 (BDT 18,000), 2026-11-04 (BDT 11,300), 2026-11-05 (BDT 15,000), and 2026-11-10 (BDT 3,000). These are forecast gaps after expected cash inflows.",
+        "id": "msg_0bb08fb1dc08ae14006ad67b3490a887d285f13615622d29a8",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2178,
+      "cache_write_tokens": 574,
+      "cache_read_tokens": 1601,
+      "output_tokens": 118,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T20:19:02.391969Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T20:18:59Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0bb08fb1dc08ae14006ad67b33dad487d2b518958c2f485392",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

@@ -3,7 +3,7 @@
   "archetypes": [
     {
       "key": "wallet_nano_loan",
-      "label": "Mobile-wallet digital nano loan",
+      "label": "Small mobile-wallet loan",
       "provider_type": "Bank through a mobile wallet",
       "anchored_on": "City Bank and bKash Digital Nano Loan",
       "source": "https://d11.thedailystar.net/business/banking/news/city-bank-disburses-tk-700-crore-digital-loans-thru-bkash-3570466",
@@ -38,7 +38,7 @@
     },
     {
       "key": "cmsme_refinance_wc",
-      "label": "Bank working-capital loan under the CMSME refinance fund",
+      "label": "Bank loan from the government small-business fund",
       "provider_type": "Commercial bank",
       "anchored_on": "Bangladesh Bank Tk 5,000 crore revolving CMSME working-capital refinance fund",
       "source": "https://en.ittefaq.com.bd/16875/bb-launches-tk-5-000cr-revolving-refinance-fund",
@@ -55,7 +55,7 @@
     },
     {
       "key": "bank_unsecured_cmsme",
-      "label": "Bank collateral-free CMSME loan",
+      "label": "Bank small-business loan, no collateral",
       "provider_type": "Commercial bank",
       "anchored_on": "BRAC Bank collateral-free CMSME loans",
       "source": "https://thefinancialexpress.com.bd/trade/brac-bank-offers-record-low-collateral-free-loans-for-cmsmes",
@@ -89,8 +89,8 @@
     },
     {
       "key": "retailer_platform_credit",
-      "label": "B2B platform credit for retailers",
-      "provider_type": "B2B commerce platform",
+      "label": "Credit from an online wholesale app",
+      "provider_type": "Online wholesale app",
       "anchored_on": "ShopUp Baki retailer credit",
       "source": "https://online91.thedailystar.net/business/news/japans-credit-saison-injects-65m-shopup-3677271",
       "source_date": null,

@@ -68,10 +68,10 @@ def get_passport(db: Session, pid: str) -> PassportOut:
 def _with_explain(c: ShelfLifeCreditOut) -> ShelfLifeCreditOut:
     """The lender card's breakdown: purpose-blind need − stock that won't sell = financeable."""
     c.explain = [ExplainRow(**r) for r in [
-        {"label": f"Shortfall on {c.needed_by:%d %b} a purpose-blind lender would finance",
+        {"label": f"Shortfall on {c.needed_by:%d %b} a usual lender would lend",
          "amount": c.counterfactual_purpose_blind, "op": "start"},
         {"label": "Order stock that won't sell before expiry", "amount": c.not_financed, "op": "-"},
-        {"label": "Financeable", "amount": c.financeable, "op": "="},
+        {"label": "LaMP lends at most", "amount": c.financeable, "op": "="},
     ]]
     return c
 

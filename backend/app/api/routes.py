@@ -52,6 +52,7 @@ from app.schemas import (
     PauseOut,
     PolicyOut,
     PharmacyOut,
+    PharmacySettings,
     SessionIn,
     SessionOut,
     ShelfLifeCreditOut,
@@ -150,7 +151,8 @@ def create_session(pid: str, body: SessionIn, response: Response, db: Session = 
 @owner.get("/pharmacies/{pid}", response_model=PharmacyOut)
 def get_pharmacy(pid: str, db: Session = Depends(get_db)):
     ph = engines.get_pharmacy(db, pid)
-    public = {k: v for k, v in (ph.settings or {}).items() if k != "owner_pin"}
+    # Only the public fields: settings also holds the PIN hash, the PIN lockout and the Pause state.
+    public = {k: v for k, v in (ph.settings or {}).items() if k in PharmacySettings.model_fields}
     return {"id": ph.id, "name": ph.name, "city": ph.city, "settings": public}
 
 

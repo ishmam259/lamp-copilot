@@ -4,9 +4,9 @@
       {
         "tool_name": "share_plan",
         "args": "{\"steps\":[\"Check expiring stock and return eligibility\",\"Propose an eligible return for your approval\"]}",
-        "tool_call_id": "call_vbi3sTDBTOsTgZ4Kbn8xQC8X",
+        "tool_call_id": "call_KcAPqZpTXNU8vw86m67ls1EA",
         "tool_kind": null,
-        "id": "fc_08bf73c627640aa8006ad65ef0ec2087d299f9095d29d26eff",
+        "id": "fc_04364049893d9248006ad67b493a9087d291029ddbcbef8479",
         "provider_name": "openai",
         "provider_details": null,
         "part_kind": "tool-call"
@@ -14,8 +14,8 @@
     ],
     "usage": {
       "input_tokens": 1556,
-      "cache_write_tokens": 0,
-      "cache_read_tokens": 1553,
+      "cache_write_tokens": 19,
+      "cache_read_tokens": 1534,
       "output_tokens": 34,
       "input_audio_tokens": 0,
       "cache_audio_read_tokens": 0,
@@ -28,16 +28,16 @@
       "output_reasoning_tokens": 0
     },
     "model_name": "gpt-6-luna",
-    "timestamp": "2026-10-19T18:18:25.384026Z",
+    "timestamp": "2026-10-19T20:19:21.811669Z",
     "kind": "response",
     "provider_name": "openai",
     "provider_url": "https://api.openai.com/v1/",
     "provider_details": {
       "finish_reason": "completed",
-      "timestamp": "2026-10-19T18:18:24Z",
+      "timestamp": "2026-10-19T20:19:20Z",
       "service_tier": "default"
     },
-    "provider_response_id": "resp_08bf73c627640aa8006ad65ef04a2c87d29789f2a517a8c8e2",
+    "provider_response_id": "resp_04364049893d9248006ad67b4855c087d28ea6efbfd3dd2ab8",
     "finish_reason": "stop",
     "run_id": null,
     "conversation_id": null,
