@@ -28,7 +28,6 @@ def test_02_lender_key_on_owner_read_is_403(anon):
     assert anon.get(f"{P}/passport", headers=lender_headers()).status_code == 403
 
 
-@pytest.mark.skip(reason="Needs the session check on POST /chat in agents/router.py (Ishmam, plan task I1)")
 def test_03_chat_without_session_is_401(anon):
     r = anon.post("/api/v1/chat", json={"trigger": "submit-message", "id": "c1", "messages": []})
     assert r.status_code == 401
@@ -141,3 +140,25 @@ def test_pause_blocks_the_copilot_but_not_the_owner(client, api_db):
     assert {"agent_paused", "proposal_refused_paused", "approval_refused_paused"} <= set(events)
     client.post(f"{P}/pause", json={"paused": False})
     assert client.post(f"{P}/actions/{early.id}/approve").json()["status"] == "executed"
+
+
+def test_five_wrong_pins_lock_the_unlock(anon):
+    for _ in range(5):
+        assert anon.post(f"{P}/session", json={"pin": "0000"}).status_code == 401
+    r = anon.post(f"{P}/session", json={"pin": PIN})  # even the right PIN waits out the lockout
+    assert r.status_code == 429 and "Too many wrong PINs" in r.json()["detail"]
+
+
+def test_a_right_pin_resets_the_count(anon):
+    for _ in range(4):
+        anon.post(f"{P}/session", json={"pin": "0000"})
+    assert anon.post(f"{P}/session", json={"pin": PIN}).status_code == 200
+    for _ in range(4):
+        assert anon.post(f"{P}/session", json={"pin": "0000"}).status_code == 401
+    assert anon.post(f"{P}/session", json={"pin": PIN}).status_code == 200
+
+
+def test_lock_ends_the_session(client):
+    assert client.delete(f"{P}/session").status_code == 204
+    assert client.get(f"{P}/passport").status_code == 401
+    assert client.delete(f"{P}/session").status_code == 204  # already locked: still fine

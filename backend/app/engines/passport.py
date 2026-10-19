@@ -76,9 +76,20 @@ def get_shelf_life_credit(db: Session, pid: str) -> ShelfLifeCreditOut:
     financed. financeable = max(0, need − not_financed) (8,200).
     counterfactual_purpose_blind = the need itself: what a lender that ignores the shelf
     would finance. It is a computed comparison, not a request anyone made.
+
+    Once the owner approves the trim, the order and the forecast no longer show the
+    untrimmed purchase, so the credit saved at trim time (before the change) is returned.
     """
     from .expiry import get_trim
     from .forecast import get_forecast
+
+    trims = db.scalars(select(m.Action).where(m.Action.pharmacy_id == pid, m.Action.kind == "trim_order",
+                                              m.Action.status == "executed").order_by(m.Action.created_at.desc()))
+    for t in trims:
+        saved = (t.result or {}).get("shelf_life_credit")
+        order = db.get(m.PlannedOrder, saved["order_id"]) if saved and saved["order_id"] else None
+        if order is not None and order.status == "planned":
+            return ShelfLifeCreditOut(**saved)
 
     shortfalls = get_forecast(db, pid).shortfalls
     orders = list(db.scalars(select(m.PlannedOrder).where(m.PlannedOrder.pharmacy_id == pid,

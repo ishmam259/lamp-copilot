@@ -42,7 +42,7 @@ You need [Docker Desktop](https://www.docker.com/products/docker-desktop/) runni
 cp -n .env.example .env   # -n keeps an .env you already filled in
 docker compose up -d --build
 ```
-On first start the API loads the demo pharmacy, Green Life Pharmacy in Bogura. The first build takes a few minutes.
+On first start the API loads the demo pharmacy, Green Life Pharmacy in Bogura. The first build takes a few minutes. The copied `.env` has `DEV_MODE=true`, which turns on the demo controls (Reset, the supplier-reply simulator) and a dev registry key; nothing else needs filling in. The owner PIN is `2468`.
 
 | What | Where |
 |---|---|

@@ -10,7 +10,7 @@ from app.db import models as m
 from app.schemas import FundingNeed, FundingPlanOut
 
 from .common import as_of, get_pharmacy, r2
-from .expiry import get_expiry, get_trim
+from .expiry import claimed_batch_nos, get_expiry, get_trim
 from .forecast import get_forecast
 from .passport import get_passport
 
@@ -74,7 +74,9 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
     order = next((o for o in orders if o.due_date >= need.needed_by), orders[0] if orders else None)
     supplier = order.supplier if order else None
     order_total = trimmed_totals[order.id] if order else 0
-    returns = get_expiry(db, pid).return_eligible_value
+    claimed = claimed_batch_nos(db, pid)
+    claimable = [b for b in get_expiry(db, pid).batches if b.return_eligible and b.batch_no not in claimed]
+    returns = r2(sum(b.cost_value for b in claimable))
 
     options = []
 
@@ -96,16 +98,20 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
                   else "Every line will sell before expiry.")
         opt("trim_order", f"Trim the slow mover from {supplier.name}'s order", "Your order", saving, 0, None,
             saving > 0, reason, "Now", "certain")
-    exp_suppliers = sorted({b.supplier for b in get_expiry(db, pid).batches if b.return_eligible})
+    exp_suppliers = sorted({b.supplier for b in claimable})
     opt("return_claims", "Claim returns for expiring stock",
         "Suppliers " + " and ".join(s.removeprefix("Supplier ") for s in exp_suppliers) if exp_suppliers else "Suppliers",
         returns, 0, None, returns > 0,
         f"Arrives as supplier credit, not cash, so it doesn't count before {need.needed_by:%d %b}.",
         "1–2 weeks", "uncertain")
     if supplier:
-        ok = supplier.verified and on_time_share >= EXTENSION_MIN_ON_TIME
+        declined = any((a.result or {}).get("order_id") == order.id and (a.result or {}).get("status") == "declined"
+                       for a in db.scalars(select(m.Action).where(m.Action.pharmacy_id == pid,
+                                                                  m.Action.kind == "extension_request")))
+        ok = supplier.verified and on_time_share >= EXTENSION_MIN_ON_TIME and not declined
         opt("supplier_extension", f"Ask {supplier.name} for {EXTENSION_DAYS} more days", supplier.name, amount, 0,
-            None, ok, f"You paid {passport.paid_on_time} of {passport.invoices_total} invoices on time." if ok
+            None, ok, f"{supplier.name} already declined an extension on this order." if declined
+            else f"You paid {passport.paid_on_time} of {passport.invoices_total} invoices on time." if ok
             else f"Needs a verified supplier and at least {EXTENSION_MIN_ON_TIME:.0%} of invoices paid on time.",
             "1–3 days", "uncertain", financed=amount, tenor=EXTENSION_DAYS)
 

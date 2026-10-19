@@ -82,7 +82,35 @@ def monthly_net_cash_flow(db: Session, pid: str) -> float:
     return get_accounts(db, pid).net_profit
 
 
-def loan_dbr(db: Session, pid: str, lender_id: str, product_key: str, amount: float) -> dict | None:
+def _repayment(p, amount: float) -> tuple[float, int]:
+    if p.apr_pct is not None:
+        cost = amount * p.apr_pct / 100 * p.tenor_days / 365
+    else:
+        cost = amount * (p.fee_pct or 0) / 100 * p.tenor_days / 30
+    months = max(1, round(p.tenor_days / 30))
+    return (amount + cost) / months, months
+
+
+def existing_monthly_repayment(db: Session, pid: str) -> float:
+    """Monthly instalments of loans a lender has approved: the debt the pharmacy already
+    carries, so a second loan can't slip under the cap on its own. Pending applications are
+    left to the duplicate-financing registry, which refuses a second loan for the same order."""
+    from sqlalchemy import select
+
+    from app.db import models as m
+
+    total = 0.0
+    for a in db.scalars(select(m.Application).where(m.Application.pharmacy_id == pid,
+                                                   m.Application.status == "approved")):
+        p = db.scalar(select(m.LenderProduct).where(m.LenderProduct.lender_id == a.lender_id,
+                                                    m.LenderProduct.key == a.product_key))
+        if p is not None:
+            total += _repayment(p, a.amount)[0]
+    return total
+
+
+def loan_dbr(db: Session, pid: str, lender_id: str, product_key: str, amount: float,
+             include_existing: bool = True) -> dict | None:
     """Equal monthly instalments for this loan and their share of monthly net cash flow.
 
     total = amount + cost, where cost = amount × APR × tenor/365 (or fee% × tenor/30);
@@ -98,15 +126,12 @@ def loan_dbr(db: Session, pid: str, lender_id: str, product_key: str, amount: fl
                                                 m.LenderProduct.key == product_key))
     if p is None or not p.min_amount <= amount <= p.max_amount:
         return None
-    if p.apr_pct is not None:
-        cost = amount * p.apr_pct / 100 * p.tenor_days / 365
-    else:
-        cost = amount * (p.fee_pct or 0) / 100 * p.tenor_days / 30
-    months = max(1, round(p.tenor_days / 30))
-    monthly = (amount + cost) / months
+    monthly, months = _repayment(p, amount)
+    existing = existing_monthly_repayment(db, pid) if include_existing else 0.0
     ncf = monthly_net_cash_flow(db, pid)
-    dbr = monthly / ncf * 100 if ncf > 0 else float("inf")
+    dbr = (monthly + existing) / ncf * 100 if ncf > 0 else float("inf")
     return {"amount": round(amount, 2), "months": months, "monthly_repayment": round(monthly, 2),
+            "existing_monthly_repayment": round(existing, 2),
             "monthly_net_cash_flow": round(ncf, 2), "dbr_pct": round(dbr, 1) if ncf > 0 else None,
             "cap_pct": DBR_CAP_PCT, "ok": dbr <= DBR_CAP_PCT}
 
@@ -123,8 +148,10 @@ def check_borrowing_ceiling(db: Session, pid: str, kind: str, payload: dict) -> 
         monthly_net_cash_flow=r["monthly_net_cash_flow"], dbr_pct=r["dbr_pct"], cap_pct=DBR_CAP_PCT)
     db.commit()
     shown = f"{r['dbr_pct']}%" if r["dbr_pct"] is not None else "more than all"
+    owed = (f" plus BDT {r['existing_monthly_repayment']:,.2f} on loans already taken"
+            if r["existing_monthly_repayment"] else "")
     raise HTTPException(409, (
-        f"Refused: the monthly repayment of BDT {r['monthly_repayment']:,.2f} would take {shown} of monthly net "
+        f"Refused: the monthly repayment of BDT {r['monthly_repayment']:,.2f}{owed} would take {shown} of monthly net "
         f"cash flow (BDT {r['monthly_net_cash_flow']:,.0f}), above the {DBR_CAP_PCT:g}% cap. The cap follows "
         f"Bangladesh Bank's published debt-burden-ratio limit for unsecured personal loans ({DBR_SOURCE['title']}, "
         f"{DBR_SOURCE['edition']}, p. {DBR_SOURCE['page']}), applied to the pharmacy's cash flow."))
@@ -134,14 +161,14 @@ def get_policy(db: Session, pid: str):
     """The rules LaMP enforces, for the owner's read-only rules view."""
     from app.schemas import PolicyOut
 
-    from .funding import get_funding_plan
+    from .passport import get_shelf_life_credit
 
-    plan = get_funding_plan(db, pid)
-    first = plan.need.amount
-    naive = first + next((o.amount for o in plan.options if o.key == "trim_order" and o.eligible), 0)
+    # From the shelf-life credit, which keeps the pre-trim order, so the examples hold after the trim
+    credit = get_shelf_life_credit(db, pid)
+    first, naive = credit.financeable, credit.counterfactual_purpose_blind
     checks = []
     for label, amount in (("The plan's fallback loan", first), ("A loan for the untrimmed shortfall", naive)):
-        r = loan_dbr(db, pid, "wallet-lender", "wallet_loan", amount)
+        r = loan_dbr(db, pid, "wallet-lender", "wallet_loan", amount, include_existing=False)  # each on its own
         if r:
             checks.append({"label": label, **r})
     pause = get_pause(db, pid)

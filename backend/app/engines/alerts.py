@@ -9,6 +9,7 @@ from app.db import models as m
 from app.schemas import Alert
 
 from .common import as_of, get_pharmacy
+from .expiry import claimed_batch_nos
 from .forecast import get_forecast
 
 
@@ -45,7 +46,9 @@ def get_alerts(db: Session, pid: str) -> list[Alert]:
 
     batches = list(db.scalars(select(m.StockBatch).where(m.StockBatch.pharmacy_id == pid)))
     expiring = [b for b in batches if 0 <= (b.expiry_date - today).days <= 60]
-    window = [b for b in expiring if 0 <= (b.expiry_date - today).days - b.supplier.return_cutoff_days <= 14]
+    claimed = claimed_batch_nos(db, pid)
+    window = [b for b in expiring if 0 <= (b.expiry_date - today).days - b.supplier.return_cutoff_days <= 14
+              and b.batch_no not in claimed]
     if window:
         add("return_window", "warning", f"Claim returns worth {_bdt(sum(b.qty * b.unit_cost for b in window))}",
             f"{len(window)} batches can still go back to their suppliers before the return window closes.")

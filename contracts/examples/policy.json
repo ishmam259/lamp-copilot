@@ -17,24 +17,15 @@
   },
   "examples": [
     {
-      "label": "The plan's fallback loan",
-      "amount": 8100.0,
+      "label": "A loan for the untrimmed shortfall",
+      "amount": 10800.0,
       "months": 3,
-      "monthly_repayment": 2759.92,
+      "monthly_repayment": 3679.89,
+      "existing_monthly_repayment": 0.0,
       "monthly_net_cash_flow": 13500.0,
-      "dbr_pct": 20.4,
+      "dbr_pct": 27.3,
       "cap_pct": 35.0,
       "ok": true
-    },
-    {
-      "label": "A loan for the untrimmed shortfall",
-      "amount": 18900.0,
-      "months": 3,
-      "monthly_repayment": 6439.81,
-      "monthly_net_cash_flow": 13500.0,
-      "dbr_pct": 47.7,
-      "cap_pct": 35.0,
-      "ok": false
     }
   ]
 }

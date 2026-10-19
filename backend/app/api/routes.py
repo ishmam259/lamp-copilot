@@ -6,7 +6,7 @@ import json
 from datetime import datetime, timezone
 from typing import Literal
 
-from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, Response, UploadFile
+from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, Request, Response, UploadFile
 from fastapi.responses import PlainTextResponse, StreamingResponse
 from sqlalchemy import func, select
 from sqlalchemy.exc import OperationalError, ProgrammingError
@@ -103,11 +103,28 @@ def simulate_supplier_reply(body: SupplierReply, db: Session = Depends(get_db)):
 
 # --- Owner unlock -------------------------------------------------------------------------
 
+@router.delete("/pharmacies/{pid}/session", status_code=204)
+def end_session(pid: str, request: Request, response: Response, db: Session = Depends(get_db)):
+    """Lock the app: ends this session and clears the cookie. Safe to call when signed out."""
+    s = auth.session_for(db, request.cookies.get(auth.SESSION_COOKIE))
+    if s is not None and s.pharmacy_id == pid:
+        auth.end_session(db, s.token)
+        engines.log("T1", "AUTH", "owner_locked", db, pharmacy=pid)
+        db.commit()
+    response.delete_cookie(auth.SESSION_COOKIE, path="/")
+
+def _refuse_if_locked(ph) -> None:
+    until = auth.locked_until(ph)
+    if until:
+        raise HTTPException(429, f"Too many wrong PINs. Try again after {until:%H:%M} UTC.")
+
+
 @router.post("/pharmacies/{pid}/session", response_model=SessionOut)
 def create_session(pid: str, body: SessionIn, response: Response, db: Session = Depends(get_db)):
     """The owner's PIN unlocks the app: sets the HttpOnly session cookie."""
     ph = engines.get_pharmacy(db, pid)
-    if not auth.pin_ok(ph, body.pin):
+    _refuse_if_locked(ph)
+    if not auth.check_pin(db, ph, body.pin):
         engines.log("T1", "AUTH", "unlock_failed", db, pharmacy=pid)
         db.commit()
         raise HTTPException(401, "Wrong PIN")
@@ -304,10 +321,13 @@ def propose_action(pid: str, proposal: ActionProposal, db: Session = Depends(get
 def approve_action(pid: str, aid: str, body: ApprovalIn | None = Body(default=None), db: Session = Depends(get_db)):
     """Loan applications (Tier 3) re-ask the owner PIN: re-authentication at approval."""
     a = action_engine.get_action(db, pid, aid)
-    if action_engine.requires_pin(a.kind) and not auth.pin_ok(engines.get_pharmacy(db, pid), body.pin if body else None):
-        engines.log("T3", "ACTIONS", "approval_pin_rejected", db, action=aid, kind=a.kind)
-        db.commit()
-        raise HTTPException(401, "This approval needs the owner PIN")
+    if action_engine.requires_pin(a.kind):
+        ph = engines.get_pharmacy(db, pid)
+        _refuse_if_locked(ph)
+        if not auth.check_pin(db, ph, body.pin if body else None):
+            engines.log("T3", "ACTIONS", "approval_pin_rejected", db, action=aid, kind=a.kind)
+            db.commit()
+            raise HTTPException(401, "This approval needs the owner PIN")
     return action_engine.execute_owner_approval(db, pid, aid)
 
 
@@ -410,7 +430,8 @@ def verify_logs(db: Session = Depends(get_db)):
 @logs.get("/logs/stream")
 async def stream_logs(once: bool = False, db: Session = Depends(get_db)):
     """Server-Sent Events: every past event, then new ones as they happen.
-    `once=true` sends the backlog and closes (for tests)."""
+    `once=true` sends the backlog and closes (for tests). After /dev/reset the log ids restart
+    at lg-1, so the stream closes; the browser's EventSource reconnects and gets the new log."""
     factory = sessionmaker(bind=db.get_bind())
 
     async def gen():
@@ -418,6 +439,9 @@ async def stream_logs(once: bool = False, db: Session = Depends(get_db)):
         while True:
             with factory() as s:
                 batch = logbus.events(s, after_id=last)
+                reset = not batch and last and s.get(m.AuditLog, last) is None
+            if reset:
+                return
             for e in batch:
                 last = int(e.id[3:])
                 yield f"id: {e.id}\ndata: {json.dumps(e.model_dump(mode='json'))}\n\n"

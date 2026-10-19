@@ -20,6 +20,10 @@ from app.db import models as m
 
 SESSION_COOKIE = "lamp_session"
 SESSION_HOURS = 12
+# Wrong-PIN lockout: after MAX_PIN_FAILURES wrong tries in a row, PIN checks are refused for
+# LOCKOUT_MINUTES (a 4-digit PIN otherwise falls to 10,000 guesses).
+MAX_PIN_FAILURES = 5
+LOCKOUT_MINUTES = 15
 _SCRYPT = {"n": 2**14, "r": 8, "p": 1, "dklen": 32}
 
 
@@ -47,6 +51,32 @@ def _now() -> datetime:
     return datetime.now(timezone.utc).replace(tzinfo=None)
 
 
+def locked_until(ph: m.Pharmacy) -> datetime | None:
+    """When the wrong-PIN lockout ends, or None if PIN checks are open."""
+    until = (ph.settings or {}).get("pin_locked_until")
+    if until and datetime.fromisoformat(until) > _now():
+        return datetime.fromisoformat(until)
+    return None
+
+
+def check_pin(db: Session, ph: m.Pharmacy, pin: str | None) -> bool:
+    """pin_ok with the lockout: counts wrong tries, locks after MAX_PIN_FAILURES, resets on success.
+    Callers check locked_until first; this never unlocks a locked pharmacy early."""
+    ok = pin_ok(ph, pin)
+    st = dict(ph.settings or {})
+    if ok:
+        st.pop("pin_failures", None)
+        st.pop("pin_locked_until", None)
+    else:
+        st["pin_failures"] = st.get("pin_failures", 0) + 1
+        if st["pin_failures"] >= MAX_PIN_FAILURES:
+            st["pin_failures"] = 0
+            st["pin_locked_until"] = (_now() + timedelta(minutes=LOCKOUT_MINUTES)).isoformat()
+    ph.settings = st  # reassigned so SQLAlchemy sees the JSON change
+    db.flush()
+    return ok
+
+
 def create_session(db: Session, pid: str) -> m.OwnerSession:
     """A new owner session for this pharmacy, valid for SESSION_HOURS."""
     now = _now()
@@ -65,6 +95,14 @@ def session_for(db: Session, token: str | None) -> m.OwnerSession | None:
     if row is None or row.expires_at <= _now():
         return None
     return row
+
+
+def end_session(db: Session, token: str | None) -> None:
+    """Sign out: the cookie value stops working at once."""
+    row = db.get(m.OwnerSession, token) if token else None
+    if row is not None:
+        db.delete(row)
+        db.flush()
 
 
 def lender_for_key(db: Session, key: str | None) -> m.Lender | None:

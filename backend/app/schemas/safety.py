@@ -82,6 +82,7 @@ class DbrCheck(Model):
     amount: float
     months: int
     monthly_repayment: float
+    existing_monthly_repayment: float = 0  # loans a lender has already approved
     monthly_net_cash_flow: float
     dbr_pct: float | None
     cap_pct: float

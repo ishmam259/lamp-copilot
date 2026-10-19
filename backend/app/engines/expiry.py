@@ -13,6 +13,11 @@ from app.schemas import ExpiryOut, TrimOut
 from .common import as_of, get_pharmacy, r2
 
 
+def claimed_batch_nos(db: Session, pid: str) -> set[str]:
+    """Batches already in a return claim: they can't be claimed again."""
+    return set(db.scalars(select(m.ReturnClaim.batch_no).where(m.ReturnClaim.pharmacy_id == pid)))
+
+
 def sales_rates(db: Session, pid: str, today: date, window_days: int = 90) -> dict[str, float]:
     """Boxes sold per day, per product.
 
