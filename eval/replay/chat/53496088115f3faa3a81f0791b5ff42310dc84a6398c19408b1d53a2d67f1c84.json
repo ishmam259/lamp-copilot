@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Yes. Supplier A’s order is BDT 60,000. The suggested smaller order is BDT 49,200, saving BDT 10,800 by reducing Montelukast from 30 boxes to 12. The other lines can stay as ordered.\n\nThe trim is proposed and waiting for your approval in Actions. Until approved, the order has not changed.",
+        "id": "msg_06c65227223ccd52006ad655a7b70887d2989c050726e035ed",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2270,
+      "cache_write_tokens": 103,
+      "cache_read_tokens": 2164,
+      "output_tokens": 80,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:38:48.839482Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:38:46Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_06c65227223ccd52006ad655a6d9cc87d2bb5a7ac674952f1c",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

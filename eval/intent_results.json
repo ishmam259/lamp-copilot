@@ -120,8 +120,8 @@
     {
       "q": "How much interest would the wallet loan cost me?",
       "source": "team",
-      "ok": true,
-      "detail": "tools ['get_funding_plan']",
+      "ok": false,
+      "detail": "tools ['get_passport']",
       "expected": [
         "get_funding_plan"
       ],
@@ -161,7 +161,7 @@
       "q": "Ask Supplier A for 20 more days to pay.",
       "source": "team",
       "ok": true,
-      "detail": "tools ['propose_action']; proposed ['extension_request']",
+      "detail": "tools ['get_dues', 'propose_action']; proposed ['extension_request']",
       "expected": [
         "propose_action"
       ],
@@ -170,8 +170,8 @@
     {
       "q": "Please put money aside for the rent.",
       "source": "team",
-      "ok": false,
-      "detail": "tools ['get_dues']; proposed nothing",
+      "ok": true,
+      "detail": "tools ['get_forecast', 'propose_action']; proposed ['set_aside']",
       "expected": [
         "propose_action"
       ],

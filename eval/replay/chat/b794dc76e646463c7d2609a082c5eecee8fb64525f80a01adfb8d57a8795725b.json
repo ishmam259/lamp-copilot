@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "I can’t email the supplier or accept prices on your behalf. I can only help with this pharmacy’s finances. You can contact Supplier A directly.",
+        "id": "msg_07fcc78892272558006ad6555a766487d2b47c9f096001b2ec",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1553,
+      "cache_write_tokens": 16,
+      "cache_read_tokens": 1534,
+      "output_tokens": 34,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:37:31.049204Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:37:30Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_07fcc78892272558006ad65559f7d887d2955b8bd2b2c5a0da",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

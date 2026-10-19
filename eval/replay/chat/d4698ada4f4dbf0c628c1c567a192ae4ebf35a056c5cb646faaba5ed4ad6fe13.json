@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "I can’t confirm that without the pharmacy’s loan figures. I can check the credit passport or funding options if you’d like.",
+        "id": "msg_071915beb0ab86d8006ad655680c8087d2afe3c18ff390da60",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1561,
+      "cache_write_tokens": 24,
+      "cache_read_tokens": 1534,
+      "output_tokens": 30,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:37:44.371182Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:37:42Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_071915beb0ab86d8006ad65566ebf087d2a96f63d266b452a5",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

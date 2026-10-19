@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Supplier A’s order is due on 26 Oct. The forecast shows BDT 41,000 available against the BDT 49,200 order after the suggested trim, leaving BDT 8,200 to cover.\n\nThe cheapest plan is to trim the order by BDT 10,800, then ask Supplier A for 20 more days on the remaining BDT 8,200. If they do not agree, the fallback is a mobile-wallet loan, costing BDT 181.97. The extension is uncertain, so there is a risk the loan may be needed.\n\nAll steps are proposed and waiting for your approval in Actions.",
+        "id": "msg_0072faf9cd25ca90006ad6552ef6e887d2b88ad0a0da3a3807",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2858,
+      "cache_write_tokens": 276,
+      "cache_read_tokens": 2579,
+      "output_tokens": 134,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:36:48.708221Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:36:46Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0072faf9cd25ca90006ad6552e7a5087d2972c1fb193fa04a9",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

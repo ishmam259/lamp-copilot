@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "You first run short on 2026-10-26, when the Supplier A order is due. The forecast shows a shortfall of BDT 19,000.\n\nFurther shortfalls are BDT 18,000 on 2026-11-01 for rent, BDT 11,300 on 2026-11-04 for Supplier H, BDT 15,000 on 2026-11-05 for salaries, and BDT 3,000 on 2026-11-10 for electricity and internet.",
+        "id": "msg_0497be81b406e33e006ad6557e24cc87d2bd552c264e1be8b9",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2123,
+      "cache_write_tokens": 574,
+      "cache_read_tokens": 1546,
+      "output_tokens": 115,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:38:07.284152Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:38:05Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0497be81b406e33e006ad6557d8f5887d297391d3a438e5aa7",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

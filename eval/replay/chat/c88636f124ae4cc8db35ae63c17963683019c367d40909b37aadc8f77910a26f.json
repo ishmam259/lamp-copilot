@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Not from cash as the order stands. Supplier A’s order is BDT 60,000, with a BDT 19,000 shortfall on 26 Oct. Trimming the order saves BDT 10,800 at no cost, leaving BDT 8,200 to cover.\n\nThe cheapest plan is to ask Supplier A for 20 more days on BDT 8,200. If they do not agree, the fallback is a mobile-wallet loan costing BDT 181.97. Both steps, plus the trim, are proposed and waiting for your approval in Actions.",
+        "id": "msg_070fcd8423ca7439006ad654c0379c87d2b03857af00769a87",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2861,
+      "cache_write_tokens": 274,
+      "cache_read_tokens": 2584,
+      "output_tokens": 123,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-19T17:34:58.040936Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-19T17:34:55Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_070fcd8423ca7439006ad654bf209087d2b5c1b7fe40bb119c",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]
