@@ -103,11 +103,18 @@ def simulate_supplier_reply(body: SupplierReply, db: Session = Depends(get_db)):
 
 # --- Owner unlock -------------------------------------------------------------------------
 
+def _refuse_if_locked(ph) -> None:
+    until = auth.locked_until(ph)
+    if until:
+        raise HTTPException(429, f"Too many wrong PINs. Try again after {until:%H:%M} UTC.")
+
+
 @router.post("/pharmacies/{pid}/session", response_model=SessionOut)
 def create_session(pid: str, body: SessionIn, response: Response, db: Session = Depends(get_db)):
     """The owner's PIN unlocks the app: sets the HttpOnly session cookie."""
     ph = engines.get_pharmacy(db, pid)
-    if not auth.pin_ok(ph, body.pin):
+    _refuse_if_locked(ph)
+    if not auth.check_pin(db, ph, body.pin):
         engines.log("T1", "AUTH", "unlock_failed", db, pharmacy=pid)
         db.commit()
         raise HTTPException(401, "Wrong PIN")
@@ -304,10 +311,13 @@ def propose_action(pid: str, proposal: ActionProposal, db: Session = Depends(get
 def approve_action(pid: str, aid: str, body: ApprovalIn | None = Body(default=None), db: Session = Depends(get_db)):
     """Loan applications (Tier 3) re-ask the owner PIN: re-authentication at approval."""
     a = action_engine.get_action(db, pid, aid)
-    if action_engine.requires_pin(a.kind) and not auth.pin_ok(engines.get_pharmacy(db, pid), body.pin if body else None):
-        engines.log("T3", "ACTIONS", "approval_pin_rejected", db, action=aid, kind=a.kind)
-        db.commit()
-        raise HTTPException(401, "This approval needs the owner PIN")
+    if action_engine.requires_pin(a.kind):
+        ph = engines.get_pharmacy(db, pid)
+        _refuse_if_locked(ph)
+        if not auth.check_pin(db, ph, body.pin if body else None):
+            engines.log("T3", "ACTIONS", "approval_pin_rejected", db, action=aid, kind=a.kind)
+            db.commit()
+            raise HTTPException(401, "This approval needs the owner PIN")
     return action_engine.execute_owner_approval(db, pid, aid)
 
 
