@@ -213,3 +213,16 @@ def test_a_declined_extension_is_not_offered_again(client):
     opt = next(o for o in plan["options"] if o["key"] == "supplier_extension")
     assert not opt["eligible"] and "declined" in opt["reason"]
     assert "extension_request" not in [s["action_kind"] for s in plan["plan"]["steps"]]
+
+
+def test_malformed_proposals_are_422_not_500(client):
+    for payload in ({"amount": "abc"}, {"amount": -500}, {"amount": True}):
+        r = client.post(f"{P}/actions", json={"kind": "loan_application", "payload": payload})
+        assert r.status_code == 422, payload
+
+
+def test_a_second_trim_fails_instead_of_recording_a_zero_saving(client):
+    approve(client, propose(client, "trim_order")["id"])
+    again = approve(client, propose(client, "trim_order")["id"])
+    assert again["status"] == "failed"
+    assert [i["kind"] for i in client.get(f"{P}/value").json()["items"]] == ["trim_order", "interest_avoided"]

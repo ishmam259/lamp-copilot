@@ -57,6 +57,14 @@ def _next_id(db: Session, model, prefix: str, width: int = 0) -> str:
     return f"{prefix}{n:0{width}d}" if width else f"{prefix}{n}"
 
 
+def _check_payload(proposal: ActionProposal) -> None:
+    """422 for an amount that isn't a non-negative number (it crashed the ceiling check).
+    Unknown products and out-of-limit amounts still fail at execution, where they're logged."""
+    amount = proposal.payload.get("amount")
+    if amount is not None and (isinstance(amount, bool) or not isinstance(amount, int | float) or amount < 0):
+        raise HTTPException(422, "payload.amount must be a number of BDT, zero or more")
+
+
 def propose_action(db: Session, pid: str, proposal: ActionProposal, proposed_by: str) -> ActionOut:
     """Store a proposal. It does nothing until the owner approves it."""
     get_pharmacy(db, pid)
@@ -65,6 +73,7 @@ def propose_action(db: Session, pid: str, proposal: ActionProposal, proposed_by:
     from .policy import check_borrowing_ceiling, check_can_propose
 
     check_can_propose(db, pid, proposed_by)
+    _check_payload(proposal)
     check_borrowing_ceiling(db, pid, proposal.kind, proposal.payload)
     a = m.Action(id=_next_id(db, m.Action, "act-"), pharmacy_id=pid, kind=proposal.kind, status="proposed",
                  payload=proposal.payload, proposed_by=proposed_by, created_at=_now())
@@ -143,6 +152,8 @@ def _trim_order(db: Session, pid: str, a: m.Action) -> dict:
 
     order = _order(db, pid, a.payload)
     trim = get_trim(db, pid, order.id)
+    if trim.saving <= 0:
+        raise _Failed("nothing_to_trim", f"Every line of order {order.id} already sells before expiry.")
     # The shelf-life credit is defined on the order as photographed; keep it before the trim changes it.
     credit = get_shelf_life_credit(db, pid).model_dump(mode="json")
     before = order.total
