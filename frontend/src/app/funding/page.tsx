@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { ArrowRight, Check, ExternalLink, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
+import { Explain } from "@/components/explain";
 import { proposeAction, useAccount, useActions, useCatalogue, useForecast, useFundingPlan } from "@/lib/api";
 import { bdt, dayDate, num, shortDate, stampDate } from "@/lib/format";
 import type { ActionKind, CatalogueOut, FundingOption } from "@/lib/types";
@@ -86,6 +87,7 @@ export default function FundingPage() {
               <span className="num">{bdt(plan.need.amount)} to cover</span>
               <span className="sb-time">by {dayDate(plan.need.needed_by)}</span>
             </h2>
+            <Explain rows={plan.need.explain} title={`How ${bdt(plan.need.amount)} to cover was worked out`} onBoard />
             {trim && (
               <p className="sb-sub mt-1.5 text-[1.0625rem] font-medium">
                 Left after you {trim.label.charAt(0).toLowerCase() + trim.label.slice(1)} ({bdt(trim.amount)} saved).

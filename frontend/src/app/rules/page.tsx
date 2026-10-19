@@ -3,6 +3,7 @@
 import { Check, ExternalLink, KeyRound, X } from "lucide-react";
 import { Carton, LoadError, PageTitle, Skel, Stamp } from "@/components/carton";
 import { PauseToggle } from "@/components/pause";
+import { ResetDemoButton } from "@/components/reset-demo";
 import { usePolicy } from "@/lib/api";
 import { bdt, num } from "@/lib/format";
 import type { ActionKind } from "@/lib/types";
@@ -34,6 +35,13 @@ export default function RulesPage() {
             <div className="mt-3">
               <PauseToggle />
             </div>
+          </Carton>
+
+          <Carton tone="ink" title="Sandbox demo">
+            <p className="text-ink">
+              Everything here is a sandbox: no real money moves and no one is contacted. Reset puts the story back to the start for the next person.
+            </p>
+            <ResetDemoButton className="mt-3 inline-flex h-10 items-center gap-2 rounded-[var(--radius)] border border-rule px-3 font-semibold text-ink hover:bg-muted disabled:opacity-60" />
           </Carton>
 
           <Carton tone="ink" title="Your approval">

@@ -135,8 +135,15 @@ export interface FundingOption {
   cost_of_gap_pct_of_need?: number | null;
 }
 
+/** One line of an "explain this number" breakdown: start, + / − rows, then = the figure. */
+export interface ExplainRow {
+  label: string;
+  amount: number;
+  op: "start" | "+" | "-" | "=";
+}
+
 export interface FundingPlanOut {
-  need: { amount: number; needed_by: ISODate };
+  need: { amount: number; needed_by: ISODate; explain?: ExplainRow[] };
   options: FundingOption[];
   plan: {
     steps: { action_kind: ActionKind; label: string; amount: number; when: ISODate; fallback_for?: string }[];
@@ -205,7 +212,9 @@ export interface Application {
   product_key: string;
   amount: number;
   status: "pending" | "approved" | "declined";
-  passport: PassportOut;
+  /** "withdrawn": the owner revoked consent. The row stays, the passport is hidden, and it can't be decided. */
+  consent?: "active" | "withdrawn";
+  passport: PassportOut | null;
   decision?: { approved: boolean; payout_ref?: string; reason: string };
   created_at: string;
 }
@@ -301,6 +310,7 @@ export interface ShelfLifeCreditOut {
   financeable: number;
   reason: string;
   batches: { product: string; qty_ordered: number; sellable_qty: number; unsellable_value: number }[];
+  explain?: ExplainRow[];
 }
 
 export interface PauseOut {

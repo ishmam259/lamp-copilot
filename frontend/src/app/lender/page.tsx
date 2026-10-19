@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Carton, PageTitle, Skel, Stamp } from "@/components/carton";
+import { Explain } from "@/components/explain";
 import { lenderDecide, useApplications, useLenders, useShelfLifeCredit } from "@/lib/api";
 import { bdt, num, shortDate } from "@/lib/format";
 import type { ShelfLifeCreditOut } from "@/lib/types";
@@ -28,7 +29,10 @@ export default function LenderPage() {
 
   return (
     <div>
-      <PageTitle title="Lender view" sub="The lender's inbox. Only pharmacies that shared their passport with this lender appear here." />
+      <PageTitle
+        title="Lender view"
+        sub="The lender's inbox. A pharmacy appears here when it shares its passport. If it stops sharing, the application stays but the passport is hidden."
+      />
       <div role="tablist" aria-label="Lender" className="mb-4 inline-flex rounded-[var(--radius)] border border-rule bg-board p-1">
         {lenders?.map((l) => (
           <button
@@ -57,62 +61,77 @@ export default function LenderPage() {
           {apps.map((a) => (
             <Carton
               key={a.id}
-              tone={a.status === "approved" ? "stock" : a.status === "declined" ? "alert" : "warn"}
+              tone={a.status === "approved" ? "stock" : a.status === "declined" ? "alert" : a.passport ? "warn" : "ink"}
               title={`${a.pharmacy_name} · ${a.id}`}
-              aside={a.status === "pending" ? "Waiting for decision" : a.status === "approved" ? "Approved" : "Declined"}
+              aside={a.status === "approved" ? "Approved" : a.status === "declined" ? "Declined" : a.passport ? "Waiting for decision" : "Consent withdrawn"}
             >
-              <div className="grid gap-4 lg:grid-cols-2">
-                <dl className="num grid grid-cols-2 gap-3">
-                  <div>
+              {!a.passport ? (
+                <div className="space-y-3">
+                  <dl className="num">
                     <dt className="text-sm text-ink-2">Amount</dt>
                     <dd className="text-xl font-bold text-ink">{bdt(a.amount)}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm text-ink-2">On-time record</dt>
-                    <dd className="text-xl font-bold text-ink">
-                      {a.passport.paid_on_time} / {a.passport.invoices_total}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm text-ink-2">Default risk</dt>
-                    <dd className="text-xl font-bold text-ink">{num(a.passport.default_probability * 100, 1)}%</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm text-ink-2">Advance rate</dt>
-                    <dd className="text-xl font-bold text-ink">{num(a.passport.advance_rate_pct, 1)}%</dd>
-                  </div>
-                </dl>
-                <div>
-                  <h3 className="text-sm font-semibold text-ink-2">Evidence (latest invoices)</h3>
-                  <table className="num mt-1 w-full text-sm">
-                    <thead className="text-left text-ink-2">
-                      <tr>
-                        <th className="py-1 font-semibold">Invoice</th>
-                        <th className="py-1 font-semibold">Supplier</th>
-                        <th className="py-1 text-right font-semibold">Paid</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-rule">
-                      {a.passport.evidence.slice(-5).map((e) => (
-                        <tr key={e.invoice_no}>
-                          <td className="py-1.5 text-ink">{e.invoice_no}</td>
-                          <td className="py-1.5 text-ink">{e.supplier}</td>
-                          <td className={`py-1.5 text-right font-semibold ${e.on_time ? "text-stock" : "text-alert"}`}>{e.on_time ? "On time" : "Late"}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  </dl>
+                  <p className="text-ink">
+                    The pharmacy withdrew its consent, so its passport and evidence are hidden
+                    {a.status === "pending" ? " and this application can't be decided." : "."}
+                  </p>
                 </div>
-              </div>
-              {a.status === "pending" ? (
-                <Button className="mt-4" disabled={busy === a.id} onClick={() => decide(a.id)}>
-                  Run decision rule
-                </Button>
               ) : (
-                <div className="mt-4 space-y-1">
-                  <p className="text-ink">{a.decision?.reason}</p>
-                  {a.decision?.payout_ref && <Stamp tone="stock">Payout {a.decision.payout_ref}</Stamp>}
-                </div>
+                <>
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    <dl className="num grid grid-cols-2 gap-3">
+                      <div>
+                        <dt className="text-sm text-ink-2">Amount</dt>
+                        <dd className="text-xl font-bold text-ink">{bdt(a.amount)}</dd>
+                      </div>
+                      <div>
+                        <dt className="text-sm text-ink-2">On-time record</dt>
+                        <dd className="text-xl font-bold text-ink">
+                          {a.passport.paid_on_time} / {a.passport.invoices_total}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-sm text-ink-2">Default risk</dt>
+                        <dd className="text-xl font-bold text-ink">{num(a.passport.default_probability * 100, 1)}%</dd>
+                      </div>
+                      <div>
+                        <dt className="text-sm text-ink-2">Advance rate</dt>
+                        <dd className="text-xl font-bold text-ink">{num(a.passport.advance_rate_pct, 1)}%</dd>
+                      </div>
+                    </dl>
+                    <div>
+                      <h3 className="text-sm font-semibold text-ink-2">Evidence (latest invoices)</h3>
+                      <table className="num mt-1 w-full text-sm">
+                        <thead className="text-left text-ink-2">
+                          <tr>
+                            <th className="py-1 font-semibold">Invoice</th>
+                            <th className="py-1 font-semibold">Supplier</th>
+                            <th className="py-1 text-right font-semibold">Paid</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-rule">
+                          {a.passport.evidence.slice(-5).map((e) => (
+                            <tr key={e.invoice_no}>
+                              <td className="py-1.5 text-ink">{e.invoice_no}</td>
+                              <td className="py-1.5 text-ink">{e.supplier}</td>
+                              <td className={`py-1.5 text-right font-semibold ${e.on_time ? "text-stock" : "text-alert"}`}>{e.on_time ? "On time" : "Late"}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  {a.status === "pending" ? (
+                    <Button className="mt-4" disabled={busy === a.id} onClick={() => decide(a.id)}>
+                      Run decision rule
+                    </Button>
+                  ) : (
+                    <div className="mt-4 space-y-1">
+                      <p className="text-ink">{a.decision?.reason}</p>
+                      {a.decision?.payout_ref && <Stamp tone="stock">Payout {a.decision.payout_ref}</Stamp>}
+                    </div>
+                  )}
+                </>
               )}
             </Carton>
           ))}
@@ -150,6 +169,7 @@ function ShelfLifeBody({ s }: { s: ShelfLifeCreditOut }) {
         <div className="pl-3">
           <dt className="text-sm text-ink-2">LaMP finances at most</dt>
           <dd className="text-xl font-bold text-stock">{bdt(s.financeable)}</dd>
+          <Explain rows={s.explain} title={`How ${bdt(s.financeable)} was worked out`} />
         </div>
       </dl>
       <p className="mt-3 text-ink">

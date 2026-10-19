@@ -19,6 +19,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
+import { ResetDemoButton } from "@/components/reset-demo";
 import { cn } from "cn";
 import { lock, useActions, usePharmacy } from "@/lib/api";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -99,6 +100,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <LockKeyhole className="size-5" aria-hidden /> Lock
             </button>
           )}
+          <ResetDemoButton className="-ml-3 flex h-10 w-full items-center gap-3 rounded-[var(--radius)] px-3 font-semibold text-rail-2 hover:bg-white/10 hover:text-rail-ink disabled:opacity-60" />
         </div>
       </aside>
 

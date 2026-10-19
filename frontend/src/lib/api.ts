@@ -160,6 +160,15 @@ export function refreshAll() {
   return globalMutate(() => true);
 }
 
+/**
+ * Put the sandbox demo back to the start (POST /dev/reset, DEV_MODE only). The owner stays
+ * signed in; the live log reconnects by itself because the API closes the stream on a reset.
+ */
+export async function resetDemo() {
+  await apiPost("/dev/reset");
+  await refreshAll();
+}
+
 // ---------- hooks ----------
 
 const ph = (p: string) => `/pharmacies/${PID}${p}`;
