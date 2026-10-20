@@ -1,0 +1,160 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Fig 1 architecture</title>
+<link rel="stylesheet" href="kit.css">
+<style>
+  #fig { width: 1600px; }
+  .lanes { display: flex; gap: 52px; align-items: stretch; }
+  .zone { display: flex; flex-direction: column; }
+  .zbody { display: flex; flex-direction: column; gap: 30px; flex: 1; justify-content: center; }
+  #z1 { width: 262px; } #z2 { width: 250px; } #z3 { width: 262px; } #z4 { width: 380px; } #z5 { width: 220px; } #pg .t{white-space:nowrap}
+  .ext { margin-top: 60px; width: 300px; }
+  .egrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 10px; }
+  .egrid .chip { justify-content: center; font-size: 12.5px; padding: 4px 4px; }
+  .rule { margin-top: 10px; padding: 7px 6px; white-space: nowrap; border-radius: 7px; background: #e6f3ec; color: #22663f; font-weight: 700; font-size: 13px; text-align: center; }
+  .rule.r { background: #fbecec; color: #b83232; }
+  .rule.o { background: #fbe6d6; color: #c05621; }
+  #z4 .zbody { padding-top: 34px; }
+  code { font-family: 'Roboto Mono', Consolas, monospace; font-size: 12.5px; }
+</style></head>
+<body>
+<div id="fig">
+<div class="lanes">
+
+  <div class="zone z-blue" id="z1">
+    <div class="zone-head"><div class="zone-num">1</div>CLIENT</div>
+    <div class="zbody">
+      <div class="card c-blue" id="browser">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#2563a8" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="15" height="11" rx="1.5" fill="#d6e6f8"/><path d="M1 18h17"/><rect x="18" y="8" width="5" height="11" rx="1" fill="#fff"/></svg>
+          <div><div class="t">Browser</div><div class="s">phone or laptop</div></div>
+        </div>
+      </div>
+      <div class="card c-blue" id="next">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#2563a8" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" fill="#d6e6f8"/><path d="M3 8h18M9 8v13"/></svg>
+          <div><div class="t">Next.js app</div><div class="s"><code>frontend/</code></div></div>
+        </div>
+        <div class="chips">
+          <div class="chip">Owner screens</div>
+          <div class="chip">Lender view</div>
+          <div class="chip">Live audit log</div>
+          <div class="chip">Chat drawer</div>
+        </div>
+        <div class="rule r">Owner approves each action</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone z-green" id="z2">
+    <div class="zone-head"><div class="zone-num">2</div>API</div>
+    <div class="zbody">
+      <div class="card c-green" id="routes">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#2f855a" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2" fill="#d5ecdf"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>
+          <div><div class="t">FastAPI</div><div class="s"><code>/api/v1</code> · REST, SSE, chat stream</div></div>
+        </div>
+        <div class="chips"><div class="chip"><code>api/routes.py</code></div></div>
+      </div>
+      <div class="card c-green" id="approve">
+        <div class="t">Approve endpoint</div>
+        <div class="s"><code>POST /actions/{id}/approve</code></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone z-purple" id="z3">
+    <div class="zone-head"><div class="zone-num">3</div>AGENTS</div>
+    <div class="zbody">
+      <div class="card c-purple" id="extract">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#6b46c1" stroke-width="1.8" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2" fill="#ddd2f6"/><circle cx="12" cy="13" r="3.5" fill="#fff"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+          <div><div class="t">Photo extraction</div><div class="s"><code>extraction.py</code></div></div>
+        </div>
+      </div>
+      <div class="card c-purple" id="chat">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#6b46c1" stroke-width="1.8" stroke-linejoin="round"><path d="M4 4h16v11H9l-5 4z" fill="#ddd2f6"/></svg>
+          <div><div class="t">Chat + tools</div><div class="s"><code>chat.py</code>, <code>tools.py</code></div></div>
+        </div>
+        <div class="chips">
+          <div class="chip">read-only tools</div>
+          <div class="chip bn">propose_action</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone z-orange" id="z4">
+    <div class="zone-head"><div class="zone-num">4</div>ENGINES</div>
+    <div class="zbody">
+      <div class="card c-orange" id="eng">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#c05621" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="2" width="16" height="20" rx="2" fill="#fbdcc4"/><rect x="7" y="5" width="10" height="4" fill="#fff"/><path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01M16 17h.01"/></svg>
+          <div><div class="t">Deterministic Python</div><div class="s"><code>engines/</code></div></div>
+        </div>
+        <div class="egrid">
+          <div class="chip">accounts</div><div class="chip">dues</div><div class="chip">forecast</div>
+          <div class="chip">alerts</div><div class="chip">expiry</div><div class="chip">orders</div>
+          <div class="chip">passport</div><div class="chip">funding</div><div class="chip">catalogue</div>
+          <div class="chip">policy</div><div class="chip">followups</div><div class="chip">value</div>
+          <div class="chip">wallet</div><div class="chip">lenders</div><div class="chip">actions</div>
+          <div class="chip">registry</div><div class="chip">auth</div><div class="chip">fidelity</div>
+          <div class="chip">logbus</div><div class="chip">mailer</div>
+        </div>
+        <div class="rule o">All money math</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone z-blue" id="z5">
+    <div class="zone-head"><div class="zone-num">5</div>STORAGE</div>
+    <div class="zbody">
+      <div class="card c-blue" id="pg">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#2563a8" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="8" ry="3" fill="#d6e6f8"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+          <div><div class="t">PostgreSQL 16</div><div class="s"><code>db/</code>, <code>seed/</code></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="zone z-red z-dash ext" id="zx" style="background:#fff8f8">
+  <div class="zbody" style="gap:10px">
+    <div class="card c-red dashed" id="oai" style="background:#fff">
+      <div class="t">OpenAI Responses API</div><div class="s"><code>gpt-6-luna</code></div>
+    </div>
+    <div class="rule r" style="margin-top:0">LLM never computes money</div>
+  </div>
+  <div class="zone-head" style="background:#fbecec;border-top:1.6px dashed #b83232;border-bottom:none;margin:16px -16px -16px;border-radius:0 0 9px 9px;font-size:15px;color:#b83232"><div class="zone-num" style="background:#b83232">!</div>CALLED ONLY FROM AGENTS</div>
+</div>
+</div>
+
+<script src="kit.js"></script>
+<script>
+document.fonts.ready.then(() => {
+  const fig = document.getElementById('fig');
+  const R = (id) => document.getElementById(id).getBoundingClientRect();
+  const F = R('fig');
+  // align external zone under agents lane
+  document.getElementById('zx').style.marginLeft = (R('z3').left - F.left - 19) + 'px';
+  const F2 = R('fig');
+  const gap = (id) => R(id).left - F2.left - 28;
+  wire('browser', 'next', {from:'bottom', to:'top', color:'#2563a8'});
+  wire('next', 'routes', {color:'#2563a8', mid: gap('z2')});
+  wire('next', 'approve', {color:'#b83232', mid: gap('z2'), fo:30});
+  const m3 = gap('z3');
+  wire('routes', 'extract', {color:'#2f855a', mid:m3});
+  wire('routes', 'chat', {color:'#2f855a', mid:m3});
+  wire('approve', 'eng', {color:'#2f855a', fo:0, via:[[R('z3').left - F2.left - 28 + 12, null],[R('z3').left - F2.left - 28 + 12, R('z3').bottom - F2.top + 22],[R('z4').left - F2.left - 22, R('z3').bottom - F2.top + 22],[R('z4').left - F2.left - 22, 'end']], label:'execute', labelColor:'#2f855a', labelSeg:2, labelT:0.82});
+  { const y = (document.querySelector('#z4 .zone-head').getBoundingClientRect().bottom + R('eng').top)/2 - F2.top; const ex = R('eng').left - F2.left + 40;
+    wire('routes','eng',{from:'top',to:'top',fo:40,color:'#2f855a',to_off:(ex+F2.left)-(R('eng').left+R('eng').right)/2,via:[[null,y],[ex,y]],label:'reads',labelColor:'#2f855a',labelSeg:1,labelT:0.5}); }
+  const m4 = gap('z4');
+  wire('extract', 'eng', {color:'#6b46c1', mid:m4, to_off:-60});
+  wire('chat', 'eng', {color:'#6b46c1', mid:m4, to_off:-60});
+  wire('eng', 'pg', {color:'#c05621', fo:(R('pg').top+R('pg').bottom)/2-(R('eng').top+R('eng').bottom)/2});
+  wire('chat', 'oai', {from:'bottom', to:'top', fo:-70, to_off:(()=>{const c=R('chat'),o=R('oai');return (c.left+c.right)/2-(o.left+o.right)/2-70;})(), color:'#6b46c1', dash:true});
+  window.__done = true;
+});
+</script>
+</body></html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Fig 3 capture pipeline</title>
+<link rel="stylesheet" href="kit.css">
+<style>
+  #fig { width: 1600px; }
+  .lanes { display: flex; gap: 40px; align-items: stretch; }
+  .zone { display: flex; flex-direction: column; }
+  .zbody { display: flex; flex-direction: column; gap: 34px; flex: 1; justify-content: center; }
+  #z1 { width: 250px; } #z2 { width: 280px; } #z3 { width: 360px; } #z4 { width: 270px; } #z5 { width: 260px; }
+  .ck { display:flex; justify-content:space-between; gap:10px; font-size:13px; padding:3px 0; border-top:1px solid #f0e2d6; }
+  .ck.first { border-top:none; }
+  .ck span:last-child { color:#5a6573; font-variant-numeric: tabular-nums; white-space:nowrap; }
+  .strip { display:flex; gap:14px; margin-top:26px; justify-content:center; }
+  .strip .m { border:1.6px solid #d5dbe3; border-radius:9px; padding:9px 18px; background:#fff; text-align:center; min-width:190px; }
+  .strip .m b { display:block; font-size:21px; font-variant-numeric: tabular-nums; color:#2f855a; }
+  .strip .m span { font-size:13px; color:#5a6573; }
+  .code { font-family: "Roboto Mono", Consolas, monospace; font-size:12.5px; }
+</style></head>
+<body>
+<div id="fig">
+<div class="lanes">
+
+  <div class="zone z-blue" id="z1">
+    <div class="zone-head"><div class="zone-num">1</div>CAPTURE</div>
+    <div class="zbody">
+      <div class="card c-blue" id="photo">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#2563a8" stroke-width="1.8" stroke-linejoin="round"><path d="M3 8h4l2-3h6l2 3h4v11H3z" fill="#d6e6f8"/><circle cx="12" cy="13" r="3.5" fill="#fff"/></svg>
+          <div><div class="t">Owner photo</div><div class="s">supplier invoice or<br>sales-book page</div></div>
+        </div>
+      </div>
+      <div class="card c-blue" id="prep">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#2563a8" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2" fill="#d6e6f8"/><path d="M8 16l8-8M12 8h4v4"/></svg>
+          <div><div class="t">Preprocess</div><div class="s">fix rotation, long side<br>&le; <b>1,600 px</b>, JPEG q85,<br>strip metadata</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone z-purple" id="z2">
+    <div class="zone-head"><div class="zone-num">2</div>READ</div>
+    <div class="zbody">
+      <div class="card c-purple" id="llm">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#6b46c1" stroke-width="1.8" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2" fill="#ddd2f6"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg>
+          <div><div class="t">gpt-6-luna</div><div class="s">one call, structured output<br>prompt <span class="code">extraction_v1</span></div></div>
+        </div>
+      </div>
+      <div class="card c-purple" id="draft">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#6b46c1" stroke-width="1.8" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="#ddd2f6"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg>
+          <div><div class="t">Structured draft</div><div class="s">fields, <span class="code">uncertain_fields</span>,<br><span class="code">instruction_like_text</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone z-orange" id="z3">
+    <div class="zone-head"><div class="zone-num">3</div>PLAIN-CODE CHECKS</div>
+    <div class="zbody" style="gap:28px">
+      <div class="card c-orange" id="checks">
+        <div class="t" style="margin-bottom:5px">Checks</div>
+        <div class="ck first"><span>Line totals</span><span>qty &times; unit cost &plusmn;1%</span></div>
+        <div class="ck"><span>Invoice total</span><span>&Sigma; line totals &plusmn;1%</span></div>
+        <div class="ck"><span>Dates</span><span>expiry, due, &minus;2 / +5 years</span></div>
+        <div class="ck"><span>Amounts</span><span>positive, sane range</span></div>
+        <div class="ck"><span>Required fields</span><span>all read</span></div>
+        <div class="s" style="margin-top:6px">confidence <b>0.95</b>, uncertain <b>0.5</b>, failed <b>0.3</b></div>
+      </div>
+      <div class="card c-red" id="screen">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#b83232" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2l9 4v6c0 5-4 9-9 10-5-1-9-5-9-10V6z" fill="#f6d5d5"/><path d="M12 8v5M12 16v.5"/></svg>
+          <div><div class="t">Injection screen</div><div class="s">model flags + regex on text fields<br>removed from data, ignored;<br>owner warned</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone z-green" id="z4">
+    <div class="zone-head"><div class="zone-num">4</div>OWNER REVIEW</div>
+    <div class="zbody">
+      <div class="card c-green" id="review">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#2f855a" stroke-width="1.8" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2" fill="#d4ecdd"/><path d="M8 8h8M8 12h5M8 16h3"/></svg>
+          <div><div class="t">Review form</div><div class="s">low-confidence fields<br>and failed checks shown</div></div>
+        </div>
+      </div>
+      <div class="card c-green" id="confirm">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#2f855a" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9" fill="#d4ecdd"/><path d="M8 12.5l3 3 5-6"/></svg>
+          <div><div class="t">Owner confirms</div><div class="s">after correcting the draft</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone z-blue" id="z5">
+    <div class="zone-head"><div class="zone-num">5</div>BOOKS</div>
+    <div class="zbody">
+      <div class="card c-blue" id="books">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#2563a8" stroke-width="1.8"><ellipse cx="12" cy="5" rx="8" ry="3" fill="#d6e6f8"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+          <div><div class="t">Accounts update</div><div class="s">dues, stock, sales days<br>forecast rerun</div></div>
+        </div>
+      </div>
+      <div class="card c-slate" id="audit">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" fill="#eef1f5"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>
+          <div><div class="t">Audit log</div><div class="s">hash-chained events</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="m"><b>27</b><span>synthetic photos</span></div>
+  <div class="m"><b>100%</b><span>text fields exact (305/305)</span></div>
+  <div class="m"><b>100%</b><span>numbers exact (409/409)</span></div>
+  <div class="m"><b>2 / 2</b><span>injection photos flagged</span></div>
+  <div class="m"><b>0 / 25</b><span>false flags</span></div>
+</div>
+</div>
+
+<script src="kit.js"></script>
+<script>
+document.fonts.ready.then(() => {
+  wire('photo','prep',{from:'bottom',to:'top',color:'#2563a8'});
+  wire('prep','llm',{color:'#2563a8'});
+  wire('llm','draft',{from:'bottom',to:'top',color:'#6b46c1'});
+  wire('draft','checks',{color:'#6b46c1'});
+  wire('draft','screen',{color:'#6b46c1'});
+  wire('checks','review',{color:'#c05621',to_off:-10});
+  wire('screen','review',{color:'#b83232',dash:true,to_off:12});
+  wire('review','confirm',{from:'bottom',to:'top',color:'#2f855a'});
+  wire('confirm','books',{color:'#2f855a'});
+  wire('books','audit',{from:'bottom',to:'top',color:'#2563a8'});
+  window.__done = true;
+});
+</script>
+</body></html>

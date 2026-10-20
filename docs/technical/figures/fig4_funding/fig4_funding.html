@@ -1,0 +1,162 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Fig 4 funding planner</title>
+<link rel="stylesheet" href="kit.css">
+<style>
+  #fig { width: 1600px; position: relative; }
+  .row { display: flex; align-items: center; justify-content: space-between; }
+  .r2 { margin-top: 74px; padding-left: 10px; }
+  .step { border: 2.4px solid; border-radius: 14px; padding: 12px 16px 13px; background: #fff; position: relative; z-index: 2; }
+  .step h4 { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .num { width: 26px; height: 26px; border-radius: 50%; color: #fff; font-size: 14px; font-weight: 800; display: grid; place-items: center; flex: none; }
+  .sub { font-size: 13px; color: var(--muted); line-height: 1.4; }
+  .big { font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; margin: 2px 0 2px; }
+  .kv { display: grid; grid-template-columns: 1fr auto; gap: 5px 14px; font-size: 13.5px; font-variant-numeric: tabular-nums; margin-top: 8px; }
+  .kv .k { color: var(--muted); }
+  .kv .v { text-align: right; font-weight: 700; }
+  .sep { border-top: 1.5px dashed #d5dbe3; margin-top: 9px; padding-top: 8px; }
+  .otab { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  .otab th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); text-align: left; padding: 2px 6px 4px; }
+  .otab th.n, .otab td.n { text-align: right; }
+  .otab td { padding: 6px 6px; border-top: 1px solid #e3e7ec; vertical-align: top; }
+  .otab td .s2 { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .otab tr.pick td { background: #e8f1fb; }
+  .otab tr.off td { color: #8a94a3; }
+  .pill.unc { background: var(--amber-fill); color: #8a5a12; }
+  .pill.cer { background: var(--green-fill); color: #22643f; }
+  .tag { display:inline-block; font-size: 11.5px; font-weight: 700; color: #fff; border-radius: 5px; padding: 1px 7px; margin-left: 6px; vertical-align: 1px; }
+  .steps { list-style: none; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  .steps li { display: grid; grid-template-columns: 52px 1fr; gap: 8px; padding: 4px 0; border-top: 1px solid #e3e7ec; }
+  .steps li:first-child { border-top: 0; }
+  .steps .d { color: var(--muted); font-weight: 600; }
+  .fzone { margin-top: 70px; border: 2.2px dashed var(--slate); border-radius: 16px; padding: 14px 20px 18px; background: #fafbfc; position: relative; }
+  .fzone h3 { text-align: right; font-size: 17px; font-weight: 800; color: var(--slate); margin-bottom: 12px; }
+  .frow { display: flex; align-items: center; justify-content: space-between; margin-top: 30px; }
+  .fcard { width: 300px; }
+</style></head>
+<body>
+<div id="fig">
+
+  <div class="row">
+    <div class="step" id="gap" style="width:290px;border-color:var(--red);background:var(--red-bg)">
+      <h4 style="color:var(--red)"><span class="num" style="background:var(--red)">1</span>First cash gap</h4>
+      <div class="big" style="color:var(--red)">BDT 19,000</div>
+      <div class="sub">30-day forecast, Mon 26 Oct</div>
+      <div class="kv sep">
+        <div class="k">Supplier A order due</div><div class="v">60,000</div>
+        <div class="k">Cash at start of day</div><div class="v">41,000</div>
+      </div>
+    </div>
+
+    <div class="step" id="trim" style="width:330px;border-color:var(--orange);background:var(--orange-bg)">
+      <h4 style="color:var(--orange)"><span class="num" style="background:var(--orange)">2</span>Trim the order first</h4>
+      <div class="sub">Montelukast: 0.2 boxes a day, 60 days to sell</div>
+      <div class="kv">
+        <div class="k">Boxes ordered</div><div class="v">30 → 12</div>
+        <div class="k">Saved</div><div class="v">18 × 600 = 10,800</div>
+      </div>
+      <div class="kv sep">
+        <div class="k">Order</div><div class="v">60,000 → 49,200</div>
+        <div class="k">Still to cover</div><div class="v" style="color:var(--orange);font-size:17px">8,200</div>
+      </div>
+    </div>
+
+    <div class="step" id="opts" style="width:820px;border-color:var(--blue)">
+      <h4 style="color:var(--blue)"><span class="num" style="background:var(--blue)">3</span>Cheapest eligible option that covers 8,200</h4>
+      <table class="otab">
+        <tr><th>Option</th><th>Eligible when</th><th class="n">Cost (BDT)</th><th>Certainty</th></tr>
+        <tr class="pick"><td><b>Ask Supplier A for 20 more days</b><span class="tag" style="background:var(--blue)">picked</span></td>
+            <td>supplier verified, on-time share ≥ 0.85<div class="s2">38 of 41 invoices on time</div></td><td class="n"><b style="color:var(--blue)">0</b></td><td><span class="pill unc">uncertain</span></td></tr>
+        <tr><td>Mobile-wallet loan, 9% a year, 90 days</td><td>amount 500 to 30,000</td><td class="n">181.97</td><td><span class="pill cer">certain</span></td></tr>
+        <tr><td>Bank pays Supplier A, 1% of 49,200</td><td>10 or more paid invoices</td><td class="n">492.00</td><td><span class="pill cer">certain</span></td></tr>
+        <tr class="off"><td>Bank small-business loan</td><td>amount from 200,000</td><td class="n">not eligible</td><td></td></tr>
+        <tr class="off"><td>Return claims, 9,200</td><td>arrives as supplier credit, not cash</td><td class="n">not counted</td><td></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="row r2">
+    <div class="diamond" id="cert" style="width:220px;height:150px">
+      <svg viewBox="0 0 220 150" preserveAspectRatio="none"><polygon points="110,3 217,75 110,147 3,75" fill="#fdf6e3" stroke="#b7791f" stroke-width="2.4"/></svg>
+      <div class="dt" style="color:#8a5a12">Is the pick<br>certain?</div>
+    </div>
+
+    <div class="step" id="backup" style="width:320px;border-color:var(--purple);background:var(--purple-bg)">
+      <h4 style="color:var(--purple)"><span class="num" style="background:var(--purple)">4</span>Add a backup</h4>
+      <div class="sub">Cheapest certain option</div>
+      <div class="kv">
+        <div class="k">Mobile-wallet loan</div><div class="v">8,200</div>
+        <div class="k">9% a year, 90 days</div><div class="v">181.97</div>
+      </div>
+      <div class="kv sep">
+        <div class="k">26 Oct − 3 days</div><div class="v">Fri 23 Oct</div>
+        <div class="k">Friday moves to</div><div class="v" style="color:var(--purple);font-size:17px">Thu 22 Oct</div>
+      </div>
+    </div>
+
+    <div class="step" id="limit" style="width:320px;border-color:var(--teal);background:var(--teal-bg)">
+      <h4 style="color:var(--teal)"><span class="num" style="background:var(--teal)">5</span>Borrowing limit</h4>
+      <div class="sub">Repayments ≤ 35% of monthly net cash (13,500)</div>
+      <div class="kv">
+        <div class="k">8,200 loan: 2,793.99 a month</div><div class="v" style="color:var(--green)">20.7% ✓</div>
+        <div class="k">19,000 loan: 6,473.88 a month</div><div class="v" style="color:var(--red)">48.0% ✗</div>
+      </div>
+    </div>
+
+    <div class="step" id="plan" style="width:420px;border-color:var(--green);background:var(--green-bg)">
+      <h4 style="color:var(--green)"><span class="num" style="background:var(--green)">6</span>Plan shown to the owner</h4>
+      <ul class="steps">
+        <li><span class="d">16 Oct</span><span>Cut Montelukast from 30 to 12 boxes</span></li>
+        <li><span class="d">16 Oct</span><span>Ask Supplier A for 20 more days on 8,200</span></li>
+        <li><span class="d">22 Oct</span><span>If no yes, take the 8,200 wallet loan</span></li>
+      </ul>
+      <div class="kv sep">
+        <div class="k">Cost (with backup)</div><div class="v" style="color:var(--green);font-size:17px">0 (181.97)</div>
+        <div class="k">Wallet loan for the full 19,000</div><div class="v">421.64</div>
+      </div>
+      <div style="margin-top:8px"><span class="pill" style="background:var(--green);color:#fff">each step needs the owner's approval and PIN</span></div>
+    </div>
+  </div>
+
+  <div class="fzone" id="fz">
+    <h3>Follow-up after the request is sent</h3>
+    <div class="frow">
+      <div class="card c-slate fcard" id="f1"><div class="t">Follow-up stored</div><div class="s">watches the request, deadline <b>Thu 22 Oct</b></div></div>
+      <div class="diamond" id="said" style="width:230px;height:120px">
+        <svg viewBox="0 0 230 120" preserveAspectRatio="none"><polygon points="115,3 227,60 115,117 3,60" fill="#fdf6e3" stroke="#b7791f" stroke-width="2.4"/></svg>
+        <div class="dt" style="color:#8a5a12">Supplier says yes<br>by the deadline?</div>
+      </div>
+      <div class="card c-purple fcard" id="f3"><div class="t">Scheduler proposes the backup</div><div class="s">8,200 wallet loan, by code, not the model</div></div>
+      <div class="card c-green fcard" id="f4" style="width:250px"><div class="t">Owner approves</div><div class="s">with PIN, or rejects</div></div>
+    </div>
+    <div class="card c-slate" id="f2" style="position:absolute;width:210px;padding:8px 12px"><div class="t" style="font-size:15px">Follow-up cancelled</div></div>
+  </div>
+
+</div>
+<script src="kit.js"></script>
+<script>
+document.fonts.ready.then(() => {
+  const F = document.getElementById('fig').getBoundingClientRect();
+  const R = id => { const r = document.getElementById(id).getBoundingClientRect(); return {l:r.left-F.left, r:r.right-F.left, t:r.top-F.top, b:r.bottom-F.top}; };
+  const fz = R('fz'), said = R('said'), f2 = document.getElementById('f2');
+  f2.style.left = (said.r + 30 - fz.l) + 'px'; f2.style.top = '12px';
+
+  const opts = R('opts'), backup = R('backup'), limit = R('limit');
+  const y0 = opts.b + 36;
+  wire('gap', 'trim', {from:'right', to:'left', color:'#b83232'});
+  wire('trim', 'opts', {from:'right', to:'left', color:'#c05621'});
+  wire('opts', 'cert', {from:'bottom', to:'top', via:[[null, y0], ['end', y0]], color:'#2563a8'});
+  wire('cert', 'backup', {from:'right', to:'left', color:'#b7791f', label:'No', labelColor:'#b7791f'});
+  const y1 = Math.max(backup.b, limit.b) + 26;
+  wire('cert', 'limit', {from:'bottom', to:'bottom', via:[[null, y1], ['end', y1]], color:'#b7791f', label:'Yes', labelColor:'#b7791f', labelSeg:1, labelT:0.3});
+  wire('backup', 'limit', {from:'right', to:'left', color:'#6b46c1'});
+  wire('limit', 'plan', {from:'right', to:'left', color:'#1f7a7a'});
+  const y2 = fz.t - 20;
+  wire('plan', 'f1', {from:'bottom', to:'top', via:[[null, y2], ['end', y2]], color:'#2f855a', label:'owner approves the request', labelColor:'#2f855a', labelSeg:1, labelT:0.5});
+  wire('f1', 'said', {from:'right', to:'left', color:'#4a5568'});
+  wire('said', 'f2', {from:'top', to:'left', via:[[null, 'end']], color:'#b7791f', label:'Yes', labelColor:'#b7791f', labelSeg:0, ldx:-24});
+  wire('said', 'f3', {from:'right', to:'left', color:'#b7791f', label:'No or no reply', labelColor:'#b7791f'});
+  wire('f3', 'f4', {from:'right', to:'left', color:'#6b46c1'});
+  window.__done = true;
+});
+</script>
+</body></html>
