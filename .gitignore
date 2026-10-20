@@ -38,3 +38,6 @@ Thumbs.db
 .claude/skills/impeccable/scripts/bin/
 .agents/skills/impeccable/scripts/bin/
 .impeccable/config.local.json
+
+# Silent draft cuts stay local
+video/LaMP-Copilot-demo-silent*.mp4
