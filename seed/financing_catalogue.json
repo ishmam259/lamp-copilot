@@ -51,7 +51,7 @@
       "speed_days": 21,
       "permitted_purpose": "business",
       "requires": ["trade_licence", "clean_cib"],
-      "terms_note": "Banks may charge end borrowers at most 9%; revolving fund with a three-year tenure and a 3–6 month grace period; CIB-classified borrowers are not eligible. Processing time is not stated in the source; 21 days is LaMP's assumption for a bank loan."
+      "terms_note": "Banks may charge end borrowers at most 9%; revolving fund with a three-year tenure and a 3–6 month grace period; borrowers with a bad record at the Bangladesh Bank credit bureau (CIB) cannot get it. Processing time is not stated in the source; 21 days is LaMP's assumption for a bank loan."
     },
     {
       "key": "bank_unsecured_cmsme",
