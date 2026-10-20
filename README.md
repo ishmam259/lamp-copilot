@@ -4,6 +4,8 @@ An AI finance officer for neighborhood pharmacies. It turns supplier invoices an
 
 Entry for the 2026 Shenzhen International FinTech Competition (FinTechathon), International Track, **Topic E: SME Finance Copilot**. Deadline: 20 Oct 2026, 23:59 Beijing time (21:59 Bangladesh time).
 
+**Demo video (4:51, English and Chinese subtitles):** https://youtu.be/YPS1GpFBRPQ
+
 ## Start here
 1. [docs/IDEA_AND_PROBLEM.md](docs/IDEA_AND_PROBLEM.md): the problem, the idea and the demo story
 2. [docs/PLAN.md](docs/PLAN.md): architecture, API contract, golden numbers, milestones, team rules

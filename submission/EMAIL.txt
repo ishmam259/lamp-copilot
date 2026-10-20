@@ -10,7 +10,9 @@ Attachments:
 1. Technical documentation (mandatory): 1_Technical_Documentation_LaMP-Copilot.pdf
 2. Presentation deck, 10 minutes (mandatory): 2_Presentation_Deck_LaMP-Copilot.pdf (PowerPoint version: 2_Presentation_Deck_LaMP-Copilot.pptx)
 3. Demo video, 4:51, with English and Chinese subtitles: 3_Demo_Video_LaMP-Copilot.mp4 (subtitle file: 3_Demo_Video_subtitles_en-zh.srt)
-4. Source code with README: 4_Source_code_LaMP-Copilot.zip (the GitHub repository is private; we can grant access on request)
+   YouTube: https://youtu.be/YPS1GpFBRPQ
+4. Source code with README: 4_Source_code_LaMP-Copilot.zip
+   GitHub: https://github.com/ishmam259/lamp-copilot
 5. Security self-assessment report: 5_Security_Self-Assessment_LaMP-Copilot.pdf
 6. Execution evidence: 6_Execution_Evidence_LaMP-Copilot.zip (hash-chained audit trace of the full demo run, plus the photo-reading, chat-intent and red-team evaluation results)
 

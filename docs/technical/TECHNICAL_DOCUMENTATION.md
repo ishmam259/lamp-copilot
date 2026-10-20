@@ -3,7 +3,8 @@
 **An AI finance officer for neighbourhood pharmacies**
 
 FinTechathon 2026 · International Track · Topic E: SME Finance Copilot<br>
-Team LaMP: Ishmam Tahmid (team lead), Farhan Tahsin Khan
+Team LaMP: Ishmam Tahmid (team lead), Farhan Tahsin Khan<br>
+Demo video: https://youtu.be/YPS1GpFBRPQ · Source code: https://github.com/ishmam259/lamp-copilot
 
 ---
 
