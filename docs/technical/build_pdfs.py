@@ -8,6 +8,8 @@ Microsoft Edge (Playwright, channel "msedge"). Pass --chromium to use Playwright
 own Chromium instead (run `playwright install chromium` once).
 """
 
+import base64
+import re
 import sys
 from pathlib import Path
 
@@ -42,6 +44,9 @@ pre code { background: none; padding: 0; font-size: inherit; }
 strong { color: #000; }
 ul, ol { padding-left: 18pt; }
 li { margin: 1pt 0; }
+figure { margin: 10pt 0 12pt; break-inside: avoid; }
+figure img { width: 100%; display: block; }
+figcaption { font-size: 8.6pt; color: var(--grey); margin-top: 5pt; line-height: 1.4; }
 """
 
 FOOTER = ('<div style="font-size:7.5pt;color:#777;width:100%;padding:0 16mm;display:flex;justify-content:space-between;'
@@ -51,6 +56,9 @@ FOOTER = ('<div style="font-size:7.5pt;color:#777;width:100%;padding:0 16mm;disp
 
 def render(page, md_path: Path) -> Path:
     body = markdown.markdown(md_path.read_text(encoding="utf-8"), extensions=["tables", "fenced_code", "sane_lists"])
+    # Images are inlined: set_content has no base URL, so relative paths would not load.
+    body = re.sub(r'src="([^":]+\.png)"', lambda m: 'src="data:image/png;base64,'
+                  + base64.b64encode((md_path.parent / m.group(1)).read_bytes()).decode() + '"', body)
     html = f'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>{md_path.stem}</title>' \
            f"<style>{CSS}</style></head><body>{body}</body></html>"
     page.set_content(html, wait_until="load")

@@ -1,0 +1,157 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Fig 2 approval path</title>
+<link rel="stylesheet" href="kit.css">
+<style>
+  #fig { width: 1600px; }
+  .lanes { display: flex; gap: 40px; align-items: stretch; }
+  .zone { display: flex; flex-direction: column; }
+  .zbody { display: flex; flex-direction: column; gap: 30px; flex: 1; justify-content: center; }
+  #z1 { width: 238px; } #z2 { width: 300px; } #z3 { width: 262px; } #z4 { width: 330px; } #z5 { width: 310px; }
+  .logz { margin-top: 44px; border: 2px solid #4a5568; background: #f7f8fa; }
+  .logz .zbody { flex-direction: row; gap: 18px; align-items: center; justify-content: space-between; padding: 4px 10px; }
+  .tier { display:flex; align-items:center; gap:8px; font-size:13.5px; color:#2d3748; }
+  .hash { display:flex; align-items:center; gap:8px; font-size:14px; color:#4a5568; }
+  .blk { border:1.6px solid #4a5568; border-radius:6px; padding:5px 9px; background:#fff; font-size:12.5px; font-weight:600; color:#2d3748; }
+  #z5 .card { margin-right: 22px; }
+  .never { border:1.8px dashed #b83232; background:#fdf2f2; color:#9b2c2c; border-radius:8px; padding:8px 10px; font-size:13px; font-weight:700; text-align:center; }
+</style></head>
+<body>
+<div id="fig">
+<div class="lanes">
+
+  <div class="zone z-blue" id="z1">
+    <div class="zone-head"><div class="zone-num">1</div>OWNER ASKS</div>
+    <div class="zbody">
+      <div class="card c-blue" id="ask">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#2563a8" stroke-width="1.8" stroke-linejoin="round"><path d="M4 4h16v12H9l-5 4z" fill="#d6e6f8"/><path d="M8 9h8M8 12h5"/></svg>
+          <div><div class="t">Chat question</div><div class="s">"Can I pay Supplier A's order next week?"</div></div>
+        </div>
+      </div>
+      <div class="card c-blue" id="ui">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#2563a8" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4" fill="#d6e6f8"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/></svg>
+          <div><div class="t">Owner UI</div><div class="s">proposes directly</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone z-green" id="z2">
+    <div class="zone-head"><div class="zone-num">2</div>CHAT AGENT</div>
+    <div class="zbody" style="gap:26px">
+      <div class="card c-teal" id="agent">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#1f7a7a" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="7" width="14" height="12" rx="3" fill="#cbe9e9"/><path d="M12 3v4M9 12h.01M15 12h.01M9 16h6"/></svg>
+          <div><div class="t">gpt-6-luna</div><div class="s">read-only tools</div></div>
+        </div>
+        <div class="chips">
+          <div class="chip">get_forecast</div><div class="chip">get_trim</div>
+          <div class="chip">get_funding_plan</div>
+        </div>
+      </div>
+      <div class="card c-slate" id="eng">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2" fill="#eef1f5"/><path d="M8 7h8M8 11h2M12 11h2M8 15h2M12 15h2M16 11v4"/></svg>
+          <div><div class="t">Engines</div><div class="s">compute every number</div></div>
+        </div>
+      </div>
+      <div class="never" id="never">AI never approves, executes<br>or moves money</div>
+    </div>
+  </div>
+
+  <div class="zone z-orange" id="z3">
+    <div class="zone-head"><div class="zone-num">3</div>PROPOSAL</div>
+    <div class="zbody">
+      <div class="card c-orange" id="prop">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#c05621" stroke-width="1.8" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="#fbdcc4"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+          <div><div class="t">Action</div><div class="s">status <b>proposed</b></div></div>
+        </div>
+        <div class="s" style="margin-top:8px">proposed_by</div>
+        <div class="chips">
+          <div class="chip">agent</div><div class="chip">owner</div><div class="chip">lamp-scheduler</div>
+        </div>
+      </div>
+      <div class="card c-red dashed" id="dbr"><div class="t">refused</div><div class="s">loan repayments over <b>35%</b></div></div>
+    </div>
+  </div>
+
+  <div class="zone z-red" id="z4">
+    <div class="zone-head"><div class="zone-num">4</div>OWNER APPROVAL</div>
+    <div class="zbody" style="gap:26px">
+      <div class="card c-slate" id="pause">
+        <div class="t">Pause</div>
+        <div class="s">copilot can't propose; its proposals wait</div>
+      </div>
+      <div class="card c-red" id="inbox">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#b83232" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="10" width="14" height="11" rx="2" fill="#f6d5d5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4"/></svg>
+          <div><div class="t">Actions inbox</div><div class="s">PIN-unlocked session;<br>loans re-ask the PIN</div></div>
+        </div>
+        <div class="metric"><span>wrong PINs to lock</span><b>5</b></div>
+        <div class="metric"><span>lockout</span><b>15 min</b></div>
+      </div>
+      <div class="card c-slate dashed" id="rej"><div class="t">rejected</div><div class="s">nothing runs</div></div>
+    </div>
+  </div>
+
+  <div class="zone z-purple" id="z5">
+    <div class="zone-head"><div class="zone-num">5</div>SANDBOX EXECUTOR</div>
+    <div class="zbody" style="gap:26px">
+      <div class="card c-purple" id="exec">
+        <div class="row">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#6b46c1" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z" fill="#ddd2f6"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+          <div><div class="t">Executor</div><div class="s">runs in a savepoint</div></div>
+        </div>
+      </div>
+      <div class="card c-green" id="ok"><div class="t">executed</div><div class="s">result stored</div></div>
+      <div class="card c-red" id="fail">
+        <div class="t">failed</div><div class="s">rolled back, approval kept</div>
+        <div class="metric"><span>duplicate financing</span><b>refused</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="zone logz" id="zlog">
+  <div class="zbody">
+    <div style="font-weight:800;font-size:16px;color:#2d3748">AUDIT LOG</div>
+    <div class="tier"><span class="pill" style="background:#eef1f5;color:#4a5568;border:1.4px solid #4a5568">T0</span>viewed</div>
+    <div class="tier"><span class="pill" style="background:#d6e6f8;color:#2563a8;border:1.4px solid #2563a8">T1</span>you &amp; AI</div>
+    <div class="tier"><span class="pill" style="background:#fbdcc4;color:#c05621;border:1.4px solid #c05621">T2</span>calculations, scheduler</div>
+    <div class="tier"><span class="pill" style="background:#ddd2f6;color:#6b46c1;border:1.4px solid #6b46c1">T3</span>money</div>
+    <div class="hash">
+      <span class="blk">GENESIS</span><span>→</span><span class="blk">sha256(prev + event)</span><span>→</span><span class="blk">head</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="kit.js"></script>
+<script>
+document.fonts.ready.then(() => {
+  const F = document.getElementById('fig').getBoundingClientRect();
+  const gapX = id => document.getElementById(id).getBoundingClientRect().left - F.left - 20;
+  wire('ask', 'agent', {color:'#2563a8'});
+  wire('agent', 'eng', {from:'bottom', to:'top', color:'#1f7a7a'});
+  wire('agent', 'prop', {color:'#1f7a7a', mid: gapX('z3'), to_off:-14});
+  { const g=(document.getElementById('eng').getBoundingClientRect().bottom+document.getElementById('never').getBoundingClientRect().top)/2-F.top;
+    const pr=document.getElementById('prop').getBoundingClientRect(); const ty=(pr.top+pr.bottom)/2-F.top+14;
+    wire('ui', 'prop', {color:'#2563a8', via:[[gapX('z2'),null],[gapX('z2'),g],[gapX('z3'),g],[gapX('z3'),ty]]}); }
+  wire('prop', 'inbox', {color:'#c05621', mid: gapX('z4'), fo:-12});
+  wire('prop', 'rej', {color:'#8a94a3', dash:true, mid: gapX('z4')+12, fo:40});
+  wire('prop', 'dbr', {from:'bottom', to:'top', color:'#b83232', dash:true});
+  wire('pause', 'inbox', {from:'bottom', to:'top', color:'#4a5568'});
+  wire('inbox', 'exec', {color:'#b83232', mid: gapX('z5')});
+  wire('exec', 'ok', {from:'bottom', to:'top', color:'#6b46c1'});
+  { const e=document.getElementById('exec').getBoundingClientRect();
+    const x=e.right-F.left+11;
+    wire('exec', 'fail', {from:'right', to:'right', color:'#6b46c1', via:[[x,null],[x,'end']]}); }
+  ['z1','z2','z3','z4','z5'].forEach(z =>
+    { const r=document.getElementById(z).getBoundingClientRect(), L=document.getElementById('zlog').getBoundingClientRect();
+      wire(z, 'zlog', {from:'bottom', to:'top', color:'#8a94a3', dash:true, to_off:(r.left+r.right)/2-(L.left+L.right)/2}); });
+  window.__done = true;
+});
+</script>
+</body></html>

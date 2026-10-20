@@ -102,32 +102,7 @@ Every number in this document comes from the seeded demo shop, **Green Life Phar
 
 ### 2.1 Components
 
-```
-              Phone or laptop browser
-   ┌─────────────────────────────────────────────┐
-   │  Next.js app  (frontend/)                   │
-   │  Owner screens · Lender view · Live log     │
-   │  Chat drawer                                │
-   └──────────────────────┬──────────────────────┘
-                          │  REST JSON · Server-Sent Events · chat stream
-   ┌──────────────────────v──────────────────────┐
-   │  FastAPI  (backend/app/main.py)  /api/v1    │
-   │                                             │
-   │  api/routes.py            agents/           │
-   │  REST endpoints   <────── extraction        │
-   │        │                  chat + tools      │
-   │        v                       │ read-only  │
-   │  engines/  <───────────────────┘ + propose  │
-   │  accounts · dues · forecast · alerts        │
-   │  expiry · orders · passport · funding       │
-   │  catalogue · policy · followups · value     │
-   │  wallet · lenders · actions · registry      │
-   │  auth · fidelity · logbus · mailer          │
-   └────────┬────────────────────────────────────┘
-            v                              v
-       PostgreSQL 16                OpenAI Responses API
-       (db/, seed/)                 (called only from agents/)
-```
+<figure><img src="figures/out/fig1_architecture.png" alt="Figure 1"><figcaption><b>Figure 1.</b> System architecture. The frontend talks to FastAPI; routes read the deterministic engines, which do all money math. Only the agents call OpenAI, and the chat can only read data or propose an action. The owner approves every action.</figcaption></figure>
 
 ### 2.2 Design rules
 
@@ -213,6 +188,8 @@ PostgreSQL 16 through SQLAlchemy. The main tables:
 
 ### 3.1 Capture → confirm → accounts
 
+<figure><img src="figures/out/fig3_capture.png" alt="Figure 2"><figcaption><b>Figure 2.</b> Photo capture. A photo reaches the books only after plain-code checks, the injection screen and the owner's confirmation. Results from the 27 synthetic test photos (section 6).</figcaption></figure>
+
 1. The owner picks a document type (invoice or sales-book page) and takes a photo.
 2. `POST /captures` passes the image to `agents.extraction.extract()`, which returns an `ExtractionResult`: the structured data, a confidence per field, the results of plain-code checks, and any instruction-like text found in the image.
 3. The capture is stored with status `needs_review` and logged (`T1:CAPTURE capture_created`). If suspicious text was found, `suspicious_text_flagged` is logged and a critical alert appears.
@@ -222,6 +199,8 @@ PostgreSQL 16 through SQLAlchemy. The main tables:
 
 ### 3.2 Chat → tools → proposal → approval → execution
 
+<figure><img src="figures/out/fig2_approval.png" alt="Figure 3"><figcaption><b>Figure 3.</b> The approval path. The AI reads engine numbers and may propose; only the owner approves, in a PIN-unlocked session (loans re-ask the PIN). Loans over the 35% borrowing limit are refused when proposed. Every step goes into the hash-chained audit log.</figcaption></figure>
+
 1. The owner asks a question, for example "Can I pay Supplier A's order next week?"
 2. The chat agent calls read-only tools that wrap the engines: forecast, trim, funding plan.
 3. It answers in plain words using **only numbers returned by those tools**.
@@ -230,6 +209,8 @@ PostgreSQL 16 through SQLAlchemy. The main tables:
 6. Approval (`POST /actions/{aid}/approve`) is the only path to `execute_owner_approval()`. The executor for that action kind runs deterministically inside a database savepoint. Success marks the action `executed`; failure rolls back everything the executor did, keeps the approval on record and marks the action `failed` with a reason.
 
 ### 3.3 Loan application and lender decision
+
+<figure><img src="figures/out/fig5_lender.png" alt="Figure 4"><figcaption><b>Figure 4.</b> Loan application and lender decision (sandbox; no real money moves). A second loan on the same order is stopped by the registry. The audit-log strip follows the order of events in the execution trace.</figcaption></figure>
 
 1. The owner grants consent to one lender, with scopes (`T1:CONSENT consent_granted`).
 2. Approving a `loan_application` asks for the owner PIN again and checks the borrowing ceiling (4.14). The executor then checks the product's limits, then the active consent, then **locks every financed receivable in the duplicate-financing registry**, then creates the application in the lender's inbox (`T3:REGISTRY lock_acquired`, `T3:LENDER application_submitted`).
@@ -335,6 +316,8 @@ Over settled invoices dated in the last 90 days:
 
 ### 4.8 Funding planner (`funding.py`)
 
+<figure><img src="figures/out/fig4_funding.png" alt="Figure 5"><figcaption><b>Figure 5.</b> Funding planner with the demo's golden numbers: trim first, then the cheapest eligible option, plus a certain backup when that option is uncertain. The backup deadline moves off Friday, the weekly holiday, to Thu 22 Oct.</figcaption></figure>
+
 The planner ranks every way to cover a cash need {amount, needed_by}. By default the need is the first forecast shortfall after the suggested trims are applied.
 
 | Option | Cost | Eligible when |
@@ -428,6 +411,8 @@ The design:
 The owner reviews every draft before it is saved (3.1).
 
 ### 4.13 Shelf-life credit (`passport.py`)
+
+<figure><img src="figures/out/fig6_shelf_life.png" alt="Figure 6"><figcaption><b>Figure 6.</b> Shelf-life credit. LaMP does not lend against stock that won't sell before it expires, so it lends at most 8,200 of the 19,000 shortfall.</figcaption></figure>
 
 Asset-based lenders don't finance ineligible inventory. LaMP applies that rule per batch, before the purchase, from the photographed invoices:
 
@@ -601,6 +586,8 @@ Each photo was read once by `gpt-6-luna` in `record` mode. The recordings are co
 | Total live spend so far (photo reading about USD 0.015; chat recordings for the demo, red-team and intent evals the rest) | **about USD 0.14** of the USD 20 budget |
 
 On both injection photos the model copied the planted line into `instruction_like_text` and left it out of every data field. The plain-code screen then removed it and listed it in `suspicious_text`. Uploaded through the app, such a photo raises a critical alert and creates no action (tested in `tests/api/test_photo_captures.py`).
+
+<figure><img src="figures/out/fig7_eval.png" alt="Figure 7"><figcaption><b>Figure 7.</b> Evaluation results. All data is synthetic. In the simulation the financed amount changes in 72% of shops, and the median financed stock that expires unsold falls from 6,158 to 0 BDT.</figcaption></figure>
 
 ### 6.3 What these results do and don't show
 
