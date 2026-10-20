@@ -37,8 +37,8 @@ def active_consent(db: Session, pid: str, lender_id: str) -> m.Consent | None:
 
 # Consent scopes (win plan CORE-16). "passport" is the older all-in scope.
 SCOPES = {
-    "passport.summary": "Score, terms and the on-time count (38 of 41)",
-    "passport.evidence": "The invoice-by-invoice payment record behind the score",
+    "passport.summary": "Your on-time count (38 of 41) and the offer",
+    "passport.evidence": "Each invoice and when you paid it",
     "passport": "Summary and evidence (older scope)",
     "accounts": "Accounts summary (older scope; no lender screen uses it)",
 }
@@ -161,7 +161,7 @@ def decide(db: Session, lender_id: str, app_id: str) -> ApplicationOut:
         ref = f"SANDBOX-{lender_id.upper()}-{as_of(ph):%Y%m%d}-{app_id.split('-')[1]}"
         a.status = "approved"
         a.decision = {"approved": True, "payout_ref": ref,
-                      "reason": f"Default probability {p:.1%} is within the {MAX_DEFAULT_PROBABILITY:.0%} limit."}
+                      "reason": f"Chance of not repaying is {p:.1%}, under the {MAX_DEFAULT_PROBABILITY:.0%} limit."}
         ph.cash_on_hand += a.amount
         from .wallet import record_payout
 
@@ -170,7 +170,7 @@ def decide(db: Session, lender_id: str, app_id: str) -> ApplicationOut:
         log("T3", "PAYOUT", "sandbox_payout", db, application=app_id, payout=ref, amount=a.amount)
     else:
         a.status = "declined"
-        reason = (f"Default probability {p:.1%} is above the {MAX_DEFAULT_PROBABILITY:.0%} limit." if in_limits
+        reason = (f"Chance of not repaying is {p:.1%}, above the {MAX_DEFAULT_PROBABILITY:.0%} limit." if in_limits
                   else "The amount is outside this product's limits.")
         a.decision = {"approved": False, "payout_ref": None, "reason": reason}
         log("T3", "LENDER", "application_declined", db, application=app_id, reason=reason)

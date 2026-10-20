@@ -4,9 +4,9 @@
       {
         "tool_name": "get_expiry",
         "args": "{\"horizon_days\":60}",
-        "tool_call_id": "call_enaCNmiVHcVuQ1IoV6ROyNu2",
+        "tool_call_id": "call_8zujQPjkfF4WYIqMaA1GRHII",
         "tool_kind": null,
-        "id": "fc_024ab7ef76900262006ad65ef28f5887d28e9bad1770b11d9f",
+        "id": "fc_00748e4f7c992d39006ad67b4b7ab087d2adc436aa28bb362d",
         "provider_name": "openai",
         "provider_details": null,
         "part_kind": "tool-call"
@@ -28,16 +28,16 @@
       "output_reasoning_tokens": 0
     },
     "model_name": "gpt-6-luna",
-    "timestamp": "2026-10-19T18:18:26.882386Z",
+    "timestamp": "2026-10-19T20:19:23.764201Z",
     "kind": "response",
     "provider_name": "openai",
     "provider_url": "https://api.openai.com/v1/",
     "provider_details": {
       "finish_reason": "completed",
-      "timestamp": "2026-10-19T18:18:26Z",
+      "timestamp": "2026-10-19T20:19:22Z",
       "service_tier": "default"
     },
-    "provider_response_id": "resp_024ab7ef76900262006ad65ef1f6f087d2a2650900d21df430",
+    "provider_response_id": "resp_00748e4f7c992d39006ad67b4a69c087d2b60099afe94c0c83",
     "finish_reason": "stop",
     "run_id": null,
     "conversation_id": null,

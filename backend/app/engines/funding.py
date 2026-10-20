@@ -121,7 +121,7 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
         risky = [l for l in t.lines if l.at_risk_value > 0]
         reason = (f"Only {risky[0].sellable_qty} of {risky[0].qty} boxes will sell before expiry." if risky
                   else "Every line will sell before expiry.")
-        opt("trim_order", f"Trim the slow mover from {supplier.name}'s order", "Your order", saving, 0, None,
+        opt("trim_order", f"Order fewer of the slow seller from {supplier.name}", "Your order", saving, 0, None,
             saving > 0, reason, "Now", "certain")
     exp_suppliers = sorted({b.supplier for b in claimable})
     opt("return_claims", "Claim returns for expiring stock",
@@ -150,7 +150,7 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
     ok = w.min_amount <= amount <= w.max_amount
     opt("wallet_loan", "Mobile-wallet loan, 3 months", w.lender.name, amount,
         _loan_cost(amount, w.apr_pct, w.tenor_days) if ok else None, w.apr_pct, ok,
-        f"Within the {_bdt(w.min_amount)}–{w.max_amount:,.0f} limit." if ok
+        f"This lender lends {_bdt(w.min_amount)} to {w.max_amount:,.0f}." if ok
         else f"Loans run from {_bdt(w.min_amount)} to {w.max_amount:,.0f}.", "Same day", "certain",
         financed=amount, tenor=w.tenor_days)
 

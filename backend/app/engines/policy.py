@@ -167,7 +167,7 @@ def get_policy(db: Session, pid: str):
     credit = get_shelf_life_credit(db, pid)
     first, naive = credit.financeable, credit.counterfactual_purpose_blind
     checks = []
-    for label, amount in (("The plan's fallback loan", first), ("A loan for the untrimmed shortfall", naive)):
+    for label, amount in (("The plan's backup loan", first), ("A loan for the full shortfall", naive)):
         r = loan_dbr(db, pid, "wallet-lender", "wallet_loan", amount, include_existing=False)  # each on its own
         if r:
             checks.append({"label": label, **r})

@@ -10,7 +10,7 @@ from .lenders import ApplicationOut, ConsentIn, ConsentOut, ConsentPreview, Deci
 from .logs import LogEvent
 from .orders import OrderOut, TrimOut
 from .passport import PassportEvidence, PassportOut
-from .pharmacy import PharmacyOut
+from .pharmacy import PharmacyOut, PharmacySettings
 from .safety import (
     ApprovalIn,
     DbrCheck,

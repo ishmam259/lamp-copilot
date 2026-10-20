@@ -40,22 +40,22 @@ def get_value(db: Session, pid: str) -> ValueOut:
                           "counterfactual": "The stock expires on the shelf and is written off."})
         elif a.kind == "trim_order":
             saving = r2(r.get("old_total", 0) - r.get("new_total", 0))
-            items.append({"action_id": a.id, "kind": a.kind, "label": "Order trimmed",
+            items.append({"action_id": a.id, "kind": a.kind, "label": "Smaller order",
                           "amount": saving,
                           "basis": f"Order {r.get('old_total', 0):,.0f} → {r.get('new_total', 0):,.0f}: stock that "
-                                   "wouldn't sell before expiry (30-day buffer) not bought.",
+                                   "wouldn't sell before expiry not bought.",
                           "counterfactual": "Bought, then expired unsold."})
             if saving > 0:
                 cost, apr, tenor = _wallet_cost(db, saving)
                 items.append({"action_id": a.id, "kind": "interest_avoided", "label": "Interest avoided by the trim",
                               "amount": r2(cost),
-                              "basis": f"{saving:,.0f} no longer borrowed: × {apr:g}% × {tenor}/365.",
-                              "counterfactual": "Borrow the full untrimmed shortfall with the wallet loan."})
+                              "basis": f"{saving:,.0f} no longer borrowed: at {apr:g}% a year for {tenor} days.",
+                              "counterfactual": "Borrow the full shortfall with the wallet loan."})
         elif a.kind == "extension_request" and r.get("status") == "accepted":
             amount = float(a.payload.get("amount") or 0)
             cost, apr, tenor = _wallet_cost(db, amount)
             items.append({"action_id": a.id, "kind": "interest_avoided", "label": "Supplier extension accepted",
                           "amount": r2(cost),
-                          "basis": f"The fallback loan of {amount:,.0f} wasn't needed: × {apr:g}% × {tenor}/365.",
-                          "counterfactual": "Take the fallback wallet loan."})
+                          "basis": f"The backup loan of {amount:,.0f} wasn't needed: at {apr:g}% a year for {tenor} days.",
+                          "counterfactual": "Take the backup wallet loan."})
     return ValueOut(items=items, total=r2(sum(i["amount"] for i in items)))

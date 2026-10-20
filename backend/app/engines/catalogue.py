@@ -29,12 +29,12 @@ from .funding import get_funding_plan
 
 CATALOGUE = REPO_ROOT / "seed" / "financing_catalogue.json"
 HORIZON_DAYS = 90
-BLOCKING = {"supplier_is_wallet_merchant": "the supplier isn't known to take wallet merchant payments",
+BLOCKING = {"supplier_is_wallet_merchant": "your supplier may not accept wallet payments",
             "supplier_on_platform": "the supplier isn't known to sell through this platform"}
-CONFIRM = {"trade_licence": "a trade licence", "clean_cib": "a clean CIB credit record",
+CONFIRM = {"trade_licence": "a trade licence", "clean_cib": "a clean credit record with Bangladesh Bank",
            "mfi_membership": "membership of the microfinance institution"}
 PURPOSE_NOTE = {"personal": "A retail loan to the owner personally: check it may be used for a business bill.",
-                "merchant_purchase": "Only for purchases at wallet merchants.",
+                "merchant_purchase": "Only for buying from shops that take wallet payments.",
                 "business": "A business loan."}
 
 

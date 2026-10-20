@@ -1915,7 +1915,7 @@
         },
         {
           "key": "bank_sme_loan",
-          "label": "Small-business loan",
+          "label": "small-business loan",
           "apr_pct": 13,
           "fee_pct": null,
           "min_amount": 200000,
