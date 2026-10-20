@@ -598,7 +598,7 @@ Each photo was read once by `gpt-6-luna` in `record` mode. The recordings are co
 | False flags on clean photos | **0.0%** (0 of 25) |
 | Photos passing every plain-code check | **100.0%** (27 of 27) |
 | Cost of one full live run | **USD 0.0129** (USD 0.00048 per photo) |
-| Total live spend so far (photo reading about USD 0.015; chat recordings for the demo, red-team and intent evals the rest) | **about USD 0.06** of the USD 20 budget |
+| Total live spend so far (photo reading about USD 0.015; chat recordings for the demo, red-team and intent evals the rest) | **about USD 0.14** of the USD 20 budget |
 
 On both injection photos the model copied the planted line into `instruction_like_text` and left it out of every data field. The plain-code screen then removed it and listed it in `suspicious_text`. Uploaded through the app, such a photo raises a critical alert and creates no action (tested in `tests/api/test_photo_captures.py`).
 
