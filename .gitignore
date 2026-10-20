@@ -41,3 +41,14 @@ Thumbs.db
 
 # Silent draft cuts stay local
 video/LaMP-Copilot-demo-silent*.mp4
+
+# Kept on our machines only, not in the repo
+.agents/
+.claude/
+.impeccable/
+plan/
+docs/archive/
+Problem Statement & Starter Files/
+/BCOLBD.pptx
+/LaMP.xlsx
+/SPS Competition Resources for Teams.zip

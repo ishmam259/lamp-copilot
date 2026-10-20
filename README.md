@@ -11,7 +11,7 @@ Entry for the 2026 Shenzhen International FinTech Competition (FinTechathon), In
 2. [docs/PLAN.md](docs/PLAN.md): architecture, API contract, golden numbers, milestones, team rules
 3. Your task file in [docs/tasks/](docs/tasks/)
 
-Background research with sources: [docs/LaMP_Idea_Brief.md](docs/LaMP_Idea_Brief.md). `docs/archive/` holds an older version of the idea; don't build from it.
+Background research with sources: [docs/LaMP_Idea_Brief.md](docs/LaMP_Idea_Brief.md).
 
 ## Team
 Each person works only in their own folders, so no two people edit the same file.
