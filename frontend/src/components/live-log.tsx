@@ -137,7 +137,7 @@ function sentence(e: LogEvent): string {
     case "approval_refused_paused":
       return "Refused: LaMP is paused";
     case "loan_refused_dbr":
-      return "Refused: the loan breaks the borrowing ceiling";
+      return "Refused: the loan breaks the borrowing limit";
     case "answer_blocked_untraced":
       return "Blocked a chat answer with an untraced money figure";
     case "sandbox_payout":

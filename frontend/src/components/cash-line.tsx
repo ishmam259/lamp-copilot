@@ -33,8 +33,8 @@ export function CashLine({ forecast }: { forecast: ForecastOut }) {
   });
 
   const label = shortDate0
-    ? `Cash route for 30 days. You run short on ${shortDate(shortDate0)}.`
-    : "Cash route for 30 days. No shortfall.";
+    ? `Cash for the next 30 days. You run short on ${shortDate(shortDate0)}.`
+    : "Enough cash for the next 30 days.";
 
   return (
     <figure className="m-0">

@@ -241,7 +241,7 @@ function Catalogue({ c }: { c: CatalogueOut }) {
             <div className="flex items-start gap-3">
               <span
                 className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full ${o.eligible ? "bg-stock-tint text-stock" : "bg-muted text-ink-2"}`}
-                aria-label={o.eligible ? "Eligible" : "Not eligible"}
+                aria-label={o.eligible ? "You qualify" : "You don't qualify"}
               >
                 {o.eligible ? <Check className="size-4" aria-hidden /> : <X className="size-4" aria-hidden />}
               </span>
