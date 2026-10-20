@@ -1,0 +1,57 @@
+[
+  {
+    "parts": [
+      {
+        "content": "",
+        "id": "rs_035b071d8315b122006ad6eb7f3fe487d28bd49a799410c298",
+        "signature": "gAAAAABq1uuAjDbZ6CqhvFuzOVQ2u40-hGYBFTSMQi6Dgx367fmts4kBfqlykuXNFFT-8CigNEfomSTuTopqc8IXqQ2ruvjwYwwALusqC3ytr40D-MV9e2VM5IkDUKd1ifRAXKq_zyKTADpmY3QxNNVuJ1jRsDMm0dMgllf-5zl6zmG_6l4VEybDHMTFXuL0bUzwKqkjAYn2I_xll-k284zm5ptgv_4eYLQiVVsDDTuLF97O_E-lbx-8XcyaJzgkB0ViIwgRfnh12PvG0Qug6ln6bamHrrCDN3IcRmwulq4bcoJw9GiqDPgCzwRTUl-KM5OOv0cy86yjfp7YMe2sxPWAWqpVGYZf3Qf2NTWbG3QJVzhLAKOUoDzu3wPwOO_LaTpSkMZ_06A9IQOMU1lqm4UqWtUhEs3hA9_oaInwI-tUpSrpDWUy59kmFSIHURgTP3JhLj-0NFPIXghaqzygNNsnFBlCx3BPKi1-uOT6R6GVzniCtWDHuJv9AZe8FKEHrhT7CKhtIkDOeDrWXJ6TLpMgOmy34Wf5eh2PmFvWBKcqQ30zdf7_AMe1b6rE8l208I8XQJokrCSl4xMDNhWcdMzZ2NueGQokV3WvxxaXfstzoS1mmcxihGU4l64RTjKqkEqnMhMz316i1Sa_pcK4_Re7SoOm4vNemR1ZxzAITPkkQIB4mULOIrk8vc4svGYFa8Bce4BWfKSaoXoh7W_sb3r9JE5Jgzi0l8OCYej3j4Vw5PrHnaf-PoZDCkqC3lwt8yS_K2PEaOVVYNLNoHid4FQV5QEdAMHoDDXd0A-6ZlcUb12tlBTQbfnzXiSa1c72gi3EbOdZZkyWXBGtQF7i8nJmQAySzKHhtNej6lm13jbFojz8BIl1_WS50-4vMX0uwtRuaiWx3ioVU9gADxTRuLO6fnYceJlU_J6x4Jlb6lKnc6KlCXDWivJKgDdLKU7Mrt38DjPHUcxhRymtRgGs-ypq9oieyBmNOEKQ26hhj1GDosFiszeRzYUx36FTDWWUgRgxdUNdtUAhoFTUmlYqHvdBxxfWC68IeFVESkPfmovQGLm_tUriv3OjE6OULToKQRHa7Q6MGAAnU388P2KBitn8SGVo-kwLFLympIvo6YNKETezB1pK4uUtus-p-krKD_CwSH6K4fBZHg6mZ4XK4dwPxhbJDj2Y9VnIR4HC1A6wwsv8VsJlnGiQfDDgsBA3wLeJ-kX6AgXJI5XV08zFAoDU_WCAPhdS1GYeYJwIQTd_hc4E3GHzG8zmUnlw6pPFStpK7VNEDvZRFoHdOIvuFvEYy2TT96AlY8D_rNxv-p5da0EjH-IuqNTT2qV8yH8MGK6ciZc6LfyqpeO_aW6m8KQmWmMjG838wojTPkGfVyYqjYlV9NcWr3gL9nU2B_0i1UETcme-4o5ha1x33J66UH7-OpYdtG8gml8LzqeOp0pI_UE13e2mNIef_d1x5L4spUobV8zVM80BrPUgjz9BgoYETvMbBkvqnRwgdX664UkdxJkh-rBa5foVfRfaSzPRsQCPknnORBXJiXZZdKQRmjPoL4m7xyN0HQ4-3b-kWgv2RQKHjn0bYcZnt3nDbrxClRTgZxE20sGLJHDFEqY6m7U-8UlW0q1CTf61KPy5Hjufha82peY-fqXEKPXQzCXEL_UseY9gOuLxyQqVCCEdTQMhgSgip1zAJ2QFxVEBSm7tEWHWaAAbGADkJSMZ_19YZ1Nh4lAzWdljewMHoJfqAYvFP9EQVf6pLeha_xzdd8z9QXT0JimiT-Qzx4O_rGEDPwkubLnDMmXi3atvtJ54fO2YC7yE-BwzKSb6iYvZM7aYNkDy4SyUCp79UCWj1V0srRMWIKrGvz3Jj6dwLtReVS9S1Bvkos_myT-GKxXDIFX_1KQYesk1Nrpy8HGnZyPZXMSNQhNY5uSfDSy7zS_rFOwmWWjSAC2iyw==",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "thinking"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"return_claim\",\"amount\":4800,\"reason\":\"Claim a return for the expiring Omeprazole stock with Supplier B.\"}",
+        "tool_call_id": "call_qbJBXOxyW6dgF9BDV3HU01Rp",
+        "tool_kind": null,
+        "id": "fc_035b071d8315b122006ad6eb7fe2b087d287a61153c3d196cb",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2154,
+      "cache_write_tokens": 414,
+      "cache_read_tokens": 1737,
+      "output_tokens": 89,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 43
+      },
+      "cost": null,
+      "output_reasoning_tokens": 43
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:18:08.132325Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:18:06Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_035b071d8315b122006ad6eb7e1df487d2a0745f766708311f",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

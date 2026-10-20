@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "I can only help with your pharmacy’s finances, so I can’t write a poem. I can help with sales, stock, supplier payments, or cash planning.",
+        "id": "msg_09ab6ecb1ff65aa5006ad6ebe9bbf087d280a31c3a5b80777b",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1678,
+      "cache_write_tokens": 13,
+      "cache_read_tokens": 1662,
+      "output_tokens": 37,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:19:53.852164Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:19:53Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_09ab6ecb1ff65aa5006ad6ebe916c487d290131bc4e98a203a",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

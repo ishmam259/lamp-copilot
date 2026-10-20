@@ -34,9 +34,9 @@ def get_value(db: Session, pid: str) -> ValueOut:
     for a in done:
         r = a.result or {}
         if a.kind == "return_claim":
-            items.append({"action_id": a.id, "kind": a.kind, "label": f"Return claim {r.get('claim_id')}",
+            items.append({"action_id": a.id, "kind": a.kind, "label": "Stock returned to suppliers",
                           "amount": r2(r.get("expected_credit", 0)),
-                          "basis": "Expected supplier credit for the return-eligible expiring batches.",
+                          "basis": "Credit expected from suppliers for the stock they take back.",
                           "counterfactual": "The stock expires on the shelf and is written off."})
         elif a.kind == "trim_order":
             saving = r2(r.get("old_total", 0) - r.get("new_total", 0))
@@ -47,7 +47,7 @@ def get_value(db: Session, pid: str) -> ValueOut:
                           "counterfactual": "Bought, then expired unsold."})
             if saving > 0:
                 cost, apr, tenor = _wallet_cost(db, saving)
-                items.append({"action_id": a.id, "kind": "interest_avoided", "label": "Interest avoided by the trim",
+                items.append({"action_id": a.id, "kind": "interest_avoided", "label": "Interest saved by ordering less",
                               "amount": r2(cost),
                               "basis": f"{saving:,.0f} no longer borrowed: at {apr:g}% a year for {tenor} days.",
                               "counterfactual": "Borrow the full shortfall with the wallet loan."})

@@ -1,7 +1,7 @@
 {
   "questions": 20,
   "ran": 20,
-  "correct": 19,
+  "correct": 20,
   "rows": [
     {
       "q": "How much cash will I have next week?",
@@ -120,8 +120,8 @@
     {
       "q": "How much interest would the wallet loan cost me?",
       "source": "team",
-      "ok": false,
-      "detail": "tools ['get_passport']",
+      "ok": true,
+      "detail": "tools ['get_funding_plan', 'propose_action']",
       "expected": [
         "get_funding_plan"
       ],
@@ -151,7 +151,7 @@
       "q": "Is there anything I should look at today?",
       "source": "team",
       "ok": true,
-      "detail": "tools ['get_alerts', 'get_funding_plan', 'propose_action']",
+      "detail": "tools ['get_alerts', 'propose_action']",
       "expected": [
         "get_alerts"
       ],

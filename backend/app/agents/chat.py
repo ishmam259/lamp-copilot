@@ -44,7 +44,7 @@ class ChatSettings(BaseSettings):
     openai_chat_model: str = "gpt-6-luna"
     # chat_v5 adds the set-aside routing line; the demo chats are recorded with it
     # (scripts/record_demo_chats.py). Replay keys include the version.
-    chat_prompt_version: str = "chat_v5"
+    chat_prompt_version: str = "chat_v6"
 
 
 CHAT_MODEL = ChatSettings().openai_chat_model

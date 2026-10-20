@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Patients owe you BDT 38,000 in total.",
+        "id": "msg_0e98b23f20840176006ad6eb6f406887d28d20cc928ac6f4a6",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2039,
+      "cache_write_tokens": 361,
+      "cache_read_tokens": 1675,
+      "output_tokens": 16,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:17:51.177469Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:17:50Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0e98b23f20840176006ad6eb6eace487d2a33a43cd1a035336",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

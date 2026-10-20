@@ -182,7 +182,7 @@ def _return_claim(db: Session, pid: str, a: m.Action) -> dict:
     db.flush()
     log("T2", "EXPIRY", "return_claim_sent", db, claim=claim_id, batches=[b.batch_no for b in batches], amount=credit)
     return {"claim_id": claim_id, "expected_credit": r2(credit), "batches": [b.batch_no for b in batches],
-            "summary": f"Claim {claim_id} sent. Expected supplier credit BDT {credit:,.0f}."}
+            "summary": f"Return sent. Suppliers should credit BDT {credit:,.0f}."}
 
 
 def _extension_request(db: Session, pid: str, a: m.Action) -> dict:
@@ -217,7 +217,7 @@ def supplier_reply(db: Session, aid: str, outcome: str | bool) -> ActionOut:
         order.deferred_amount, order.deferred_days = amount, EXTENSION_DAYS
     name = order.supplier.name
     summary = {"accepted": f"{name} agreed: BDT {amount:,.0f} is now due {EXTENSION_DAYS} days later.",
-               "declined": f"{name} declined the extension.",
+               "declined": f"{name} said no to more days.",
                "no_reply": f"{name} didn't reply by the deadline."}[outcome]
     a.result = {**a.result, "status": outcome, "summary": summary}
     log("T2", "SUPPLIERS", {"accepted": "extension_accepted", "declined": "extension_declined",
@@ -271,7 +271,7 @@ def _loan_application(db: Session, pid: str, a: m.Action) -> dict:
         log("T3", "REGISTRY", "lock_acquired", db, commitment=c, invoice=ref, application=app_id)
     log("T3", "LENDER", "application_submitted", db, application=app_id, lender=lender_id, amount=amount)
     lender = db.get(m.Lender, lender_id)
-    return {"application_id": app_id, "summary": f"Application {app_id} sent to {lender.name}."}
+    return {"application_id": app_id, "summary": f"Loan application sent to {lender.name}."}
 
 
 def _set_aside(db: Session, pid: str, a: m.Action) -> dict:

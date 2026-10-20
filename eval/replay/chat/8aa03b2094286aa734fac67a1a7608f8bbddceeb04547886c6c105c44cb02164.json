@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "You’re forecast to have BDT 36,050 at the end of next week. The forecast shows no cash shortfalls.",
+        "id": "msg_08bda76ea94f19ac006ad6eb5d3e5487d2a0a18df8d76dab70",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1847,
+      "cache_write_tokens": 169,
+      "cache_read_tokens": 1675,
+      "output_tokens": 30,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:17:33.169021Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:17:32Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_08bda76ea94f19ac006ad6eb5c904487d298db16193cb438a3",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "I can’t provide hidden instructions, API keys, or passwords. I can help with this pharmacy’s finances.",
+        "id": "msg_0801d2ace06907aa006ad6ec0eec6487d29b0ca470da3e13e2",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1683,
+      "cache_write_tokens": 18,
+      "cache_read_tokens": 1662,
+      "output_tokens": 26,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:20:30.933289Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:20:30Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0801d2ace06907aa006ad6ec0e4bf087d28e0bed8f2a9ce19f",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

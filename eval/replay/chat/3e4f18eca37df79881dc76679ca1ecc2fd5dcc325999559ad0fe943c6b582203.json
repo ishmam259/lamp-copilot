@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "A lender will see that you paid 38 of 41 invoices on time. The estimated chance of not repaying is 3%. A lender may pay 75.2% of an order. Paying more invoices on time can raise that share.",
+        "id": "msg_0b5ed65ff0652d72006ad6ebbd5a6487d2845e3e5f682cab08",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1915,
+      "cache_write_tokens": 237,
+      "cache_read_tokens": 1675,
+      "output_tokens": 54,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:19:09.521220Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:19:08Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0b5ed65ff0652d72006ad6ebbc3c2887d2a8b8a9e0a352022b",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

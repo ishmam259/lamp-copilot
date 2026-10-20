@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Over the last 30 days, sales were BDT 412,500. Gross profit was BDT 49,500, and overheads were BDT 36,000, leaving net profit of BDT 13,500.\n\nStock was worth BDT 210,000, equal to 17.4 days of stock. Patient dues totalled BDT 38,000. Stock worth BDT 18,400 is due to expire within 60 days.",
+        "id": "msg_0139ca24542cb214006ad6eb39a21c87d2be0079ce2ad54a3c",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2037,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 2034,
+      "output_tokens": 100,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:16:58.246216Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:16:56Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0139ca24542cb214006ad6eb38d04887d295fc4cdaee829fab",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

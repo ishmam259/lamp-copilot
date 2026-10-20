@@ -139,8 +139,8 @@ def get_funding_plan(db: Session, pid: str, need: FundingNeed | None = None) -> 
         from_order = order.due_date == need.needed_by
         ok = supplier.verified and on_time_share >= EXTENSION_MIN_ON_TIME and not declined and from_order
         opt("supplier_extension", f"Ask {supplier.name} for {EXTENSION_DAYS} more days", supplier.name, amount, 0,
-            None, ok, f"The shortfall on {need.needed_by:%d %b} isn't a supplier payment, so an extension doesn't "
-            "cover it." if not from_order
+            None, ok, f"The shortfall on {need.needed_by:%d %b} isn't a supplier payment, so more days from a supplier "
+            "won't help." if not from_order
             else f"{supplier.name} already declined or didn't answer an extension request on this order." if declined
             else f"You paid {passport.paid_on_time} of {passport.invoices_total} invoices on time." if ok
             else f"Needs a verified supplier and at least {EXTENSION_MIN_ON_TIME:.0%} of invoices paid on time.",

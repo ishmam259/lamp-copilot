@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"trim_order\",\"order_id\":\"o-1\",\"amount\":10800,\"reason\":\"Order 18 fewer boxes of Montelukast 10 mg; the other lines appear sellable before expiry.\"}",
+        "tool_call_id": "call_xeFcRu7XZrMAeK09KHTIcB8S",
+        "tool_kind": null,
+        "id": "fc_0272acee6558915c006ad6eb8ad2a887d2bb235f65fae5ab85",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2294,
+      "cache_write_tokens": 374,
+      "cache_read_tokens": 1917,
+      "output_tokens": 58,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:18:19.045740Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:18:18Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0272acee6558915c006ad6eb8a316087d2ad862a2c839e8c37",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

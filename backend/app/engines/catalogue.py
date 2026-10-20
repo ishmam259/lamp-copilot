@@ -30,7 +30,7 @@ from .funding import get_funding_plan
 CATALOGUE = REPO_ROOT / "seed" / "financing_catalogue.json"
 HORIZON_DAYS = 90
 BLOCKING = {"supplier_is_wallet_merchant": "your supplier may not accept wallet payments",
-            "supplier_on_platform": "the supplier isn't known to sell through this platform"}
+            "supplier_on_platform": "your supplier may not sell on this app"}
 CONFIRM = {"trade_licence": "a trade licence", "clean_cib": "a clean credit record with Bangladesh Bank",
            "mfi_membership": "membership of the microfinance institution"}
 PURPOSE_NOTE = {"personal": "A retail loan to the owner personally: check it may be used for a business bill.",
@@ -61,7 +61,7 @@ def get_catalogue(db: Session, pid: str, need: FundingNeed | None = None) -> Cat
         reasons += [BLOCKING[r] for r in a["requires"] if r in BLOCKING]
         cost = None
         if a["apr_pct"] is None:
-            reasons.append("its price isn't published, so it can't be compared")
+            reasons.append("its price isn't published")
         else:
             days = min(a["tenor_days"] or HORIZON_DAYS, HORIZON_DAYS)
             free = a.get("interest_free_days") or 0
