@@ -169,7 +169,7 @@ def take_b(pg):
     hold(pg, 4000); shot(pg, "c18_loan_approved")
     mark("5d lender view")
     nav(pg, "Lender view", 4000); shot(pg, "c19_lender")
-    click(pg, pg.get_by_role("button", name="Run decision rule"), 4500); shot(pg, "c20_payout")
+    click(pg, pg.get_by_role("button", name="Decide", exact=True), 4500); shot(pg, "c20_payout")
     scroll(pg, 400); hold(pg, 3000)
 
     # 6. Injection

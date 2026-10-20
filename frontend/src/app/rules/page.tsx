@@ -13,7 +13,7 @@ const KIND: Record<ActionKind, string> = {
   extension_request: "Asking a supplier for more days",
   loan_application: "Loan applications",
   set_aside: "Putting money aside each day",
-  trim_order: "Trimming an order",
+  trim_order: "Ordering less",
 };
 
 /** Read-only view of the rules LaMP enforces (CORE-07): Pause, the PIN, the borrowing ceiling. */
@@ -77,7 +77,7 @@ export default function RulesPage() {
                   <div className="min-w-0 flex-1">
                     <p className="font-semibold text-ink">{e.label}</p>
                     <p className="num text-sm text-ink-2">
-                      {bdt(e.amount)} over {e.months} months = {bdt(e.monthly_repayment)} a month = {num(e.dbr_pct, 1)}% of {bdt(e.monthly_net_cash_flow)}
+                      {bdt(e.amount)}: {bdt(e.monthly_repayment)} a month for {e.months} months, {num(e.dbr_pct, 1)}% of what you keep
                     </p>
                   </div>
                   <Stamp tone={e.ok ? "stock" : "alert"}>{e.ok ? "Allowed" : "Refused"}</Stamp>

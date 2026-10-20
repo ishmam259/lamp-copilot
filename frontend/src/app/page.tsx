@@ -163,7 +163,7 @@ export default function TodayPage() {
                 {expiry.batches.length} batches. <span className="num font-bold text-stock">{bdt(expiry.return_eligible_value)}</span> can still go back to suppliers.
               </p>
               <div className="mt-2">
-                <Stamp>All by {stampDate(expiry.batches.reduce((m, b) => (b.expiry_date > m ? b.expiry_date : m), expiry.batches[0].expiry_date))}</Stamp>
+                <Stamp>All expire by {stampDate(expiry.batches.reduce((m, b) => (b.expiry_date > m ? b.expiry_date : m), expiry.batches[0].expiry_date))}</Stamp>
               </div>
               <Link href="/stock" className={buttonVariants({ variant: "outline", className: "mt-3 w-full" })}>
                 Recover {bdt(expiry.return_eligible_value)}

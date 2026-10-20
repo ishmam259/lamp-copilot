@@ -7,7 +7,7 @@ import { cn } from "cn";
 import { Button } from "@/components/ui/button";
 import { Carton, PageTitle } from "@/components/carton";
 import { confirmCapture, uploadCapture } from "@/lib/api";
-import { dayDate, num } from "@/lib/format";
+import { dayDate, num, stampDate } from "@/lib/format";
 import type { CaptureOut, ExtractionLine, ExtractionResult } from "@/lib/types";
 
 type SalesDay = NonNullable<ExtractionResult["sales_page"]>["days"][number];
@@ -196,7 +196,7 @@ function Review({
             <li key={l.batch_no} className="py-3">
               <p className="font-semibold text-ink">{l.product}</p>
               <p className="text-sm text-ink-2">
-                Batch {l.batch_no} · expires {l.expiry_date}
+                Batch {l.batch_no} · expires {stampDate(l.expiry_date)}
               </p>
               <div className="mt-2 grid grid-cols-3 items-end gap-2">
                 <NumberField label="Boxes" value={l.qty} unsure={low(`invoice.lines[${i}].qty`)} disabled={saved} onChange={(v) => setLine(i, "qty", v)} />

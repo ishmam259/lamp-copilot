@@ -73,6 +73,7 @@ export default function PassportPage() {
                 <div className="pr-4">
                   <dt className="text-sm text-ink-2">A lender would pay</dt>
                   <dd className="num text-[1.75rem] font-bold text-ink">{num(passport.advance_rate_pct, 1)}%</dd>
+                  <dd className="text-sm text-ink-2">of each order</dd>
                 </div>
                 <div className="pl-4">
                   <dt className="text-sm text-ink-2">Chance of not repaying</dt>

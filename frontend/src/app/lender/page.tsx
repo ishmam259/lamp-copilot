@@ -61,8 +61,8 @@ export default function LenderPage() {
             <Carton
               key={a.id}
               tone={a.status === "approved" ? "stock" : a.status === "declined" ? "alert" : a.passport ? "warn" : "ink"}
-              title={`${a.pharmacy_name} · ${a.id}`}
-              aside={a.status === "approved" ? "Approved" : a.status === "declined" ? "Declined" : a.passport ? "Waiting for decision" : "Consent withdrawn"}
+              title={a.pharmacy_name}
+              aside={a.status === "approved" ? "Approved" : a.status === "declined" ? "Declined" : a.passport ? "Waiting" : "Sharing stopped"}
             >
               {!a.passport ? (
                 <div className="space-y-3">
@@ -94,7 +94,7 @@ export default function LenderPage() {
                         <dd className="text-xl font-bold text-ink">{num(a.passport.default_probability * 100, 1)}%</dd>
                       </div>
                       <div>
-                        <dt className="text-sm text-ink-2">Advance rate</dt>
+                        <dt className="text-sm text-ink-2">Pays of each order</dt>
                         <dd className="text-xl font-bold text-ink">{num(a.passport.advance_rate_pct, 1)}%</dd>
                       </div>
                     </dl>
@@ -122,12 +122,12 @@ export default function LenderPage() {
                   </div>
                   {a.status === "pending" ? (
                     <Button className="mt-4" disabled={busy === a.id} onClick={() => decide(a.id)}>
-                      Run decision rule
+                      Decide
                     </Button>
                   ) : (
                     <div className="mt-4 space-y-1">
                       <p className="text-ink">{a.decision?.reason}</p>
-                      {a.decision?.payout_ref && <Stamp tone="stock">Payout {a.decision.payout_ref}</Stamp>}
+                      {a.decision?.payout_ref && <Stamp tone="stock">Paid out</Stamp>}
                     </div>
                   )}
                 </>
@@ -145,7 +145,7 @@ function ShelfLifeCard() {
   const { data: s, error } = useShelfLifeCredit();
   if (error || !s || !s.order_id) return null;
   return (
-    <Carton tone="ink" title="Shelf-life credit" aside={`Order ${s.order_id} · needed by ${shortDate(s.needed_by)}`}>
+    <Carton tone="ink" title="What LaMP would lend" aside={`Needed by ${shortDate(s.needed_by)}`}>
       <ShelfLifeBody s={s} />
     </Carton>
   );
@@ -174,9 +174,9 @@ function ShelfLifeBody({ s }: { s: ShelfLifeCreditOut }) {
       <p className="mt-3 text-ink">
         {s.not_financed > 0 ? (
           <>
-            A lender that ignores the shelf would lend {bdt(s.counterfactual_purpose_blind)}. {bdt(s.not_financed)} of this order
+            A usual lender would lend {bdt(s.counterfactual_purpose_blind)}. {bdt(s.not_financed)} of this order
             won&apos;t sell before it expires, so LaMP lends at most {bdt(s.financeable)}
-            {fewer > 0 && <>, and the owner orders {fewer} fewer boxes</>}. One number decides both.
+            {fewer > 0 && <>, and the owner orders {fewer} fewer boxes</>}.
           </>
         ) : (
           <>{s.reason} LaMP lends only for stock that sells before it expires.</>
@@ -186,7 +186,7 @@ function ShelfLifeBody({ s }: { s: ShelfLifeCreditOut }) {
         <ul className="mt-2 space-y-1 text-sm text-ink-2">
           {cut.map((b) => (
             <li key={b.product}>
-              {b.product}: {b.sellable_qty} of {b.qty_ordered} boxes sell in time; {bdt(b.unsellable_value)} not financed.
+              {b.product}: {b.sellable_qty} of {b.qty_ordered} boxes sell in time; {bdt(b.unsellable_value)} not lent.
             </li>
           ))}
         </ul>

@@ -47,7 +47,6 @@ function Wallet({ a }: { a: AccountOut }) {
                 <li key={t.ref} className="flex items-start gap-3 py-2">
                   <div className="min-w-0 flex-1">
                     <p className="font-semibold text-ink">{TXN_KIND[t.kind] ?? t.kind.replaceAll("_", " ")}</p>
-                    <p className="font-board text-xs break-all text-ink-2">{t.ref}</p>
                   </div>
                   <div className="text-right">
                     <p className={`num font-bold ${t.amount >= 0 ? "text-stock" : "text-ink"}`}>{signed(t.amount)}</p>

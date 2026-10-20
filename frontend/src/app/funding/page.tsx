@@ -18,7 +18,14 @@ const pct = (n: number) => String(Math.round(n * 100) / 100);
 /** "12.2% a year on BDT 49,200 for 30 days": what the rate applies to, and for how long. */
 function terms(o: { apr_pct: number | null; amount_financed?: number | null; tenor_days?: number | null }): string | null {
   if (o.apr_pct == null || o.amount_financed == null || o.tenor_days == null) return null;
-  return `${pct(o.apr_pct)}% a year on ${bdt(o.amount_financed)} for ${num(o.tenor_days)} days`;
+  return `${pct(o.apr_pct)}% a year on ${bdt(o.amount_financed)} for ${period(o.tenor_days)}`;
+}
+
+/** 90 -> "3 months", 1095 -> "3 years", 30 -> "30 days" */
+function period(days: number): string {
+  if (days % 365 === 0) return days === 365 ? "1 year" : `${days / 365} years`;
+  if (days >= 60 && days % 30 === 0) return `${days / 30} months`;
+  return `${num(days)} days`;
 }
 
 /** "To cover BDT 8,200 it costs BDT 492, 6.0% of the amount." */
@@ -221,11 +228,11 @@ function Catalogue({ c }: { c: CatalogueOut }) {
       bodyClassName="p-0"
     >
       <p className="px-4 pb-3 text-sm text-ink-2">
-        Real products from published sources, priced for your {bdt(c.need.amount)} gap by {shortDate(c.need.needed_by)} over {c.horizon_days} days.{" "}
+        Priced for {bdt(c.need.amount)} by {shortDate(c.need.needed_by)}.{" "}
         {c.plan_holds && c.plan_fallback_cost_bdt != null
-          ? `None beats the plan's fallback at ${bdt(c.plan_fallback_cost_bdt)}.`
+          ? `None costs less than the plan's backup loan, ${bdt(c.plan_fallback_cost_bdt)}.`
           : c.cheapest_eligible_cost_bdt != null
-            ? `The cheapest eligible one costs ${bdt(c.cheapest_eligible_cost_bdt)}.`
+            ? `The cheapest one you qualify for costs ${bdt(c.cheapest_eligible_cost_bdt)}.`
             : ""}
       </p>
       <ul className="divide-y divide-rule border-t border-rule">

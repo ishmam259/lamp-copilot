@@ -40,7 +40,7 @@ const capital = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 /** Action kinds with their article, as the owner would say them. */
 const KIND: Record<string, string> = {
   return_claim: "a return claim",
-  trim_order: "an order trim",
+  trim_order: "a smaller order",
   extension_request: "a request for more days",
   loan_application: "a loan application",
   set_aside: "a set-aside",
@@ -90,11 +90,11 @@ function sentence(e: LogEvent): string {
     case "set_aside_scheduled":
       return `Set aside ${money(d.amount)}`;
     case "consent_granted":
-      return `Passport shared with ${d.lender}`;
+      return `Passport shared with ${who(d.lender)}`;
     case "consent_withdrawn":
-      return `Stopped sharing with ${d.lender}`;
+      return `Stopped sharing with ${who(d.lender)}`;
     case "application_blocked_no_consent":
-      return `Blocked: ${d.lender} has no permission to see the passport`;
+      return `Blocked: ${who(d.lender)} has no permission to see the passport`;
     case "lock_acquired":
       return `Invoice ${d.invoice} locked so it can't be financed twice`;
     case "application_submitted":
@@ -108,9 +108,9 @@ function sentence(e: LogEvent): string {
     case "suspicious_text_flagged":
       return "Ignored instructions written inside a document";
     case "capture_confirmed":
-      return "Owner confirmed a captured document";
+      return "Owner saved a photo to the accounts";
     case "reset":
-      return "Pharmacy data loaded";
+      return "Demo data loaded";
     case "notify":
       return `Notified the ${d.audience}: ${d.title}`;
     case "owner_unlocked":
@@ -124,7 +124,7 @@ function sentence(e: LogEvent): string {
     case "unlock_failed":
       return "Wrong PIN entered";
     case "consent_revoked":
-      return `Stopped sharing with ${d.lender}`;
+      return `Stopped sharing with ${who(d.lender)}`;
     case "followup_scheduled":
       return "Follow-up scheduled for the plan";
     case "followup_fired":
@@ -148,8 +148,17 @@ function sentence(e: LogEvent): string {
   }
 }
 
+/** "wallet-lender" -> "Wallet Lender" */
+function who(id: unknown): string {
+  return String(id).split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+
+// Settings a developer needs, not the owner.
+const HIDDEN = new Set(["model", "mode", "prompt_version", "with_demo_captures"]);
+
 function raw(data: Record<string, unknown>) {
   return Object.entries(data)
+    .filter(([k]) => !HIDDEN.has(k))
     .map(([k, v]) => `${k}=${typeof v === "object" ? JSON.stringify(v) : String(v)}`)
     .join(" ");
 }
