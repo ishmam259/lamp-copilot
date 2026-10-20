@@ -1,42 +1,42 @@
-[2026-10-19T18:08:22Z] [T0:DEV] reset pharmacy=green-life with_demo_captures=False #2b1c6a6525f8
-[2026-10-19T18:08:22Z] [T2:FORECAST] shortfall_detected date=2026-10-26 amount=14380.0 cause=Supplier A order BDT 60,000 #66a70ce1f30f
-[2026-10-19T18:08:22Z] [T2:EXPIRY] batches_at_risk batches=6 value=18400.0 return_eligible=9200.0 #9f1956dc745e
-[2026-10-19T18:08:22Z] [T1:CAPTURE] capture_created capture=cap-1 kind=invoice model=gpt-6-luna mode=replay #f45cc8a4db1e
-[2026-10-19T18:08:22Z] [T1:CAPTURE] capture_confirmed capture=cap-1 kind=invoice #595cd0f12c93
-[2026-10-19T18:08:22Z] [T2:FORECAST] forecast_updated first_shortfall_date=2026-10-26 first_shortfall=20580.0 #356296f42dda
-[2026-10-19T18:08:22Z] [T1:CAPTURE] capture_created capture=cap-2 kind=invoice model=gpt-6-luna mode=replay #b53624179725
-[2026-10-19T18:08:22Z] [T1:CAPTURE] capture_confirmed capture=cap-2 kind=invoice #c38caaaab9ff
-[2026-10-19T18:08:22Z] [T2:FORECAST] forecast_updated first_shortfall_date=2026-10-26 first_shortfall=20580.0 #69ef8d70620a
-[2026-10-19T18:08:22Z] [T1:CAPTURE] capture_created capture=cap-3 kind=sales_page model=gpt-6-luna mode=replay #1f70a3d38ce6
-[2026-10-19T18:08:22Z] [T1:CAPTURE] capture_confirmed capture=cap-3 kind=sales_page #4c60902dd863
-[2026-10-19T18:08:22Z] [T2:FORECAST] forecast_updated first_shortfall_date=2026-10-26 first_shortfall=19000.0 #b60e5dcd943a
-[2026-10-19T18:08:22Z] [T1:ACTIONS] action_proposed action=act-1 kind=return_claim by=owner amount=9200 #89f969133e5e
-[2026-10-19T18:08:22Z] [T1:ACTIONS] action_approved_by_owner action=act-1 kind=return_claim #7815c5e27234
-[2026-10-19T18:08:22Z] [T2:EXPIRY] return_claim_sent claim=CLM-0001 batches=OM2409,CT2411 amount=9200.0 #8b9d5a265bc7
-[2026-10-19T18:08:22Z] [T2:EXECUTOR] action_executed action=act-1 kind=return_claim #e473cbc82155
-[2026-10-19T18:08:22Z] [T1:ACTIONS] action_proposed action=act-2 kind=trim_order by=owner amount=10800.0 #69ede75b122a
-[2026-10-19T18:08:22Z] [T1:ACTIONS] action_proposed action=act-3 kind=extension_request by=owner amount=8200.0 #f92f9980b0b5
-[2026-10-19T18:08:22Z] [T1:ACTIONS] action_proposed action=act-4 kind=loan_application by=owner amount=8200.0 #2fec8410be2d
-[2026-10-19T18:08:22Z] [T1:ACTIONS] action_approved_by_owner action=act-2 kind=trim_order #620e76fb90c8
-[2026-10-19T18:08:22Z] [T2:ORDERS] order_trimmed order=o-1 from=60000.0 to=49200.0 #d1689cf6e4f1
-[2026-10-19T18:08:22Z] [T2:EXECUTOR] action_executed action=act-2 kind=trim_order #687bf6dda3aa
-[2026-10-19T18:08:22Z] [T1:ACTIONS] action_approved_by_owner action=act-3 kind=extension_request #b2787ea5ad77
-[2026-10-19T18:08:22Z] [T2:SUPPLIERS] extension_requested supplier=Supplier A order=o-1 days=20 amount=8200.0 #89c74ae8dc5e
-[2026-10-19T18:08:22Z] [T2:FOLLOWUP] followup_scheduled followup=fu-1 watches=act-3 amount=8200.0 deadline=2026-10-22 fallback=loan_application #5154aa54a5c0
-[2026-10-19T18:08:22Z] [T2:EXECUTOR] action_executed action=act-3 kind=extension_request #423d31455113
-[2026-10-19T18:08:22Z] [T2:SUPPLIERS] extension_declined action=act-3 supplier=Supplier A amount=8200.0 #02be68549a07
-[2026-10-19T18:08:22Z] [T2:FOLLOWUP] followup_fired followup=fu-1 trigger=declined action=act-4 amount=8200.0 #e4974be32259
-[2026-10-19T18:08:22Z] [T1:NOTIFY] notify audience=owner title=Supplier declined the extension body=Backup plan ready: BDT 8,200 mobile-wallet loan, cost BDT 181.97. Approve it with your PIN. link=/actions #a31c94ce0b12
-[2026-10-19T18:08:22Z] [T1:CONSENT] consent_granted consent=cns-1 lender=wallet-lender scopes=passport,accounts #63f200e9719e
-[2026-10-19T18:08:22Z] [T1:ACTIONS] action_approved_by_owner action=act-4 kind=loan_application #997325590afb
-[2026-10-19T18:08:22Z] [T3:REGISTRY] lock_acquired commitment=670c60d6efe2… invoice=PO-A-1026 application=APP-0001 #46b53b455cf1
-[2026-10-19T18:08:22Z] [T3:LENDER] application_submitted application=APP-0001 lender=wallet-lender amount=8200.0 #c3b258879e8a
-[2026-10-19T18:08:22Z] [T3:EXECUTOR] action_executed action=act-4 kind=loan_application #98c6824c071e
-[2026-10-19T18:08:22Z] [T1:ACTIONS] action_proposed action=act-5 kind=loan_application by=owner amount=8200 #b66f49f064fc
-[2026-10-19T18:08:23Z] [T1:ACTIONS] action_approved_by_owner action=act-5 kind=loan_application #c04ada11f311
-[2026-10-19T18:08:23Z] [T3:REGISTRY] lock_rejected action=act-5 commitment=670c60d6efe2… invoice=PO-A-1026 #458c8b70d9fd
-[2026-10-19T18:08:23Z] [T3:EXECUTOR] action_failed action=act-5 kind=loan_application reason=duplicate_financing commitment=670c60d6efe2… invoice=PO-A-1026 #8826f8b5b204
-[2026-10-19T18:08:23Z] [T0:LENDER] inbox_viewed lender=wallet-lender applications=1 #dd38ab10a4a2
-[2026-10-19T18:08:23Z] [T3:WALLET] wallet_credited amount=8200.0 ref=SANDBOX-WALLET-LENDER-20261016-0001 #51533b2387d7
-[2026-10-19T18:08:23Z] [T3:LENDER] application_approved application=APP-0001 payout=SANDBOX-WALLET-LENDER-20261016-0001 amount=8200.0 #acd9901722fc
-[2026-10-19T18:08:23Z] [T3:PAYOUT] sandbox_payout application=APP-0001 payout=SANDBOX-WALLET-LENDER-20261016-0001 amount=8200.0 #6fbe102d6834
+[2026-10-20T04:23:17Z] [T0:DEV] reset pharmacy=green-life with_demo_captures=False #aa362937658d
+[2026-10-20T04:23:17Z] [T2:FORECAST] shortfall_detected date=2026-10-26 amount=14380.0 cause=Supplier A order BDT 60,000 #1941d0bd0ac4
+[2026-10-20T04:23:17Z] [T2:EXPIRY] batches_at_risk batches=6 value=18400.0 return_eligible=9200.0 #88ab893c8c96
+[2026-10-20T04:23:17Z] [T1:CAPTURE] capture_created capture=cap-1 kind=invoice model=gpt-6-luna mode=replay #d1b5b062c818
+[2026-10-20T04:23:17Z] [T1:CAPTURE] capture_confirmed capture=cap-1 kind=invoice #5e772cfea92c
+[2026-10-20T04:23:17Z] [T2:FORECAST] forecast_updated first_shortfall_date=2026-10-26 first_shortfall=20580.0 #aafa8a7410d2
+[2026-10-20T04:23:17Z] [T1:CAPTURE] capture_created capture=cap-2 kind=invoice model=gpt-6-luna mode=replay #6a92af30dfec
+[2026-10-20T04:23:18Z] [T1:CAPTURE] capture_confirmed capture=cap-2 kind=invoice #698fb7aba0d2
+[2026-10-20T04:23:18Z] [T2:FORECAST] forecast_updated first_shortfall_date=2026-10-26 first_shortfall=20580.0 #9986592d768d
+[2026-10-20T04:23:18Z] [T1:CAPTURE] capture_created capture=cap-3 kind=sales_page model=gpt-6-luna mode=replay #a6c5ba5e6106
+[2026-10-20T04:23:18Z] [T1:CAPTURE] capture_confirmed capture=cap-3 kind=sales_page #ae0385a17f53
+[2026-10-20T04:23:18Z] [T2:FORECAST] forecast_updated first_shortfall_date=2026-10-26 first_shortfall=19000.0 #00b53e2cd399
+[2026-10-20T04:23:18Z] [T1:ACTIONS] action_proposed action=act-1 kind=return_claim by=owner amount=9200 #23d4aa86b7b1
+[2026-10-20T04:23:18Z] [T1:ACTIONS] action_approved_by_owner action=act-1 kind=return_claim #b6c9fb2583fd
+[2026-10-20T04:23:18Z] [T2:EXPIRY] return_claim_sent claim=CLM-0001 batches=OM2409,CT2411 amount=9200.0 #d9e631bb3e70
+[2026-10-20T04:23:18Z] [T2:EXECUTOR] action_executed action=act-1 kind=return_claim #b62158e2a5a1
+[2026-10-20T04:23:18Z] [T1:ACTIONS] action_proposed action=act-2 kind=trim_order by=owner amount=10800.0 #d7564493c57d
+[2026-10-20T04:23:18Z] [T1:ACTIONS] action_proposed action=act-3 kind=extension_request by=owner amount=8200.0 #6e15565a7b6e
+[2026-10-20T04:23:18Z] [T1:ACTIONS] action_proposed action=act-4 kind=loan_application by=owner amount=8200.0 #b8ac1fe94c52
+[2026-10-20T04:23:18Z] [T1:ACTIONS] action_approved_by_owner action=act-2 kind=trim_order #8ef582efb087
+[2026-10-20T04:23:18Z] [T2:ORDERS] order_trimmed order=o-1 from=60000.0 to=49200.0 #ac6809d951b0
+[2026-10-20T04:23:18Z] [T2:EXECUTOR] action_executed action=act-2 kind=trim_order #578bfd2b8edd
+[2026-10-20T04:23:18Z] [T1:ACTIONS] action_approved_by_owner action=act-3 kind=extension_request #08b3ec40d01b
+[2026-10-20T04:23:18Z] [T2:SUPPLIERS] extension_requested supplier=Supplier A order=o-1 days=20 amount=8200.0 #034a90230c18
+[2026-10-20T04:23:18Z] [T2:FOLLOWUP] followup_scheduled followup=fu-1 watches=act-3 amount=8200.0 deadline=2026-10-22 fallback=loan_application #76c5884fa408
+[2026-10-20T04:23:18Z] [T2:EXECUTOR] action_executed action=act-3 kind=extension_request #0a5c4ff9cc8e
+[2026-10-20T04:23:18Z] [T2:SUPPLIERS] extension_declined action=act-3 supplier=Supplier A amount=8200.0 #60b1a7812a3d
+[2026-10-20T04:23:18Z] [T2:FOLLOWUP] followup_fired followup=fu-1 trigger=declined action=act-4 amount=8200.0 #31e7c518bdab
+[2026-10-20T04:23:18Z] [T1:NOTIFY] notify audience=owner title=Supplier said no to more days body=Backup plan ready: BDT 8,200 mobile-wallet loan, cost BDT 181.97. Approve it with your PIN. link=/actions #26a2f6d7107b
+[2026-10-20T04:23:18Z] [T1:CONSENT] consent_granted consent=cns-1 lender=wallet-lender scopes=passport,accounts #2a0dd15582b7
+[2026-10-20T04:23:18Z] [T1:ACTIONS] action_approved_by_owner action=act-4 kind=loan_application #9cc396db10a1
+[2026-10-20T04:23:18Z] [T3:REGISTRY] lock_acquired commitment=670c60d6efe2… invoice=PO-A-1026 application=APP-0001 #cc78fdb80759
+[2026-10-20T04:23:18Z] [T3:LENDER] application_submitted application=APP-0001 lender=wallet-lender amount=8200.0 #36648cb366c1
+[2026-10-20T04:23:18Z] [T3:EXECUTOR] action_executed action=act-4 kind=loan_application #03383a4781ea
+[2026-10-20T04:23:18Z] [T1:ACTIONS] action_proposed action=act-5 kind=loan_application by=owner amount=8200 #66ceb40648f9
+[2026-10-20T04:23:18Z] [T1:ACTIONS] action_approved_by_owner action=act-5 kind=loan_application #84e361f06772
+[2026-10-20T04:23:18Z] [T3:REGISTRY] lock_rejected action=act-5 commitment=670c60d6efe2… invoice=PO-A-1026 #2e0301a6d608
+[2026-10-20T04:23:18Z] [T3:EXECUTOR] action_failed action=act-5 kind=loan_application reason=duplicate_financing commitment=670c60d6efe2… invoice=PO-A-1026 #8a0110784729
+[2026-10-20T04:23:18Z] [T0:LENDER] inbox_viewed lender=wallet-lender applications=1 #f87616049112
+[2026-10-20T04:23:18Z] [T3:WALLET] wallet_credited amount=8200.0 ref=SANDBOX-WALLET-LENDER-20261016-0001 #2f615e573fb6
+[2026-10-20T04:23:18Z] [T3:LENDER] application_approved application=APP-0001 payout=SANDBOX-WALLET-LENDER-20261016-0001 amount=8200.0 #19f63aebc5af
+[2026-10-20T04:23:18Z] [T3:PAYOUT] sandbox_payout application=APP-0001 payout=SANDBOX-WALLET-LENDER-20261016-0001 amount=8200.0 #7f6380a04dbc
