@@ -1,0 +1,23 @@
+Subject: FinTechathon 2026 International Track, Topic E submission: LaMP-Copilot (Team LaMP)
+
+Dear FinTechathon 2026 organisers,
+
+Please find attached Team LaMP's submission for the International Track, Topic E (SME Finance Copilot): LaMP-Copilot, an AI finance officer for neighbourhood pharmacies in Bangladesh.
+
+Team: A K M Ishmam Tahmid (team lead) and Farhan Tahsin Khan
+
+Attachments:
+1. Technical documentation (mandatory): 1_Technical_Documentation_LaMP-Copilot.pdf
+2. Presentation deck, 10 minutes (mandatory): 2_Presentation_Deck_LaMP-Copilot.pdf (PowerPoint version: 2_Presentation_Deck_LaMP-Copilot.pptx)
+3. Demo video, 4:51: 3_Demo_Video_LaMP-Copilot.mp4
+4. Source code with README: 4_Source_code_LaMP-Copilot.zip (the GitHub repository is private; we can grant access on request)
+5. Security self-assessment report: 5_Security_Self-Assessment_LaMP-Copilot.pdf
+6. Execution evidence: 6_Execution_Evidence_LaMP-Copilot.zip (hash-chained audit trace of the full demo run, plus the photo-reading, chat-intent and red-team evaluation results)
+
+Lenders, payouts and supplier replies in the prototype are sandbox partners; no real money moves.
+
+Please let us know if any file does not open.
+
+Best regards,
+A K M Ishmam Tahmid
+Team LaMP
