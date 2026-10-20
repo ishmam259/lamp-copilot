@@ -713,7 +713,7 @@ Full instructions are in the repository README.
 
 ## 9. Testing
 
-`pytest` runs **322 tests**, all passing, against an in-memory SQLite database by default or the Docker PostgreSQL with `TEST_DATABASE_URL`.
+`pytest` runs **336 tests**, all passing, against an in-memory SQLite database by default or the Docker PostgreSQL with `TEST_DATABASE_URL`.
 
 | Suite | What it covers |
 |---|---|
