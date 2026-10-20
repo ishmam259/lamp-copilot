@@ -1,6 +1,6 @@
 1
 00:00:00,000 --> 00:00:06,050
-这是LaMP团队的LaMP-Copilot，成员：Ishmam和Farhan。
+这是LaMP团队的LaMP-Copilot，成员是我（Ishmam）和Farhan。
 
 2
 00:00:06,100 --> 00:00:11,710
