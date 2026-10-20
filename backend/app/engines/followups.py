@@ -103,7 +103,7 @@ def fire(db: Session, pid: str, f: m.FollowUp) -> None:
     if existing is not None:
         action_id = existing.id
     else:
-        why = "declined" if f.trigger == "declined" else f"didn't reply by {f.deadline:%a %d %b}"
+        why = "said no to more days" if f.trigger == "declined" else f"didn't reply by {f.deadline:%a %d %b}"
         try:
             action_id = propose_action(db, pid, ActionProposal(kind=f.fallback_kind, payload={
                 **f.fallback_payload, "summary": "Backup plan: mobile-wallet loan",
@@ -118,7 +118,7 @@ def fire(db: Session, pid: str, f: m.FollowUp) -> None:
     who = "didn't reply" if f.trigger == "no_reply" else "declined"
     body = (f"Backup plan ready: BDT {f.amount:,.0f} mobile-wallet loan"
             + (f", cost BDT {cost:,.2f}" if cost is not None else "") + ". Approve it with your PIN.")
-    notify("owner", f"Supplier {who} the extension" if who == "declined" else "Supplier didn't reply",
+    notify("owner", "Supplier said no to more days" if who == "declined" else "Supplier didn't reply",
            body, "/actions", db)
 
 

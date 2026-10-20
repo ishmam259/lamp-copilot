@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Not with the current cash: Supplier A’s order is BDT 60,000, and the cash shortfall on 26 Oct is BDT 19,000. Ordering less would reduce the bill to BDT 49,200, leaving BDT 8,200 to cover.\n\nI’ve proposed these steps for your approval in Actions:\n1. Order less Montelukast, from 30 to 12 boxes.\n2. Ask Supplier A for 20 more days to pay BDT 8,200.\n3. If Supplier A says no, apply for a mobile-wallet loan of BDT 8,200. Its cost is BDT 181.97.\n\nThe payment plan is not confirmed until you approve the proposals, and the extra days from Supplier A are not guaranteed.",
+        "id": "msg_0eb26b768bbd5334006ad6eb47396487d293558a19f5e4a427",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2980,
+      "cache_write_tokens": 85,
+      "cache_read_tokens": 2892,
+      "output_tokens": 165,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:17:12.469267Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:17:10Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0eb26b768bbd5334006ad6eb466ee087d291411e7461801362",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

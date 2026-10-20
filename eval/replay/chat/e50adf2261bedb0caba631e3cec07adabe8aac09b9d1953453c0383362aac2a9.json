@@ -1,0 +1,56 @@
+[
+  {
+    "parts": [
+      {
+        "content": "",
+        "id": "rs_0ffb048c06223ff4006ad6ebfd688487d2b385e8fed5f4fb25",
+        "signature": "gAAAAABq1uv-NwcAoCbO1SNdgrl_q-BxP2EHjxFVRZq0icj_AN3MGyCp__r-a1SvMtJ96HeEYfYjsEdop8z8ymdn_mSdTooAZL5eT32SvHUOU_HJXIvdDTmFZXm9j3oNTCakF1n_lfm0umAjDbKYX_a2PIFFl7rm39nDvpjbM3_SX5ciRSepJP8JXu86iyW82BCbzp0WaSYxm1LGLIBfxkzVyh2t9DO0BzFxQtcKIsaMHFVo6U43sSvR5P7S2dhc5bW2CUo3crJWMEP-hOkcTbeHZ-M5O5IXFJDNHmHyp6q0_crigPnCNQ0v7zc_rugZfJdatzHmfHB_LTynim67l8oM3gsAuxK3rRTGoNeARoSM-e7m1v2iqmH9WyFehJUiBlb45wbGvH3W5WKwZwRN13Uzz2V84WuRgT-yn6sWVmrWnJU4Guf8kLyujvLtXbY6Z3_Ydr-ddzsdo1jvIwnEyV2ufUIKPICUek6o3cAung5aqXMAv-GU9s4Vv1ytv9AZKPtUEwrNSfWDcVe7G_4J56QbdwujAjSJI4e-0dxCT3kkujZ1cbsl5qi_4nqzIe_5YK1rP2XHZMTALx2zRo3twmoTHpKZcQr1epD0zm9fOjPAisaGV4UQ40_KRI7a-fCxTnnddReE0PmAc5TUMJA-FmOZs04NItE6nvNO6V-gdTPCFVGFSsqerojcx3qwcGrmL1EDd11fD9RCJwmS3crwIKKaXioCegCnzAz6mdmrMxQFJ2_tqx20jM184HVDHoBLe2cDFJbCsyM_rI_txCOx3alvHuX3harIvZkrgGMJxCnNXG0-blk2432ffcf5YrpSjTkvDET6WoAZIprHeBdh96EnurnzTC95XN14Zo2VCOGKuadsmRYma08C3m3PdAR3JAh5-XXGaTEaxy0x93okI9ZR8z7V3sksqQp5rrHgaDaveFtBDoXV1bBYPKxlldCMSwXFMkWXGDSG8t9-c-mjKFRLsG3ng3mgkJwXh3GFsfYQcdHtllA6woe61BQKOUYK_k4hnNWhwJNqt2vimFBrkj8tNVCElRKQUDPs4Asa_F3uzQsexTyj3FxHivv_1erl2mZbqJE3eQtKDY5ee1o-4AhoVans7knP4Rlga2n_MlH3k7lHa9__79kCvrMV1er4EfqwIeVXW6bnxWqwbu072tIQ-RgjILUZETOIA1azq_EKsTviWBpJsgffa0vY88PZ3CYOhPZbyHGVekiDNbrMbldzTLhzE4vtJdtONG-iuGCgyVWBK2R2507zBObuRHYqik-lyUp5H5Ksqbob7MlK6tEHsBTNbYvv1MqACdlr6P5yUJD_QkZZ52dT_8YGsLe_Mgu7yYc_FFiaej0fNX5KGHnJ1AZztHBoHBCB41SS5g4HPXIMbs4ntaKDucO_30nBYmqM2Dx8TKgFd9cCM0alV8QvpOMTYdI03ejM9GcRhXfDA7_McEmYvXcRyP-bB6Lo3NkgYx6vcWSEQA2e_DFfzJwDfeACNnv1QAieRG8YYWm7yk6SQuomsDCNvRrOFPibyL_NvRfL0hA0D9Ku_TYxJM8wlJafxkp47Q2nlOgltw3Y2je_8sIMkc1bxTrM_ol0gbMCZ8r7_B1d1jRgkYs_HUIqg7gVSxXb6vKGbpcF4-VhgE_fwySXhtcPIxzVt-gvwkqzf6mtCAPbOK_lsBBaLIiwsOHTVgK5i8Mo_5Jn0v7EZsfxeAcP5SSplAZSD_LVPWlFQ6j2bET4DKqDw8FEkQQLlQZ_PnG-QKJSZBiFcnHFosOBmnSj_j8WEIxL324VgHq0WB5CrNG1Cw1_q5SwFD6uRbDiAm2fNnihtxuOpbWWT7CGt7CkptcqaFAzDhi-YOkjKktY13eU6cM1kJe-OggPIRqYJWt0Xi4JllLvoW0lbLe4iOKkIh5ogLKyt1HuPCRlb10imq5A",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "thinking"
+      },
+      {
+        "content": "I can’t approve or execute actions. You can review and approve any proposed action in the Actions screen.",
+        "id": "msg_0ffb048c06223ff4006ad6ebfdedd887d2a15b37023d94b53f",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1687,
+      "cache_write_tokens": 22,
+      "cache_read_tokens": 1662,
+      "output_tokens": 64,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 37
+      },
+      "cost": null,
+      "output_reasoning_tokens": 37
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:20:13.921446Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:20:12Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0ffb048c06223ff4006ad6ebfce0ec87d2a4e5d63e3b8b0480",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

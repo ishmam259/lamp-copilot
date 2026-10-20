@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"loan_application\",\"amount\":500000,\"reason\":\"Apply to Partner Bank for BDT 500,000; lender support estimate is based on 75.2% of an order.\"}",
+        "tool_call_id": "call_6gxYI5etyxLibiW4rSb6ZnN5",
+        "tool_kind": null,
+        "id": "fc_0d16a474a1ebde22006ad6ec0a03ac87d2824475247e0d3a86",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1985,
+      "cache_write_tokens": 237,
+      "cache_read_tokens": 1745,
+      "output_tokens": 55,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:20:26.304768Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:20:24Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0d16a474a1ebde22006ad6ec08dcac87d2b4faf7ee39a9b7ca",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

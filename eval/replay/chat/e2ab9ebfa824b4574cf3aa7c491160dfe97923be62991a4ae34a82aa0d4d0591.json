@@ -1,0 +1,69 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"trim_order\",\"amount\":10800.0,\"order_id\":\"o-1\",\"reason\":\"Order less Montelukast for Supplier A, from 30 to 12 boxes.\"}",
+        "tool_call_id": "call_a8RYLTfNJI7L1L8yaXZOzcVR",
+        "tool_kind": null,
+        "id": "fc_0b7351b326453fc3006ad6eb25cd9c87d2b5d82067d639e9e1",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"extension_request\",\"amount\":8200.0,\"reason\":\"Ask Supplier A for 20 more days to pay BDT 8,200.\"}",
+        "tool_call_id": "call_TzcIDywR28nu2INjedcu1SkU",
+        "tool_kind": null,
+        "id": "fc_0b7351b326453fc3006ad6eb25cdb087d28b8f894bd854cc64",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      },
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"loan_application\",\"amount\":8200.0,\"reason\":\"If Supplier A says no to more days, take a mobile-wallet loan.\"}",
+        "tool_call_id": "call_B5g6jrvf9KUPf211OwcZtu8h",
+        "tool_kind": null,
+        "id": "fc_0b7351b326453fc3006ad6eb25cdbc87d2b47d0b74ff832203",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2712,
+      "cache_write_tokens": 978,
+      "cache_read_tokens": 1731,
+      "output_tokens": 155,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:16:37.545280Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:16:35Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0b7351b326453fc3006ad6eb23b7ac87d28055dcf08722801d",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

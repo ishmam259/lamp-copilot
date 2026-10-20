@@ -1,0 +1,48 @@
+[
+  {
+    "parts": [
+      {
+        "content": "The cheapest plan costs BDT 0: order less from Supplier A, saving BDT 10,800, then ask for 20 more days to pay BDT 8,200. If they refuse, the backup is a mobile-wallet loan for BDT 8,200, costing BDT 181.97.\n\nThese steps are waiting for your approval in Actions. The smaller order and extra days are not guaranteed until approved.",
+        "id": "msg_0d2840ea625d078c006ad6eba9b9fc87d2bfcb4d80c3a66b8b",
+        "provider_name": "openai",
+        "provider_details": {
+          "phase": "final_answer"
+        },
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2990,
+      "cache_write_tokens": 88,
+      "cache_read_tokens": 2899,
+      "output_tokens": 92,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:18:50.439145Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:18:48Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0d2840ea625d078c006ad6eba8992487d28f452b550f0f0385",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"set_aside\",\"amount\":18000,\"reason\":\"Set aside BDT 18,000 for shop rent due 2026-11-01.\"}",
+        "tool_call_id": "call_L7yg7fuv0emIo5AEGt8pwiTF",
+        "tool_kind": null,
+        "id": "fc_07ec24725557ac49006ad6ebda460887d281a48c5a61a06efe",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2306,
+      "cache_write_tokens": 574,
+      "cache_read_tokens": 1729,
+      "output_tokens": 49,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:19:38.414262Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:19:37Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_07ec24725557ac49006ad6ebd9957087d2b1c859d4fb964119",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

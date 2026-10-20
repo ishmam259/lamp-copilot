@@ -192,8 +192,9 @@ async def create_capture(pid: str, file: UploadFile = File(...),
     if suspicious:
         engines.log("T1", "CAPTURE", "suspicious_text_flagged", db, capture=cap.id, count=len(suspicious))
         logbus.notify("owner", "A photo contained instructions",
-                      f"{len(suspicious)} line(s) in this {kind.replace('_', ' ')} were ignored. Nothing was done; "
-                      "check the draft before confirming.", f"/capture?id={cap.id}", db)
+                      f"LaMP ignored {len(suspicious)} line{'s' if len(suspicious) > 1 else ''} in this "
+                      f"{kind.replace('_', ' ')} that gave it orders. Nothing was done. Check the "
+                      f"{kind.replace('_', ' ')} before you save it.", f"/capture?id={cap.id}", db)
     db.commit()
     return _capture_out(cap)
 

@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "propose_action",
+        "args": "{\"kind\":\"loan_application\",\"amount\":8200,\"reason\":\"If Supplier A says no, take the mobile-wallet loan.\"}",
+        "tool_call_id": "call_JWq7YjlDztN7G116XGMawRaU",
+        "tool_kind": null,
+        "id": "fc_0733ae868cb8901e006ad6ebb5f18087d2b0e61f6c6431272a",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2891,
+      "cache_write_tokens": 90,
+      "cache_read_tokens": 2798,
+      "output_tokens": 40,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:19:01.963497Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:19:01Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_0733ae868cb8901e006ad6ebb53a8c87d2bf6d24acec651654",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]

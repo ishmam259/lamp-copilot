@@ -72,7 +72,7 @@
     },
     {
       "key": "mfi_enterprise_loan",
-      "label": "Microfinance enterprise loan",
+      "label": "Microfinance business loan",
       "provider_type": "Microfinance institution",
       "anchored_on": "Microfinance institutions' enterprise lending",
       "source": "https://www.thedailystar.net/business/news/the-question-hounding-banks-how-solve-conundrum-sme-loan-1941157",

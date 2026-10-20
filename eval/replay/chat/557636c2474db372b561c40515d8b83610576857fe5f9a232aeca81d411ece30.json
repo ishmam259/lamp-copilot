@@ -1,0 +1,49 @@
+[
+  {
+    "parts": [
+      {
+        "tool_name": "share_plan",
+        "args": "{\"steps\":[\"Check the wallet loan cost\",\"Explain the amount and risk\"]}",
+        "tool_call_id": "call_dOSACik69QjZvyLEd45tdvUP",
+        "tool_kind": null,
+        "id": "fc_068c11ea1f0899a3006ad6ebacedb487d2a9e603006cb16d12",
+        "provider_name": "openai",
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1679,
+      "cache_write_tokens": 14,
+      "cache_read_tokens": 1662,
+      "output_tokens": 29,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "audio_seconds": 0.0,
+      "details": {
+        "reasoning_tokens": 0
+      },
+      "cost": null,
+      "output_reasoning_tokens": 0
+    },
+    "model_name": "gpt-6-luna",
+    "timestamp": "2026-10-20T04:18:52.780298Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://api.openai.com/v1/",
+    "provider_details": {
+      "finish_reason": "completed",
+      "timestamp": "2026-10-20T04:18:51Z",
+      "service_tier": "default"
+    },
+    "provider_response_id": "resp_068c11ea1f0899a3006ad6ebabc91c87d2941e50f43cb84268",
+    "finish_reason": "stop",
+    "run_id": null,
+    "conversation_id": null,
+    "metadata": null,
+    "workspace_ref": null,
+    "failed_attempts": null,
+    "state": "complete"
+  }
+]
